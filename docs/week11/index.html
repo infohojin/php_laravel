@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>11주차: 비동기 주문 처리, 결제 승인, 도서 구매 알림 시스템 | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="11주차: 비동기 주문 처리, 결제 승인, 도서 구매 알림 시스템" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/week11/" />
+<meta property="og:url" content="http://localhost:4000/week11/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="11주차: 비동기 주문 처리, 결제 승인, 도서 구매 알림 시스템" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"11주차: 비동기 주문 처리, 결제 승인, 도서 구매 알림 시스템","url":"http://localhost:4000/week11/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          핸드온 실습 목차
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/handson/"
+            class="bd-links-link d-inline-block rounded ">
+            📌 핸드온 실습 로드맵
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01주차: 온라인 서점 프로젝트 킥오프 & 개발 환경 구축
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week01/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 01주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week01/01_kickoff_and_installation/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: 라라벨 13과의 만남 & 지니샵 프로젝트 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week01/02_directory_and_configuration/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 라라벨 13 디렉터리 구조 해부 & 도서 서점 환경 설정 (.env)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week01/03_dev_tools_pint_and_telescope/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 코드 스타일러 Pint & 실시간 디버거 Telescope 세팅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week01/04_agentic_dev_and_boost/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: 에이전트 개발(Agentic Dev) & Laravel Boost 연동
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02주차: 요청 라이프사이클 & 라우팅과 컨트롤러 아키텍처
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week02/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 02주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week02/01_request_lifecycle/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: 브라우저에서 화면까지 — 라라벨 13 요청 라이프사이클
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week02/02_routing_and_urls/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 도서 서점 라우팅 설계 & 보안 서명된 URL (Signed URLs)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week02/03_controllers_and_requests/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 컨트롤러(Controller) 아키텍처 & HTTP 요청(Request) 해부
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week02/04_responses_and_redirects/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: 응답(Response)의 다양한 변신 & 리다이렉트와 플래시 메시지
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03주차: 블레이드 템플릿 엔진 & 프론트엔드 에셋 번들링 (JinyShop UI/UX)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week03/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 03주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week03/01_blade_layouts_and_components/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: 마스터 레이아웃 `<x-layouts.app>` & 슬롯(Slot) 아키텍처
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week03/02_book_card_and_directives/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 도서 카드 `<x-book-card>` 컴포넌트 & 블레이드 필수 지시어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week03/03_view_composers_and_csrf/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 뷰 컴포저(View Composer) & CSRF 폼 보안 방어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week03/04_vite_tailwind_and_head/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: Vite 번들러, Tailwind CSS & OpenGraph 메타 태그 최적화
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04주차: 데이터베이스 마이그레이션과 시딩 (데이터 모델링)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week04/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 04주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week04/01_database_config_and_connections/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: 라라벨 데이터베이스 연결 & 트랜잭션(ACID)의 원리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week04/02_bookstore_schema_migrations/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 도서 서점 핵심 스키마 마이그레이션(Migration) 설계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week04/03_faker_model_factories/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: Faker 한국어 팩토리 & 1,000권 도서 데이터 생성 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week04/04_database_seeder_and_fresh/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: 데이터베이스 시더(Seeder) & 1,000권 도서 한 방 구축 (`migrate:fresh --seed`)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05주차: Eloquent ORM 기초 & 도서 카탈로그 및 페이징
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week05/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 05주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week05/01_eloquent_model_and_casts/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: Eloquent 모델, `casts()` 메서드 & 가격/할인율 접근자(Accessors)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week05/02_query_scopes_and_filtering/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 쿼리 스코프(Query Scopes) & 도서 다중 필터링/정렬 체이닝
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week05/03_pagination_and_cursor/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 대용량 1,000권 페이지네이션(Pagination) & 커서 페이징(Cursor)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week05/04_soft_deletes_and_slugs/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: SEO 친화적 슬러그(`Str::slug`) & 소프트 삭제(`SoftDeletes`) 복구
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06주차: Eloquent 데이터 관계(Relationships) 심화 & N+1 해결
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week06/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 06주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week06/01_one_to_many_and_many_to_many/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: 도서 데이터 관계망 — 1:N 관계 & N:M 주문 피벗(Pivot) 테이블
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week06/02_polymorphic_reviews_and_images/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 다형성 관계(Polymorphic Relations) — 서평(Review) & 도서 이미지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week06/03_n_plus_one_and_eager_loading/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: N+1 쿼리 폭발의 정체 & 즉시 로딩(Eager Loading) 극적 최적화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week06/04_collections_and_lazy_collections/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: 컬렉션(Collections) 함수형 가공 & OOM 방지 지연 컬렉션(LazyCollection)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07주차: 폼 유효성 검사, 세션 상태 관리 & 장바구니 시스템
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week07/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 07주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week07/01_form_validation_and_custom_rules/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: Form Request 캡슐화 & 재고 한도 커스텀 검증 룰(`CheckBookStock`)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week07/02_session_cart_system/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 비회원도 가능한 세션(Session) 기반 도서 장바구니 서비스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week07/03_precognition_realtime_validation/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 라라벨 프리코그니션(Precognition) — 실시간 인라인 검증 UX
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week07/04_mongodb_hybrid_cart_logs/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: NoSQL MongoDB 하이브리드 연동 — 장바구니 클릭스트림 & 로그
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08주차: 사용자 인증, 소셜 로그인 & 권한 정책 (Security & Auth)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week08/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 08주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week08/01_authentication_and_verification/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: 독자 회원가입, Bcrypt 해싱 & 이메일 소유권 인증(`MustVerifyEmail`)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week08/02_passwords_and_encryption/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 비밀번호 재설정 브로커 & 민감 고객 정보 양방향 암호화(`Crypt`)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week08/03_authorization_gates_and_policies/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 서평 인가 정책(`ReviewPolicy`) & 관리자 전용 게이트(`Gate`)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week08/04_socialite_and_oauth_passport/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: Socialite 간편 소셜 로그인 & B2B 제휴사용 Passport OAuth2 아키텍처
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09주차: 파일 스토리지, 미들웨어 & 백오피스 관리자 페이지
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week09/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 09주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week09/01_filesystem_and_storage_link/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: Flysystem 파일 스토리지 & 도서 표지 이미지 업로드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week09/02_image_optimization_and_webp/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 도서 표지 썸네일 자동 생성 & WebP 압축 최적화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week09/03_admin_middleware_and_backoffice/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 관리자 전용 미들웨어(`EnsureUserIsAdmin`) & 서점 백오피스 대시보드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week09/04_rate_limiting_and_monolog/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: Rate Limiting 악의적 봇 방어 & 감사 로깅/커스텀 에러 페이지
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10주차: 라라벨 코어 아키텍처 Deep Dive & 외부 PG사 결제 연동
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week10/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 10주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week10/01_service_container_and_contracts/"
+                  class="bd-links-link d-inline-block rounded ">
+                  01강: IoC 서비스 컨테이너 & 결제 게이트웨이 인터페이스(`Contract`) 추상화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week10/02_service_providers_binding/"
+                  class="bd-links-link d-inline-block rounded ">
+                  02강: 서비스 프로바이더(Service Provider) & 결제 모듈 싱글톤 바인딩
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week10/03_facades_internals_and_custom_facade/"
+                  class="bd-links-link d-inline-block rounded ">
+                  03강: 파사드(Facade)의 가면을 벗기다 — `Payment` 커스텀 파사드 제작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week10/04_http_client_and_context/"
+                  class="bd-links-link d-inline-block rounded ">
+                  04강: HTTP 클라이언트 PG사 연동 & Context 트레이스 헬퍼
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="true">
+            11주차: 비동기 주문 처리, 결제 승인, 도서 구매 알림 시스템
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week11/"
+                  class="bd-links-link d-inline-block rounded active">
+                  📌 11주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week11/01_events_and_listeners/"
+                  class="bd-links-link d-inline-block rounded ">
+                  11주차 01강: 이벤트(Events)와 리스너(Listeners)를 활용한 주문 완료 도메인 분리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week11/02_async_queues_and_horizon/"
+                  class="bd-links-link d-inline-block rounded ">
+                  11주차 02강: 비동기 큐(Queues) 작업 처리와 라라벨 호라이즌(Horizon) 모니터링
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week11/03_mailables_and_notifications/"
+                  class="bd-links-link d-inline-block rounded ">
+                  11주차 03강: 메일(Mail)과 다채널 알림(Notifications) 시스템 구축
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week11/04_cashier_stripe_paddle/"
+                  class="bd-links-link d-inline-block rounded ">
+                  11주차 04강: 라라벨 캐셔(Cashier Stripe & Paddle)를 이용한 정기 구독 및 글로벌 결제
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-13"
+            aria-expanded="false">
+            12주차: 도서 정산 아티산 CLI, 작업 스케줄링, 캐시 & 웹소켓 실시간 알림
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-13">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week12/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 12주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week12/01_custom_artisan_and_prompts/"
+                  class="bd-links-link d-inline-block rounded ">
+                  12주차 01강: 대화형 아티산(Artisan) 콘솔, 라라벨 프롬프트(Prompts) & 프로세스(Processes)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week12/02_task_scheduling_cron/"
+                  class="bd-links-link d-inline-block rounded ">
+                  12주차 02강: 작업 스케줄링(Task Scheduling)과 자정 배치 자동화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week12/03_redis_cache_and_concurrency/"
+                  class="bd-links-link d-inline-block rounded ">
+                  12주차 03강: Redis 캐시 아키텍처, 캐시 태그(Cache Tags)와 병렬 동시성(Concurrency)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week12/04_reverb_websocket_and_localization/"
+                  class="bd-links-link d-inline-block rounded ">
+                  12주차 04강: 라라벨 리버브(Reverb) 웹소켓 실시간 알림 & 다국어(Localization)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-14"
+            aria-expanded="false">
+            13주차: 모바일 연동 RESTful API, Sanctum 토큰 인증, 전문 검색 & AI 도서 요약
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-14">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week13/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 13주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week13/01_restful_api_and_resources/"
+                  class="bd-links-link d-inline-block rounded ">
+                  13주차 01강: 모바일 RESTful API 설계, Eloquent API 리소스 & 직렬화(Serialization)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week13/02_sanctum_token_authentication/"
+                  class="bd-links-link d-inline-block rounded ">
+                  13주차 02강: 라라벨 생텀(Sanctum) 모바일 API 토큰 인증 & 페넌트(Pennant) 피처 플래그
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week13/03_scout_fulltext_search/"
+                  class="bd-links-link d-inline-block rounded ">
+                  13주차 03강: 라라벨 스카우트(Scout) 전문 검색(Full-text Search) & 폴리오(Folio) 기획전 라우팅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week13/04_ai_sdk_and_mcp_integration/"
+                  class="bd-links-link d-inline-block rounded ">
+                  13주차 04강: 라라벨 AI SDK, 모델 컨텍스트 프로토콜(MCP) & 스마트 도서 에이전트
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-15"
+            aria-expanded="false">
+            14주차: 도서 구매 플로우 테스트 자동화, 브라우저 E2E, 모니터링 & 프로덕션 배포
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-15">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/week14/"
+                  class="bd-links-link d-inline-block rounded ">
+                  📌 14주차 개요 및 개발 회의
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week14/01_pest_phpunit_testing/"
+                  class="bd-links-link d-inline-block rounded ">
+                  14주차 01강: 단위 & 기능 테스트(Pest/PHPUnit), 데이터베이스 테스트 & 모킹(Mocking)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week14/02_dusk_browser_e2e_testing/"
+                  class="bd-links-link d-inline-block rounded ">
+                  14주차 02강: 라라벨 더스크(Dusk)를 이용한 브라우저 E2E 구매 시나리오 자동화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week14/03_pulse_monitoring_and_octane/"
+                  class="bd-links-link d-inline-block rounded ">
+                  14주차 03강: 라라벨 펄스(Pulse) 실시간 APM 모니터링 & 옥탄(Octane) 초고속 메모리 상주 서빙
+                </a>
+              </li>
+              
+              <li>
+                <a href="/week14/04_envoy_deployment_and_releases/"
+                  class="bd-links-link d-inline-block rounded ">
+                  14주차 04강: 무중단 엔보이(Envoy) 배포, 패키지 개발 & 릴리스 업그레이드
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">11주차: 비동기 주문 처리, 결제 승인, 도서 구매 알림 시스템</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="-11주차-비동기-주문-처리-결제-승인-도서-구매-알림-시스템">📖 11주차: 비동기 주문 처리, 결제 승인, 도서 구매 알림 시스템</h1>
+
+<blockquote>
+  <p><strong>실습 프로젝트:</strong> 지니샵(JinyShop) — 온라인 도서 쇼핑몰<br />
+<strong>주차 요약:</strong> OrderPlaced 도메인 이벤트 발행, 비동기 큐 작업(Job), Horizon 대시보드 모니터링, 구매 확인 메일 및 Cashier 결제<br />
+<strong>캐릭터:</strong> 🐱 지니(시니어 멘토), 👧 도로시(주니어 개발자), 🐶 토토(개발 보조)</p>
+</blockquote>
+
+<hr />
+
+<h2 id="-지니--도로시--토토의-개발-회의">💬 지니 &amp; 도로시 &amp; 토토의 개발 회의</h2>
+
+<p>👧 <strong>도로시</strong>: “지니! 고객이 책 5권을 주문하고 결제 버튼을 눌렀는데 화면이 멈춰 있어! 결제사 승인받고, 도서 재고 차감하고, 구매 영수증 PDF 메일 쏘고, 관리자 슬랙 알림 보내는 걸 한꺼번에 하려니 화면이 굳어버렸어!”<br />
+🐱 <strong>지니</strong>: “도로시, <strong>이벤트(Event)</strong>와 <strong>비동기 큐(Queue)</strong> 마법을 쓸 시간이란다! 주문 컨트롤러는 <code class="language-plaintext highlighter-rouge">OrderPlaced</code> 이벤트만 빵 터뜨리고 손님에게 0.1초 만에 ‘결제 완료!’ 화면을 보여주는 거지. 무거운 메일 발송과 슬랙 전송은 백그라운드 큐 워커들이 뒤에서 차례대로 처리한단다!”<br />
+🐶 <strong>토토</strong>: “멍멍! 라라벨 Horizon 대시보드를 켜두면 지금 큐에서 몇 통의 주문 확인서 메일이 전송 중인지 실시간 그래프로 한눈에 감시할 수 있다멍!”</p>
+
+<hr />
+
+<h2 id="-11주차-상세-강의-목록-step-by-step-lectures">📑 11주차 상세 강의 목록 (Step-by-Step Lectures)</h2>
+
+<p>이번 11주차는 총 4개의 절차적 실습 강의로 구성되어 있습니다. 순서대로 학습을 진행해 주세요:</p>
+
+<ol>
+  <li><strong><a href="./01_events_and_listeners.md">01강: 이벤트(Events)와 리스너(Listeners)를 활용한 주문 완료 도메인 분리</a></strong>
+    <ul>
+      <li>관심사의 분리와 <code class="language-plaintext highlighter-rouge">OrderPlaced</code> 도메인 이벤트 발행</li>
+      <li><code class="language-plaintext highlighter-rouge">DeductBookStock</code>(도서 재고 차감 및 품절 처리), <code class="language-plaintext highlighter-rouge">ClearUserCart</code>, <code class="language-plaintext highlighter-rouge">LogOrderAudit</code> 리스너</li>
+      <li>라라벨 11 자동 이벤트 발견(Event Discovery) 및 이벤트 리스트 검증</li>
+    </ul>
+  </li>
+  <li><strong><a href="./02_async_queues_and_horizon.md">02강: 비동기 큐(Queues) 작업 처리와 라라벨 호라이즌(Horizon) 모니터링</a></strong>
+    <ul>
+      <li>동기(Sync) vs 비동기 큐(Redis/Database) 아키텍처 및 응답 지연 해결</li>
+      <li>전자책(eBook) 개인화 워터마크 생성 <code class="language-plaintext highlighter-rouge">ProcessBookWatermarkJob</code> (<code class="language-plaintext highlighter-rouge">ShouldQueue</code>, <code class="language-plaintext highlighter-rouge">$tries</code>, <code class="language-plaintext highlighter-rouge">$backoff</code>)</li>
+      <li>Laravel Horizon 실시간 웹 관제 대시보드 설치 및 실패 작업 재시도</li>
+    </ul>
+  </li>
+  <li><strong><a href="./03_mailables_and_notifications.md">03강: 메일(Mail)과 다채널 알림(Notifications) 시스템 구축</a></strong>
+    <ul>
+      <li>마크다운 기반 <code class="language-plaintext highlighter-rouge">OrderReceiptMail</code> 반응형 이메일 디자인 및 실시간 브라우저 프리뷰</li>
+      <li><code class="language-plaintext highlighter-rouge">Mail::to()-&gt;queue()</code> 백그라운드 큐 발송</li>
+      <li>다채널 알림(인앱 Database 알림 뱃지 + 고객 이메일 + 관리자 Slack 웹훅)</li>
+    </ul>
+  </li>
+  <li><strong><a href="./04_cashier_stripe_paddle.md">04강: 라라벨 캐셔(Cashier Stripe &amp; Paddle)를 이용한 정기 구독 및 글로벌 결제</a></strong>
+    <ul>
+      <li>‘지니샵 북클럽 멤버십’ 월간 정기 구독(Subscription) 비즈니스 모델 구현</li>
+      <li><code class="language-plaintext highlighter-rouge">Billable</code> 트레이트, SetupIntent 발급, 신용카드 등록 및 정기 결제</li>
+      <li>구독 상태 체크(<code class="language-plaintext highlighter-rouge">subscribed</code>, <code class="language-plaintext highlighter-rouge">onGracePeriod</code>, <code class="language-plaintext highlighter-rouge">cancelled</code>) 및 웹훅 보안 처리</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="-연계-공식-문서-한국어-번역본-대조-학습">📚 연계 공식 문서 (한국어 번역본 대조 학습)</h2>
+
+<p>이번 주차 실습에서 다루는 기능의 공식 문서 원본 내용과 심화 레퍼런스입니다:</p>
+
+<ul>
+  <li><a href="../docs/05_digging_deeper/events_ko.md">이벤트 (Events)</a></li>
+  <li><a href="../docs/05_digging_deeper/queues_ko.md">큐 (Queues)</a></li>
+  <li><a href="../docs/05_digging_deeper/mail_ko.md">메일 (Mail)</a></li>
+  <li><a href="../docs/05_digging_deeper/notifications_ko.md">알림 (Notifications)</a></li>
+  <li><a href="../docs/11_packages/billing_ko.md">Cashier Stripe (결제)</a></li>
+  <li><a href="../docs/11_packages/cashier-paddle_ko.md">Cashier Paddle (글로벌 결제)</a></li>
+  <li><a href="../docs/11_packages/horizon_ko.md">Horizon (Redis 큐 모니터링)</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-토토의-실무-꿀팁--에러-방지-가이드">🐶 토토의 실무 꿀팁 &amp; 에러 방지 가이드</h2>
+
+<blockquote>
+  <p>🐶 <strong>토토의 알짜 팁!</strong><br />
+“큐 워커(<code class="language-plaintext highlighter-rouge">queue:work</code>)를 띄워두고 코드를 고치면 반영되지 않으니 <code class="language-plaintext highlighter-rouge">php artisan queue:restart</code>를 외치는 습관을 들이자멍! 메일 템플릿을 수정할 때 매번 메일을 쏘지 말고 브라우저 프리뷰 라우트를 열어두면 개발 속도가 10배 빨라진다멍!”</p>
+</blockquote>
+
+<hr />
+
+<h2 id="-이번-주차-실습-완료-체크리스트">✅ 이번 주차 실습 완료 체크리스트</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><code class="language-plaintext highlighter-rouge">OrderPlaced</code> 이벤트 디스패치 및 <code class="language-plaintext highlighter-rouge">DeductBookStock</code> 재고 차감 리스너 분리 완료</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />전자책 워터마크 비동기 Job(<code class="language-plaintext highlighter-rouge">ProcessBookWatermarkJob</code>) 작성 및 큐 워커 처리</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Laravel Horizon 대시보드(<code class="language-plaintext highlighter-rouge">/horizon</code>) 접속 및 실시간 큐 지표 확인</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />마크다운 주문 영수증 메일 프리뷰 및 비동기 큐 발송</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />마이페이지 인앱 알림 뱃지 및 Cashier Stripe 북클럽 구독 라이프사이클 구현</li>
+</ul>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

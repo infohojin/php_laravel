@@ -1,0 +1,2364 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>HTTP Requests | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="HTTP Requests" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/04_the_basics/requests_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/04_the_basics/requests_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="HTTP Requests" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"HTTP Requests","url":"http://localhost:4000/docs/04_the_basics/requests_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="true">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/04_the_basics/">04 the basics</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">HTTP Requests</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<hr />
+<p>layout: docs
+title: “HTTP Requests”
+—</p>
+
+<h1 id="http-requests">HTTP Requests</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#interacting-with-the-request">Interacting With The Request</a>
+    <ul>
+      <li><a href="#accessing-the-request">Accessing the Request</a></li>
+      <li><a href="#request-path-and-method">Request Path, Host, and Method</a></li>
+      <li><a href="#request-headers">Request Headers</a></li>
+      <li><a href="#request-ip-address">Request IP Address</a></li>
+      <li><a href="#content-negotiation">Content Negotiation</a></li>
+      <li><a href="#psr7-requests">PSR-7 Requests</a></li>
+    </ul>
+  </li>
+  <li><a href="#input">Input</a>
+    <ul>
+      <li><a href="#retrieving-input">Retrieving Input</a></li>
+      <li><a href="#input-presence">Input Presence</a></li>
+      <li><a href="#merging-additional-input">Merging Additional Input</a></li>
+      <li><a href="#old-input">Old Input</a></li>
+      <li><a href="#cookies">Cookies</a></li>
+      <li><a href="#input-trimming-and-normalization">Input Trimming and Normalization</a></li>
+    </ul>
+  </li>
+  <li><a href="#files">Files</a>
+    <ul>
+      <li><a href="#retrieving-uploaded-files">Retrieving Uploaded Files</a></li>
+      <li><a href="#storing-uploaded-files">Storing Uploaded Files</a></li>
+    </ul>
+  </li>
+  <li><a href="#configuring-trusted-proxies">Configuring Trusted Proxies</a></li>
+  <li><a href="#configuring-trusted-hosts">Configuring Trusted Hosts</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Laravel’s <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> class provides an object-oriented way to interact with the current HTTP request being handled by your application as well as retrieve the input, cookies, and files that were submitted with the request.</p>
+
+<p><a name="interacting-with-the-request"></a></p>
+<h2 id="interacting-with-the-request">Interacting With The Request</h2>
+
+<p><a name="accessing-the-request"></a></p>
+<h3 id="accessing-the-request">Accessing the Request</h3>
+
+<p>To obtain an instance of the current HTTP request via dependency injection, you should type-hint the <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> class on your route closure or controller method. The incoming request instance will automatically be injected by the Laravel <a href="/docs/{{version}}/container">service container</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Store a new user.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">store</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+
+        <span class="c1">// Store the user...</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>앞서 언급한 것처럼, 라우트 클로저에서 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 클래스에 타입 힌트를 지정할 수도 있습니다. 클로저가 실행될 때 서비스 컨테이너가 들어오는 요청을 자동으로 주입합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="dependency-injection-route-parameters"></a></p>
+<h4 id="의존성-주입-및-경로-매개변수">의존성 주입 및 경로 매개변수</h4>
+
+<p>컨트롤러 메서드가 경로 매개변수로부터 입력을 기대하는 경우, 다른 의존성 뒤에 경로 매개변수를 나열해야 합니다. 예를 들어, 경로가 다음과 같이 정의되어 있다면:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Controllers\UserController</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">put</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="p">[</span><span class="nc">UserController</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'update'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>컨트롤러 메서드를 다음과 같이 정의하여 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code>를 타입 힌트하고 <code class="language-plaintext highlighter-rouge">id</code> 경로 매개변수에 액세스할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Update the specified user.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$id</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="c1">// Update the user...</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="request-path-and-method"></a></p>
+<h3 id="요청-경로-호스트-및-메서드">요청 경로, 호스트 및 메서드</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 인스턴스는 들어오는 HTTP 요청을 검사하기 위한 다양한 메서드를 제공하며 <code class="language-plaintext highlighter-rouge">Symfony\Component\HttpFoundation\Request</code> 클래스를 확장합니다. 아래에서는 가장 중요한 몇 가지 메서드에 대해 논의하겠습니다.</p>
+
+<p><a name="retrieving-the-request-path"></a></p>
+<h4 id="요청-경로-가져오기">요청 경로 가져오기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">path</code> 메서드는 요청의 경로 정보를 반환합니다. 따라서 들어오는 요청이 <code class="language-plaintext highlighter-rouge">http://example.com/foo/bar</code>를 대상으로 하는 경우, <code class="language-plaintext highlighter-rouge">path</code> 메서드는 <code class="language-plaintext highlighter-rouge">foo/bar</code>를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">path</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="inspecting-the-request-path"></a></p>
+<h4 id="요청-경로--라우트-검사">요청 경로 / 라우트 검사</h4>
+
+<p><code class="language-plaintext highlighter-rouge">is</code> 메서드는 들어오는 요청 경로가 주어진 패턴과 일치하는지 확인할 수 있게 해줍니다. 이 메서드를 사용할 때 <code class="language-plaintext highlighter-rouge">*</code> 문자를 와일드카드로 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="s1">'admin/*'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">routeIs</code> 방법을 사용하면 들어오는 요청이 <a href="/docs/{{version}}/routing#named-routes">명명된 라우트</a>와 일치하는지 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">routeIs</span><span class="p">(</span><span class="s1">'admin.*'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-the-request-url"></a></p>
+<h4 id="요청-url-가져오기">요청 URL 가져오기</h4>
+
+<p>들어오는 요청의 전체 URL을 가져오려면 <code class="language-plaintext highlighter-rouge">url</code> 또는 <code class="language-plaintext highlighter-rouge">fullUrl</code> 메서드를 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">url</code> 메서드는 쿼리 문자열 없이 URL을 반환하며, <code class="language-plaintext highlighter-rouge">fullUrl</code> 메서드는 쿼리 문자열을 포함합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$url</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">url</span><span class="p">();</span>
+
+<span class="nv">$urlWithQueryString</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">fullUrl</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>현재 URL에 쿼리 문자열 데이터를 추가하고 싶다면 <code class="language-plaintext highlighter-rouge">fullUrlWithQuery</code> 메서드를 호출할 수 있습니다. 이 메서드는 주어진 쿼리 문자열 변수 배열을 현재 쿼리 문자열과 병합합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">fullUrlWithQuery</span><span class="p">([</span><span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'phone'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>현재 URL에서 특정 쿼리 문자열 매개변수 없이 가져오고 싶다면, <code class="language-plaintext highlighter-rouge">fullUrlWithoutQuery</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">fullUrlWithoutQuery</span><span class="p">([</span><span class="s1">'type'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-the-request-host"></a></p>
+<h4 id="요청-호스트-가져오기">요청 호스트 가져오기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">host</code>, <code class="language-plaintext highlighter-rouge">httpHost</code>, <code class="language-plaintext highlighter-rouge">schemeAndHttpHost</code> 메서드를 통해 들어오는 요청의 “호스트”를 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// http://localhost:8000</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">host</span><span class="p">();</span> <span class="c1">// localhost</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">httpHost</span><span class="p">();</span> <span class="c1">// localhost:8000</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">schemeAndHttpHost</span><span class="p">();</span> <span class="c1">// http://localhost:8000</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-the-request-method"></a></p>
+<h4 id="요청-방식-가져오기">요청 방식 가져오기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">method</code> 메서드는 요청의 HTTP 동사를 반환합니다. <code class="language-plaintext highlighter-rouge">isMethod</code> 메서드를 사용하여 HTTP 동사가 주어진 문자열과 일치하는지 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$method</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">method</span><span class="p">();</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">isMethod</span><span class="p">(</span><span class="s1">'post'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="request-headers"></a></p>
+<h3 id="요청-헤더">요청 헤더</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 인스턴스에서 <code class="language-plaintext highlighter-rouge">header</code> 메서드를 사용하여 요청 헤더를 가져올 수 있습니다. 요청에 헤더가 없으면 <code class="language-plaintext highlighter-rouge">null</code>가 반환됩니다. 그러나 <code class="language-plaintext highlighter-rouge">header</code> 메서드는 요청에 헤더가 없을 경우 반환될 선택적 두 번째 인수를 허용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$value</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'X-Header-Name'</span><span class="p">);</span>
+
+<span class="nv">$value</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'X-Header-Name'</span><span class="p">,</span> <span class="s1">'default'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">hasHeader</code> 메서드는 요청에 특정 헤더가 포함되어 있는지 확인하는 데 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">hasHeader</span><span class="p">(</span><span class="s1">'X-Header-Name'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>편의를 위해 <code class="language-plaintext highlighter-rouge">Authorization</code> 헤더에서 베어러 토큰을 가져오기 위해 <code class="language-plaintext highlighter-rouge">bearerToken</code> 메소드를 사용할 수 있습니다. 해당 헤더가 없으면 빈 문자열이 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$token</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">bearerToken</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="request-ip-address"></a></p>
+<h3 id="요청-ip-주소">요청 IP 주소</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ip</code> 방법은 애플리케이션에 요청을 보낸 클라이언트의 IP 주소를 가져오는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ipAddress</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">ip</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>프록시를 통해 전달된 모든 클라이언트 IP 주소를 포함한 IP 주소 배열을 가져오고 싶다면, <code class="language-plaintext highlighter-rouge">ips</code> 메서드를 사용할 수 있습니다. “원본” 클라이언트 IP 주소는 배열의 끝에 위치하게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ipAddresses</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">ips</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>일반적으로 IP 주소는 신뢰할 수 없는, 사용자 제어 입력으로 간주해야 하며 정보 제공 목적으로만 사용해야 합니다.</p>
+
+<p><a name="content-negotiation"></a></p>
+<h3 id="콘텐츠-협상">콘텐츠 협상</h3>
+
+<p>Laravel은 <code class="language-plaintext highlighter-rouge">Accept</code> 헤더를 통해 들어오는 요청의 요청된 콘텐츠 유형을 검사하는 여러 방법을 제공합니다. 먼저, <code class="language-plaintext highlighter-rouge">getAcceptableContentTypes</code> 메서드는 요청에서 허용하는 모든 콘텐츠 유형을 포함하는 배열을 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$contentTypes</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">getAcceptableContentTypes</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">accepts</code> 메서드는 콘텐츠 타입 배열을 받고 요청에서 어떤 콘텐츠 타입도 허용되면 <code class="language-plaintext highlighter-rouge">true</code>를 반환합니다. 그렇지 않으면 <code class="language-plaintext highlighter-rouge">false</code>가 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">accepts</span><span class="p">([</span><span class="s1">'text/html'</span><span class="p">,</span> <span class="s1">'application/json'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>주어진 콘텐츠 유형 배열 중 요청에서 가장 선호하는 콘텐츠 유형을 결정하기 위해 <code class="language-plaintext highlighter-rouge">prefers</code> 방법을 사용할 수 있습니다. 제공된 콘텐츠 유형 중 어느 것도 요청에서 허용되지 않는 경우, <code class="language-plaintext highlighter-rouge">null</code>가 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$preferred</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">prefers</span><span class="p">([</span><span class="s1">'text/html'</span><span class="p">,</span> <span class="s1">'application/json'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>많은 애플리케이션이 HTML 또는 JSON만 제공하기 때문에, 들어오는 요청이 JSON 응답을 기대하는지 빠르게 확인하려면 <code class="language-plaintext highlighter-rouge">expectsJson</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">expectsJson</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>요청이 특히 Markdown을 선호하는지 또는 Markdown을 다른 콘텐츠 유형 중 하나로 수용할 수 있는지 확인해야 하는 경우, 예를 들어 AI 에이전트나 Markdown 응답을 사용하는 다른 클라이언트를 제공할 때, <code class="language-plaintext highlighter-rouge">wantsMarkdown</code> 및 <code class="language-plaintext highlighter-rouge">acceptsMarkdown</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">wantsMarkdown</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// The client's most preferred content type is text/markdown...</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">acceptsMarkdown</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// The client accepts Markdown responses...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="psr7-requests"></a></p>
+<h3 id="psr-7-요청">PSR-7 요청</h3>
+
+<p><a href="https://www.php-fig.org/psr/psr-7/">PSR-7 표준</a>은 요청과 응답을 포함한 HTTP 메시지에 대한 인터페이스를 명시합니다. Laravel 요청 대신 PSR-7 요청 인스턴스를 얻고자 한다면, 먼저 몇 가지 라이브러리를 설치해야 합니다. Laravel은 일반적인 Laravel 요청과 응답을 PSR-7 호환 구현으로 변환하기 위해 <em>Symfony HTTP 메시지 브리지</em> 컴포넌트를 사용합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/psr-http-message-bridge
+composer require nyholm/psr7
+</code></pre></div></div>
+
+<p>이 라이브러리들을 설치한 후에는 라우트 클로저나 컨트롤러 메서드에서 요청 인터페이스를 타입 힌트로 지정하여 PSR-7 요청을 얻을 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Psr\Http\Message\ServerRequestInterface</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">ServerRequestInterface</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+라우트나 컨트롤러에서 PSR-7 응답 인스턴스를 반환하면, 이는 자동으로 Laravel 응답 인스턴스로 다시 변환되어 프레임워크에 의해 표시됩니다.</p>
+</blockquote>
+
+<p><a name="input"></a></p>
+<h2 id="입력">입력</h2>
+
+<p><a name="retrieving-input"></a></p>
+<h3 id="입력-가져오기">입력 가져오기</h3>
+
+<p><a name="retrieving-all-input-data"></a></p>
+<h4 id="모든-입력-데이터-가져오기">모든 입력 데이터 가져오기</h4>
+
+<p>모든 들어오는 요청의 입력 데이터를 <code class="language-plaintext highlighter-rouge">array</code>로 <code class="language-plaintext highlighter-rouge">all</code> 메서드를 사용하여 가져올 수 있습니다. 이 메서드는 들어오는 요청이 HTML 폼에서 온 것이든 XHR 요청이든 관계없이 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">all</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">collect</code> 방법을 사용하면 모든 들어오는 요청의 입력 데이터를 <a href="/docs/{{version}}/collections">컬렉션</a>으로 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">collect</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">collect</code> 메서드는 또한 들어오는 요청의 입력 일부를 컬렉션으로 가져올 수 있도록 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">collect</span><span class="p">(</span><span class="s1">'users'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">each</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-an-input-value"></a></p>
+<h4 id="입력-값-가져오기">입력 값 가져오기</h4>
+
+<p>몇 가지 간단한 방법을 사용하여 요청에 어떤 HTTP 동사가 사용되었는지 걱정하지 않고 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 인스턴스에서 모든 사용자 입력에 접근할 수 있습니다. HTTP 동사에 관계없이 <code class="language-plaintext highlighter-rouge">input</code> 메서드를 사용하여 사용자 입력을 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">input</code> 메서드의 두 번째 인수로 기본 값을 전달할 수 있습니다. 요청된 입력 값이 요청에 없으면 이 값이 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'Sally'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>배열 입력을 포함하는 양식을 다룰 때, 배열에 접근하기 위해 ‘점(dot)’ 표기법을 사용하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'products.0.name'</span><span class="p">);</span>
+
+<span class="nv">$names</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'products.*.name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>인수 없이 <code class="language-plaintext highlighter-rouge">input</code> 메서드를 호출하여 모든 입력 값을 연관 배열로 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-input-from-the-query-string"></a></p>
+<h4 id="쿼리-문자열에서-입력-가져오기">쿼리 문자열에서 입력 가져오기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">input</code> 메서드가 전체 요청 페이로드(쿼리 문자열 포함)에서 값을 가져오는 반면, <code class="language-plaintext highlighter-rouge">query</code> 메서드는 쿼리 문자열에서만 값을 가져옵니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">query</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>요청된 쿼리 문자열 값 데이터가 존재하지 않으면, 이 메서드의 두 번째 인자가 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">query</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'Helen'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>모든 쿼리 문자열 값을 연관 배열로 가져오기 위해 인수 없이 <code class="language-plaintext highlighter-rouge">query</code> 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$query</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">query</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-json-input-values"></a></p>
+<h4 id="json-입력-값-가져오기">JSON 입력 값 가져오기</h4>
+
+<p>애플리케이션에 JSON 요청을 보낼 때, 요청의 <code class="language-plaintext highlighter-rouge">Content-Type</code> 헤더가 <code class="language-plaintext highlighter-rouge">application/json</code>로 올바르게 설정되어 있는 한 <code class="language-plaintext highlighter-rouge">input</code> 메서드를 통해 JSON 데이터를 액세스할 수 있습니다. JSON 배열/객체 내에 중첩된 값을 가져오기 위해 ‘dot’ 문법을 사용할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'user.name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-stringable-input-values"></a></p>
+<h4 id="문자열로-변환-가능한-입력-값-가져오기">문자열로 변환 가능한 입력 값 가져오기</h4>
+
+<p>요청의 입력 데이터를 원시 <code class="language-plaintext highlighter-rouge">string</code>로 가져오는 대신, <code class="language-plaintext highlighter-rouge">string</code> 메서드를 사용하여 요청 데이터를 <a href="/docs/{{version}}/strings">Illuminate\Support\Stringable</a> 인스턴스로 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">trim</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-integer-input-values"></a></p>
+<h4 id="정수-입력-값-가져오기">정수 입력 값 가져오기</h4>
+
+<p>입력 값을 정수로 가져오려면 <code class="language-plaintext highlighter-rouge">integer</code> 방법을 사용할 수 있습니다. 이 방법은 입력 값을 정수로 캐스트하려고 시도합니다. 입력이 없거나 캐스트에 실패하면 지정한 기본 값을 반환합니다. 이는 페이지 매김이나 기타 숫자 입력에 특히 유용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$perPage</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">integer</span><span class="p">(</span><span class="s1">'per_page'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-boolean-input-values"></a></p>
+<h4 id="불리언-입력-값-가져오기">불리언 입력 값 가져오기</h4>
+
+<p>체크박스와 같은 HTML 요소를 다룰 때, 애플리케이션은 실제로 문자열인 “참(truthy)” 값을 받을 수 있습니다. 예를 들어, “true” 또는 “on”과 같은 값입니다. 편의를 위해, 이러한 값을 불리언으로 가져오기 위해 <code class="language-plaintext highlighter-rouge">boolean</code> 메서드를 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">boolean</code> 메서드는 1, “1”, true, “true”, “on”, “yes”에 대해 <code class="language-plaintext highlighter-rouge">true</code>를 반환합니다. 그 외 모든 값은 <code class="language-plaintext highlighter-rouge">false</code>를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$archived</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">boolean</span><span class="p">(</span><span class="s1">'archived'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-array-input-values"></a></p>
+<h4 id="배열-입력-값-가져오기">배열 입력 값 가져오기</h4>
+
+<p>배열을 포함한 입력 값은 <code class="language-plaintext highlighter-rouge">array</code> 방법을 사용하여 가져올 수 있습니다. 이 방법은 입력 값을 항상 배열로 변환합니다. 요청에 지정된 이름의 입력 값이 포함되어 있지 않으면 빈 배열이 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$versions</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="k">array</span><span class="p">(</span><span class="s1">'versions'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-date-input-values"></a></p>
+<h4 id="날짜-입력-값-가져오기">날짜 입력 값 가져오기</h4>
+
+<p>편의를 위해, 날짜/시간을 포함하는 입력 값은 <code class="language-plaintext highlighter-rouge">date</code> 메서드를 사용하여 Carbon 인스턴스로 가져올 수 있습니다. 요청에 지정된 이름의 입력 값이 포함되지 않은 경우 <code class="language-plaintext highlighter-rouge">null</code>가 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$birthday</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nb">date</span><span class="p">(</span><span class="s1">'birthday'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">date</code> 메서드가 받는 두 번째와 세 번째 인수는 각각 날짜의 형식과 시간대를 지정하는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$elapsed</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nb">date</span><span class="p">(</span><span class="s1">'elapsed'</span><span class="p">,</span> <span class="s1">'!H:i'</span><span class="p">,</span> <span class="s1">'Europe/Madrid'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>입력 값이 존재하지만 형식이 올바르지 않은 경우 <code class="language-plaintext highlighter-rouge">InvalidArgumentException</code>가 발생하므로, <code class="language-plaintext highlighter-rouge">date</code> 메서드를 호출하기 전에 입력 값을 검증하는 것이 좋습니다.</p>
+
+<p><a name="retrieving-interval-input-values"></a></p>
+<h4 id="간격-입력-값-가져오기">간격 입력 값 가져오기</h4>
+
+<p>기간을 포함하는 입력 값은 <code class="language-plaintext highlighter-rouge">interval</code> 메서드를 사용하여 <code class="language-plaintext highlighter-rouge">CarbonInterval</code> 인스턴스로 가져올 수 있습니다. 요청에 지정된 이름의 입력 값이 포함되어 있지 않은 경우, <code class="language-plaintext highlighter-rouge">null</code>가 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$duration</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">interval</span><span class="p">(</span><span class="s1">'duration'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>입력 값이 숫자인 경우 두 번째 인수로 단위를 제공할 수 있습니다. 단위는 <code class="language-plaintext highlighter-rouge">second</code>, <code class="language-plaintext highlighter-rouge">minute</code> 또는 <code class="language-plaintext highlighter-rouge">day</code>와 같은 문자열이거나 <code class="language-plaintext highlighter-rouge">Carbon\Unit</code> 열거형 인스턴스일 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Carbon\Unit</span><span class="p">;</span>
+
+<span class="nv">$timeout</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">interval</span><span class="p">(</span><span class="s1">'timeout'</span><span class="p">,</span> <span class="s1">'second'</span><span class="p">);</span>
+
+<span class="nv">$delay</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">interval</span><span class="p">(</span><span class="s1">'delay'</span><span class="p">,</span> <span class="nc">Unit</span><span class="o">::</span><span class="nc">Minute</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>입력 값이 존재하지만 형식이 잘못된 경우 <code class="language-plaintext highlighter-rouge">InvalidArgumentException</code>가 발생하므로, <code class="language-plaintext highlighter-rouge">interval</code> 메서드를 호출하기 전에 입력 값을 검증하는 것이 권장됩니다.</p>
+
+<p><a name="retrieving-enum-input-values"></a></p>
+<h4 id="enum-입력-값-가져오기">Enum 입력 값 가져오기</h4>
+
+<p><a href="https://www.php.net/manual/en/language.types.enumerations.php">PHP 열거형</a>에 해당하는 입력 값은 요청에서 가져올 수도 있습니다. 요청에 지정된 이름의 입력 값이 없거나 열거형이 입력 값과 일치하는 기준 값을 가지고 있지 않은 경우 <code class="language-plaintext highlighter-rouge">null</code>가 반환됩니다. <code class="language-plaintext highlighter-rouge">enum</code> 메서드는 첫 번째 인수로 입력 값의 이름을, 두 번째 인수로 열거형 클래스를 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Enums\Status</span><span class="p">;</span>
+
+<span class="nv">$status</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">enum</span><span class="p">(</span><span class="s1">'status'</span><span class="p">,</span> <span class="nc">Status</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>값이 없거나 잘못된 경우 반환될 기본값을 제공할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$status</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">enum</span><span class="p">(</span><span class="s1">'status'</span><span class="p">,</span> <span class="nc">Status</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="nc">Status</span><span class="o">::</span><span class="nc">Pending</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>입력 값이 PHP 열거형에 해당하는 값들의 배열인 경우, <code class="language-plaintext highlighter-rouge">enums</code> 메서드를 사용하여 열거형 인스턴스로 값들의 배열을 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Enums\Product</span><span class="p">;</span>
+
+<span class="nv">$products</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">enums</span><span class="p">(</span><span class="s1">'products'</span><span class="p">,</span> <span class="nc">Product</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-input-via-dynamic-properties"></a></p>
+<h4 id="동적-속성을-통한-입력-가져오기">동적 속성을 통한 입력 가져오기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 인스턴스의 동적 속성을 사용하여 사용자 입력에 접근할 수도 있습니다. 예를 들어, 애플리케이션의 폼 중 하나에 <code class="language-plaintext highlighter-rouge">name</code> 필드가 포함되어 있다면, 다음과 같이 필드의 값을 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>동적 속성을 사용할 때, Laravel은 먼저 요청 페이로드에서 해당 매개변수의 값을 찾습니다. 값이 없으면 Laravel은 일치하는 라우트의 매개변수에서 필드를 검색합니다.</p>
+
+<p><a name="retrieving-a-portion-of-the-input-data"></a></p>
+<h4 id="입력-데이터의-일부-가져오기">입력 데이터의 일부 가져오기</h4>
+
+<p>입력 데이터의 일부만 가져와야 하는 경우, <code class="language-plaintext highlighter-rouge">only</code> 및 <code class="language-plaintext highlighter-rouge">except</code> 메서드를 사용할 수 있습니다. 이 두 메서드는 단일 <code class="language-plaintext highlighter-rouge">array</code> 또는 동적 인수 목록을 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">only</span><span class="p">([</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">]);</span>
+
+<span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">only</span><span class="p">(</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'password'</span><span class="p">);</span>
+
+<span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">except</span><span class="p">([</span><span class="s1">'credit_card'</span><span class="p">]);</span>
+
+<span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">except</span><span class="p">(</span><span class="s1">'credit_card'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+<code class="language-plaintext highlighter-rouge">only</code> 메서드는 요청한 모든 키/값 쌍을 반환합니다; 그러나 요청에 존재하지 않는 키/값 쌍은 반환하지 않습니다.</p>
+</blockquote>
+
+<p><a name="input-presence"></a></p>
+<h3 id="입력-존재-여부">입력 존재 여부</h3>
+
+<p>요청에 값이 존재하는지 확인하려면 <code class="language-plaintext highlighter-rouge">has</code> 메서드를 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">has</code> 메서드는 요청에 값이 존재하면 <code class="language-plaintext highlighter-rouge">true</code>를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'name'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>배열이 주어지면, <code class="language-plaintext highlighter-rouge">has</code> 메서드는 지정된 모든 값이 존재하는지 여부를 판단합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">hasAny</code> 메서드는 지정된 값 중 하나라도 존재하면 <code class="language-plaintext highlighter-rouge">true</code>를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">hasAny</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">whenHas</code> 메서드는 요청에 값이 있는 경우 지정된 클로저를 실행합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">whenHas</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>지정된 값이 요청에 없을 경우 실행될 두 번째 클로저를 <code class="language-plaintext highlighter-rouge">whenHas</code> 메서드에 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">whenHas</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The "name" value is present...</span>
+<span class="p">},</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The "name" value is not present...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>값이 요청에 존재하며 빈 문자열이 아닌지 확인하려면 <code class="language-plaintext highlighter-rouge">filled</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">filled</span><span class="p">(</span><span class="s1">'name'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>값이 요청에서 누락되었는지 또는 빈 문자열인지 확인하려면 <code class="language-plaintext highlighter-rouge">isNotFilled</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">isNotFilled</span><span class="p">(</span><span class="s1">'name'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>배열이 주어지면 <code class="language-plaintext highlighter-rouge">isNotFilled</code> 메서드는 지정된 값들이 모두 없거나 비어 있는지 여부를 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">isNotFilled</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">anyFilled</code> 메서드는 지정된 값 중 하나라도 빈 문자열이 아니면 <code class="language-plaintext highlighter-rouge">true</code>를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">anyFilled</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">whenFilled</code> 메서드는 요청에 값이 존재하고 빈 문자열이 아닐 경우 주어진 클로저를 실행합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">whenFilled</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>지정된 값이 ‘filled’가 아닌 경우 실행될 두 번째 클로저를 <code class="language-plaintext highlighter-rouge">whenFilled</code> 메서드에 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">whenFilled</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The "name" value is filled...</span>
+<span class="p">},</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The "name" value is not filled...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>주어진 키가 요청에 없는지 확인하려면, <code class="language-plaintext highlighter-rouge">missing</code> 및 <code class="language-plaintext highlighter-rouge">whenMissing</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">missing</span><span class="p">(</span><span class="s1">'name'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">whenMissing</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The "name" value is missing...</span>
+<span class="p">},</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The "name" value is present...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="merging-additional-input"></a></p>
+<h3 id="추가-입력-병합">추가 입력 병합</h3>
+
+<p>때때로 요청의 기존 입력 데이터에 추가 입력을 수동으로 병합해야 할 수도 있습니다. 이를 달성하기 위해 <code class="language-plaintext highlighter-rouge">merge</code> 방법을 사용할 수 있습니다. 주어진 입력 키가 요청에 이미 존재하는 경우, <code class="language-plaintext highlighter-rouge">merge</code> 방법을 통해 제공된 데이터로 덮어쓰게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">merge</span><span class="p">([</span><span class="s1">'votes'</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mergeIfMissing</code> 방법은 해당 키가 요청의 입력 데이터 내에 이미 존재하지 않는 경우 입력을 요청에 병합하는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">mergeIfMissing</span><span class="p">([</span><span class="s1">'votes'</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="old-input"></a></p>
+<h3 id="이전-입력">이전 입력</h3>
+
+<p>Laravel은 다음 요청 동안 이전 요청의 입력을 유지할 수 있게 해줍니다. 이 기능은 특히 유효성 검사 오류를 감지한 후 양식을 다시 채울 때 유용합니다. 그러나 Laravel에 포함된 <a href="/docs/{{version}}/validation">유효성 검사 기능</a>을 사용하는 경우, Laravel의 일부 내장 유효성 검사 기능이 자동으로 이러한 세션 입력 플래시를 호출하기 때문에 이러한 세션 입력 플래시 메서드를 직접 사용할 필요가 없을 수도 있습니다.</p>
+
+<p><a name="flashing-input-to-the-session"></a></p>
+<h4 id="세션에-입력-플래시하기">세션에 입력 플래시하기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 클래스의 <code class="language-plaintext highlighter-rouge">flash</code> 메서드는 현재 입력을 <a href="/docs/{{version}}/session">세션</a>에 플래시하여 사용자가 애플리케이션에 다음번 요청을 할 때 사용할 수 있도록 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">flash</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>또한 <code class="language-plaintext highlighter-rouge">flashOnly</code> 및 <code class="language-plaintext highlighter-rouge">flashExcept</code> 메서드를 사용하여 요청 데이터의 일부를 세션에 플래시할 수 있습니다. 이러한 메서드는 비밀번호와 같은 민감한 정보를 세션에 저장하지 않도록 하는 데 유용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">flashOnly</span><span class="p">([</span><span class="s1">'username'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]);</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">flashExcept</span><span class="p">(</span><span class="s1">'password'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="flashing-input-then-redirecting"></a></p>
+<h4 id="입력을-플래시한-후-리디렉션">입력을 플래시한 후 리디렉션</h4>
+
+<p>세션에 입력을 자주 플래시한 후 이전 페이지로 리디렉션하고 싶을 때, <code class="language-plaintext highlighter-rouge">withInput</code> 메서드를 사용하여 입력 플래싱을 리디렉션에 쉽게 연결할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/form'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withInput</span><span class="p">();</span>
+
+<span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">route</span><span class="p">(</span><span class="s1">'user.create'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withInput</span><span class="p">();</span>
+
+<span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/form'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withInput</span><span class="p">(</span>
+    <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">except</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-old-input"></a></p>
+<h4 id="이전-입력-가져오기">이전 입력 가져오기</h4>
+
+<p>이전 요청에서 플래시된 입력을 가져오려면 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code>의 인스턴스에서 <code class="language-plaintext highlighter-rouge">old</code> 메서드를 호출하십시오. <code class="language-plaintext highlighter-rouge">old</code> 메서드는 이전에 플래시된 입력 데이터를 <a href="/docs/{{version}}/session">세션</a>에서 가져옵니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$username</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">old</span><span class="p">(</span><span class="s1">'username'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Laravel은 또한 전역 <code class="language-plaintext highlighter-rouge">old</code> 헬퍼를 제공합니다. <a href="/docs/{{version}}/blade">Blade 템플릿</a> 내에서 이전 입력을 표시하는 경우, 폼을 다시 채우기 위해 <code class="language-plaintext highlighter-rouge">old</code> 헬퍼를 사용하는 것이 더 편리합니다. 주어진 필드에 대한 이전 입력이 없으면 <code class="language-plaintext highlighter-rouge">null</code>가 반환됩니다:</p>
+
+<pre><code class="language-blade">&lt;input type="text" name="username" value="{{ old('username') }}"&gt;
+</code></pre>
+
+<p><a name="cookies"></a></p>
+<h3 id="쿠키">쿠키</h3>
+
+<p><a name="retrieving-cookies-from-requests"></a></p>
+<h4 id="요청에서-쿠키-가져오기">요청에서 쿠키 가져오기</h4>
+
+<p>Laravel 프레임워크에서 생성된 모든 쿠키는 암호화되고 인증 코드로 서명되므로, 클라이언트가 변경한 경우 유효하지 않은 것으로 간주됩니다. 요청에서 쿠키 값을 가져오려면 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 인스턴스에서 <code class="language-plaintext highlighter-rouge">cookie</code> 메서드를 사용하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$value</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">cookie</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="input-trimming-and-normalization"></a></p>
+<h2 id="입력-트리밍-및-정규화">입력 트리밍 및 정규화</h2>
+
+<p>기본적으로, Laravel은 애플리케이션의 전역 미들웨어 스택에 <code class="language-plaintext highlighter-rouge">Illuminate\Foundation\Http\Middleware\TrimStrings</code> 및 <code class="language-plaintext highlighter-rouge">Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull</code> 미들웨어를 포함합니다. 이 미들웨어는 모든 들어오는 문자열 필드를 자동으로 트리밍하며, 빈 문자열 필드를 <code class="language-plaintext highlighter-rouge">null</code>로 변환합니다. 이를 통해 라우트나 컨트롤러에서 이러한 정규화 문제를 걱정할 필요가 없습니다.</p>
+
+<h4 id="입력-정규화-비활성화">입력 정규화 비활성화</h4>
+
+<p>이 동작을 모든 요청에 대해 비활성화하고 싶다면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> 파일에서 <code class="language-plaintext highlighter-rouge">$middleware-&gt;remove</code> 메서드를 호출하여 미들웨어 스택에서 두 미들웨어를 제거할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Http\Middleware\TrimStrings</span><span class="p">;</span>
+
+<span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">remove</span><span class="p">([</span>
+        <span class="nc">ConvertEmptyStringsToNull</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+        <span class="nc">TrimStrings</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">]);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>응용 프로그램의 일부 요청에 대해 문자열 다듬기 및 빈 문자열 변환을 비활성화하고자 하는 경우, 응용 프로그램의 <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> 파일 내에서 <code class="language-plaintext highlighter-rouge">trimStrings</code> 및 <code class="language-plaintext highlighter-rouge">convertEmptyStringsToNull</code> 미들웨어 메서드를 사용할 수 있습니다. 두 메서드 모두 클로저 배열을 받아들이며, 입력 정규화를 건너뛰어야 하는지 여부를 표시하기 위해 <code class="language-plaintext highlighter-rouge">true</code> 또는 <code class="language-plaintext highlighter-rouge">false</code>를 반환해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">convertEmptyStringsToNull</span><span class="p">(</span><span class="n">except</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">fn</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="s1">'admin/*'</span><span class="p">),</span>
+    <span class="p">]);</span>
+
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">trimStrings</span><span class="p">(</span><span class="n">except</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">fn</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="s1">'admin/*'</span><span class="p">),</span>
+    <span class="p">]);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p><a name="files"></a></p>
+<h2 id="파일">파일</h2>
+
+<p><a name="retrieving-uploaded-files"></a></p>
+<h3 id="업로드된-파일-가져오기">업로드된 파일 가져오기</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> 인스턴스에서 업로드된 파일을 <code class="language-plaintext highlighter-rouge">file</code> 메서드를 사용하거나 동적 속성을 사용하여 가져올 수 있습니다. <code class="language-plaintext highlighter-rouge">file</code> 메서드는 PHP <code class="language-plaintext highlighter-rouge">SplFileInfo</code> 클래스를 확장하고 파일과 상호작용하기 위한 다양한 메서드를 제공하는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\UploadedFile</code> 클래스의 인스턴스를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$file</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nb">file</span><span class="p">(</span><span class="s1">'photo'</span><span class="p">);</span>
+
+<span class="nv">$file</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">photo</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">hasFile</code> 메서드를 사용하여 요청에 파일이 있는지 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">hasFile</span><span class="p">(</span><span class="s1">'photo'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>업로드된 파일이 저장하기 전에 조작이 필요한 이미지인 경우, <code class="language-plaintext highlighter-rouge">image</code> 메서드를 사용하여 <code class="language-plaintext highlighter-rouge">Illuminate\Image\Image</code> 인스턴스를 가져오거나, 파일이 없는 경우 <code class="language-plaintext highlighter-rouge">null</code>를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$image</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">image</span><span class="p">(</span><span class="s1">'photo'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이미지 조작에 대한 더 많은 정보는 완전한 <a href="/docs/{{version}}/images">이미지 조작 문서</a>를 참조하십시오.</p>
+
+<p><a name="validating-successful-uploads"></a></p>
+<h4 id="업로드-성공-확인">업로드 성공 확인</h4>
+
+<p>파일이 존재하는지 확인하는 것 외에도 <code class="language-plaintext highlighter-rouge">isValid</code> 방식을 통해 파일 업로드에 문제가 없었는지 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nb">file</span><span class="p">(</span><span class="s1">'photo'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">isValid</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="file-paths-extensions"></a></p>
+<h4 id="파일-경로-및-확장자">파일 경로 및 확장자</h4>
+
+<p><code class="language-plaintext highlighter-rouge">UploadedFile</code> 클래스는 파일의 전체 경로와 확장자에 접근하기 위한 메서드도 포함하고 있습니다. <code class="language-plaintext highlighter-rouge">extension</code> 메서드는 파일의 내용을 기반으로 확장자를 추측하려고 시도합니다. 이 확장자는 클라이언트가 제공한 확장자와 다를 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">photo</span><span class="o">-&gt;</span><span class="nf">path</span><span class="p">();</span>
+
+<span class="nv">$extension</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">photo</span><span class="o">-&gt;</span><span class="nf">extension</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="other-file-methods"></a></p>
+<h4 id="other-file-methods">Other File Methods</h4>
+
+<p>There are a variety of other methods available on <code class="language-plaintext highlighter-rouge">UploadedFile</code> instances. Check out the <a href="https://github.com/symfony/symfony/blob/6.0/src/Symfony/Component/HttpFoundation/File/UploadedFile.php">API documentation for the class</a> for more information regarding these methods.</p>
+
+<p><a name="storing-uploaded-files"></a></p>
+<h3 id="storing-uploaded-files">Storing Uploaded Files</h3>
+
+<p>To store an uploaded file, you will typically use one of your configured <a href="/docs/{{version}}/filesystem">filesystems</a>. The <code class="language-plaintext highlighter-rouge">UploadedFile</code> class has a <code class="language-plaintext highlighter-rouge">store</code> method that will move an uploaded file to one of your disks, which may be a location on your local filesystem or a cloud storage location like Amazon S3.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">store</code> method accepts the path where the file should be stored relative to the filesystem’s configured root directory. This path should not contain a filename, since a unique ID will automatically be generated to serve as the filename.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">store</code> method also accepts an optional second argument for the name of the disk that should be used to store the file. The method will return the path of the file relative to the disk’s root:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">photo</span><span class="o">-&gt;</span><span class="nf">store</span><span class="p">(</span><span class="s1">'images'</span><span class="p">);</span>
+
+<span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">photo</span><span class="o">-&gt;</span><span class="nf">store</span><span class="p">(</span><span class="s1">'images'</span><span class="p">,</span> <span class="s1">'s3'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>파일 이름이 자동으로 생성되지 않도록 하려면 경로, 파일 이름 및 디스크 이름을 인수로 받는 <code class="language-plaintext highlighter-rouge">storeAs</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">photo</span><span class="o">-&gt;</span><span class="nf">storeAs</span><span class="p">(</span><span class="s1">'images'</span><span class="p">,</span> <span class="s1">'filename.jpg'</span><span class="p">);</span>
+
+<span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">photo</span><span class="o">-&gt;</span><span class="nf">storeAs</span><span class="p">(</span><span class="s1">'images'</span><span class="p">,</span> <span class="s1">'filename.jpg'</span><span class="p">,</span> <span class="s1">'s3'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Laravel에서 파일 저장에 대한 자세한 정보를 보려면 전체 <a href="/docs/{{version}}/filesystem">파일 저장 문서</a>를 확인하세요.</p>
+</blockquote>
+
+<p><a name="configuring-trusted-proxies"></a></p>
+<h2 id="신뢰할-수-있는-프록시-구성">신뢰할 수 있는 프록시 구성</h2>
+
+<p>TLS/SSL 인증서를 종료하는 로드 밸런서 뒤에서 애플리케이션을 실행할 때, <code class="language-plaintext highlighter-rouge">url</code> 헬퍼를 사용할 때 애플리케이션이 때때로 HTTPS 링크를 생성하지 않는 것을 알 수 있습니다. 일반적으로 이는 로드 밸런서에서 포트 80으로 트래픽이 전달되고 있어 애플리케이션이 안전한 링크를 생성해야 하는지 모를 때 발생합니다.</p>
+
+<p>이를 해결하려면, Laravel 애플리케이션에 포함된 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Middleware\TrustProxies</code> 미들웨어를 활성화할 수 있으며, 이를 통해 애플리케이션에서 신뢰할 수 있는 로드 밸런서 또는 프록시를 빠르게 사용자 지정할 수 있습니다. 신뢰할 수 있는 프록시는 애플리케이션의 <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> 파일에서 <code class="language-plaintext highlighter-rouge">trustProxies</code> 미들웨어 메서드를 사용하여 지정해야 합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">trustProxies</span><span class="p">(</span><span class="n">at</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s1">'192.168.1.1'</span><span class="p">,</span>
+        <span class="s1">'10.0.0.0/8'</span><span class="p">,</span>
+    <span class="p">]);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>신뢰할 수 있는 프록시를 구성하는 것 외에도, 신뢰해야 하는 프록시 헤더도 구성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">trustProxies</span><span class="p">(</span><span class="n">headers</span><span class="o">:</span> <span class="nc">Request</span><span class="o">::</span><span class="no">HEADER_X_FORWARDED_FOR</span> <span class="o">|</span>
+        <span class="nc">Request</span><span class="o">::</span><span class="no">HEADER_X_FORWARDED_HOST</span> <span class="o">|</span>
+        <span class="nc">Request</span><span class="o">::</span><span class="no">HEADER_X_FORWARDED_PORT</span> <span class="o">|</span>
+        <span class="nc">Request</span><span class="o">::</span><span class="no">HEADER_X_FORWARDED_PROTO</span> <span class="o">|</span>
+        <span class="nc">Request</span><span class="o">::</span><span class="no">HEADER_X_FORWARDED_AWS_ELB</span>
+    <span class="p">);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+AWS Elastic Load Balancing을 사용하는 경우, <code class="language-plaintext highlighter-rouge">headers</code> 값은 <code class="language-plaintext highlighter-rouge">Request::HEADER_X_FORWARDED_AWS_ELB</code>이어야 합니다. 로드 밸런서가 <a href="https://www.rfc-editor.org/rfc/rfc7239#section-4">RFC 7239</a>에서 정의된 표준 <code class="language-plaintext highlighter-rouge">Forwarded</code> 헤더를 사용하는 경우, <code class="language-plaintext highlighter-rouge">headers</code> 값은 <code class="language-plaintext highlighter-rouge">Request::HEADER_FORWARDED</code>이어야 합니다. <code class="language-plaintext highlighter-rouge">headers</code> 값에 사용할 수 있는 상수에 대한 자세한 내용은 Symfony의 <a href="https://symfony.com/doc/current/deployment/proxies.html">프록시 신뢰</a> 문서를 확인하십시오.</p>
+</blockquote>
+
+<p><a name="trusting-all-proxies"></a></p>
+<h4 id="모든-프록시-신뢰하기">모든 프록시 신뢰하기</h4>
+
+<p>Amazon AWS 또는 다른 “클라우드” 로드 밸런서 제공자를 사용 중인 경우, 실제 로드 밸런서의 IP 주소를 알지 못할 수 있습니다. 이 경우, 모든 프록시를 신뢰하기 위해 <code class="language-plaintext highlighter-rouge">*</code>를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">trustProxies</span><span class="p">(</span><span class="n">at</span><span class="o">:</span> <span class="s1">'*'</span><span class="p">);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p><a name="configuring-trusted-hosts"></a></p>
+<h2 id="configuring-trusted-hosts">Configuring Trusted Hosts</h2>
+
+<p>By default, Laravel will respond to all requests it receives regardless of the content of the HTTP request’s <code class="language-plaintext highlighter-rouge">Host</code> header. In addition, the <code class="language-plaintext highlighter-rouge">Host</code> header’s value will be used when generating absolute URLs to your application during a web request.</p>
+
+<p>Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given hostname. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain hostnames, you may do so by enabling the <code class="language-plaintext highlighter-rouge">Illuminate\Http\Middleware\TrustHosts</code> middleware for your application.</p>
+
+<p>To enable the <code class="language-plaintext highlighter-rouge">TrustHosts</code> middleware, you should invoke the <code class="language-plaintext highlighter-rouge">trustHosts</code> middleware method in your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file. Using the <code class="language-plaintext highlighter-rouge">at</code> argument of this method, you may specify the hostnames that your application should respond to. The hostname string is treated as a regular expression. Incoming requests with other <code class="language-plaintext highlighter-rouge">Host</code> headers will be rejected:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">trustHosts</span><span class="p">(</span><span class="n">at</span><span class="o">:</span> <span class="p">[</span><span class="s1">'^laravel\.test$'</span><span class="p">]);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>기본적으로 애플리케이션 URL의 하위 도메인에서 오는 요청도 자동으로 신뢰됩니다. 이 동작을 비활성화하려면 <code class="language-plaintext highlighter-rouge">subdomains</code> 인수를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">trustHosts</span><span class="p">(</span><span class="n">at</span><span class="o">:</span> <span class="p">[</span><span class="s1">'^laravel\.test$'</span><span class="p">],</span> <span class="n">subdomains</span><span class="o">:</span> <span class="kc">false</span><span class="p">);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>신뢰할 수 있는 호스트를 확인하기 위해 애플리케이션의 구성 파일이나 데이터베이스에 접근해야 하는 경우, <code class="language-plaintext highlighter-rouge">at</code> 인자에 클로저를 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">trustHosts</span><span class="p">(</span><span class="n">at</span><span class="o">:</span> <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nf">config</span><span class="p">(</span><span class="s1">'app.trusted_hosts'</span><span class="p">));</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,2657 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Eloquent: Mutators &amp; Casting | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Eloquent: Mutators &amp; Casting" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/08_eloquent_orm/eloquent-mutators_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/08_eloquent_orm/eloquent-mutators_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Eloquent: Mutators &amp; Casting" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Eloquent: Mutators &amp; Casting","url":"http://localhost:4000/docs/08_eloquent_orm/eloquent-mutators_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="true">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/08_eloquent_orm/">08 eloquent orm</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Eloquent: Mutators & Casting</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<hr />
+<p>layout: docs
+title: “Eloquent: Mutators &amp; Casting”
+—</p>
+
+<h1 id="eloquent-mutators--casting">Eloquent: Mutators &amp; Casting</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#accessors-and-mutators">Accessors and Mutators</a>
+    <ul>
+      <li><a href="#defining-an-accessor">Defining an Accessor</a></li>
+      <li><a href="#defining-a-mutator">Defining a Mutator</a></li>
+    </ul>
+  </li>
+  <li><a href="#attribute-casting">Attribute Casting</a>
+    <ul>
+      <li><a href="#array-and-json-casting">Array and JSON Casting</a></li>
+      <li><a href="#vector-casting">Vector Casting</a></li>
+      <li><a href="#binary-casting">Binary Casting</a></li>
+      <li><a href="#date-casting">Date Casting</a></li>
+      <li><a href="#enum-casting">Enum Casting</a></li>
+      <li><a href="#encrypted-casting">Encrypted Casting</a></li>
+      <li><a href="#query-time-casting">Query Time Casting</a></li>
+    </ul>
+  </li>
+  <li><a href="#custom-casts">Custom Casts</a>
+    <ul>
+      <li><a href="#value-object-casting">Value Object Casting</a></li>
+      <li><a href="#array-json-serialization">Array / JSON Serialization</a></li>
+      <li><a href="#inbound-casting">Inbound Casting</a></li>
+      <li><a href="#cast-parameters">Cast Parameters</a></li>
+      <li><a href="#comparing-cast-values">Comparing Cast Values</a></li>
+      <li><a href="#castables">Castables</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Accessors, mutators, and attribute casting allow you to transform Eloquent attribute values when you retrieve or set them on model instances. For example, you may want to use the <a href="/docs/{{version}}/encryption">Laravel encrypter</a> to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model. Or, you may want to convert a JSON string that is stored in your database to an array when it is accessed via your Eloquent model.</p>
+
+<p><a name="accessors-and-mutators"></a></p>
+<h2 id="accessors-and-mutators">Accessors and Mutators</h2>
+
+<p><a name="defining-an-accessor"></a></p>
+<h3 id="defining-an-accessor">Defining an Accessor</h3>
+
+<p>An accessor transforms an Eloquent attribute value when it is accessed. To define an accessor, create a protected method on your model to represent the accessible attribute. This method name should correspond to the “camel case” representation of the true underlying model attribute / database column when applicable.</p>
+
+<p>In this example, we’ll define an accessor for the <code class="language-plaintext highlighter-rouge">first_name</code> attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of the <code class="language-plaintext highlighter-rouge">first_name</code> attribute. All attribute accessor / mutator methods must declare a return type-hint of <code class="language-plaintext highlighter-rouge">Illuminate\Database\Eloquent\Casts\Attribute</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\Attribute</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the user's first name.
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">firstName</span><span class="p">():</span> <span class="kt">Attribute</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Attribute</span><span class="o">::</span><span class="nf">make</span><span class="p">(</span>
+            <span class="n">get</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">ucfirst</span><span class="p">(</span><span class="nv">$value</span><span class="p">),</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>모든 접근자 메서드는 속성이 어떻게 접근되고, 선택적으로 변경될 것인지를 정의하는 <code class="language-plaintext highlighter-rouge">Attribute</code> 인스턴스를 반환합니다. 이 예제에서는 속성이 어떻게 접근될 것인지만 정의하고 있습니다. 이를 위해 <code class="language-plaintext highlighter-rouge">Attribute</code> 클래스 생성자에 <code class="language-plaintext highlighter-rouge">get</code> 인수를 제공합니다.</p>
+
+<p>보시다시피, 컬럼의 원래 값이 접근자에 전달되어 값을 조작하고 반환할 수 있습니다. 접근자의 값을 확인하려면 모델 인스턴스에서 <code class="language-plaintext highlighter-rouge">first_name</code> 속성에 간단히 접근하면 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$firstName</span> <span class="o">=</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">first_name</span><span class="p">;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+이 계산된 값을 모델의 배열/JSON 표현에 추가하고 싶다면, <a href="/docs/{{version}}/eloquent-serialization#appending-values-to-json">이를 추가해야 합니다</a>.</p>
+</blockquote>
+
+<p><a name="building-value-objects-from-multiple-attributes"></a></p>
+<h4 id="여러-속성에서-값-객체building-value-objects-만들기">여러 속성에서 값 객체(Building Value Objects) 만들기</h4>
+
+<p>때로는 접근자가 여러 모델 속성을 단일 “값 객체”로 변환해야 할 수도 있습니다. 이렇게 하려면, <code class="language-plaintext highlighter-rouge">get</code> 클로저가 <code class="language-plaintext highlighter-rouge">$attributes</code>라는 두 번째 인수를 받을 수 있으며, 이 인수는 클로저에 자동으로 제공되고 모델의 현재 모든 속성을 포함하는 배열을 담게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Support\Address</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\Attribute</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Interact with the user's address.
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">address</span><span class="p">():</span> <span class="kt">Attribute</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Attribute</span><span class="o">::</span><span class="nf">make</span><span class="p">(</span>
+        <span class="n">get</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_one'</span><span class="p">],</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_two'</span><span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="accessor-caching"></a></p>
+<h4 id="접근자-캐싱">접근자 캐싱</h4>
+
+<p>접근자에서 값 객체를 반환할 때, 값 객체에 가해진 모든 변경 사항은 모델이 저장되기 전에 자동으로 모델에 동기화됩니다. 이는 Eloquent가 접근자를 통해 반환된 인스턴스를 유지하여 접근자가 호출될 때마다 동일한 인스턴스를 반환할 수 있기 때문에 가능합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="n">address</span><span class="o">-&gt;</span><span class="n">lineOne</span> <span class="o">=</span> <span class="s1">'Updated Address Line 1 Value'</span><span class="p">;</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="n">address</span><span class="o">-&gt;</span><span class="n">lineTwo</span> <span class="o">=</span> <span class="s1">'Updated Address Line 2 Value'</span><span class="p">;</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">save</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>그러나 문자열이나 불리언과 같은 원시 값에 대해 캐싱을 활성화하고 싶은 경우가 있을 수 있습니다. 특히 이러한 값들이 계산적으로 비용이 많이 드는 경우에는 더욱 그렇습니다. 이를 달성하기 위해, 액세서(accessor)를 정의할 때 <code class="language-plaintext highlighter-rouge">shouldCache</code> 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">protected</span> <span class="k">function</span> <span class="n">hash</span><span class="p">():</span> <span class="kt">Attribute</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Attribute</span><span class="o">::</span><span class="nf">make</span><span class="p">(</span>
+        <span class="n">get</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">bcrypt</span><span class="p">(</span><span class="nb">gzuncompress</span><span class="p">(</span><span class="nv">$value</span><span class="p">)),</span>
+    <span class="p">)</span><span class="o">-&gt;</span><span class="nf">shouldCache</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>속성의 객체 캐싱 동작을 비활성화하려면 속성을 정의할 때 <code class="language-plaintext highlighter-rouge">withoutObjectCaching</code> 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Interact with the user's address.
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">address</span><span class="p">():</span> <span class="kt">Attribute</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Attribute</span><span class="o">::</span><span class="nf">make</span><span class="p">(</span>
+        <span class="n">get</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_one'</span><span class="p">],</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_two'</span><span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">)</span><span class="o">-&gt;</span><span class="nf">withoutObjectCaching</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="defining-a-mutator"></a></p>
+<h3 id="변환기-정의하기">변환기 정의하기</h3>
+
+<p>변환기는 Eloquent 속성 값을 설정할 때 변환합니다. 변환기를 정의하려면 속성을 정의할 때 <code class="language-plaintext highlighter-rouge">set</code> 인수를 제공할 수 있습니다. 이제 <code class="language-plaintext highlighter-rouge">first_name</code> 속성에 대한 변환기를 정의해 봅시다. 이 변환기는 모델에서 <code class="language-plaintext highlighter-rouge">first_name</code> 속성의 값을 설정하려고 시도할 때 자동으로 호출됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\Attribute</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Interact with the user's first name.
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">firstName</span><span class="p">():</span> <span class="kt">Attribute</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Attribute</span><span class="o">::</span><span class="nf">make</span><span class="p">(</span>
+            <span class="n">get</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">ucfirst</span><span class="p">(</span><span class="nv">$value</span><span class="p">),</span>
+            <span class="n">set</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">strtolower</span><span class="p">(</span><span class="nv">$value</span><span class="p">),</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>뮤테이터 클로저는 속성에 설정되는 값을 받아 이 값을 조작하고 조작된 값을 반환할 수 있습니다. 뮤테이터를 사용하려면 Eloquent 모델에서 <code class="language-plaintext highlighter-rouge">first_name</code> 속성만 설정하면 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="n">first_name</span> <span class="o">=</span> <span class="s1">'Sally'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>이 예제에서는 <code class="language-plaintext highlighter-rouge">set</code> 콜백이 <code class="language-plaintext highlighter-rouge">Sally</code> 값과 함께 호출됩니다. 그런 다음 변형자는 <code class="language-plaintext highlighter-rouge">strtolower</code> 함수를 이름에 적용하고 그 결과 값을 모델의 내부 <code class="language-plaintext highlighter-rouge">$attributes</code> 배열에 설정합니다.</p>
+
+<p><a name="mutating-multiple-attributes"></a></p>
+<h4 id="여러-속성-변형하기">여러 속성 변형하기</h4>
+
+<p>때로는 변형자가 기본 모델에 여러 속성을 설정해야 할 수도 있습니다. 이를 위해 <code class="language-plaintext highlighter-rouge">set</code> 클로저에서 배열을 반환할 수 있습니다. 배열의 각 키는 모델과 연관된 기본 속성/데이터베이스 열에 해당해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Support\Address</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\Attribute</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Interact with the user's address.
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">address</span><span class="p">():</span> <span class="kt">Attribute</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Attribute</span><span class="o">::</span><span class="nf">make</span><span class="p">(</span>
+        <span class="n">get</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_one'</span><span class="p">],</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_two'</span><span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">set</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">Address</span> <span class="nv">$value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'address_line_one'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="n">lineOne</span><span class="p">,</span>
+            <span class="s1">'address_line_two'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="n">lineTwo</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="attribute-casting"></a></p>
+<h2 id="attribute-casting">Attribute Casting</h2>
+
+<p>Attribute casting provides functionality similar to accessors and mutators without requiring you to define any additional methods on your model. Instead, your model’s <code class="language-plaintext highlighter-rouge">casts</code> method provides a convenient way of converting attributes to common data types.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">casts</code> method should return an array where the key is the name of the attribute being cast and the value is the type you wish to cast the column to. The supported cast types are:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">array</code></li>
+    <li><code class="language-plaintext highlighter-rouge">AsFluent::class</code></li>
+    <li><code class="language-plaintext highlighter-rouge">AsStringable::class</code></li>
+    <li><code class="language-plaintext highlighter-rouge">AsUri::class</code></li>
+    <li><code class="language-plaintext highlighter-rouge">AsVector::class</code></li>
+    <li><code class="language-plaintext highlighter-rouge">boolean</code></li>
+    <li><code class="language-plaintext highlighter-rouge">collection</code></li>
+    <li><code class="language-plaintext highlighter-rouge">date</code></li>
+    <li><code class="language-plaintext highlighter-rouge">datetime</code></li>
+    <li><code class="language-plaintext highlighter-rouge">immutable_date</code></li>
+    <li><code class="language-plaintext highlighter-rouge">immutable_datetime</code></li>
+    <li><code>decimal:&lt;precision&gt;</code></li>
+    <li><code class="language-plaintext highlighter-rouge">double</code></li>
+    <li><code class="language-plaintext highlighter-rouge">encrypted</code></li>
+    <li><code class="language-plaintext highlighter-rouge">encrypted:array</code></li>
+    <li><code class="language-plaintext highlighter-rouge">encrypted:collection</code></li>
+    <li><code class="language-plaintext highlighter-rouge">encrypted:object</code></li>
+    <li><code class="language-plaintext highlighter-rouge">float</code></li>
+    <li><code class="language-plaintext highlighter-rouge">hashed</code></li>
+    <li><code class="language-plaintext highlighter-rouge">integer</code></li>
+    <li><code class="language-plaintext highlighter-rouge">object</code></li>
+    <li><code class="language-plaintext highlighter-rouge">real</code></li>
+    <li><code class="language-plaintext highlighter-rouge">string</code></li>
+    <li><code class="language-plaintext highlighter-rouge">timestamp</code></li>
+  </ul>
+
+</div>
+
+<p>To demonstrate attribute casting, let’s cast the <code class="language-plaintext highlighter-rouge">is_admin</code> attribute, which is stored in our database as an integer (<code class="language-plaintext highlighter-rouge">0</code> or <code class="language-plaintext highlighter-rouge">1</code>) to a boolean value:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the attributes that should be cast.
+     *
+     * @return array&lt;string, string&gt;
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'is_admin'</span> <span class="o">=&gt;</span> <span class="s1">'boolean'</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>캐스트를 정의한 후에는, <code class="language-plaintext highlighter-rouge">is_admin</code> 속성은 데이터베이스에 값이 정수로 저장되어 있더라도 접근할 때 항상 불리언으로 캐스트됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$user</span> <span class="o">=</span> <span class="nc">App\Models\User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="n">is_admin</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>실행 시간에 새 임시 캐스트를 추가해야 하는 경우, <code class="language-plaintext highlighter-rouge">mergeCasts</code> 메서드를 사용할 수 있습니다. 이러한 캐스트 정의는 모델에 이미 정의된 캐스트에 추가됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">mergeCasts</span><span class="p">([</span>
+    <span class="s1">'is_admin'</span> <span class="o">=&gt;</span> <span class="s1">'integer'</span><span class="p">,</span>
+    <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="s1">'object'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+<code class="language-plaintext highlighter-rouge">null</code> 속성은 캐스팅되지 않습니다. 또한, 관계와 같은 이름을 가진 캐스트(또는 속성)를 정의하거나 모델의 기본 키에 캐스트를 할당해서는 안 됩니다.</p>
+</blockquote>
+
+<p><a name="stringable-casting"></a></p>
+<h4 id="문자열로-변환-가능한-캐스팅">문자열로 변환 가능한 캐스팅</h4>
+
+<p>모델 속성을 <a href="/docs/{{version}}/strings#fluent-strings-method-list">플루언트 Illuminate\Support\Stringable 객체</a>로 캐스팅하려면 <code class="language-plaintext highlighter-rouge">Illuminate\Database\Eloquent\Casts\AsStringable</code> 캐스트 클래스를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsStringable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the attributes that should be cast.
+     *
+     * @return array&lt;string, string&gt;
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'directory'</span> <span class="o">=&gt;</span> <span class="nc">AsStringable</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="array-and-json-casting"></a></p>
+<h3 id="배열-및-json-변환">배열 및 JSON 변환</h3>
+
+<p><code class="language-plaintext highlighter-rouge">array</code> 변환은 직렬화된 JSON으로 저장된 열을 다룰 때 특히 유용합니다. 예를 들어, 데이터베이스에 <code class="language-plaintext highlighter-rouge">JSON</code> 또는 <code class="language-plaintext highlighter-rouge">TEXT</code> 필드 유형이 직렬화된 JSON을 포함하고 있는 경우, 해당 속성에 <code class="language-plaintext highlighter-rouge">array</code> 변환을 추가하면 Eloquent 모델에서 해당 속성에 접근할 때 자동으로 PHP 배열로 역직렬화됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the attributes that should be cast.
+     *
+     * @return array&lt;string, string&gt;
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="s1">'array'</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>캐스트가 정의되면 <code class="language-plaintext highlighter-rouge">options</code> 속성에 접근할 수 있으며, JSON에서 PHP 배열로 자동으로 역직렬화됩니다. <code class="language-plaintext highlighter-rouge">options</code> 속성의 값을 설정하면, 주어진 배열이 저장을 위해 JSON으로 자동으로 직렬화됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$options</span> <span class="o">=</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">options</span><span class="p">;</span>
+
+<span class="nv">$options</span><span class="p">[</span><span class="s1">'key'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'value'</span><span class="p">;</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="n">options</span> <span class="o">=</span> <span class="nv">$options</span><span class="p">;</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">save</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>JSON 속성의 단일 필드를 더 간결한 문법으로 업데이트하려면, <a href="/docs/{{version}}/eloquent#mass-assignment-json-columns">속성을 대량 할당 가능하도록 설정</a>하고 <code class="language-plaintext highlighter-rouge">update</code> 메서드를 호출할 때 <code class="language-plaintext highlighter-rouge">-&gt;</code> 연산자를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">update</span><span class="p">([</span><span class="s1">'options-&gt;key'</span> <span class="o">=&gt;</span> <span class="s1">'value'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="json-and-unicode"></a></p>
+<h4 id="json-및-유니코드">JSON 및 유니코드</h4>
+
+<p>배열 속성을 이스케이프되지 않은 유니코드 문자와 함께 JSON으로 저장하고 싶다면, <code class="language-plaintext highlighter-rouge">json:unicode</code> 캐스트를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="s1">'json:unicode'</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="array-object-and-collection-casting"></a></p>
+<h4 id="배열-객체-및-컬렉션-캐스팅">배열 객체 및 컬렉션 캐스팅</h4>
+
+<p>표준 <code class="language-plaintext highlighter-rouge">array</code> 캐스트는 많은 응용 프로그램에 충분하지만, 몇 가지 단점이 있습니다. <code class="language-plaintext highlighter-rouge">array</code> 캐스트는 원시 타입을 반환하기 때문에 배열의 오프셋을 직접 수정하는 것은 불가능합니다. 예를 들어, 다음 코드는 PHP 오류를 발생시킬 것입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="n">options</span><span class="p">[</span><span class="s1">'key'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>이를 해결하기 위해, Laravel은 JSON 속성을 <a href="https://www.php.net/manual/en/class.arrayobject.php">ArrayObject</a> 클래스으로 캐스팅하는 <code class="language-plaintext highlighter-rouge">AsArrayObject</code> 캐스트를 제공합니다. 이 기능은 Laravel의 <a href="#custom-casts">커스텀 캐스트</a> 구현을 사용하여 구현되며, 이를 통해 Laravel은 변형된 객체를 지능적으로 캐시하고 변환하여 개별 오프셋이 PHP 오류를 발생시키지 않고 수정될 수 있도록 합니다. <code class="language-plaintext highlighter-rouge">AsArrayObject</code> 캐스트를 사용하려면 단순히 속성에 할당하면 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsArrayObject</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="nc">AsArrayObject</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>마찬가지로, Laravel은 JSON 속성을 Laravel <a href="/docs/{{version}}/collections">Collection</a> 인스턴스로 캐스팅하는 <code class="language-plaintext highlighter-rouge">AsCollection</code> 캐스트를 제공합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsCollection</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="nc">AsCollection</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>기본적으로, <code class="language-plaintext highlighter-rouge">AsArrayObject</code> 또는 <code class="language-plaintext highlighter-rouge">AsCollection</code>으로 캐스팅된 속성에 <code class="language-plaintext highlighter-rouge">null</code>를 할당하면 데이터베이스에 JSON <code class="language-plaintext highlighter-rouge">null</code> 값이 저장됩니다. 대신 <code class="language-plaintext highlighter-rouge">null</code> 값을 네이티브 SQL <code class="language-plaintext highlighter-rouge">NULL</code> 값으로 저장하고 싶다면, 캐스트를 정의할 때 <code class="language-plaintext highlighter-rouge">nullable</code> 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsCollection</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="nc">AsCollection</span><span class="o">::</span><span class="nf">nullable</span><span class="p">(),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">nullable</code> 메서드는 맞춤 컬렉션 클래스와 결합될 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="nc">AsCollection</span><span class="o">::</span><span class="nf">nullable</span><span class="p">(</span><span class="nc">OptionCollection</span><span class="o">::</span><span class="n">class</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">AsArrayObject</code> 캐스트는 동일한 동작을 가진 <code class="language-plaintext highlighter-rouge">nullable</code> 메서드도 제공합니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">AsCollection</code> 캐스트가 Laravel의 기본 컬렉션 클래스 대신 사용자 정의 컬렉션 클래스를 인스턴스화하기를 원한다면, 캐스트 인수로 컬렉션 클래스 이름을 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Collections\OptionCollection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsCollection</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="nc">AsCollection</span><span class="o">::</span><span class="nf">using</span><span class="p">(</span><span class="nc">OptionCollection</span><span class="o">::</span><span class="n">class</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">of</code> 방법은 컬렉션 항목을 컬렉션의 <a href="/docs/{{version}}/collections#method-mapinto">mapInto 메서드</a>를 통해 지정된 클래스에 매핑해야 함을 나타내는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\ValueObjects\Option</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsCollection</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="nc">AsCollection</span><span class="o">::</span><span class="nf">of</span><span class="p">(</span><span class="nc">Option</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>컬렉션을 객체에 매핑할 때, 객체는 인스턴스가 데이터베이스에 JSON으로 직렬화되는 방식을 정의하기 위해 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Support\Arrayable</code> 및 <code class="language-plaintext highlighter-rouge">JsonSerializable</code> 인터페이스를 구현해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\ValueObjects</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Support\Arrayable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">JsonSerializable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Option</span> <span class="kd">implements</span> <span class="nc">Arrayable</span><span class="p">,</span> <span class="nc">JsonSerializable</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="nv">$name</span><span class="p">;</span>
+    <span class="k">public</span> <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">;</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="nv">$isLocked</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new Option instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'name'</span><span class="p">];</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'value'</span><span class="p">];</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">isLocked</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">[</span><span class="s1">'is_locked'</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get the instance as an array.
+     *
+     * @return array{name: string, data: string, is_locked: bool}
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">():</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">'value'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">,</span>
+            <span class="s1">'is_locked'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">isLocked</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Specify the data which should be serialized to JSON.
+     *
+     * @return array{name: string, data: string, is_locked: bool}
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">jsonSerialize</span><span class="p">():</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">toArray</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="vector-casting"></a></p>
+<h3 id="벡터-캐스팅">벡터 캐스팅</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Database\Eloquent\Casts\AsVector</code> 캐스트 클래스를 사용하여 데이터베이스 벡터 열을 PHP 배열로 그리고 PHP 배열에서 캐스팅할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsVector</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'embedding'</span> <span class="o">=&gt;</span> <span class="nc">AsVector</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>속성을 설정할 때, 캐스트는 PHP 배열 또는 Laravel 컬렉션과 같은 <code class="language-plaintext highlighter-rouge">Arrayable</code> 인스턴스를 허용합니다. 속성을 가져올 때, 캐스트는 부동 소수점 숫자의 배열을 반환합니다.</p>
+
+<p><a name="binary-casting"></a></p>
+<h3 id="이진-캐스팅">이진 캐스팅</h3>
+
+<p>Eloquent 모델이 모델의 자동 증가 ID 열 외에 <a href="/docs/{{version}}/migrations#column-method-binary">이진 타입</a> <code class="language-plaintext highlighter-rouge">uuid</code> 또는 <code class="language-plaintext highlighter-rouge">ulid</code> 열을 가지고 있는 경우, <code class="language-plaintext highlighter-rouge">AsBinary</code> 캐스트를 사용하여 해당 값을 이진 표현으로 자동으로 캐스팅하고 되돌릴 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsBinary</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'uuid'</span> <span class="o">=&gt;</span> <span class="nc">AsBinary</span><span class="o">::</span><span class="nf">uuid</span><span class="p">(),</span>
+        <span class="s1">'ulid'</span> <span class="o">=&gt;</span> <span class="nc">AsBinary</span><span class="o">::</span><span class="nf">ulid</span><span class="p">(),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>모델에서 캐스트가 정의되면 객체 인스턴스나 문자열에 UUID / ULID 속성 값을 설정할 수 있습니다. Eloquent는 자동으로 값을 이진 표현으로 캐스트합니다. 속성 값을 가져올 때는 항상 일반 텍스트 문자열 값을 받게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Str</span><span class="p">;</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="n">uuid</span> <span class="o">=</span> <span class="nc">Str</span><span class="o">::</span><span class="nf">uuid</span><span class="p">();</span>
+
+<span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">uuid</span><span class="p">;</span>
+
+<span class="c1">// "6e8cdeed-2f32-40bd-b109-1e4405be2140"</span>
+</code></pre></div></div>
+
+<p><a name="date-casting"></a></p>
+<h3 id="날짜-캐스팅">날짜 캐스팅</h3>
+
+<p>기본적으로 Eloquent는 <code class="language-plaintext highlighter-rouge">created_at</code>와 <code class="language-plaintext highlighter-rouge">updated_at</code> 컬럼을 <a href="https://github.com/briannesbitt/Carbon">Carbon</a> 인스턴스로 캐스팅합니다. Carbon은 PHP <code class="language-plaintext highlighter-rouge">DateTime</code> 클래스를 확장하며 유용한 메서드를 제공합니다. 모델의 <code class="language-plaintext highlighter-rouge">casts</code> 메서드 내에 추가 날짜 캐스트를 정의하여 추가 날짜 속성을 캐스팅할 수 있습니다. 일반적으로 날짜는 <code class="language-plaintext highlighter-rouge">datetime</code> 또는 <code class="language-plaintext highlighter-rouge">immutable_datetime</code> 캐스트 타입을 사용하여 캐스팅하는 것이 좋습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">date</code> 또는 <code class="language-plaintext highlighter-rouge">datetime</code> 캐스트를 정의할 때 날짜 형식을 지정할 수도 있습니다. 이 형식은 <a href="/docs/{{version}}/eloquent-serialization">모델이 배열 또는 JSON으로 직렬화될 때</a> 사용됩니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="s1">'datetime:Y-m-d'</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>열이 날짜로 캐스팅될 때, 해당 모델 속성 값을 UNIX 타임스탬프, 날짜 문자열(<code class="language-plaintext highlighter-rouge">Y-m-d</code>), 날짜-시간 문자열, 또는 <code class="language-plaintext highlighter-rouge">DateTime</code> / <code class="language-plaintext highlighter-rouge">Carbon</code> 인스턴스로 설정할 수 있습니다. 날짜 값은 올바르게 변환되어 데이터베이스에 저장됩니다.</p>
+
+<p>모델의 모든 날짜에 대한 기본 직렬화 형식을 사용자 정의하려면 모델에 <code class="language-plaintext highlighter-rouge">serializeDate</code> 메서드를 정의하면 됩니다. 이 메서드는 데이터베이스에 저장될 때 날짜가 형식화되는 방식에는 영향을 주지 않습니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Prepare a date for array / JSON serialization.
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">serializeDate</span><span class="p">(</span><span class="kt">DateTimeInterface</span> <span class="nv">$date</span><span class="p">):</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$date</span><span class="o">-&gt;</span><span class="nf">format</span><span class="p">(</span><span class="s1">'Y-m-d'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>모델의 날짜를 실제로 데이터베이스에 저장할 때 사용해야 하는 형식을 지정하려면, 모델의 <code class="language-plaintext highlighter-rouge">Table</code> 속성에서 <code class="language-plaintext highlighter-rouge">dateFormat</code> 인수를 사용해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Attributes\Table</span><span class="p">;</span>
+
+<span class="na">#[Table(dateFormat: 'U')]</span>
+<span class="kd">class</span> <span class="nc">Flight</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="date-casting-and-timezones"></a></p>
+<h4 id="date-casting-serialization-and-timezones">Date Casting, Serialization, and Timezones</h4>
+
+<p>By default, the <code class="language-plaintext highlighter-rouge">date</code> and <code class="language-plaintext highlighter-rouge">datetime</code> casts will serialize dates to a UTC ISO-8601 date string (<code class="language-plaintext highlighter-rouge">YYYY-MM-DDTHH:MM:SS.uuuuuuZ</code>), regardless of the timezone specified in your application’s <code class="language-plaintext highlighter-rouge">timezone</code> configuration option. You are strongly encouraged to always use this serialization format, as well as to store your application’s dates in the UTC timezone by not changing your application’s <code class="language-plaintext highlighter-rouge">timezone</code> configuration option from its default <code class="language-plaintext highlighter-rouge">UTC</code> value. Consistently using the UTC timezone throughout your application will provide the maximum level of interoperability with other date manipulation libraries written in PHP and JavaScript.</p>
+
+<p>If a custom format is applied to the <code class="language-plaintext highlighter-rouge">date</code> or <code class="language-plaintext highlighter-rouge">datetime</code> cast, such as <code class="language-plaintext highlighter-rouge">datetime:Y-m-d H:i:s</code>, the inner timezone of the Carbon instance will be used during date serialization. Typically, this will be the timezone specified in your application’s <code class="language-plaintext highlighter-rouge">timezone</code> configuration option. However, it’s important to note that <code class="language-plaintext highlighter-rouge">timestamp</code> columns such as <code class="language-plaintext highlighter-rouge">created_at</code> and <code class="language-plaintext highlighter-rouge">updated_at</code> are exempt from this behavior and are always formatted in UTC, regardless of the application’s timezone setting.</p>
+
+<p><a name="enum-casting"></a></p>
+<h3 id="enum-casting">Enum Casting</h3>
+
+<p>Eloquent also allows you to cast your attribute values to PHP <a href="https://www.php.net/manual/en/language.enumerations.backed.php">Enums</a>. To accomplish this, you may specify the attribute and enum you wish to cast in your model’s <code class="language-plaintext highlighter-rouge">casts</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Enums\ServerStatus</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'status'</span> <span class="o">=&gt;</span> <span class="nc">ServerStatus</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>모델에서 캐스트를 정의하면, 지정된 속성은 속성과 상호작용할 때 자동으로 열거형으로 캐스트되고 다시 열거형에서 캐스트됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$server</span><span class="o">-&gt;</span><span class="n">status</span> <span class="o">==</span> <span class="nc">ServerStatus</span><span class="o">::</span><span class="nc">Provisioned</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$server</span><span class="o">-&gt;</span><span class="n">status</span> <span class="o">=</span> <span class="nc">ServerStatus</span><span class="o">::</span><span class="nc">Ready</span><span class="p">;</span>
+
+    <span class="nv">$server</span><span class="o">-&gt;</span><span class="nf">save</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="casting-arrays-of-enums"></a></p>
+<h4 id="열거형-배열-캐스팅">열거형 배열 캐스팅</h4>
+
+<p>때때로 모델이 단일 열 안에 열거형 값 배열을 저장해야 할 때가 있습니다. 이를 달성하기 위해 Laravel에서 제공하는 <code class="language-plaintext highlighter-rouge">AsEnumArrayObject</code> 또는 <code class="language-plaintext highlighter-rouge">AsEnumCollection</code> 캐스트를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Enums\ServerStatus</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Casts\AsEnumCollection</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'statuses'</span> <span class="o">=&gt;</span> <span class="nc">AsEnumCollection</span><span class="o">::</span><span class="nf">of</span><span class="p">(</span><span class="nc">ServerStatus</span><span class="o">::</span><span class="n">class</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="encrypted-casting"></a></p>
+<h3 id="encrypted-casting">Encrypted Casting</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">encrypted</code> cast will encrypt a model’s attribute value using Laravel’s built-in <a href="/docs/{{version}}/encryption">encryption</a> features. In addition, the <code class="language-plaintext highlighter-rouge">encrypted:array</code>, <code class="language-plaintext highlighter-rouge">encrypted:collection</code>, <code class="language-plaintext highlighter-rouge">encrypted:object</code>, <code class="language-plaintext highlighter-rouge">AsEncryptedArrayObject</code>, and <code class="language-plaintext highlighter-rouge">AsEncryptedCollection</code> casts work like their unencrypted counterparts; however, as you might expect, the underlying value is encrypted when stored in your database.</p>
+
+<p>As the final length of the encrypted text is not predictable and is longer than its plain text counterpart, make sure the associated database column is of <code class="language-plaintext highlighter-rouge">TEXT</code> type or larger. In addition, since the values are encrypted in the database, you will not be able to query or search encrypted attribute values.</p>
+
+<p><a name="key-rotation"></a></p>
+<h4 id="key-rotation">Key Rotation</h4>
+
+<p>As you may know, Laravel encrypts strings using the <code class="language-plaintext highlighter-rouge">key</code> configuration value specified in your application’s <code class="language-plaintext highlighter-rouge">app</code> configuration file. Typically, this value corresponds to the value of the <code class="language-plaintext highlighter-rouge">APP_KEY</code> environment variable. If you need to rotate your application’s encryption key, you may <a href="/docs/{{version}}/encryption#gracefully-rotating-encryption-keys">gracefully do so</a>.</p>
+
+<p><a name="query-time-casting"></a></p>
+<h3 id="query-time-casting">Query Time Casting</h3>
+
+<p>Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$users</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">select</span><span class="p">([</span>
+    <span class="s1">'users.*'</span><span class="p">,</span>
+    <span class="s1">'last_posted_at'</span> <span class="o">=&gt;</span> <span class="nc">Post</span><span class="o">::</span><span class="nf">selectRaw</span><span class="p">(</span><span class="s1">'MAX(created_at)'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">whereColumn</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'users.id'</span><span class="p">)</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>이 쿼리의 결과에 대한 <code class="language-plaintext highlighter-rouge">last_posted_at</code> 속성은 단순한 문자열이 될 것입니다. 쿼리를 실행할 때 이 속성에 <code class="language-plaintext highlighter-rouge">datetime</code> 형 변환을 적용할 수 있다면 좋을 것입니다. 다행히도, 우리는 <code class="language-plaintext highlighter-rouge">withCasts</code> 메서드를 사용하여 이것을 수행할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$users</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">select</span><span class="p">([</span>
+    <span class="s1">'users.*'</span><span class="p">,</span>
+    <span class="s1">'last_posted_at'</span> <span class="o">=&gt;</span> <span class="nc">Post</span><span class="o">::</span><span class="nf">selectRaw</span><span class="p">(</span><span class="s1">'MAX(created_at)'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">whereColumn</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="s1">'users.id'</span><span class="p">)</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">withCasts</span><span class="p">([</span>
+    <span class="s1">'last_posted_at'</span> <span class="o">=&gt;</span> <span class="s1">'datetime'</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="custom-casts"></a></p>
+<h2 id="사용자-정의-캐스트">사용자 정의 캐스트</h2>
+
+<p>Laravel에는 다양한 내장된 유용한 캐스트 유형이 있지만, 때때로 사용자 정의 캐스트 유형을 정의해야 할 수도 있습니다. 캐스트를 생성하려면 <code class="language-plaintext highlighter-rouge">make:cast</code> Artisan 명령을 실행하십시오. 새 캐스트 클래스는 <code class="language-plaintext highlighter-rouge">app/Casts</code> 디렉터리에 배치됩니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:cast AsJson
+</code></pre></div></div>
+
+<p>모든 사용자 정의 캐스트 클래스는 <code class="language-plaintext highlighter-rouge">CastsAttributes</code> 인터페이스를 구현합니다. 이 인터페이스를 구현하는 클래스는 <code class="language-plaintext highlighter-rouge">get</code> 및 <code class="language-plaintext highlighter-rouge">set</code> 메서드를 정의해야 합니다. <code class="language-plaintext highlighter-rouge">get</code> 메서드는 데이터베이스의 원시 값을 캐스트 값으로 변환하는 역할을 하며, <code class="language-plaintext highlighter-rouge">set</code> 메서드는 캐스트 값을 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다. 예를 들어, 내장 <code class="language-plaintext highlighter-rouge">json</code> 캐스트 유형을 사용자 정의 캐스트 유형으로 다시 구현해 보겠습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Casts</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Database\Eloquent\CastsAttributes</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AsJson</span> <span class="kd">implements</span> <span class="nc">CastsAttributes</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Cast the given value.
+     *
+     * @param  array&lt;string, mixed&gt;  $attributes
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span>
+        <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+        <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+        <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+    <span class="p">):</span> <span class="kt">array</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Prepare the given value for storage.
+     *
+     * @param  array&lt;string, mixed&gt;  $attributes
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">set</span><span class="p">(</span>
+        <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+        <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+        <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+    <span class="p">):</span> <span class="kt">string</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>사용자 정의 캐스트 유형을 정의한 후에는 클래스 이름을 사용하여 모델 속성에 이를 연결할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Casts\AsJson</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the attributes that should be cast.
+     *
+     * @return array&lt;string, string&gt;
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="nc">AsJson</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="value-object-casting"></a></p>
+<h3 id="값-객체-캐스팅">값 객체 캐스팅</h3>
+
+<p>값을 원시 타입으로만 캐스팅하는 데 제한되지 않습니다. 값들을 객체로도 캐스팅할 수 있습니다. 값을 객체로 캐스팅하는 커스텀 캐스트를 정의하는 것은 원시 타입으로 캐스팅하는 것과 매우 유사합니다. 단, 값 객체가 여러 데이터베이스 컬럼을 포함하는 경우, <code class="language-plaintext highlighter-rouge">set</code> 메서드는 모델에 저장 가능한 원시 값을 설정하는 데 사용될 키/값 쌍의 배열을 반환해야 합니다. 값 객체가 단일 컬럼에만 영향을 미치는 경우, 단순히 저장 가능한 값을 반환하면 됩니다.</p>
+
+<p>예시로, 여러 모델 값을 단일 <code class="language-plaintext highlighter-rouge">Address</code> 값 객체로 캐스팅하는 커스텀 캐스트 클래스를 정의해 보겠습니다. <code class="language-plaintext highlighter-rouge">Address</code> 값 객체에는 두 개의 공개 속성: <code class="language-plaintext highlighter-rouge">lineOne</code>와 <code class="language-plaintext highlighter-rouge">lineTwo</code>가 있다고 가정합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Casts</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\ValueObjects\Address</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Database\Eloquent\CastsAttributes</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">InvalidArgumentException</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AsAddress</span> <span class="kd">implements</span> <span class="nc">CastsAttributes</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Cast the given value.
+     *
+     * @param  array&lt;string, mixed&gt;  $attributes
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span>
+        <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+        <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+        <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+    <span class="p">):</span> <span class="kt">Address</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_one'</span><span class="p">],</span>
+            <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_two'</span><span class="p">]</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Prepare the given value for storage.
+     *
+     * @param  array&lt;string, mixed&gt;  $attributes
+     * @return array&lt;string, string&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">set</span><span class="p">(</span>
+        <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+        <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+        <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+    <span class="p">):</span> <span class="kt">array</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nv">$value</span> <span class="k">instanceof</span> <span class="nc">Address</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nc">InvalidArgumentException</span><span class="p">(</span><span class="s1">'The given value is not an Address instance.'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'address_line_one'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="n">lineOne</span><span class="p">,</span>
+            <span class="s1">'address_line_two'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="n">lineTwo</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>값 객체로 캐스팅할 때, 값 객체에 대해 이루어진 모든 변경 사항은 모델이 저장되기 전에 자동으로 모델에 동기화됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="n">address</span><span class="o">-&gt;</span><span class="n">lineOne</span> <span class="o">=</span> <span class="s1">'Updated Address Value'</span><span class="p">;</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">save</span><span class="p">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+JSON이나 배열로 변환할 Eloquent 모델이 값 객체를 포함하고 있다면, 값 객체에 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Support\Arrayable</code>와 <code class="language-plaintext highlighter-rouge">JsonSerializable</code> 인터페이스를 구현해야 합니다.</p>
+</blockquote>
+
+<p><a name="value-object-caching"></a></p>
+<h4 id="값-객체-캐싱">값 객체 캐싱</h4>
+
+<p>값 객체로 캐스팅된 속성이 해결되면, Eloquent에 의해 캐싱됩니다. 따라서 속성에 다시 접근하면 동일한 객체 인스턴스가 반환됩니다.</p>
+
+<p>사용자 정의 캐스트 클래스의 객체 캐싱 동작을 비활성화하고 싶다면, 사용자 정의 캐스트 클래스에 public <code class="language-plaintext highlighter-rouge">withoutObjectCaching</code> 속성을 선언할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">AsAddress</span> <span class="kd">implements</span> <span class="nc">CastsAttributes</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="nv">$withoutObjectCaching</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="array-json-serialization"></a></p>
+<h3 id="배열--json-직렬화">배열 / JSON 직렬화</h3>
+
+<p>Eloquent 모델을 배열 또는 JSON으로 변환할 때 <code class="language-plaintext highlighter-rouge">toArray</code> 및 <code class="language-plaintext highlighter-rouge">toJson</code> 메서드를 사용하면, 커스텀 캐스트 값 객체도 일반적으로 직렬화됩니다. 단, 해당 객체가 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Support\Arrayable</code> 및 <code class="language-plaintext highlighter-rouge">JsonSerializable</code> 인터페이스를 구현해야 합니다. 그러나 서드파티 라이브러리에서 제공되는 값 객체를 사용할 경우, 이러한 인터페이스를 객체에 추가할 수 없을 수도 있습니다.</p>
+
+<p>따라서, 커스텀 캐스트 클래스가 값 객체의 직렬화를 담당하도록 지정할 수 있습니다. 이를 위해 커스텀 캐스트 클래스는 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes</code> 인터페이스를 구현해야 합니다. 이 인터페이스는 클래스가 <code class="language-plaintext highlighter-rouge">serialize</code> 메서드를 포함해야 하며, 해당 메서드는 값 객체의 직렬화된 형태를 반환해야 한다고 명시합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the serialized representation of the value.
+ *
+ * @param  array&lt;string, mixed&gt;  $attributes
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">serialize</span><span class="p">(</span>
+    <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+    <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+    <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+    <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+<span class="p">):</span> <span class="kt">string</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$value</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="inbound-casting"></a></p>
+<h3 id="인바운드-캐스팅">인바운드 캐스팅</h3>
+
+<p>가끔 모델에 설정되는 값만 변환하고 모델에서 속성을 가져올 때는 아무 작업도 수행하지 않는 커스텀 캐스트 클래스를 작성해야 할 경우가 있습니다.</p>
+
+<p>인바운드 전용 커스텀 캐스트는 <code class="language-plaintext highlighter-rouge">CastsInboundAttributes</code> 인터페이스를 구현해야 하며, 이 인터페이스는 <code class="language-plaintext highlighter-rouge">set</code> 메서드 정의만 요구합니다. <code class="language-plaintext highlighter-rouge">make:cast</code> Artisan 명령은 <code class="language-plaintext highlighter-rouge">--inbound</code> 옵션과 함께 호출하여 인바운드 전용 캐스트 클래스를 생성할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:cast AsHash <span class="nt">--inbound</span>
+</code></pre></div></div>
+
+<p>순수 입력 전용 캐스트의 고전적인 예는 ‘해싱’ 캐스트입니다. 예를 들어, 특정 알고리즘을 통해 입력 값을 해싱하는 캐스트를 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Casts</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AsHash</span> <span class="kd">implements</span> <span class="nc">CastsInboundAttributes</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Create a new cast class instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">protected</span> <span class="kt">string</span><span class="o">|</span><span class="kc">null</span> <span class="nv">$algorithm</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Prepare the given value for storage.
+     *
+     * @param  array&lt;string, mixed&gt;  $attributes
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">set</span><span class="p">(</span>
+        <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+        <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+        <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+    <span class="p">):</span> <span class="kt">string</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">is_null</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">algorithm</span><span class="p">)</span>
+            <span class="o">?</span> <span class="nf">bcrypt</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
+            <span class="o">:</span> <span class="nb">hash</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">algorithm</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="cast-parameters"></a></p>
+<h3 id="캐스트-매개변수">캐스트 매개변수</h3>
+
+<p>모델에 커스텀 캐스트를 첨부할 때, 캐스트 매개변수는 클래스 이름과 <code class="language-plaintext highlighter-rouge">:</code> 문자를 사용하여 구분하고 여러 매개변수는 쉼표로 구분하여 지정할 수 있습니다. 매개변수는 캐스트 클래스의 생성자로 전달됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attributes that should be cast.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nc">AsHash</span><span class="o">::</span><span class="n">class</span><span class="mf">.</span><span class="s1">':sha256'</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="comparing-cast-values"></a></p>
+<h3 id="캐스트-값-비교">캐스트 값 비교</h3>
+
+<p>두 개의 주어진 캐스트 값을 비교하여 변경되었는지 여부를 결정하는 방법을 정의하고 싶다면, 사용자 정의 캐스트 클래스가 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Database\Eloquent\ComparesCastableAttributes</code> 인터페이스를 구현할 수 있습니다. 이를 통해 Eloquent가 변경되었다고 간주하는 값을 세밀하게 제어할 수 있으며, 모델이 업데이트될 때 데이터베이스에 저장되는 값을 조절할 수 있습니다.</p>
+
+<p>이 인터페이스는 클래스가 <code class="language-plaintext highlighter-rouge">compare</code> 메서드를 포함해야 하며, 주어진 값이 동일하다고 간주되면 <code class="language-plaintext highlighter-rouge">true</code>를 반환해야 한다고 명시합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Determine if the given values are equal.
+ *
+ * @param  \Illuminate\Database\Eloquent\Model  $model
+ * @param  string  $key
+ * @param  mixed  $firstValue
+ * @param  mixed  $secondValue
+ * @return bool
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">compare</span><span class="p">(</span>
+    <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+    <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+    <span class="kt">mixed</span> <span class="nv">$firstValue</span><span class="p">,</span>
+    <span class="kt">mixed</span> <span class="nv">$secondValue</span>
+<span class="p">):</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$firstValue</span> <span class="o">===</span> <span class="nv">$secondValue</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="castables"></a></p>
+<h3 id="캐스터블">캐스터블</h3>
+
+<p>응용 프로그램의 값 객체가 고유한 커스텀 캐스트 클래스를 정의하도록 허용하고 싶을 수 있습니다. 커스텀 캐스트 클래스를 모델에 첨부하는 대신, <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Database\Eloquent\Castable</code> 인터페이스를 구현하는 값 객체 클래스를 첨부할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\ValueObjects\Address</span><span class="p">;</span>
+
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="nc">Address</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Castable</code> 인터페이스를 구현하는 객체는 <code class="language-plaintext highlighter-rouge">Castable</code> 클래스와의 변환을 담당하는 사용자 정의 캐스터 클래스의 클래스 이름을 반환하는 <code class="language-plaintext highlighter-rouge">castUsing</code> 메서드를 정의해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\ValueObjects</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Database\Eloquent\Castable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Casts\AsAddress</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Address</span> <span class="kd">implements</span> <span class="nc">Castable</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the name of the caster class to use when casting from / to this cast target.
+     *
+     * @param  array&lt;string, mixed&gt;  $arguments
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="n">castUsing</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$arguments</span><span class="p">):</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">AsAddress</span><span class="o">::</span><span class="n">class</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Castable</code> 클래스를 사용할 때, 여전히 <code class="language-plaintext highlighter-rouge">casts</code> 메서드 정의에 인수를 제공할 수 있습니다. 인수는 <code class="language-plaintext highlighter-rouge">castUsing</code> 메서드로 전달됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\ValueObjects\Address</span><span class="p">;</span>
+
+<span class="k">protected</span> <span class="k">function</span> <span class="n">casts</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="nc">Address</span><span class="o">::</span><span class="n">class</span><span class="mf">.</span><span class="s1">':argument'</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="anonymous-cast-classes"></a></p>
+<h4 id="캐스터블-및-익명-캐스트-클래스">캐스터블 및 익명 캐스트 클래스</h4>
+
+<p>“캐스터블(castables)”을 PHP의 <a href="https://www.php.net/manual/en/language.oop5.anonymous.php">익명 클래스</a>와 결합하면, 하나의 캐스터블 객체로 값 객체와 그 캐스팅 로직을 정의할 수 있습니다. 이를 달성하려면, 값 객체의 <code class="language-plaintext highlighter-rouge">castUsing</code> 메서드에서 익명 클래스를 반환해야 합니다. 익명 클래스는 <code class="language-plaintext highlighter-rouge">CastsAttributes</code> 인터페이스를 구현해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\ValueObjects</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Database\Eloquent\Castable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Database\Eloquent\CastsAttributes</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Address</span> <span class="kd">implements</span> <span class="nc">Castable</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="cd">/**
+     * Get the caster class to use when casting from / to this cast target.
+     *
+     * @param  array&lt;string, mixed&gt;  $arguments
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="n">castUsing</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$arguments</span><span class="p">):</span> <span class="kt">CastsAttributes</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="kd">class</span> <span class="kd">implements</span> <span class="nc">CastsAttributes</span>
+        <span class="p">{</span>
+            <span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span>
+                <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+                <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+                <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+                <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+            <span class="p">):</span> <span class="kt">Address</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span>
+                    <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_one'</span><span class="p">],</span>
+                    <span class="nv">$attributes</span><span class="p">[</span><span class="s1">'address_line_two'</span><span class="p">]</span>
+                <span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">public</span> <span class="k">function</span> <span class="n">set</span><span class="p">(</span>
+                <span class="kt">Model</span> <span class="nv">$model</span><span class="p">,</span>
+                <span class="kt">string</span> <span class="nv">$key</span><span class="p">,</span>
+                <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">,</span>
+                <span class="kt">array</span> <span class="nv">$attributes</span><span class="p">,</span>
+            <span class="p">):</span> <span class="kt">array</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="p">[</span>
+                    <span class="s1">'address_line_one'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="n">lineOne</span><span class="p">,</span>
+                    <span class="s1">'address_line_two'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="n">lineTwo</span><span class="p">,</span>
+                <span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

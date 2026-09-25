@@ -1,0 +1,88 @@
+<h2 class="text-center fw-bold mb-3" style="color: #1e293b;">🗺️ 지니샵(JinyShop) 14주 핸드온 로드맵</h2>
+<p class="text-center text-secondary mb-5">고객용 스토어프론트와 운영자용 관리자 백오피스를 동시에 구축하는 4단계 듀얼 트랙(Dual-Track) 마스터 과정입니다.</p>
+
+<div class="row g-4">
+    <!-- Phase 1 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #dbeafe; color: #1e40af;">1단계 (01~04주차)</span>
+            </div>
+            <h4 class="fw-bold" style="color: #1e293b;">코어 기초 & 프로젝트 킥오프</h4>
+            <p class="text-secondary small flex-grow-1">
+                Laravel Sail / Herd 개발 환경 구축, Slim 디렉터리, 요청 생명주기, 라우팅, 블레이드 UI 컴포넌트, DB 마이그레이션과 1,000권 도서 대량 시딩을 완료합니다.
+            </p>
+            <a href="{{ '/week01/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">01주차 실습 시작 ➔</a>
+        </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #fef3c7; color: #92400e;">2단계 (05~08주차)</span>
+            </div>
+            <h4 class="fw-bold" style="color: #1e293b;">Eloquent ORM & 보안/인증</h4>
+            <p class="text-secondary small flex-grow-1">
+                도서 카탈로그 다조건 검색, 모델 관계(1:N, N:M, MorphMany)와 N+1 쿼리 최적화, 장바구니 세션 시스템, 고객 vs 관리자 멀티 가드 인증 및 Policy 인가를 구현합니다.
+            </p>
+            <a href="{{ '/week05/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">05주차 실습 시작 ➔</a>
+        </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #dcfce7; color: #166534;">3단계 (09~11주차)</span>
+            </div>
+            <h4 class="fw-bold" style="color: #1e293b;">아키텍처 & 비동기 결제</h4>
+            <p class="text-secondary small flex-grow-1">
+                도서 표지 WebP 파일 업로드, 관리자 전용 대시보드 CRUD, 서비스 컨테이너 & 커스텀 PG 결제 파사드, DB 트랜잭션, Redis 비동기 큐와 Horizon 모니터링을 완성합니다.
+            </p>
+            <a href="{{ '/week09/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">09주차 실습 시작 ➔</a>
+        </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #fce7f3; color: #9d174d;">4단계 (12~14주차)</span>
+            </div>
+            <h4 class="fw-bold" style="color: #1e293b;">실시간 웹, AI & 프로덕션 배포</h4>
+            <p class="text-secondary small flex-grow-1">
+                대화형 아티산 CLI 재고 입고 도구, 미결제 자동 취소 크론, Reverb 실시간 웹소켓 주문 토스트, Laravel AI SDK 도서 추천, Pest/Dusk 테스트 자동화 및 Envoy 배포를 완성합니다.
+            </p>
+            <a href="{{ '/week12/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">12주차 실습 시작 ➔</a>
+        </div>
+    </div>
+
+    <!-- Official Docs -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #ede9fe; color: #5b21b6;">Reference (106편)</span>
+            </div>
+            <h4 class="fw-bold" style="color: #1e293b;">라라벨 공식 문서 (docs)</h4>
+            <p class="text-secondary small flex-grow-1">
+                라라벨 13.x 최신 공식 영문 문서 전편에 대응하는 100% 한국어 번역본 아카이브입니다. 실습 도중 언제든 공식 레퍼런스를 깊이 있게 교차 검증할 수 있습니다.
+            </p>
+            <a href="{{ '/docs/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">공식 문서 열람 ➔</a>
+        </div>
+    </div>
+
+    <!-- Consolidated Hands-on Portal -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill px-3 py-2 fw-bold" style="background-color: #f1f5f9; color: #475569;">Hands-on (14주 56강)</span>
+            </div>
+            <h4 class="fw-bold" style="color: #1e293b;">통합 핸드온 실습 로드맵</h4>
+            <p class="text-secondary small flex-grow-1">
+                14주 56강 전 강좌에 대한 단계별 학습 목표, 듀얼 트랙 시나리오, 실습 코드 스펙 및 전체 목차를 한곳에서 편리하게 확인하고 시작하세요.
+            </p>
+            <a href="{{ '/handson/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">핸드온 실습 보기 ➔</a>
+        </div>
+    </div>
+</div>

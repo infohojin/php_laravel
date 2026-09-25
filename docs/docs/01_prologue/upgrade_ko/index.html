@@ -1,0 +1,2044 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>업그레이드 안내 | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="업그레이드 안내" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/01_prologue/upgrade_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/01_prologue/upgrade_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="업그레이드 안내" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"업그레이드 안내","url":"http://localhost:4000/docs/01_prologue/upgrade_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="true">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/01_prologue/">01 prologue</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">업그레이드 안내</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="업그레이드-안내">업그레이드 안내</h1>
+
+<ul>
+  <li><a href="#upgrade-13.0">12.x에서 13.0으로 업그레이드</a>
+    <ul>
+      <li><a href="#upgrading-using-ai">AI를 이용한 업그레이드</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="high-impact-changes"></a></p>
+<h2 id="큰-영향을-미치는-변경-사항">큰 영향을 미치는 변경 사항</h2>
+
+<div class="content-list">
+
+  <ul>
+    <li><a href="#updating-dependencies">종속성 업데이트</a></li>
+    <li><a href="#updating-the-laravel-installer">Laravel 설치 프로그램 업데이트</a></li>
+    <li><a href="#request-forgery-protection">위변조방지요청</a></li>
+  </ul>
+
+</div>
+
+<p><a name="medium-impact-changes"></a></p>
+<h2 id="중간-정도의-영향-변경">중간 정도의 영향 변경</h2>
+
+<div class="content-list">
+
+  <ul>
+    <li><a href="#cache-serializable_classes-configuration">캐시 <code class="language-plaintext highlighter-rouge">serializable_classes</code> 구성</a></li>
+    <li><a href="#database-upsert-mariadb-mysql">MySQL 또는 MariaDB를 사용하는 데이터베이스 <code class="language-plaintext highlighter-rouge">upsert</code></a></li>
+  </ul>
+
+</div>
+
+<p><a name="low-impact-changes"></a></p>
+<h2 id="영향이-적은-변경-사항">영향이 적은 변경 사항</h2>
+
+<div class="content-list">
+
+  <ul>
+    <li><a href="#cache-prefixes-and-session-cookie-names">캐시 접두사 및 세션 쿠키 이름</a></li>
+    <li><a href="#collection-model-serialization-restores-eager-loaded-relations">컬렉션 모델 직렬화로 Eager-Loaded 관계 복원</a></li>
+    <li><a href="#containercall-and-nullable-class-defaults"><code class="language-plaintext highlighter-rouge">Container::call</code> 및 Nullable 클래스 기본값</a></li>
+    <li><a href="#domain-route-registration-precedence">도메인 경로 등록 우선순위</a></li>
+    <li><a href="#jobattempted-event-exception-payload"><code class="language-plaintext highlighter-rouge">JobAttempted</code> 이벤트 예외 페이로드</a></li>
+    <li><a href="#manager-extend-callback-binding">관리자 <code class="language-plaintext highlighter-rouge">extend</code> 콜백 바인딩</a></li>
+    <li><a href="#mysql-delete-queries-with-join-order-by-and-limit"><code class="language-plaintext highlighter-rouge">JOIN</code>, <code class="language-plaintext highlighter-rouge">ORDER BY</code> 및 <code class="language-plaintext highlighter-rouge">LIMIT</code>를 사용한 MySQL <code class="language-plaintext highlighter-rouge">DELETE</code> 쿼리</a></li>
+    <li><a href="#pagination-bootstrap-view-names">페이지 매김 부트스트랩 뷰 이름</a></li>
+    <li><a href="#polymorphic-pivot-table-name-generation">다형성 피벗 테이블 이름 생성</a></li>
+    <li><a href="#queuebusy-event-property-rename"><code class="language-plaintext highlighter-rouge">QueueBusy</code> 이벤트 속성 이름 변경</a></li>
+    <li><a href="#session-serialization-configuration">세션 <code class="language-plaintext highlighter-rouge">serialization</code> 구성</a></li>
+    <li><a href="#str-factories-reset-between-tests">테스트 사이에 <code class="language-plaintext highlighter-rouge">Str</code> 공장 재설정</a></li>
+  </ul>
+
+</div>
+
+<p><a name="upgrade-13.0"></a></p>
+<h2 id="12x에서-130으로-업그레이드">12.x에서 13.0으로 업그레이드</h2>
+
+<h4 id="예상-업그레이드-시간-10분">예상 업그레이드 시간: 10분</h4>
+
+<blockquote>
+  <p>[!NOTE]
+우리는 가능한 모든 주요 변경 사항을 문서화하려고 시도합니다. 이러한 주요 변경 사항 중 일부는 프레임워크의 모호한 부분에 있으므로 이러한 변경 사항 중 일부만 실제로 애플리케이션에 영향을 미칠 수 있습니다. 시간을 절약하려면 <a href="https://laravelshift.com">Shift</a>를 사용할 수 있습니다. Shift는 Laravel 업그레이드를 자동화하는 커뮤니티 유지 서비스입니다.</p>
+</blockquote>
+
+<p><a name="upgrading-using-ai"></a></p>
+<h3 id="ai를-활용한-업그레이드">AI를 활용한 업그레이드</h3>
+
+<p><a href="https://github.com/laravel/boost">Laravel Boost</a>를 사용하여 업그레이드를 자동화할 수 있습니다. Boost는 AI 도우미에게 업그레이드 안내 메시지를 제공하는 자사 MCP 서버입니다. 일단 Laravel 12 애플리케이션에 설치하면 Claude Code, Cursor, OpenCode, Gemini 또는 VS Code에서 <code class="language-plaintext highlighter-rouge">/upgrade-laravel-v13</code> 슬래시 명령을 사용하여 Laravel 13으로 업그레이드를 시작합니다. 이 명령에는 Laravel Boost <code class="language-plaintext highlighter-rouge">^2.0</code>가 필요합니다.</p>
+
+<p><a name="updating-dependencies"></a></p>
+<h3 id="종속성-업데이트">종속성 업데이트</h3>
+
+<p><strong>영향 가능성: 높음</strong></p>
+
+<p>애플리케이션의 <code class="language-plaintext highlighter-rouge">composer.json</code> 파일에서 다음 종속성을 업데이트해야 합니다.</p>
+
+<div class="content-list">
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">laravel/framework</code> ~ <code class="language-plaintext highlighter-rouge">^13.0</code></li>
+    <li><code class="language-plaintext highlighter-rouge">laravel/boost</code>에서 <code class="language-plaintext highlighter-rouge">^2.0</code>로</li>
+    <li><code class="language-plaintext highlighter-rouge">laravel/tinker</code>에서 <code class="language-plaintext highlighter-rouge">^3.0</code>까지</li>
+    <li><code class="language-plaintext highlighter-rouge">phpunit/phpunit</code> ~ <code class="language-plaintext highlighter-rouge">^12.0</code></li>
+    <li><code class="language-plaintext highlighter-rouge">pestphp/pest</code> ~ <code class="language-plaintext highlighter-rouge">^4.0</code></li>
+  </ul>
+
+</div>
+
+<p><a name="updating-the-laravel-installer"></a></p>
+<h3 id="laravel-설치-프로그램-업데이트">Laravel 설치 프로그램 업데이트</h3>
+
+<p>Laravel 설치 프로그램 CLI 도구를 사용하여 새로운 Laravel 애플리케이션을 생성하는 경우 Laravel 13.x 호환성을 위해 설치 프로그램 설치를 업데이트해야 합니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">composer global require</code>를 통해 Laravel 설치 프로그램을 설치한 경우 <code class="language-plaintext highlighter-rouge">composer global update</code>를 사용하여 설치 프로그램을 업데이트할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer global update laravel/installer
+
+</code></pre></div></div>
+
+<p>또는 <a href="https://herd.laravel.com">Laravel Herd’s</a> 번들 설치 프로그램 Laravel 설치 프로그램을 사용하는 경우 Herd 설치를 최신 릴리스로 업데이트해야 합니다.</p>
+
+<p><a name="cache"></a></p>
+<h3 id="캐시">캐시</h3>
+
+<p><a name="cache-prefixes-and-session-cookie-names"></a></p>
+<h4 id="캐시-접두사-및-세션-쿠키-이름">캐시 접두사 및 세션 쿠키 이름</h4>
+
+<p><strong>영향 가능성: 낮음</strong></p>
+
+<p>Laravel의 기본 캐시와 Redis 키 접두사는 이제 하이픈으로 연결된 접미사를 사용합니다.</p>
+
+<p>대부분의 애플리케이션에서는 애플리케이션 수준 구성 파일이 이미 이러한 값을 정의하므로 이 변경 사항이 적용되지 않습니다. 이는 해당 애플리케이션 구성 값이 없을 때 프레임워크 수준 대체 구성에 의존하는 애플리케이션에 주로 영향을 미칩니다.</p>
+
+<p>애플리케이션이 생성된 기본값을 사용하는 경우 업그레이드 후 캐시 키와 세션 쿠키 이름이 변경될 수 있습니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Laravel &lt;= 12.x</span>
+<span class="nc">Str</span><span class="o">::</span><span class="nf">slug</span><span class="p">((</span><span class="n">string</span><span class="p">)</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'APP_NAME'</span><span class="p">,</span> <span class="s1">'laravel'</span><span class="p">),</span> <span class="s1">'_'</span><span class="p">)</span><span class="mf">.</span><span class="s1">'_cache_'</span><span class="p">;</span>
+<span class="nc">Str</span><span class="o">::</span><span class="nf">slug</span><span class="p">((</span><span class="n">string</span><span class="p">)</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'APP_NAME'</span><span class="p">,</span> <span class="s1">'laravel'</span><span class="p">),</span> <span class="s1">'_'</span><span class="p">)</span><span class="mf">.</span><span class="s1">'_database_'</span><span class="p">;</span>
+<span class="nc">Str</span><span class="o">::</span><span class="nf">slug</span><span class="p">((</span><span class="n">string</span><span class="p">)</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'APP_NAME'</span><span class="p">,</span> <span class="s1">'laravel'</span><span class="p">),</span> <span class="s1">'_'</span><span class="p">)</span><span class="mf">.</span><span class="s1">'_session'</span><span class="p">;</span>
+
+<span class="c1">// Laravel &gt;= 13.x</span>
+<span class="nc">Str</span><span class="o">::</span><span class="nf">slug</span><span class="p">((</span><span class="n">string</span><span class="p">)</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'APP_NAME'</span><span class="p">,</span> <span class="s1">'laravel'</span><span class="p">))</span><span class="mf">.</span><span class="s1">'-cache-'</span><span class="p">;</span>
+<span class="nc">Str</span><span class="o">::</span><span class="nf">slug</span><span class="p">((</span><span class="n">string</span><span class="p">)</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'APP_NAME'</span><span class="p">,</span> <span class="s1">'laravel'</span><span class="p">))</span><span class="mf">.</span><span class="s1">'-database-'</span><span class="p">;</span>
+<span class="nc">Str</span><span class="o">::</span><span class="nf">slug</span><span class="p">((</span><span class="n">string</span><span class="p">)</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'APP_NAME'</span><span class="p">,</span> <span class="s1">'laravel'</span><span class="p">))</span><span class="mf">.</span><span class="s1">'-session'</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<p>이전 동작을 유지하려면 환경에서 <code class="language-plaintext highlighter-rouge">CACHE_PREFIX</code>, <code class="language-plaintext highlighter-rouge">REDIS_PREFIX</code> 및 <code class="language-plaintext highlighter-rouge">SESSION_COOKIE</code>를 명시적으로 구성하십시오.</p>
+
+<p><a name="store-and-repository-contracts-touch"></a></p>
+<h4 id="store-및-repository-계약-touch"><code class="language-plaintext highlighter-rouge">Store</code> 및 <code class="language-plaintext highlighter-rouge">Repository</code> 계약: <code class="language-plaintext highlighter-rouge">touch</code></h4>
+
+<p><strong>영향 가능성: 매우 낮음</strong></p>
+
+<p>이제 캐시 계약에는 항목 TTL을 확장하기 위한 <code class="language-plaintext highlighter-rouge">touch</code> 방법이 포함됩니다. 사용자 정의 캐시 저장소 구현을 유지하는 경우 다음 메소드를 추가해야 합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Illuminate\Contracts\Cache\Store</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">touch</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$seconds</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p><a name="cache-serializable_classes-configuration"></a></p>
+<h4 id="캐시-serializable_classes-구성">캐시 <code class="language-plaintext highlighter-rouge">serializable_classes</code> 구성</h4>
+
+<p><strong>영향 가능성: 중간</strong></p>
+
+<p>기본 애플리케이션 <code class="language-plaintext highlighter-rouge">cache</code> 구성에는 이제 <code class="language-plaintext highlighter-rouge">false</code>로 설정된 <code class="language-plaintext highlighter-rouge">serializable_classes</code> 옵션이 포함됩니다. 이는 애플리케이션의 <code class="language-plaintext highlighter-rouge">APP_KEY</code>가 유출된 경우 PHP 역직렬화 가젯 체인 공격을 방지하는 데 도움이 되도록 캐시 역직렬화 동작을 강화합니다. 애플리케이션이 의도적으로 PHP 객체를 캐시에 저장하는 경우 직렬화 해제될 수 있는 클래스를 명시적으로 나열해야 합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'serializable_classes'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nc">App\Data\CachedDashboardStats</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="nc">App\Support\CachedPricingSnapshot</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+<span class="p">],</span>
+
+</code></pre></div></div>
+
+<p>이전에 애플리케이션이 임의의 캐시된 객체를 직렬화 해제하는 데 의존했다면 해당 사용법을 명시적 클래스 허용 목록 또는 비객체 캐시 페이로드(예: 배열)로 마이그레이션해야 합니다.</p>
+
+<p><a name="container"></a></p>
+<h3 id="컨테이너">컨테이너</h3>
+
+<p><a name="containercall-and-nullable-class-defaults"></a></p>
+<h4 id="containercall-및-nullable-클래스-기본값"><code class="language-plaintext highlighter-rouge">Container::call</code> 및 Nullable 클래스 기본값</h4>
+
+<p><strong>영향 가능성: 낮음</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">Container::call</code>는 이제 바인딩이 없을 때 nullable 클래스 매개변수 기본값을 존중하며 Laravel 12에 도입된 생성자 주입 동작과 일치합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$container</span><span class="o">-&gt;</span><span class="nf">call</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">?Carbon</span> <span class="nv">$date</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$date</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// Laravel &lt;= 12.x: Carbon instance</span>
+<span class="c1">// Laravel &gt;= 13.x: null</span>
+
+</code></pre></div></div>
+
+<p>메서드 호출 주입 논리가 이전 동작에 의존하는 경우 이를 업데이트해야 할 수도 있습니다.</p>
+
+<p><a name="contracts"></a></p>
+<h3 id="계약">계약</h3>
+
+<p><a name="dispatcher-contract-dispatchafterresponse"></a></p>
+<h4 id="dispatcher-계약-dispatchafterresponse"><code class="language-plaintext highlighter-rouge">Dispatcher</code> 계약: <code class="language-plaintext highlighter-rouge">dispatchAfterResponse</code></h4>
+
+<p><strong>영향 가능성: 매우 낮음</strong></p>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Bus\Dispatcher</code> 계약에는 <code class="language-plaintext highlighter-rouge">dispatchAfterResponse($command, $handler = null)</code> 방법이 포함됩니다.</p>
+
+<p>사용자 정의 디스패처 구현을 유지하는 경우 이 메서드를 클래스에 추가하세요.</p>
+
+<p><a name="responsefactory-contract-eventstream"></a></p>
+<h4 id="responsefactory-계약-eventstream"><code class="language-plaintext highlighter-rouge">ResponseFactory</code> 계약: <code class="language-plaintext highlighter-rouge">eventStream</code></h4>
+
+<p><strong>영향 가능성: 매우 낮음</strong></p>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Routing\ResponseFactory</code> 계약에는 <code class="language-plaintext highlighter-rouge">eventStream</code> 서명이 포함됩니다.</p>
+
+<p>이 계약의 사용자 정의 구현을 유지하는 경우 이 메서드를 추가해야 합니다.</p>
+
+<p><a name="mustverifyemail-contract-markemailasunverified"></a></p>
+<h4 id="mustverifyemail-계약-markemailasunverified"><code class="language-plaintext highlighter-rouge">MustVerifyEmail</code> 계약: <code class="language-plaintext highlighter-rouge">markEmailAsUnverified</code></h4>
+
+<p><strong>영향 가능성: 매우 낮음</strong></p>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\MustVerifyEmail</code> 계약에는 <code class="language-plaintext highlighter-rouge">markEmailAsUnverified()</code>가 포함됩니다.</p>
+
+<p>이 계약의 사용자 정의 구현을 제공하는 경우 호환성을 유지하려면 이 메서드를 추가하세요.</p>
+
+<p><a name="database"></a></p>
+<h3 id="데이터베이스">데이터베이스</h3>
+
+<p><a name="database-upsert-mariadb-mysql"></a></p>
+<h4 id="mysql-또는-mariadb를-사용하는-데이터베이스-upsert">MySQL 또는 MariaDB를 사용하는 데이터베이스 <code class="language-plaintext highlighter-rouge">upsert</code></h4>
+
+<p><strong>영향 가능성: 중간</strong></p>
+
+<p>이제 Laravel은 호출자가 <code class="language-plaintext highlighter-rouge">uniqueBy</code>에 대해 비어 있지 않은 값을 제공하는지 확인하고 잘못된 SQL을 생성하는 대신 <code class="language-plaintext highlighter-rouge">InvalidArgumentException</code>를 발생시킵니다.</p>
+
+<p>MariaDB 및 MySQL 데이터베이스 드라이버는 <code class="language-plaintext highlighter-rouge">uniqueBy</code> 값을 무시하고 항상 테이블의 기본 및 고유 인덱스를 사용하여 기존 레코드를 검색하지만 유효성 검사는 계속 적용됩니다. <code class="language-plaintext highlighter-rouge">uniqueBy</code>가 비어 있으면 <code class="language-plaintext highlighter-rouge">InvalidArgumentException</code>가 발생합니다.</p>
+
+<p><a name="mysql-delete-queries-with-join-order-by-and-limit"></a></p>
+<h4 id="join-order-by-및-limit를-사용한-mysql-delete-쿼리"><code class="language-plaintext highlighter-rouge">JOIN</code>, <code class="language-plaintext highlighter-rouge">ORDER BY</code> 및 <code class="language-plaintext highlighter-rouge">LIMIT</code>를 사용한 MySQL <code class="language-plaintext highlighter-rouge">DELETE</code> 쿼리</h4>
+
+<p><strong>영향 가능성: 낮음</strong></p>
+
+<p>Laravel은 이제 MySQL 문법용 <code class="language-plaintext highlighter-rouge">ORDER BY</code> 및 <code class="language-plaintext highlighter-rouge">LIMIT</code>를 포함한 전체 <code class="language-plaintext highlighter-rouge">DELETE ... JOIN</code> 쿼리를 컴파일합니다.</p>
+
+<p>이전 버전에서는 결합 삭제 시 <code class="language-plaintext highlighter-rouge">ORDER BY</code> / <code class="language-plaintext highlighter-rouge">LIMIT</code> 절이 자동으로 무시될 수 있었습니다. Laravel 13에서는 이러한 절이 생성된 SQL에 포함됩니다. 결과적으로 이 구문을 지원하지 않는 데이터베이스 엔진(예: 표준 MySQL/MariaDB 변형)은 이제 무제한 삭제를 실행하는 대신 <code class="language-plaintext highlighter-rouge">QueryException</code>를 발생시킬 수 있습니다.</p>
+
+<p><a name="eloquent"></a></p>
+<h3 id="eloquent">Eloquent</h3>
+
+<p><a name="model-booting-and-nested-instantiation"></a></p>
+<h4 id="model-booting-and-nested-instantiation">Model Booting and Nested Instantiation</h4>
+
+<p><strong>Likelihood Of Impact: Very Low</strong></p>
+
+<p>Creating a new model instance while that model is still booting is now disallowed and throws a <code class="language-plaintext highlighter-rouge">LogicException</code>.</p>
+
+<p>This affects code that instantiates models from inside model <code class="language-plaintext highlighter-rouge">boot</code> methods or trait <code class="language-plaintext highlighter-rouge">boot*</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">protected</span> <span class="k">static</span> <span class="k">function</span> <span class="n">boot</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">parent</span><span class="o">::</span><span class="nf">boot</span><span class="p">();</span>
+
+    <span class="c1">// No longer allowed during booting...</span>
+    <span class="p">(</span><span class="k">new</span> <span class="nc">static</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">getTable</span><span class="p">();</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>Move this logic outside the boot cycle to avoid nested booting.</p>
+
+<p><a name="polymorphic-pivot-table-name-generation"></a></p>
+<h4 id="polymorphic-pivot-table-name-generation">Polymorphic Pivot Table Name Generation</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>When table names are inferred for polymorphic pivot models using custom pivot model classes, Laravel now generates pluralized names.</p>
+
+<p>If your application depended on the previous singular inferred names for morph pivot tables and used custom pivot classes, you should explicitly define the table name on your pivot model.</p>
+
+<p><a name="collection-model-serialization-restores-eager-loaded-relations"></a></p>
+<h4 id="collection-model-serialization-restores-eager-loaded-relations">Collection Model Serialization Restores Eager-Loaded Relations</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>When Eloquent model collections are serialized and restored (such as in queued jobs), eager-loaded relations are now restored for the collection’s models.</p>
+
+<p>If your code depended on relations not being present after deserialization, you may need to adjust that logic.</p>
+
+<p><a name="http-client"></a></p>
+<h3 id="http-client">HTTP Client</h3>
+
+<p><a name="http-client-response-throw-and-throwif-signatures"></a></p>
+<h4 id="http-client-responsethrow-and-throwif-signatures">HTTP Client <code class="language-plaintext highlighter-rouge">Response::throw</code> and <code class="language-plaintext highlighter-rouge">throwIf</code> Signatures</h4>
+
+<p><strong>Likelihood Of Impact: Very Low</strong></p>
+
+<p>The HTTP client response methods now declare their callback parameters in the method signatures:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">function</span> <span class="n">throw</span><span class="p">(</span><span class="nv">$callback</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">throwIf</span><span class="p">(</span><span class="nv">$condition</span><span class="p">,</span> <span class="nv">$callback</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+
+</code></pre></div></div>
+
+<p>If you override these methods in custom response classes, ensure your method signatures are compatible.</p>
+
+<p><a name="notifications"></a></p>
+<h3 id="notifications">Notifications</h3>
+
+<p><a name="default-password-reset-subject"></a></p>
+<h4 id="default-password-reset-subject">Default Password Reset Subject</h4>
+
+<p><strong>Likelihood Of Impact: Very Low</strong></p>
+
+<p>Laravel’s default password reset mail subject has changed:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Laravel &lt;= 12.x
+Reset Password Notification
+
+// Laravel &gt;= 13.x
+Reset your password
+
+</code></pre></div></div>
+
+<p>If your tests, assertions, or translation overrides depend on the previous default string, update them accordingly.</p>
+
+<p><a name="queued-notifications-and-missing-models"></a></p>
+<h4 id="queued-notifications-and-missing-models">Queued Notifications and Missing Models</h4>
+
+<p><strong>Likelihood Of Impact: Very Low</strong></p>
+
+<p>Queued notifications now respect the <code class="language-plaintext highlighter-rouge">#[DeleteWhenMissingModels]</code> attribute and <code class="language-plaintext highlighter-rouge">$deleteWhenMissingModels</code> property defined on the notification class.</p>
+
+<p>In previous versions, missing models could still cause queued notification jobs to fail in cases where you expected them to be deleted.</p>
+
+<p><a name="queue"></a></p>
+<h3 id="queue">Queue</h3>
+
+<p><a name="jobattempted-event-exception-payload"></a></p>
+<h4 id="jobattempted-event-exception-payload"><code class="language-plaintext highlighter-rouge">JobAttempted</code> Event Exception Payload</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Illuminate\Queue\Events\JobAttempted</code> event now exposes the exception object (or <code class="language-plaintext highlighter-rouge">null</code>) via <code class="language-plaintext highlighter-rouge">$exception</code>, replacing the previous boolean <code class="language-plaintext highlighter-rouge">$exceptionOccurred</code> property:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Laravel &lt;= 12.x</span>
+<span class="nv">$event</span><span class="o">-&gt;</span><span class="n">exceptionOccurred</span><span class="p">;</span>
+
+<span class="c1">// Laravel &gt;= 13.x</span>
+<span class="nv">$event</span><span class="o">-&gt;</span><span class="n">exception</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<p>If you listen for this event, update your listener code accordingly.</p>
+
+<p><a name="queuebusy-event-property-rename"></a></p>
+<h4 id="queuebusy-event-property-rename"><code class="language-plaintext highlighter-rouge">QueueBusy</code> Event Property Rename</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Illuminate\Queue\Events\QueueBusy</code> event property <code class="language-plaintext highlighter-rouge">$connection</code> has been renamed to <code class="language-plaintext highlighter-rouge">$connectionName</code> for consistency with other queue events.</p>
+
+<p>If your listeners reference <code class="language-plaintext highlighter-rouge">$connection</code>, update them to <code class="language-plaintext highlighter-rouge">$connectionName</code>.</p>
+
+<p><a name="queue-contract-method-additions"></a></p>
+<h4 id="queue-contract-method-additions"><code class="language-plaintext highlighter-rouge">Queue</code> Contract Method Additions</h4>
+
+<p><strong>Likelihood Of Impact: Very Low</strong></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Queue\Queue</code> contract now includes queue size inspection methods that were previously only declared in docblocks.</p>
+
+<p>If you maintain custom queue driver implementations of this contract, add implementations for:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">pendingSize</code></li>
+    <li><code class="language-plaintext highlighter-rouge">delayedSize</code></li>
+    <li><code class="language-plaintext highlighter-rouge">reservedSize</code></li>
+    <li><code class="language-plaintext highlighter-rouge">creationTimeOfOldestPendingJob</code></li>
+  </ul>
+
+</div>
+
+<p><a name="routing"></a></p>
+<h3 id="routing">Routing</h3>
+
+<p><a name="domain-route-registration-precedence"></a></p>
+<h4 id="domain-route-registration-precedence">Domain Route Registration Precedence</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>Routes with an explicit domain are now prioritized before non-domain routes in route matching.</p>
+
+<p>This allows catch-all subdomain routes to behave consistently even when non-domain routes are registered earlier. If your application relied on previous registration precedence between domain and non-domain routes, review route matching behavior.</p>
+
+<p><a name="session"></a></p>
+<h3 id="session">Session</h3>
+
+<p><a name="session-serialization-configuration"></a></p>
+<h4 id="session-serialization-configuration">Session <code class="language-plaintext highlighter-rouge">serialization</code> Configuration</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>To help prevent PHP deserialization gadget chain attacks, the default application skeleton now sets the session <code class="language-plaintext highlighter-rouge">serialization</code> option to <code class="language-plaintext highlighter-rouge">json</code> in the <code class="language-plaintext highlighter-rouge">config/session.php</code> file.</p>
+
+<p>If you are upgrading an existing application and syncing your configuration files with the Laravel 13 skeleton, updating this value from <code class="language-plaintext highlighter-rouge">php</code> to <code class="language-plaintext highlighter-rouge">json</code> will invalidate all active user sessions.</p>
+
+<p>If you wish to seamlessly maintain active sessions during your upgrade, you should ensure this value remains set to <code class="language-plaintext highlighter-rouge">php</code>. However, if your application does not store PHP objects in the session and you are comfortable requiring your users to re-authenticate, we recommend updating this value to <code class="language-plaintext highlighter-rouge">json</code> for improved security.</p>
+
+<p><a name="scheduling"></a></p>
+<h3 id="scheduling">Scheduling</h3>
+
+<p><a name="withscheduling-registration-timing"></a></p>
+<h4 id="withscheduling-registration-timing"><code class="language-plaintext highlighter-rouge">withScheduling</code> Registration Timing</h4>
+
+<p><strong>Likelihood Of Impact: Very Low</strong></p>
+
+<p>Schedules registered via <code class="language-plaintext highlighter-rouge">ApplicationBuilder::withScheduling()</code> are now deferred until <code class="language-plaintext highlighter-rouge">Schedule</code> is resolved.</p>
+
+<p>If your application relied on immediate schedule registration timing during bootstrap, you may need to adjust that logic.</p>
+
+<p><a name="security"></a></p>
+<h3 id="security">Security</h3>
+
+<p><a name="request-forgery-protection"></a></p>
+<h4 id="request-forgery-protection">Request Forgery Protection</h4>
+
+<p><strong>Likelihood Of Impact: High</strong></p>
+
+<p>Laravel’s CSRF middleware has been renamed from <code class="language-plaintext highlighter-rouge">VerifyCsrfToken</code> to <code class="language-plaintext highlighter-rouge">PreventRequestForgery</code>, and now includes request-origin verification using the <code class="language-plaintext highlighter-rouge">Sec-Fetch-Site</code> header.</p>
+
+<p><code class="language-plaintext highlighter-rouge">VerifyCsrfToken</code> and <code class="language-plaintext highlighter-rouge">ValidateCsrfToken</code> remain as deprecated aliases, but direct references should be updated to <code class="language-plaintext highlighter-rouge">PreventRequestForgery</code>, especially when excluding middleware in tests or route definitions:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Foundation\Http\Middleware\PreventRequestForgery</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Http\Middleware\VerifyCsrfToken</span><span class="p">;</span>
+
+<span class="c1">// Laravel &lt;= 12.x</span>
+<span class="o">-&gt;</span><span class="nf">withoutMiddleware</span><span class="p">([</span><span class="nc">VerifyCsrfToken</span><span class="o">::</span><span class="n">class</span><span class="p">]);</span>
+
+<span class="c1">// Laravel &gt;= 13.x</span>
+<span class="o">-&gt;</span><span class="nf">withoutMiddleware</span><span class="p">([</span><span class="nc">PreventRequestForgery</span><span class="o">::</span><span class="n">class</span><span class="p">]);</span>
+
+</code></pre></div></div>
+
+<p>The middleware configuration API now also provides <code class="language-plaintext highlighter-rouge">preventRequestForgery(...)</code>.</p>
+
+<p><a name="support"></a></p>
+<h3 id="support">Support</h3>
+
+<p><a name="manager-extend-callback-binding"></a></p>
+<h4 id="manager-extend-callback-binding">Manager <code class="language-plaintext highlighter-rouge">extend</code> Callback Binding</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>Custom driver closures registered via manager <code class="language-plaintext highlighter-rouge">extend</code> methods are now bound to the manager instance.</p>
+
+<p>If you previously relied on another bound object (such as a service provider instance) as <code class="language-plaintext highlighter-rouge">$this</code> inside these callbacks, you should move those values into closure captures using <code class="language-plaintext highlighter-rouge">use (...)</code>.</p>
+
+<p><a name="str-factories-reset-between-tests"></a></p>
+<h4 id="str-factories-reset-between-tests"><code class="language-plaintext highlighter-rouge">Str</code> Factories Reset Between Tests</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>Laravel now resets custom <code class="language-plaintext highlighter-rouge">Str</code> factories during test teardown.</p>
+
+<p>If your tests depended on custom UUID / ULID / random string factories persisting between test methods, you should set them in each relevant test or setup hook.</p>
+
+<p><a name="jsfrom-uses-unescaped-unicode-by-default"></a></p>
+<h4 id="jsfrom-uses-unescaped-unicode-by-default"><code class="language-plaintext highlighter-rouge">Js::from</code> Uses Unescaped Unicode By Default</h4>
+
+<p><strong>Likelihood Of Impact: Very Low</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Support\Js::from</code> now uses <code class="language-plaintext highlighter-rouge">JSON_UNESCAPED_UNICODE</code> by default.</p>
+
+<p>If your tests or frontend output comparisons depended on escaped Unicode sequences (for example <code class="language-plaintext highlighter-rouge">\u00e8</code>), update your expectations.</p>
+
+<p><a name="utilities"></a></p>
+<h3 id="utilities">Utilities</h3>
+
+<p><a name="symfony-polyfill"></a></p>
+<h4 id="symfony-php-85-polyfill-and-global-function-conflicts">Symfony PHP 8.5 Polyfill and Global Function Conflicts</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>Laravel 13 introduces a dependency on <code class="language-plaintext highlighter-rouge">symfony/polyfill-php85</code>. On PHP versions below 8.5, this polyfill defines global functions such as <code class="language-plaintext highlighter-rouge">array_first()</code> and <code class="language-plaintext highlighter-rouge">array_last()</code> unless they have already been defined earlier during bootstrap.</p>
+
+<p>These functions may conflict with legacy helper packages like <code class="language-plaintext highlighter-rouge">laravel/helpers</code> or custom global helpers using the same names. For example, the historical <code class="language-plaintext highlighter-rouge">array_first()</code> helper accepted a callback to return the first matching element, while the polyfilled version only returns the first element of the array.</p>
+
+<p>To avoid conflicts and ensure consistent behavior across PHP versions, you should prefer the <code class="language-plaintext highlighter-rouge">Illuminate\Support\Arr</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Arr</span><span class="p">;</span>
+
+<span class="nc">Arr</span><span class="o">::</span><span class="nf">first</span><span class="p">(</span><span class="nv">$array</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="cm">/* condition */</span><span class="p">;</span>
+<span class="p">});</span>
+
+</code></pre></div></div>
+
+<p><a name="views"></a></p>
+<h3 id="views">Views</h3>
+
+<p><a name="pagination-bootstrap-view-names"></a></p>
+<h4 id="pagination-bootstrap-view-names">Pagination Bootstrap View Names</h4>
+
+<p><strong>Likelihood Of Impact: Low</strong></p>
+
+<p>The internal pagination view names for Bootstrap 3 defaults are now explicit:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Laravel &lt;= 12.x
+pagination::default
+pagination::simple-default
+
+// Laravel &gt;= 13.x
+pagination::bootstrap-3
+pagination::simple-bootstrap-3
+
+</code></pre></div></div>
+
+<p>If your application references the old pagination view names directly, update those references.</p>
+
+<p><a name="miscellaneous"></a></p>
+<h3 id="miscellaneous">Miscellaneous</h3>
+
+<p>We also encourage you to view the changes in the <code class="language-plaintext highlighter-rouge">laravel/laravel</code> <a href="https://github.com/laravel/laravel">GitHub repository</a>. While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the <a href="https://github.com/laravel/laravel/compare/12.x...13.x">GitHub comparison tool</a> and choose which updates are important to you.</p>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

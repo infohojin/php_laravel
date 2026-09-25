@@ -1,0 +1,2472 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>HTTP Client | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="HTTP Client" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/05_digging_deeper/http-client_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/05_digging_deeper/http-client_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="HTTP Client" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"HTTP Client","url":"http://localhost:4000/docs/05_digging_deeper/http-client_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="true">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/05_digging_deeper/">05 digging deeper</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">HTTP Client</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<hr />
+<p>layout: docs
+title: “HTTP Client”
+—</p>
+
+<h1 id="http-client">HTTP Client</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#making-requests">Making Requests</a>
+    <ul>
+      <li><a href="#request-data">Request Data</a></li>
+      <li><a href="#headers">Headers</a></li>
+      <li><a href="#authentication">Authentication</a></li>
+      <li><a href="#timeout">Timeout</a></li>
+      <li><a href="#retries">Retries</a></li>
+      <li><a href="#error-handling">Error Handling</a></li>
+      <li><a href="#guzzle-middleware">Guzzle Middleware</a></li>
+      <li><a href="#guzzle-options">Guzzle Options</a></li>
+    </ul>
+  </li>
+  <li><a href="#concurrent-requests">Concurrent Requests</a>
+    <ul>
+      <li><a href="#request-pooling">Request Pooling</a></li>
+      <li><a href="#request-batching">Request Batching</a></li>
+    </ul>
+  </li>
+  <li><a href="#macros">Macros</a></li>
+  <li><a href="#testing">Testing</a>
+    <ul>
+      <li><a href="#faking-responses">Faking Responses</a></li>
+      <li><a href="#inspecting-requests">Inspecting Requests</a></li>
+      <li><a href="#preventing-stray-requests">Preventing Stray Requests</a></li>
+    </ul>
+  </li>
+  <li><a href="#events">Events</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Laravel provides an expressive, minimal API around the <a href="http://docs.guzzlephp.org/en/stable/">Guzzle HTTP client</a>, allowing you to quickly make outgoing HTTP requests to communicate with other web applications. Laravel’s wrapper around Guzzle is focused on its most common use cases and a wonderful developer experience.</p>
+
+<p><a name="making-requests"></a></p>
+<h2 id="making-requests">Making Requests</h2>
+
+<p>To make requests, you may use the <code class="language-plaintext highlighter-rouge">head</code>, <code class="language-plaintext highlighter-rouge">get</code>, <code class="language-plaintext highlighter-rouge">post</code>, <code class="language-plaintext highlighter-rouge">put</code>, <code class="language-plaintext highlighter-rouge">patch</code>, and <code class="language-plaintext highlighter-rouge">delete</code> methods provided by the <code class="language-plaintext highlighter-rouge">Http</code> facade. First, let’s examine how to make a basic <code class="language-plaintext highlighter-rouge">GET</code> request to another URL:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">get</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Response</code>의 인스턴스를 반환하며, 이 인스턴스는 응답을 검사하는 데 사용할 수 있는 다양한 메서드를 제공합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">body</span><span class="p">()</span> <span class="o">:</span> <span class="n">string</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">json</span><span class="p">(</span><span class="nv">$key</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$default</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$flags</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="o">:</span> <span class="n">mixed</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">object</span><span class="p">()</span> <span class="o">:</span> <span class="n">object</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">collect</span><span class="p">(</span><span class="nv">$key</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="o">:</span> <span class="nc">Illuminate\Support\Collection</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">resource</span><span class="p">()</span> <span class="o">:</span> <span class="n">resource</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">status</span><span class="p">()</span> <span class="o">:</span> <span class="n">int</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">successful</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">redirect</span><span class="p">()</span><span class="o">:</span> <span class="n">bool</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">failed</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">clientError</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="nv">$header</span><span class="p">)</span> <span class="o">:</span> <span class="n">string</span><span class="p">;</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">headers</span><span class="p">()</span> <span class="o">:</span> <span class="k">array</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Response</code> 객체는 또한 PHP <code class="language-plaintext highlighter-rouge">ArrayAccess</code> 인터페이스를 구현하여 응답에서 JSON 응답 데이터를 직접 액세스할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com/users/1'</span><span class="p">)[</span><span class="s1">'name'</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>위에 나열된 응답 방법 외에도, 응답이 특정 상태 코드를 갖는지 확인하기 위해 다음과 같은 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">ok</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>                  <span class="c1">// 200 OK</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">created</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>             <span class="c1">// 201 Created</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">accepted</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>            <span class="c1">// 202 Accepted</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">noContent</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>           <span class="c1">// 204 No Content</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">movedPermanently</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>    <span class="c1">// 301 Moved Permanently</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">found</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>               <span class="c1">// 302 Found</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">badRequest</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>          <span class="c1">// 400 Bad Request</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">unauthorized</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>        <span class="c1">// 401 Unauthorized</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">paymentRequired</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>     <span class="c1">// 402 Payment Required</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">forbidden</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>           <span class="c1">// 403 Forbidden</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">notFound</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>            <span class="c1">// 404 Not Found</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">requestTimeout</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>      <span class="c1">// 408 Request Timeout</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">conflict</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>            <span class="c1">// 409 Conflict</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">unprocessableEntity</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span> <span class="c1">// 422 Unprocessable Entity</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">tooManyRequests</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>     <span class="c1">// 429 Too Many Requests</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">serverError</span><span class="p">()</span> <span class="o">:</span> <span class="n">bool</span><span class="p">;</span>         <span class="c1">// 500 Internal Server Error</span>
+</code></pre></div></div>
+
+<p><a name="uri-templates"></a></p>
+<h4 id="uri-템플릿">URI 템플릿</h4>
+
+<p>HTTP 클라이언트는 <a href="https://www.rfc-editor.org/rfc/rfc6570">URI 템플릿 명세</a>를 사용하여 요청 URL을 구성할 수도 있습니다. URI 템플릿으로 확장할 수 있는 URL 매개변수를 정의하려면 <code class="language-plaintext highlighter-rouge">withUrlParameters</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">withUrlParameters</span><span class="p">([</span>
+    <span class="s1">'endpoint'</span> <span class="o">=&gt;</span> <span class="s1">'https://laravel.com'</span><span class="p">,</span>
+    <span class="s1">'page'</span> <span class="o">=&gt;</span> <span class="s1">'docs'</span><span class="p">,</span>
+    <span class="s1">'version'</span> <span class="o">=&gt;</span> <span class="s1">'13.x'</span><span class="p">,</span>
+    <span class="s1">'topic'</span> <span class="o">=&gt;</span> <span class="s1">'validation'</span><span class="p">,</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'{+endpoint}/{page}/{version}/{topic}'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="dumping-requests"></a></p>
+<h4 id="요청-덤프">요청 덤프</h4>
+
+<p>보내기 전에 나가는 요청 인스턴스를 덤프하고 스크립트 실행을 종료하고 싶다면, 요청 정의의 시작 부분에 <code class="language-plaintext highlighter-rouge">dd</code> 메서드를 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">dd</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="request-data"></a></p>
+<h3 id="요청-데이터">요청 데이터</h3>
+
+<p>물론, <code class="language-plaintext highlighter-rouge">POST</code>, <code class="language-plaintext highlighter-rouge">PUT</code> 및 <code class="language-plaintext highlighter-rouge">PATCH</code> 요청을 할 때 추가 데이터를 함께 보내는 것이 일반적이므로, 이러한 메서드는 두 번째 인수로 데이터 배열을 받습니다. 기본적으로 데이터는 <code class="language-plaintext highlighter-rouge">application/json</code> 콘텐츠 유형을 사용하여 전송됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Steve'</span><span class="p">,</span>
+    <span class="s1">'role'</span> <span class="o">=&gt;</span> <span class="s1">'Network Administrator'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="get-request-query-parameters"></a></p>
+<h4 id="get-요청-쿼리-매개변수">GET 요청 쿼리 매개변수</h4>
+
+<p><code class="language-plaintext highlighter-rouge">GET</code> 요청을 할 때, 쿼리 문자열을 URL에 직접 추가하거나 <code class="language-plaintext highlighter-rouge">get</code> 메서드의 두 번째 인수로 키/값 쌍의 배열을 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">,</span>
+    <span class="s1">'page'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>또는 <code class="language-plaintext highlighter-rouge">withQueryParameters</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">retry</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withQueryParameters</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">,</span>
+    <span class="s1">'page'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="sending-form-url-encoded-requests"></a></p>
+<h4 id="폼-url-인코딩-요청-보내기">폼 URL 인코딩 요청 보내기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">application/x-www-form-urlencoded</code> 콘텐츠 유형을 사용하여 데이터를 보내고 싶다면, 요청을 하기 전에 <code class="language-plaintext highlighter-rouge">asForm</code> 메서드를 호출해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">asForm</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Sara'</span><span class="p">,</span>
+    <span class="s1">'role'</span> <span class="o">=&gt;</span> <span class="s1">'Privacy Consultant'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="sending-a-raw-request-body"></a></p>
+<h4 id="원시-요청-본문-보내기">원시 요청 본문 보내기</h4>
+
+<p>요청을 할 때 원시 요청 본문을 제공하고 싶다면 <code class="language-plaintext highlighter-rouge">withBody</code> 메서드를 사용할 수 있습니다. 콘텐츠 유형은 메서드의 두 번째 인수를 통해 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withBody</span><span class="p">(</span>
+    <span class="nb">base64_encode</span><span class="p">(</span><span class="nv">$photo</span><span class="p">),</span> <span class="s1">'image/jpeg'</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/photo'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="multi-part-requests"></a></p>
+<h4 id="다중-파트-요청">다중 파트 요청</h4>
+
+<p>파일을 다중 파트 요청으로 보내고 싶다면, 요청을 만들기 전에 <code class="language-plaintext highlighter-rouge">attach</code> 메서드를 호출해야 합니다. 이 메서드는 파일의 이름과 내용을 받습니다. 필요하다면 세 번째 인자를 제공할 수 있으며, 이는 파일의 파일명으로 간주되며, 네 번째 인자는 파일과 관련된 헤더를 제공하는 데 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">attach</span><span class="p">(</span>
+    <span class="s1">'attachment'</span><span class="p">,</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">'photo.jpg'</span><span class="p">),</span> <span class="s1">'photo.jpg'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Content-Type'</span> <span class="o">=&gt;</span> <span class="s1">'image/jpeg'</span><span class="p">]</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/attachments'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>파일의 원시 내용을 전달하는 대신, 스트림 리소스를 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$photo</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'photo.jpg'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">);</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">attach</span><span class="p">(</span>
+    <span class="s1">'attachment'</span><span class="p">,</span> <span class="nv">$photo</span><span class="p">,</span> <span class="s1">'photo.jpg'</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/attachments'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="headers"></a></p>
+<h3 id="헤더">헤더</h3>
+
+<p>요청에 헤더는 <code class="language-plaintext highlighter-rouge">withHeaders</code> 메서드를 사용하여 추가할 수 있습니다. 이 <code class="language-plaintext highlighter-rouge">withHeaders</code> 메서드는 키 / 값 쌍의 배열을 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withHeaders</span><span class="p">([</span>
+    <span class="s1">'X-First'</span> <span class="o">=&gt;</span> <span class="s1">'foo'</span><span class="p">,</span>
+    <span class="s1">'X-Second'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>요청에 대한 응답으로 애플리케이션이 예상하는 콘텐츠 유형을 지정하기 위해 <code class="language-plaintext highlighter-rouge">accept</code> 방식을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">accept</span><span class="p">(</span><span class="s1">'application/json'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>편의를 위해, 요청에 대한 응답에서 애플리케이션이 <code class="language-plaintext highlighter-rouge">application/json</code> 콘텐츠 유형을 예상함을 빠르게 지정하기 위해 <code class="language-plaintext highlighter-rouge">acceptJson</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">acceptJson</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">withHeaders</code> 방식은 새 헤더를 요청의 기존 헤더에 병합합니다. 필요하다면 <code class="language-plaintext highlighter-rouge">replaceHeaders</code> 방식을 사용하여 모든 헤더를 완전히 교체할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withHeaders</span><span class="p">([</span>
+    <span class="s1">'X-Original'</span> <span class="o">=&gt;</span> <span class="s1">'foo'</span><span class="p">,</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">replaceHeaders</span><span class="p">([</span>
+    <span class="s1">'X-Replacement'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">,</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="authentication"></a></p>
+<h3 id="인증">인증</h3>
+
+<p><code class="language-plaintext highlighter-rouge">withBasicAuth</code> 및 <code class="language-plaintext highlighter-rouge">withDigestAuth</code> 메서드를 사용하여 각각 기본 인증 및 다이제스트 인증 자격 증명을 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Basic authentication...</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withBasicAuth</span><span class="p">(</span><span class="s1">'taylor@laravel.com'</span><span class="p">,</span> <span class="s1">'secret'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+
+<span class="c1">// Digest authentication...</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withDigestAuth</span><span class="p">(</span><span class="s1">'taylor@laravel.com'</span><span class="p">,</span> <span class="s1">'secret'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="bearer-tokens"></a></p>
+<h4 id="베어러-토큰">베어러 토큰</h4>
+
+<p>요청의 <code class="language-plaintext highlighter-rouge">Authorization</code> 헤더에 베어러 토큰을 빠르게 추가하려면, <code class="language-plaintext highlighter-rouge">withToken</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withToken</span><span class="p">(</span><span class="s1">'token'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="timeout"></a></p>
+<h3 id="타임아웃">타임아웃</h3>
+
+<p><code class="language-plaintext highlighter-rouge">timeout</code> 메서드는 응답을 기다릴 최대 시간을 초 단위로 지정하는 데 사용될 수 있습니다. 기본적으로 HTTP 클라이언트는 30초 후에 타임아웃됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">timeout</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>주어진 타임아웃을 초과하면 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\ConnectionException</code>의 인스턴스가 던져집니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">connectTimeout</code> 메서드를 사용하여 서버에 연결을 시도하는 동안 기다릴 최대 시간을 초 단위로 지정할 수 있습니다. 기본값은 10초입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">connectTimeout</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retries"></a></p>
+<h3 id="재시도">재시도</h3>
+
+<p>클라이언트 또는 서버 오류가 발생할 경우 HTTP 클라이언트가 요청을 자동으로 재시도하도록 하려면 <code class="language-plaintext highlighter-rouge">retry</code> 메서드를 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">retry</code> 메서드는 요청을 시도해야 하는 최대 횟수와 Laravel이 시도 사이에 기다려야 하는 밀리초 수를 허용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">retry</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>시도 간에 대기할 밀리초 수를 수동으로 계산하고 싶다면 <code class="language-plaintext highlighter-rouge">retry</code> 메서드의 두 번째 인수로 클로저를 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Exception</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">retry</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">int</span> <span class="nv">$attempt</span><span class="p">,</span> <span class="kt">Exception</span> <span class="nv">$exception</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$attempt</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>편의를 위해, <code class="language-plaintext highlighter-rouge">retry</code> 메서드의 첫 번째 인수로 배열을 제공할 수도 있습니다. 이 배열은 이후 시도 사이에 얼마나 많은 밀리초 동안 대기할지 결정하는 데 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">retry</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">])</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>필요한 경우, <code class="language-plaintext highlighter-rouge">retry</code> 메서드에 세 번째 인수를 전달할 수 있습니다. 세 번째 인수는 재시도를 실제로 시도할지 결정하는 호출 가능한 객체여야 합니다. 예를 들어, 초기 요청이 <code class="language-plaintext highlighter-rouge">ConnectionException</code>를 만났을 경우에만 요청을 재시도하도록 하고 싶을 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\PendingRequest</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Throwable</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">retry</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Throwable</span> <span class="nv">$exception</span><span class="p">,</span> <span class="kt">PendingRequest</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$exception</span> <span class="k">instanceof</span> <span class="nc">ConnectionException</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>요청 시도가 실패하면, 새로운 시도가 이루어지기 전에 요청을 변경하고 싶을 수 있습니다. 이는 <code class="language-plaintext highlighter-rouge">retry</code> 메서드에 제공한 호출 가능 객체에 제공된 request 인수를 수정함으로써 달성할 수 있습니다. 예를 들어, 첫 번째 시도가 인증 오류를 반환한 경우 새로운 인증 토큰으로 요청을 재시도하고 싶을 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\PendingRequest</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Client\RequestException</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Throwable</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withToken</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">getToken</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">retry</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Throwable</span> <span class="nv">$exception</span><span class="p">,</span> <span class="kt">PendingRequest</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nv">$exception</span> <span class="k">instanceof</span> <span class="nc">RequestException</span> <span class="o">||</span> <span class="nv">$exception</span><span class="o">-&gt;</span><span class="n">response</span><span class="o">-&gt;</span><span class="nf">status</span><span class="p">()</span> <span class="o">!==</span> <span class="mi">401</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">withToken</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">getNewToken</span><span class="p">());</span>
+
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>모든 요청이 실패하면 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\RequestException</code>의 인스턴스가 발생합니다. 이 동작을 비활성화하려면 <code class="language-plaintext highlighter-rouge">throw</code> 인수를 <code class="language-plaintext highlighter-rouge">false</code> 값과 함께 제공할 수 있습니다. 비활성화하면 모든 재시도가 시도된 후 클라이언트가 받은 마지막 응답이 반환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">retry</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="k">throw</span><span class="o">:</span> <span class="kc">false</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+모든 요청이 연결 문제로 실패하는 경우, <code class="language-plaintext highlighter-rouge">throw</code> 인수가 <code class="language-plaintext highlighter-rouge">false</code>로 설정되어 있어도 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\ConnectionException</code>가 여전히 발생합니다.</p>
+</blockquote>
+
+<p><a name="error-handling"></a></p>
+<h3 id="오류-처리">오류 처리</h3>
+
+<p>Guzzle의 기본 동작과 달리, Laravel의 HTTP 클라이언트 래퍼는 클라이언트 또는 서버 오류(<code class="language-plaintext highlighter-rouge">400</code> 및 <code class="language-plaintext highlighter-rouge">500</code> 수준 서버 응답) 발생 시 예외를 던지지 않습니다. 이러한 오류 중 하나가 반환되었는지 여부는 <code class="language-plaintext highlighter-rouge">successful</code>, <code class="language-plaintext highlighter-rouge">clientError</code> 또는 <code class="language-plaintext highlighter-rouge">serverError</code> 메서드를 사용하여 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Determine if the status code is &gt;= 200 and &lt; 300...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">successful</span><span class="p">();</span>
+
+<span class="c1">// Determine if the status code is &gt;= 400...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">failed</span><span class="p">();</span>
+
+<span class="c1">// Determine if the response has a 400 level status code...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">clientError</span><span class="p">();</span>
+
+<span class="c1">// Determine if the response has a 500 level status code...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">serverError</span><span class="p">();</span>
+
+<span class="c1">// Immediately execute the given callback if there was a client or server error...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">onError</span><span class="p">(</span><span class="n">callable</span> <span class="nv">$callback</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="throwing-exceptions"></a></p>
+<h4 id="예외-던지기">예외 던지기</h4>
+
+<p>응답 인스턴스가 있고 응답 상태 코드가 클라이언트 또는 서버 오류를 나타내는 경우 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\RequestException</code> 인스턴스를 던지고 싶다면, <code class="language-plaintext highlighter-rouge">throw</code> 또는 <code class="language-plaintext highlighter-rouge">throwIf</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Response</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+
+<span class="c1">// Throw an exception if a client or server error occurred...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="k">throw</span><span class="p">();</span>
+
+<span class="c1">// Throw an exception if an error occurred and the given condition is true...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwIf</span><span class="p">(</span><span class="nv">$condition</span><span class="p">);</span>
+
+<span class="c1">// Throw an exception if an error occurred and the given closure resolves to true...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwIf</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Response</span> <span class="nv">$response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">);</span>
+
+<span class="c1">// Throw an exception if an error occurred and the given condition is false...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwUnless</span><span class="p">(</span><span class="nv">$condition</span><span class="p">);</span>
+
+<span class="c1">// Throw an exception if an error occurred and the given closure resolves to false...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwUnless</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Response</span> <span class="nv">$response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="c1">// Throw an exception if the response has a specific status code...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwIfStatus</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+
+<span class="c1">// Throw an exception unless the response has a specific status code...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwUnlessStatus</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+
+<span class="c1">// Throw an exception if a server error occurred (status &gt;500)...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwIfServerError</span><span class="p">();</span>
+
+<span class="c1">// Throw an exception if a client error occurred (status &gt;400 and &lt;500)...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">throwIfClientError</span><span class="p">();</span>
+
+<span class="k">return</span> <span class="nv">$response</span><span class="p">[</span><span class="s1">'user'</span><span class="p">][</span><span class="s1">'id'</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\RequestException</code> 인스턴스에는 반환된 응답을 검사할 수 있는 공개 <code class="language-plaintext highlighter-rouge">$response</code> 속성이 있습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">throw</code> 메서드는 오류가 발생하지 않은 경우 응답 인스턴스를 반환하므로, 다른 작업을 <code class="language-plaintext highlighter-rouge">throw</code> 메서드에 연결할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">)</span><span class="o">-&gt;</span><span class="k">throw</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">json</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>예외가 발생하기 전에 추가적인 로직을 수행하고 싶다면 <code class="language-plaintext highlighter-rouge">throw</code> 메서드에 클로저를 전달할 수 있습니다. 클로저가 호출된 후 예외는 자동으로 발생하므로 클로저 내에서 예외를 다시 던질 필요가 없습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Client\RequestException</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">)</span><span class="o">-&gt;</span><span class="k">throw</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Response</span> <span class="nv">$response</span><span class="p">,</span> <span class="kt">RequestException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">json</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>기본적으로 <code class="language-plaintext highlighter-rouge">RequestException</code> 메시지는 기록되거나 보고될 때 120자로 잘립니다. 이 동작을 사용자 정의하거나 비활성화하려면, <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> 파일에서 애플리케이션의 등록된 동작을 구성할 때 <code class="language-plaintext highlighter-rouge">truncateAt</code> 및 <code class="language-plaintext highlighter-rouge">dontTruncate</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\RequestException</span><span class="p">;</span>
+
+<span class="o">-&gt;</span><span class="nf">registered</span><span class="p">(</span><span class="k">function</span> <span class="p">():</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="c1">// Truncate request exception messages to 240 characters...</span>
+    <span class="nc">RequestException</span><span class="o">::</span><span class="nf">truncateAt</span><span class="p">(</span><span class="mi">240</span><span class="p">);</span>
+
+    <span class="c1">// Disable request exception message truncation...</span>
+    <span class="nc">RequestException</span><span class="o">::</span><span class="nf">dontTruncate</span><span class="p">();</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>또는 <code class="language-plaintext highlighter-rouge">truncateExceptionsAt</code> 메서드를 사용하여 요청별로 예외 잘림 동작을 사용자 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">truncateExceptionsAt</span><span class="p">(</span><span class="mi">240</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="guzzle-middleware"></a></p>
+<h3 id="guzzle-미들웨어">Guzzle 미들웨어</h3>
+
+<p>Laravel의 HTTP 클라이언트는 Guzzle로 구동되기 때문에, <a href="https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html">Guzzle 미들웨어</a>를 이용하여 나가는 요청을 조작하거나 들어오는 응답을 검사할 수 있습니다. 나가는 요청을 조작하려면, <code class="language-plaintext highlighter-rouge">withRequestMiddleware</code> 메서드를 통해 Guzzle 미들웨어를 등록하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Psr\Http\Message\RequestInterface</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withRequestMiddleware</span><span class="p">(</span>
+    <span class="k">function</span> <span class="p">(</span><span class="kt">RequestInterface</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">withHeader</span><span class="p">(</span><span class="s1">'X-Example'</span><span class="p">,</span> <span class="s1">'Value'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>마찬가지로, <code class="language-plaintext highlighter-rouge">withResponseMiddleware</code> 메서드를 통해 미들웨어를 등록하여 들어오는 HTTP 응답을 검사할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Psr\Http\Message\ResponseInterface</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withResponseMiddleware</span><span class="p">(</span>
+    <span class="k">function</span> <span class="p">(</span><span class="kt">ResponseInterface</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$header</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">getHeader</span><span class="p">(</span><span class="s1">'X-Example'</span><span class="p">);</span>
+
+        <span class="c1">// ...</span>
+
+        <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="global-middleware"></a></p>
+<h4 id="글로벌-미들웨어">글로벌 미들웨어</h4>
+
+<p>때때로, 모든 나가는 요청과 들어오는 응답에 적용되는 미들웨어를 등록하고 싶을 때가 있습니다. 이를 달성하기 위해 <code class="language-plaintext highlighter-rouge">globalRequestMiddleware</code>와 <code class="language-plaintext highlighter-rouge">globalResponseMiddleware</code> 메서드를 사용할 수 있습니다. 일반적으로, 이러한 메서드는 애플리케이션의 <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 호출되어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">globalRequestMiddleware</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="nv">$request</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">withHeader</span><span class="p">(</span>
+    <span class="s1">'User-Agent'</span><span class="p">,</span> <span class="s1">'Example Application/1.0'</span>
+<span class="p">));</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">globalResponseMiddleware</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="nv">$response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">withHeader</span><span class="p">(</span>
+    <span class="s1">'X-Finished-At'</span><span class="p">,</span> <span class="nf">now</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toDateTimeString</span><span class="p">()</span>
+<span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="guzzle-options"></a></p>
+<h3 id="guzzle-옵션">Guzzle 옵션</h3>
+
+<p><code class="language-plaintext highlighter-rouge">withOptions</code> 메서드를 사용하여 발신 요청에 대한 추가 <a href="http://docs.guzzlephp.org/en/stable/request-options.html">Guzzle 요청 옵션</a>을 지정할 수 있습니다. <code class="language-plaintext highlighter-rouge">withOptions</code> 메서드는 키/값 쌍 배열을 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withOptions</span><span class="p">([</span>
+    <span class="s1">'debug'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="global-options"></a></p>
+<h4 id="전역-옵션">전역 옵션</h4>
+
+<p>모든 발신 요청에 대한 기본 옵션을 구성하려면 <code class="language-plaintext highlighter-rouge">globalOptions</code> 메서드를 사용할 수 있습니다. 일반적으로 이 메서드는 애플리케이션의 <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 호출되어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Http</span><span class="o">::</span><span class="nf">globalOptions</span><span class="p">([</span>
+        <span class="s1">'allow_redirects'</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="concurrent-requests"></a></p>
+<h2 id="동시-요청">동시 요청</h2>
+
+<p>때때로 여러 HTTP 요청을 동시에 보내고 싶을 때가 있습니다. 다시 말해, 요청을 순차적으로 보내는 대신 여러 요청을 동시에 발송하고자 할 때가 있습니다. 이는 느린 HTTP API와 상호작용할 때 상당한 성능 향상을 가져올 수 있습니다.</p>
+
+<p><a name="request-pooling"></a></p>
+<h3 id="요청-풀링">요청 풀링</h3>
+
+<p>다행히도, 이는 <code class="language-plaintext highlighter-rouge">pool</code> 메서드를 사용하여 달성할 수 있습니다. <code class="language-plaintext highlighter-rouge">pool</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Pool</code> 인스턴스를 받는 클로저를 허용하여, 요청을 쉽게 요청 풀에 추가하고 발송할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Pool</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">pool</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Pool</span> <span class="nv">$pool</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/first'</span><span class="p">),</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/second'</span><span class="p">),</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/third'</span><span class="p">),</span>
+<span class="p">]);</span>
+
+<span class="k">return</span> <span class="nv">$responses</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="nf">ok</span><span class="p">()</span> <span class="o">&amp;&amp;</span>
+       <span class="nv">$responses</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-&gt;</span><span class="nf">ok</span><span class="p">()</span> <span class="o">&amp;&amp;</span>
+       <span class="nv">$responses</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-&gt;</span><span class="nf">ok</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>보시다시피, 각 응답 인스턴스는 풀에 추가된 순서에 따라 접근할 수 있습니다. 원하신다면, <code class="language-plaintext highlighter-rouge">as</code> 방식을 사용하여 요청에 이름을 지정할 수 있으며, 이를 통해 이름으로 해당 응답에 접근할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Pool</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">pool</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Pool</span> <span class="nv">$pool</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'first'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/first'</span><span class="p">),</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'second'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/second'</span><span class="p">),</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'third'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/third'</span><span class="p">),</span>
+<span class="p">]);</span>
+
+<span class="k">return</span> <span class="nv">$responses</span><span class="p">[</span><span class="s1">'first'</span><span class="p">]</span><span class="o">-&gt;</span><span class="nf">ok</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>요청 풀의 최대 동시성은 <code class="language-plaintext highlighter-rouge">pool</code> 메서드에 <code class="language-plaintext highlighter-rouge">concurrency</code> 인수를 제공하여 제어할 수 있습니다. 이 값은 요청 풀을 처리하는 동안 동시에 진행 중일 수 있는 HTTP 요청의 최대 수를 결정합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">pool</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Pool</span> <span class="nv">$pool</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+<span class="p">],</span> <span class="n">concurrency</span><span class="o">:</span> <span class="mi">5</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>풀링된 요청이 연결 수준에서 실패하면(예: 타임아웃 또는 DNS 실패), <code class="language-plaintext highlighter-rouge">$responses</code> 배열의 해당 항목은 <code class="language-plaintext highlighter-rouge">Response</code> 인스턴스 대신 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\ConnectionException</code> 인스턴스가 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">foreach</span> <span class="p">(</span><span class="nv">$responses</span> <span class="k">as</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span> <span class="k">instanceof</span> <span class="nc">Throwable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// The request failed to connect...</span>
+    <span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">failed</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// The request connected but received an error response...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="customizing-concurrent-requests"></a></p>
+<h4 id="동시-요청-사용자-정의">동시 요청 사용자 정의</h4>
+
+<p><code class="language-plaintext highlighter-rouge">pool</code> 메서드는 <code class="language-plaintext highlighter-rouge">withHeaders</code> 또는 <code class="language-plaintext highlighter-rouge">middleware</code> 메서드와 같은 다른 HTTP 클라이언트 메서드와 체인할 수 없습니다. 풀링된 요청에 사용자 정의 헤더나 미들웨어를 적용하려면, 풀의 각 요청에서 해당 옵션을 구성해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Pool</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nv">$headers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'X-Example'</span> <span class="o">=&gt;</span> <span class="s1">'example'</span><span class="p">,</span>
+<span class="p">];</span>
+
+<span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">pool</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Pool</span> <span class="nv">$pool</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="nf">withHeaders</span><span class="p">(</span><span class="nv">$headers</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://laravel.test/test'</span><span class="p">),</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="nf">withHeaders</span><span class="p">(</span><span class="nv">$headers</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://laravel.test/test'</span><span class="p">),</span>
+    <span class="nv">$pool</span><span class="o">-&gt;</span><span class="nf">withHeaders</span><span class="p">(</span><span class="nv">$headers</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://laravel.test/test'</span><span class="p">),</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="request-batching"></a></p>
+<h3 id="요청-배치">요청 배치</h3>
+
+<p>Laravel에서 동시 요청을 처리하는 또 다른 방법은 <code class="language-plaintext highlighter-rouge">batch</code> 메서드를 사용하는 것입니다. <code class="language-plaintext highlighter-rouge">pool</code> 메서드와 마찬가지로, 이 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Batch</code> 인스턴스를 받는 클로저를 수락하며, 덕분에 요청을 쉽게 요청 풀에 추가하여 전송할 수 있지만, 완료 콜백을 정의할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Batch</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Client\ConnectionException</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Client\RequestException</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">batch</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/first'</span><span class="p">),</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/second'</span><span class="p">),</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/third'</span><span class="p">),</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">before</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The batch has been created but no requests have been initialized...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">progress</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">,</span> <span class="kt">int</span><span class="o">|</span><span class="n">string</span> <span class="nv">$key</span><span class="p">,</span> <span class="kt">Response</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// An individual request has completed successfully...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">then</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// All requests completed successfully...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="k">catch</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">,</span> <span class="kt">int</span><span class="o">|</span><span class="n">string</span> <span class="nv">$key</span><span class="p">,</span> <span class="kt">Response</span><span class="o">|</span><span class="nc">RequestException</span><span class="o">|</span><span class="nc">ConnectionException</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Batch request failure detected...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="k">finally</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The batch has finished executing...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">pool</code> 방법처럼, <code class="language-plaintext highlighter-rouge">as</code> 방법을 사용하여 요청의 이름을 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">batch</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'first'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/first'</span><span class="p">),</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'second'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/second'</span><span class="p">),</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'third'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/third'</span><span class="p">),</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">send</code> 메서드를 호출하여 <code class="language-plaintext highlighter-rouge">batch</code>를 시작한 후에는 여기에 새로운 요청을 추가할 수 없습니다. 시도할 경우 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\BatchInProgressException</code> 예외가 발생합니다.</p>
+
+<p>요청 배치의 최대 동시 실행 수는 <code class="language-plaintext highlighter-rouge">concurrency</code> 메서드를 통해 제어할 수 있습니다. 이 값은 요청 배치를 처리하는 동안 동시에 진행 중일 수 있는 최대 HTTP 요청 수를 결정합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">batch</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">concurrency</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="inspecting-batches"></a></p>
+<h4 id="배치-검사">배치 검사</h4>
+
+<p>배치 완료 콜백에 제공되는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Batch</code> 인스턴스에는 주어진 요청 배치를 상호작용하고 검사하는 데 도움이 되는 다양한 속성과 메서드가 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The number of requests assigned to the batch...</span>
+<span class="nv">$batch</span><span class="o">-&gt;</span><span class="n">totalRequests</span><span class="p">;</span>
+
+<span class="c1">// The number of requests that have not been processed yet...</span>
+<span class="nv">$batch</span><span class="o">-&gt;</span><span class="n">pendingRequests</span><span class="p">;</span>
+
+<span class="c1">// The number of requests that have failed...</span>
+<span class="nv">$batch</span><span class="o">-&gt;</span><span class="n">failedRequests</span><span class="p">;</span>
+
+<span class="c1">// The number of requests that have been processed thus far...</span>
+<span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">processedRequests</span><span class="p">();</span>
+
+<span class="c1">// Indicates if the batch has finished executing...</span>
+<span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">finished</span><span class="p">();</span>
+
+<span class="c1">// Indicates if the batch has request failures...</span>
+<span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">hasFailures</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="deferring-batches"></a></p>
+<h4 id="배치-연기">배치 연기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">defer</code> 메서드가 호출되면, 요청 배치는 즉시 실행되지 않습니다. 대신, Laravel은 현재 애플리케이션 요청의 HTTP 응답이 사용자에게 전송된 후 배치를 실행하여 애플리케이션이 빠르고 반응성이 좋게 느껴지도록 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Batch</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nv">$responses</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">batch</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/first'</span><span class="p">),</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/second'</span><span class="p">),</span>
+    <span class="nv">$batch</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://localhost/third'</span><span class="p">),</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">then</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Batch</span> <span class="nv">$batch</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// All requests completed successfully...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">defer</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="macros"></a></p>
+<h2 id="매크로">매크로</h2>
+
+<p>라라벨 HTTP 클라이언트는 “매크로”를 정의할 수 있게 해주며, 이는 애플리케이션 전반에서 서비스와 상호작용할 때 일반적인 요청 경로와 헤더를 구성하는 유창하고 표현력 있는 메커니즘으로 사용할 수 있습니다. 시작하려면 애플리케이션의 <code class="language-plaintext highlighter-rouge">App\Providers\AppServiceProvider</code> 클래스의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드 내에서 매크로를 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Http</span><span class="o">::</span><span class="nf">macro</span><span class="p">(</span><span class="s1">'github'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">withHeaders</span><span class="p">([</span>
+            <span class="s1">'X-Example'</span> <span class="o">=&gt;</span> <span class="s1">'example'</span><span class="p">,</span>
+        <span class="p">])</span><span class="o">-&gt;</span><span class="nf">baseUrl</span><span class="p">(</span><span class="s1">'https://github.com'</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>매크로를 구성한 후에는 애플리케이션 어디에서나 매크로를 호출하여 지정된 구성으로 대기 중인 요청을 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">github</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="testing"></a></p>
+<h2 id="테스트">테스트</h2>
+
+<p>많은 Laravel 서비스는 테스트를 쉽고 표현력 있게 작성할 수 있도록 기능을 제공하며, Laravel의 HTTP 클라이언트도 예외가 아닙니다. <code class="language-plaintext highlighter-rouge">Http</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">fake</code> 메서드는 요청이 이루어질 때 HTTP 클라이언트가 스텁 / 더미 응답을 반환하도록 지시할 수 있게 합니다.</p>
+
+<p><a name="faking-responses"></a></p>
+<h3 id="응답-가짜-처리하기">응답 가짜 처리하기</h3>
+
+<p>예를 들어, 모든 요청에 대해 빈 <code class="language-plaintext highlighter-rouge">200</code> 상태 코드 응답을 반환하도록 HTTP 클라이언트에 지시하려면, <code class="language-plaintext highlighter-rouge">fake</code> 메서드를 인자 없이 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">();</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="cm">/* ... */</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="faking-specific-urls"></a></p>
+<h4 id="특정-url-위조하기">특정 URL 위조하기</h4>
+
+<p>또는, <code class="language-plaintext highlighter-rouge">fake</code> 메서드에 배열을 전달할 수 있습니다. 배열의 키는 위조하고자 하는 URL 패턴과 해당 패턴에 연결된 응답을 나타내야 합니다. <code class="language-plaintext highlighter-rouge">*</code> 문자는 와일드카드 문자로 사용할 수 있습니다. 이러한 엔드포인트에 대한 스텁/위조 응답을 생성하기 위해 <code class="language-plaintext highlighter-rouge">Http</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">response</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="c1">// Stub a JSON response for GitHub endpoints...</span>
+    <span class="s1">'github.com/*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">([</span><span class="s1">'foo'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">],</span> <span class="mi">200</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">),</span>
+
+    <span class="c1">// Stub a string response for Google endpoints...</span>
+    <span class="s1">'google.com/*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">),</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>위조되지 않은 URL에 대한 모든 요청은 실제로 실행됩니다. 모든 일치하지 않는 URL을 스텁 처리할 대체 URL 패턴을 지정하려면 단일 <code class="language-plaintext highlighter-rouge">*</code> 문자를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="c1">// Stub a JSON response for GitHub endpoints...</span>
+    <span class="s1">'github.com/*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">([</span><span class="s1">'foo'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">],</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Headers'</span><span class="p">]),</span>
+
+    <span class="c1">// Stub a string response for all other endpoints...</span>
+    <span class="s1">'*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Headers'</span><span class="p">]),</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>편의를 위해, 문자열, 배열 또는 정수를 응답으로 제공하면 간단한 문자열, JSON, 및 빈 응답이 생성될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="s1">'google.com/*'</span> <span class="o">=&gt;</span> <span class="s1">'Hello World'</span><span class="p">,</span>
+    <span class="s1">'github.com/*'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'foo'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">],</span>
+    <span class="s1">'chatgpt.com/*'</span> <span class="o">=&gt;</span> <span class="mi">200</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="faking-connection-exceptions"></a></p>
+<h4 id="예외-시뮬레이션">예외 시뮬레이션</h4>
+
+<p>때때로 HTTP 클라이언트가 요청을 시도할 때 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\ConnectionException</code>를 만나면 애플리케이션의 동작을 테스트해야 할 수도 있습니다. HTTP 클라이언트가 <code class="language-plaintext highlighter-rouge">failedConnection</code> 메서드를 사용하여 연결 예외를 발생시키도록 지시할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="s1">'github.com/*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">failedConnection</span><span class="p">(),</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\RequestException</code>가 발생할 경우 애플리케이션의 동작을 테스트하기 위해, <code class="language-plaintext highlighter-rouge">failedRequest</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">mock</span><span class="p">(</span><span class="nc">GithubService</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">shouldReceive</span><span class="p">(</span><span class="s1">'getUser'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">andThrow</span><span class="p">(</span>
+        <span class="nc">Http</span><span class="o">::</span><span class="nf">failedRequest</span><span class="p">([</span><span class="s1">'code'</span> <span class="o">=&gt;</span> <span class="s1">'not_found'</span><span class="p">],</span> <span class="mi">404</span><span class="p">)</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="faking-response-sequences"></a></p>
+<h4 id="응답-시퀀스-위조">응답 시퀀스 위조</h4>
+
+<p>때때로 단일 URL이 특정 순서로 일련의 가짜 응답을 반환해야 할 경우가 있습니다. <code class="language-plaintext highlighter-rouge">Http::sequence</code> 방법을 사용하여 응답을 생성함으로써 이를 수행할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="c1">// Stub a series of responses for GitHub endpoints...</span>
+    <span class="s1">'github.com/*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">sequence</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">push</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">push</span><span class="p">([</span><span class="s1">'foo'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">],</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">pushStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">),</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>응답 시퀀스의 모든 응답이 소비되면, 추가적인 요청은 응답 시퀀스가 예외를 발생시키게 됩니다. 시퀀스가 비어 있을 때 반환될 기본 응답을 지정하고 싶다면, <code class="language-plaintext highlighter-rouge">whenEmpty</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="c1">// Stub a series of responses for GitHub endpoints...</span>
+    <span class="s1">'github.com/*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">sequence</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">push</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">push</span><span class="p">([</span><span class="s1">'foo'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">],</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">whenEmpty</span><span class="p">(</span><span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">()),</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>만약 일련의 응답을 가장하고 싶지만, 가장해야 할 특정 URL 패턴을 지정할 필요가 없다면, <code class="language-plaintext highlighter-rouge">Http::fakeSequence</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fakeSequence</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">push</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">whenEmpty</span><span class="p">(</span><span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p><a name="fake-callback"></a></p>
+<h4 id="가짜-콜백">가짜 콜백</h4>
+
+<p>특정 엔드포인트에 대해 어떤 응답을 반환할지 결정하는 더 복잡한 로직이 필요한 경우, <code class="language-plaintext highlighter-rouge">fake</code> 메서드에 클로저를 전달할 수 있습니다. 이 클로저는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Request</code>의 인스턴스를 받으며, 응답 인스턴스를 반환해야 합니다. 클로저 내에서 어떤 유형의 응답을 반환할지 결정하기 위해 필요한 모든 로직을 수행할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Request</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="inspecting-requests"></a></p>
+<h3 id="요청-검사">요청 검사</h3>
+
+<p>응답을 위조할 때, 클라이언트가 수신하는 요청을 가끔 검사하여 애플리케이션이 올바른 데이터나 헤더를 보내고 있는지 확인하고 싶을 수 있습니다. 이는 <code class="language-plaintext highlighter-rouge">Http::fake</code>를 호출한 후 <code class="language-plaintext highlighter-rouge">Http::assertSent</code> 메서드를 호출하여 수행할 수 있습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">assertSent</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Request</code> 인스턴스를 수신하고 요청이 기대치와 일치하는지 나타내는 boolean 값을 반환해야 하는 클로저를 허용합니다. 테스트가 통과하려면, 주어진 기대치와 일치하는 적어도 하나의 요청이 발행되어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">();</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">withHeaders</span><span class="p">([</span>
+    <span class="s1">'X-First'</span> <span class="o">=&gt;</span> <span class="s1">'foo'</span><span class="p">,</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">,</span>
+    <span class="s1">'role'</span> <span class="o">=&gt;</span> <span class="s1">'Developer'</span><span class="p">,</span>
+<span class="p">]);</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">hasHeader</span><span class="p">(</span><span class="s1">'X-First'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">url</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'http://example.com/users'</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$request</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Taylor'</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$request</span><span class="p">[</span><span class="s1">'role'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Developer'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>필요한 경우, 특정 요청이 <code class="language-plaintext highlighter-rouge">assertNotSent</code> 방법을 사용하여 전송되지 않았다고 단언할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">();</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'http://example.com/users'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">,</span>
+    <span class="s1">'role'</span> <span class="o">=&gt;</span> <span class="s1">'Developer'</span><span class="p">,</span>
+<span class="p">]);</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">assertNotSent</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">url</span><span class="p">()</span> <span class="o">===</span> <span class="s1">'http://example.com/posts'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>테스트 동안 얼마나 많은 요청이 ‘전송’되었는지 확인하기 위해 <code class="language-plaintext highlighter-rouge">assertSentCount</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">();</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">assertSentCount</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>또는 테스트 중에 요청이 전송되지 않았음을 주장하기 위해 <code class="language-plaintext highlighter-rouge">assertNothingSent</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">();</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">assertNothingSent</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="recording-requests-and-responses"></a></p>
+<h4 id="요청--응답-기록">요청 / 응답 기록</h4>
+
+<p>모든 요청과 해당 응답을 수집하기 위해 <code class="language-plaintext highlighter-rouge">recorded</code> 방법을 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">recorded</code> 방법은 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Request</code>와 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Response</code>의 인스턴스를 포함하는 배열 모음을 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="s1">'https://laravel.com'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(</span><span class="n">status</span><span class="o">:</span> <span class="mi">500</span><span class="p">),</span>
+    <span class="s1">'https://nova.laravel.com/'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(),</span>
+<span class="p">]);</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://laravel.com'</span><span class="p">);</span>
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://nova.laravel.com/'</span><span class="p">);</span>
+
+<span class="nv">$recorded</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">recorded</span><span class="p">();</span>
+
+<span class="p">[</span><span class="nv">$request</span><span class="p">,</span> <span class="nv">$response</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$recorded</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>또한, <code class="language-plaintext highlighter-rouge">recorded</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Request</code>와 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Response</code>의 인스턴스를 받게 될 클로저를 허용하며, 이를 사용하여 요청/응답 쌍을 기대에 맞게 필터링할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Response</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="s1">'https://laravel.com'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(</span><span class="n">status</span><span class="o">:</span> <span class="mi">500</span><span class="p">),</span>
+    <span class="s1">'https://nova.laravel.com/'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(),</span>
+<span class="p">]);</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://laravel.com'</span><span class="p">);</span>
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://nova.laravel.com/'</span><span class="p">);</span>
+
+<span class="nv">$recorded</span> <span class="o">=</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">recorded</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">Response</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">url</span><span class="p">()</span> <span class="o">!==</span> <span class="s1">'https://laravel.com'</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">successful</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="preventing-stray-requests"></a></p>
+<h3 id="잘못된-요청-방지">잘못된 요청 방지</h3>
+
+<p>개별 테스트 또는 전체 테스트 스위트에서 HTTP 클라이언트를 통해 전송된 모든 요청이 조작되었는지 확인하려면 <code class="language-plaintext highlighter-rouge">preventStrayRequests</code> 메서드를 호출할 수 있습니다. 이 메서드를 호출한 후에는 해당하는 가짜 응답이 없는 요청은 실제 HTTP 요청을 만드는 대신 예외를 발생시킵니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">preventStrayRequests</span><span class="p">();</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">fake</span><span class="p">([</span>
+    <span class="s1">'github.com/*'</span> <span class="o">=&gt;</span> <span class="nc">Http</span><span class="o">::</span><span class="nf">response</span><span class="p">(</span><span class="s1">'ok'</span><span class="p">),</span>
+<span class="p">]);</span>
+
+<span class="c1">// An "ok" response is returned...</span>
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://github.com/laravel/framework'</span><span class="p">);</span>
+
+<span class="c1">// An exception is thrown...</span>
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://laravel.com'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>때때로, 특정 요청이 실행되도록 허용하면서 대부분의 원치 않는 요청을 차단하고 싶을 수 있습니다. 이를 달성하기 위해, <code class="language-plaintext highlighter-rouge">allowStrayRequests</code> 메서드에 URL 패턴 배열을 전달할 수 있습니다. 주어진 패턴 중 하나와 일치하는 요청은 허용되며, 나머지 모든 요청은 계속해서 예외를 발생시킵니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Http</span><span class="p">;</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">preventStrayRequests</span><span class="p">();</span>
+
+<span class="nc">Http</span><span class="o">::</span><span class="nf">allowStrayRequests</span><span class="p">([</span>
+    <span class="s1">'http://127.0.0.1:5000/*'</span><span class="p">,</span>
+<span class="p">]);</span>
+
+<span class="c1">// This request is executed...</span>
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'http://127.0.0.1:5000/generate'</span><span class="p">);</span>
+
+<span class="c1">// An exception is thrown...</span>
+<span class="nc">Http</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'https://laravel.com'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="events"></a></p>
+<h2 id="이벤트">이벤트</h2>
+
+<p>Laravel은 HTTP 요청을 보내는 과정에서 세 가지 이벤트를 발생시킵니다. <code class="language-plaintext highlighter-rouge">RequestSending</code> 이벤트는 요청이 전송되기 전에 발생하며, <code class="language-plaintext highlighter-rouge">ResponseReceived</code> 이벤트는 특정 요청에 대한 응답을 받은 후에 발생합니다. <code class="language-plaintext highlighter-rouge">ConnectionFailed</code> 이벤트는 특정 요청에 대해 응답을 받지 못한 경우 발생합니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">RequestSending</code> 및 <code class="language-plaintext highlighter-rouge">ConnectionFailed</code> 이벤트는 모두 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Request</code> 인스턴스를 검사하는 데 사용할 수 있는 공개 <code class="language-plaintext highlighter-rouge">$request</code> 속성을 포함합니다. 마찬가지로, <code class="language-plaintext highlighter-rouge">ResponseReceived</code> 이벤트는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Client\Response</code> 인스턴스를 검사하는 데 사용할 수 있는 <code class="language-plaintext highlighter-rouge">$request</code> 속성과 <code class="language-plaintext highlighter-rouge">$response</code> 속성을 포함합니다. 애플리케이션 내에서 이러한 이벤트에 대한 <a href="/docs/{{version}}/events">이벤트 리스너</a>를 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Client\Events\RequestSending</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">LogRequest</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">RequestSending</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// $event-&gt;request ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

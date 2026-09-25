@@ -1,0 +1,3105 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Database: Migrations | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Database: Migrations" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/07_database/migrations_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/07_database/migrations_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Database: Migrations" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Database: Migrations","url":"http://localhost:4000/docs/07_database/migrations_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="true">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/07_database/">07 database</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Database: Migrations</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<hr />
+<p>layout: docs
+title: “Database: Migrations”
+—</p>
+
+<h1 id="database-migrations">Database: Migrations</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#generating-migrations">Generating Migrations</a>
+    <ul>
+      <li><a href="#squashing-migrations">Squashing Migrations</a></li>
+    </ul>
+  </li>
+  <li><a href="#migration-structure">Migration Structure</a></li>
+  <li><a href="#running-migrations">Running Migrations</a>
+    <ul>
+      <li><a href="#rolling-back-migrations">Rolling Back Migrations</a></li>
+    </ul>
+  </li>
+  <li><a href="#tables">Tables</a>
+    <ul>
+      <li><a href="#creating-tables">Creating Tables</a></li>
+      <li><a href="#updating-tables">Updating Tables</a></li>
+      <li><a href="#renaming-and-dropping-tables">Renaming / Dropping Tables</a></li>
+    </ul>
+  </li>
+  <li><a href="#columns">Columns</a>
+    <ul>
+      <li><a href="#creating-columns">Creating Columns</a></li>
+      <li><a href="#available-column-types">Available Column Types</a></li>
+      <li><a href="#column-modifiers">Column Modifiers</a></li>
+      <li><a href="#modifying-columns">Modifying Columns</a></li>
+      <li><a href="#renaming-columns">Renaming Columns</a></li>
+      <li><a href="#dropping-columns">Dropping Columns</a></li>
+    </ul>
+  </li>
+  <li><a href="#indexes">Indexes</a>
+    <ul>
+      <li><a href="#creating-indexes">Creating Indexes</a></li>
+      <li><a href="#renaming-indexes">Renaming Indexes</a></li>
+      <li><a href="#dropping-indexes">Dropping Indexes</a></li>
+      <li><a href="#foreign-key-constraints">Foreign Key Constraints</a></li>
+    </ul>
+  </li>
+  <li><a href="#events">Events</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Migrations are like version control for your database, allowing your team to define and share the application’s database schema definition. If you have ever had to tell a teammate to manually add a column to their local database schema after pulling in your changes from source control, you’ve faced the problem that database migrations solve.</p>
+
+<p>The Laravel <code class="language-plaintext highlighter-rouge">Schema</code> <a href="/docs/{{version}}/facades">facade</a> provides database agnostic support for creating and manipulating tables across all of Laravel’s supported database systems. Typically, migrations will use this facade to create and modify database tables and columns.</p>
+
+<p><a name="generating-migrations"></a></p>
+<h2 id="generating-migrations">Generating Migrations</h2>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">make:migration</code> <a href="/docs/{{version}}/artisan">Artisan command</a> to generate a database migration. The new migration will be placed in your <code class="language-plaintext highlighter-rouge">database/migrations</code> directory. Each migration filename contains a timestamp that allows Laravel to determine the order of the migrations:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:migration create_flights_table
+</code></pre></div></div>
+
+<p>Laravel will use the name of the migration to attempt to guess the name of the table and whether or not the migration will be creating a new table. If Laravel is able to determine the table name from the migration name, Laravel will pre-fill the generated migration file with the specified table. Otherwise, you may simply specify the table in the migration file manually.</p>
+
+<p>If you would like to specify a custom path for the generated migration, you may use the <code class="language-plaintext highlighter-rouge">--path</code> option when executing the <code class="language-plaintext highlighter-rouge">make:migration</code> command. The given path should be relative to your application’s base path.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Migration stubs may be customized using <a href="/docs/{{version}}/artisan#stub-customization">stub publishing</a>.</p>
+</blockquote>
+
+<p><a name="squashing-migrations"></a></p>
+<h3 id="squashing-migrations">Squashing Migrations</h3>
+
+<p>As you build your application, you may accumulate more and more migrations over time. This can lead to your <code class="language-plaintext highlighter-rouge">database/migrations</code> directory becoming bloated with potentially hundreds of migrations. If you would like, you may “squash” your migrations into a single SQL file. To get started, execute the <code class="language-plaintext highlighter-rouge">schema:dump</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan schema:dump
+
+<span class="c"># Dump the current database schema and prune all existing migrations...</span>
+php artisan schema:dump <span class="nt">--prune</span>
+</code></pre></div></div>
+
+<p>이 명령을 실행하면 Laravel은 애플리케이션의 <code class="language-plaintext highlighter-rouge">database/schema</code> 디렉토리에 “스키마” 파일을 작성합니다. 스키마 파일의 이름은 데이터베이스 연결에 해당합니다. 이제 데이터베이스를 마이그레이션하려고 시도했는데 다른 마이그레이션이 실행되지 않았다면, Laravel은 먼저 사용 중인 데이터베이스 연결의 스키마 파일에 있는 SQL 문을 실행합니다. 스키마 파일의 SQL 문을 실행한 후, Laravel은 스키마 덤프에 포함되지 않은 나머지 마이그레이션을 실행합니다.</p>
+
+<p>애플리케이션의 테스트가 일반적으로 로컬 개발 중 사용하는 것과 다른 데이터베이스 연결을 사용하는 경우, 테스트가 데이터베이스를 구성할 수 있도록 해당 데이터베이스 연결을 사용하여 스키마 파일을 덤프했는지 확인해야 합니다. 일반적으로 로컬 개발 중 사용하는 데이터베이스 연결을 덤프한 후에 이를 수행할 수도 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan schema:dump
+php artisan schema:dump <span class="nt">--database</span><span class="o">=</span>testing <span class="nt">--prune</span>
+</code></pre></div></div>
+
+<p>귀하는 팀의 다른 신규 개발자가 애플리케이션의 초기 데이터베이스 구조를 빠르게 생성할 수 있도록 데이터베이스 스키마 파일을 소스 관리에 커밋해야 합니다.</p>
+
+<blockquote>
+  <p>[!WARNING]
+마이그레이션 스쿼싱은 MariaDB, MySQL, PostgreSQL 및 SQLite 데이터베이스에서만 사용 가능하며 데이터베이스의 명령줄 클라이언트를 이용합니다.</p>
+</blockquote>
+
+<p><a name="migration-structure"></a></p>
+<h2 id="마이그레이션-구조">마이그레이션 구조</h2>
+
+<p>마이그레이션 클래스는 두 개의 메서드를 포함합니다: <code class="language-plaintext highlighter-rouge">up</code> 및 <code class="language-plaintext highlighter-rouge">down</code>. <code class="language-plaintext highlighter-rouge">up</code> 메서드는 데이터베이스에 새로운 테이블, 컬럼 또는 인덱스를 추가하는 데 사용되며, <code class="language-plaintext highlighter-rouge">down</code> 메서드는 <code class="language-plaintext highlighter-rouge">up</code> 메서드에서 수행된 작업을 되돌려야 합니다.</p>
+
+<p>이 두 메서드 내에서 Laravel 스키마 빌더를 사용하여 테이블을 표현적으로 생성하고 수정할 수 있습니다. <code class="language-plaintext highlighter-rouge">Schema</code> 빌더에서 사용할 수 있는 모든 메서드에 대해 알아보려면 <a href="#creating-tables">문서</a>를 참조하세요. 예를 들어, 다음 마이그레이션은 <code class="language-plaintext highlighter-rouge">flights</code> 테이블을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Migrations\Migration</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="k">new</span> <span class="kd">class</span> <span class="kd">extends</span> <span class="nc">Migration</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Run the migrations.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">up</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Schema</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="s1">'flights'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">id</span><span class="p">();</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'airline'</span><span class="p">);</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timestamps</span><span class="p">();</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Reverse the migrations.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">down</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Schema</span><span class="o">::</span><span class="nf">drop</span><span class="p">(</span><span class="s1">'flights'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><a name="setting-the-migration-connection"></a></p>
+<h4 id="마이그레이션-연결-설정">마이그레이션 연결 설정</h4>
+
+<p>마이그레이션이 애플리케이션의 기본 데이터베이스 연결이 아닌 다른 데이터베이스 연결과 상호 작용할 경우, 마이그레이션의 <code class="language-plaintext highlighter-rouge">$connection</code> 속성을 설정해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * The database connection that should be used by the migration.
+ *
+ * @var string
+ */</span>
+<span class="k">protected</span> <span class="nv">$connection</span> <span class="o">=</span> <span class="s1">'pgsql'</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Run the migrations.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">up</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="skipping-migrations"></a></p>
+<h4 id="마이그레이션-건너뛰기">마이그레이션 건너뛰기</h4>
+
+<p>때때로 마이그레이션은 아직 활성화되지 않은 기능을 지원하기 위해 만들어질 수 있으며, 이 경우 마이그레이션을 아직 실행하고 싶지 않을 수 있습니다. 이 경우 마이그레이션에 <code class="language-plaintext highlighter-rouge">shouldRun</code> 메서드를 정의할 수 있습니다. <code class="language-plaintext highlighter-rouge">shouldRun</code> 메서드가 <code class="language-plaintext highlighter-rouge">false</code>를 반환하면, 마이그레이션은 건너뛰게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Flight</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Determine if this migration should run.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">shouldRun</span><span class="p">():</span> <span class="kt">bool</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Feature</span><span class="o">::</span><span class="nf">active</span><span class="p">(</span><span class="nc">Flight</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="running-migrations"></a></p>
+<h2 id="마이그레이션-실행">마이그레이션 실행</h2>
+
+<p>모든 대기 중인 마이그레이션을 실행하려면, <code class="language-plaintext highlighter-rouge">migrate</code> Artisan 명령을 실행하세요:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate
+</code></pre></div></div>
+
+<p>이미 실행된 마이그레이션과 아직 대기 중인 마이그레이션을 확인하고 싶다면 <code class="language-plaintext highlighter-rouge">migrate:status</code> Artisan 명령어를 사용할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:status
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">migrate</code> 명령어에 <code class="language-plaintext highlighter-rouge">--step</code> 옵션을 제공하면, 명령어는 각 마이그레이션을 자체 배치로 실행하므로 나중에 <code class="language-plaintext highlighter-rouge">migrate:rollback</code> 명령어를 사용하여 개별 마이그레이션을 롤백할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate <span class="nt">--step</span>
+</code></pre></div></div>
+
+<p>마이그레이션으로 실행될 SQL 문을 실제로 실행하지 않고 보고 싶다면, <code class="language-plaintext highlighter-rouge">migrate</code> 명령에 <code class="language-plaintext highlighter-rouge">--pretend</code> 플래그를 제공할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate <span class="nt">--pretend</span>
+</code></pre></div></div>
+
+<p><a name="isolating-migration-execution"></a></p>
+<h4 id="마이그레이션-실행-격리">마이그레이션 실행 격리</h4>
+
+<p>여러 서버에 애플리케이션을 배포하고 배포 과정의 일부로 마이그레이션을 실행하는 경우, 두 서버가 동시에 데이터베이스를 마이그레이션 하려고 하지 않도록 하는 것이 좋습니다. 이를 방지하기 위해, <code class="language-plaintext highlighter-rouge">migrate</code> 명령을 호출할 때 <code class="language-plaintext highlighter-rouge">isolated</code> 옵션을 사용할 수 있습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">isolated</code> 옵션이 제공되면, Laravel은 마이그레이션을 실행하기 전에 애플리케이션의 캐시 드라이버를 사용하여 원자적 잠금을 획득합니다. 이 잠금이 유지되는 동안 다른 모든 <code class="language-plaintext highlighter-rouge">migrate</code> 명령 실행 시도는 실행되지 않지만, 명령은 여전히 성공적인 종료 상태 코드로 종료됩니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate <span class="nt">--isolated</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+이 기능을 사용하려면, 애플리케이션이 <code class="language-plaintext highlighter-rouge">memcached</code>, <code class="language-plaintext highlighter-rouge">redis</code>, <code class="language-plaintext highlighter-rouge">dynamodb</code>, <code class="language-plaintext highlighter-rouge">database</code>, <code class="language-plaintext highlighter-rouge">file</code> 또는 <code class="language-plaintext highlighter-rouge">array</code> 캐시 드라이버 중 하나를 기본 캐시 드라이버로 사용하고 있어야 합니다. 또한, 모든 서버는 동일한 중앙 캐시 서버와 통신하고 있어야 합니다.</p>
+</blockquote>
+
+<p><a name="forcing-migrations-to-run-in-production"></a></p>
+<h4 id="운영-환경에서-마이그레이션-실행-강제하기">운영 환경에서 마이그레이션 실행 강제하기</h4>
+
+<p>일부 마이그레이션 작업은 파괴적일 수 있으며, 이는 데이터 손실을 초래할 수 있음을 의미합니다. 이러한 명령을 운영 데이터베이스에 실행하는 것을 방지하기 위해, 명령 실행 전에 확인을 요청받게 됩니다. 프롬프트 없이 명령을 강제로 실행하려면, <code class="language-plaintext highlighter-rouge">--force</code> 플래그를 사용하십시오:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate <span class="nt">--force</span>
+</code></pre></div></div>
+
+<p><a name="rolling-back-migrations"></a></p>
+<h3 id="마이그레이션-되돌리기">마이그레이션 되돌리기</h3>
+
+<p>최신 마이그레이션 작업을 되돌리려면 <code class="language-plaintext highlighter-rouge">rollback</code> Artisan 명령을 사용할 수 있습니다. 이 명령은 마지막 “배치”의 마이그레이션을 되돌리며, 여기에는 여러 마이그레이션 파일이 포함될 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:rollback
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">rollback</code> 명령에 <code class="language-plaintext highlighter-rouge">step</code> 옵션을 제공하여 제한된 수의 마이그레이션을 롤백할 수 있습니다. 예를 들어, 다음 명령은 마지막 다섯 개의 마이그레이션을 롤백합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:rollback <span class="nt">--step</span><span class="o">=</span>5
+</code></pre></div></div>
+
+<p>특정 “배치”의 마이그레이션은 <code class="language-plaintext highlighter-rouge">rollback</code> 명령에 <code class="language-plaintext highlighter-rouge">batch</code> 옵션을 제공하여 되돌릴 수 있으며, 여기서 <code class="language-plaintext highlighter-rouge">batch</code> 옵션은 애플리케이션의 <code class="language-plaintext highlighter-rouge">migrations</code> 데이터베이스 테이블 내의 배치 값에 해당합니다. 예를 들어, 다음 명령은 세 번째 배치의 모든 마이그레이션을 되돌립니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:rollback <span class="nt">--batch</span><span class="o">=</span>3
+</code></pre></div></div>
+
+<p>마이그레이션이 실제로 실행되지 않고 수행될 SQL 문을 보고 싶다면, <code class="language-plaintext highlighter-rouge">migrate:rollback</code> 명령에 <code class="language-plaintext highlighter-rouge">--pretend</code> 플래그를 제공할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:rollback <span class="nt">--pretend</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">migrate:reset</code> 명령은 애플리케이션의 모든 마이그레이션을 롤백합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:reset
+</code></pre></div></div>
+
+<p><a name="roll-back-migrate-using-a-single-command"></a></p>
+<h4 id="하나의-명령으로-롤백하고-마이그레이션하기">하나의 명령으로 롤백하고 마이그레이션하기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">migrate:refresh</code> 명령은 모든 마이그레이션을 롤백한 후 <code class="language-plaintext highlighter-rouge">migrate</code> 명령을 실행합니다. 이 명령은 전체 데이터베이스를 효과적으로 재생성합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:refresh
+
+<span class="c"># Refresh the database and run all database seeds...</span>
+php artisan migrate:refresh <span class="nt">--seed</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">refresh</code> 명령에 <code class="language-plaintext highlighter-rouge">step</code> 옵션을 제공하여 제한된 수의 마이그레이션을 롤백하고 다시 마이그레이션할 수 있습니다. 예를 들어, 다음 명령은 마지막 다섯 개의 마이그레이션을 롤백하고 다시 마이그레이션합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:refresh <span class="nt">--step</span><span class="o">=</span>5
+</code></pre></div></div>
+
+<p><a name="drop-all-tables-migrate"></a></p>
+<h4 id="모든-테이블-삭제-및-마이그레이션">모든 테이블 삭제 및 마이그레이션</h4>
+
+<p><code class="language-plaintext highlighter-rouge">migrate:fresh</code> 명령은 데이터베이스의 모든 테이블을 삭제한 후 <code class="language-plaintext highlighter-rouge">migrate</code> 명령을 실행합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:fresh
+
+php artisan migrate:fresh <span class="nt">--seed</span>
+</code></pre></div></div>
+
+<p>기본적으로 <code class="language-plaintext highlighter-rouge">migrate:fresh</code> 명령은 기본 데이터베이스 연결에서만 테이블을 삭제합니다. 그러나 <code class="language-plaintext highlighter-rouge">--database</code> 옵션을 사용하여 마이그레이션할 데이터베이스 연결을 지정할 수 있습니다. 데이터베이스 연결 이름은 애플리케이션의 <code class="language-plaintext highlighter-rouge">database</code> <a href="/docs/{{version}}/configuration">설정 파일</a>에 정의된 연결과 일치해야 합니다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate:fresh <span class="nt">--database</span><span class="o">=</span>admin
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+<code class="language-plaintext highlighter-rouge">migrate:fresh</code> 명령어는 접두사와 상관없이 모든 데이터베이스 테이블을 삭제합니다. 이 명령어는 다른 애플리케이션과 공유되는 데이터베이스에서 개발할 때 주의해서 사용해야 합니다.</p>
+</blockquote>
+
+<p><a name="tables"></a></p>
+<h2 id="테이블">테이블</h2>
+
+<p><a name="creating-tables"></a></p>
+<h3 id="테이블-생성">테이블 생성</h3>
+
+<p>새 데이터베이스 테이블을 생성하려면 <code class="language-plaintext highlighter-rouge">Schema</code> 파사드에서 <code class="language-plaintext highlighter-rouge">create</code> 메서드를 사용합니다. <code class="language-plaintext highlighter-rouge">create</code> 메서드는 두 개의 인수를 받습니다: 첫 번째는 테이블 이름이고, 두 번째는 새 테이블을 정의하는 데 사용할 수 있는 <code class="language-plaintext highlighter-rouge">Blueprint</code> 객체를 받는 클로저입니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">id</span><span class="p">();</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timestamps</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>테이블을 생성할 때, 스키마 빌더의 <a href="#creating-columns">컬럼 메서드</a>를 사용하여 테이블의 컬럼을 정의할 수 있습니다.</p>
+
+<p><a name="determining-table-column-existence"></a></p>
+<h4 id="테이블--컬럼-존재-여부-확인">테이블 / 컬럼 존재 여부 확인</h4>
+
+<p><code class="language-plaintext highlighter-rouge">hasTable</code>, <code class="language-plaintext highlighter-rouge">hasColumn</code>, <code class="language-plaintext highlighter-rouge">hasIndex</code> 메서드를 사용하여 테이블, 컬럼 또는 인덱스의 존재 여부를 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Schema</span><span class="o">::</span><span class="nf">hasTable</span><span class="p">(</span><span class="s1">'users'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The "users" table exists...</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Schema</span><span class="o">::</span><span class="nf">hasColumn</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The "users" table exists and has an "email" column...</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Schema</span><span class="o">::</span><span class="nf">hasIndex</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'email'</span><span class="p">],</span> <span class="s1">'unique'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The "users" table exists and has a unique index on the "email" column...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="database-connection-table-options"></a></p>
+<h4 id="데이터베이스-연결-및-테이블-옵션">데이터베이스 연결 및 테이블 옵션</h4>
+
+<p>응용 프로그램의 기본 연결이 아닌 데이터베이스 연결에서 스키마 작업을 수행하려면 <code class="language-plaintext highlighter-rouge">connection</code> 메서드를 사용하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">connection</span><span class="p">(</span><span class="s1">'sqlite'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">id</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>또한, 테이블 생성의 다른 측면을 정의하기 위해 몇 가지 다른 속성과 메서드를 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">engine</code> 속성은 MariaDB 또는 MySQL을 사용할 때 테이블의 저장 엔진을 지정하는 데 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">engine</span><span class="p">(</span><span class="s1">'InnoDB'</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>MariaDB 또는 MySQL을 사용할 때 생성된 테이블에 대한 문자 집합과 정렬 규칙을 지정하기 위해 <code class="language-plaintext highlighter-rouge">charset</code> 및 <code class="language-plaintext highlighter-rouge">collation</code> 속성을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">charset</span><span class="p">(</span><span class="s1">'utf8mb4'</span><span class="p">);</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">collation</span><span class="p">(</span><span class="s1">'utf8mb4_unicode_ci'</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">temporary</code> 방법은 테이블이 ‘임시’임을 나타내는 데 사용할 수 있습니다. 임시 테이블은 현재 연결의 데이터베이스 세션에서만 볼 수 있으며, 연결이 종료되면 자동으로 삭제됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="s1">'calculations'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">temporary</span><span class="p">();</span>
+
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>데이터베이스 테이블에 “코멘트”를 추가하고 싶다면, 테이블 인스턴스에서 <code class="language-plaintext highlighter-rouge">comment</code> 메소드를 호출할 수 있습니다. 테이블 코멘트는 현재 MariaDB, MySQL, PostgreSQL에서만 지원됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="s1">'calculations'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">comment</span><span class="p">(</span><span class="s1">'Business calculations'</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="updating-tables"></a></p>
+<h3 id="테이블-업데이트">테이블 업데이트</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Schema</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">table</code> 메서드는 기존 테이블을 업데이트하는 데 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">create</code> 메서드와 마찬가지로 <code class="language-plaintext highlighter-rouge">table</code> 메서드는 두 개의 인수를 받습니다: 테이블 이름과 <code class="language-plaintext highlighter-rouge">Blueprint</code> 인스턴스를 받는 클로저로, 이를 사용하여 테이블에 열이나 인덱스를 추가할 수 있습니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">integer</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="renaming-and-dropping-tables"></a></p>
+<h3 id="테이블-이름-변경--삭제">테이블 이름 변경 / 삭제</h3>
+
+<p>기존 데이터베이스 테이블의 이름을 변경하려면, <code class="language-plaintext highlighter-rouge">rename</code> 방법을 사용하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nb">rename</span><span class="p">(</span><span class="nv">$from</span><span class="p">,</span> <span class="nv">$to</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>기존 테이블을 삭제하려면 <code class="language-plaintext highlighter-rouge">drop</code> 또는 <code class="language-plaintext highlighter-rouge">dropIfExists</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">drop</span><span class="p">(</span><span class="s1">'users'</span><span class="p">);</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">dropIfExists</span><span class="p">(</span><span class="s1">'users'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="renaming-tables-with-foreign-keys"></a></p>
+<h4 id="외래-키가-있는-테이블-이름-변경">외래 키가 있는 테이블 이름 변경</h4>
+
+<p>테이블 이름을 변경하기 전에, 마이그레이션 파일에서 외래 키 제약 조건이 자동으로 Laravel이 규칙에 따라 이름을 지정하도록 두는 대신 명시적인 이름을 가지고 있는지 확인해야 합니다. 그렇지 않으면 외래 키 제약 조건 이름은 이전 테이블 이름을 참조하게 됩니다.</p>
+
+<p><a name="columns"></a></p>
+<h2 id="컬럼">컬럼</h2>
+
+<p><a name="creating-columns"></a></p>
+<h3 id="컬럼-생성">컬럼 생성</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Schema</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">table</code> 메서드는 기존 테이블을 업데이트하는 데 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">create</code> 메서드와 마찬가지로, <code class="language-plaintext highlighter-rouge">table</code> 메서드는 두 개의 인수를 받습니다: 테이블 이름과, 테이블에 컬럼을 추가하는 데 사용할 수 있는 <code class="language-plaintext highlighter-rouge">Illuminate\Database\Schema\Blueprint</code> 인스턴스를 받는 클로저.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">integer</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="available-column-types"></a></p>
+<h3 id="available-column-types">Available Column Types</h3>
+
+<p>The schema builder blueprint offers a variety of methods that correspond to the different types of columns you can add to your database tables. Each of the available methods are listed in the table below:</p>
+
+<style>
+    .collection-method-list > p {
+        columns: 10.8em 3; -moz-columns: 10.8em 3; -webkit-columns: 10.8em 3;
+    }
+
+.collection-method-list a {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.collection-method code {
+        font-size: 14px;
+    }
+
+.collection-method:not(.first-collection-method) {
+        margin-top: 50px;
+    }
+</style>
+
+<p><a name="booleans-method-list"></a></p>
+<h4 id="boolean-types">Boolean Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-boolean">boolean</a></p>
+
+</div>
+
+<p><a name="strings-and-texts-method-list"></a></p>
+<h4 id="string--text-types">String &amp; Text Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-char">char</a>
+<a href="#column-method-longText">longText</a>
+<a href="#column-method-mediumText">mediumText</a>
+<a href="#column-method-string">string</a>
+<a href="#column-method-text">text</a>
+<a href="#column-method-tinyText">tinyText</a></p>
+
+</div>
+
+<p><a name="numbers--method-list"></a></p>
+<h4 id="numeric-types">Numeric Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-bigIncrements">bigIncrements</a>
+<a href="#column-method-bigInteger">bigInteger</a>
+<a href="#column-method-decimal">decimal</a>
+<a href="#column-method-double">double</a>
+<a href="#column-method-float">float</a>
+<a href="#column-method-id">id</a>
+<a href="#column-method-increments">increments</a>
+<a href="#column-method-integer">integer</a>
+<a href="#column-method-mediumIncrements">mediumIncrements</a>
+<a href="#column-method-mediumInteger">mediumInteger</a>
+<a href="#column-method-smallIncrements">smallIncrements</a>
+<a href="#column-method-smallInteger">smallInteger</a>
+<a href="#column-method-tinyIncrements">tinyIncrements</a>
+<a href="#column-method-tinyInteger">tinyInteger</a>
+<a href="#column-method-unsignedBigInteger">unsignedBigInteger</a>
+<a href="#column-method-unsignedInteger">unsignedInteger</a>
+<a href="#column-method-unsignedMediumInteger">unsignedMediumInteger</a>
+<a href="#column-method-unsignedSmallInteger">unsignedSmallInteger</a>
+<a href="#column-method-unsignedTinyInteger">unsignedTinyInteger</a></p>
+
+</div>
+
+<p><a name="dates-and-times-method-list"></a></p>
+<h4 id="date--time-types">Date &amp; Time Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-dateTime">dateTime</a>
+<a href="#column-method-dateTimeTz">dateTimeTz</a>
+<a href="#column-method-date">date</a>
+<a href="#column-method-time">time</a>
+<a href="#column-method-timeTz">timeTz</a>
+<a href="#column-method-timestamp">timestamp</a>
+<a href="#column-method-timestamps">timestamps</a>
+<a href="#column-method-timestampsTz">timestampsTz</a>
+<a href="#column-method-softDeletes">softDeletes</a>
+<a href="#column-method-softDeletesTz">softDeletesTz</a>
+<a href="#column-method-year">year</a></p>
+
+</div>
+
+<p><a name="binaries-method-list"></a></p>
+<h4 id="binary-types">Binary Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-binary">binary</a></p>
+
+</div>
+
+<p><a name="object-and-jsons-method-list"></a></p>
+<h4 id="object--json-types">Object &amp; Json Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-json">json</a>
+<a href="#column-method-jsonb">jsonb</a></p>
+
+</div>
+
+<p><a name="uuids-and-ulids-method-list"></a></p>
+<h4 id="uuid--ulid-types">UUID &amp; ULID Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-ulid">ulid</a>
+<a href="#column-method-ulidMorphs">ulidMorphs</a>
+<a href="#column-method-uuid">uuid</a>
+<a href="#column-method-uuidMorphs">uuidMorphs</a>
+<a href="#column-method-nullableUlidMorphs">nullableUlidMorphs</a>
+<a href="#column-method-nullableUuidMorphs">nullableUuidMorphs</a></p>
+
+</div>
+
+<p><a name="spatials-method-list"></a></p>
+<h4 id="spatial-types">Spatial Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-geography">geography</a>
+<a href="#column-method-geometry">geometry</a></p>
+
+</div>
+
+<p><a name="relationship-method-list"></a></p>
+<h4 id="relationship-types">Relationship Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-foreignId">foreignId</a>
+<a href="#column-method-foreignIdFor">foreignIdFor</a>
+<a href="#column-method-foreignUlid">foreignUlid</a>
+<a href="#column-method-foreignUuid">foreignUuid</a>
+<a href="#column-method-foreignUuidFor">foreignUuidFor</a>
+<a href="#column-method-morphs">morphs</a>
+<a href="#column-method-nullableMorphs">nullableMorphs</a></p>
+
+</div>
+
+<p><a name="specifics-method-list"></a></p>
+<h4 id="specialty-types">Specialty Types</h4>
+
+<div class="collection-method-list">
+
+  <p><a href="#column-method-enum">enum</a>
+<a href="#column-method-set">set</a>
+<a href="#column-method-macAddress">macAddress</a>
+<a href="#column-method-ipAddress">ipAddress</a>
+<a href="#column-method-rememberToken">rememberToken</a>
+<a href="#column-method-vector">vector</a></p>
+
+</div>
+
+<p><a name="column-method-bigIncrements"></a></p>
+<h4 id="bigincrements-collection-method-first-collection-method"><code class="language-plaintext highlighter-rouge">bigIncrements()</code> {.collection-method .first-collection-method}</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">bigIncrements</code> method creates an auto-incrementing <code class="language-plaintext highlighter-rouge">UNSIGNED BIGINT</code> (primary key) equivalent column:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">bigIncrements</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-bigInteger"></a></p>
+<h4 id="biginteger-collection-method"><code class="language-plaintext highlighter-rouge">bigInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">bigInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">BIGINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">bigInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-binary"></a></p>
+<h4 id="binary-collection-method"><code class="language-plaintext highlighter-rouge">binary()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">binary</code> 방법은 <code class="language-plaintext highlighter-rouge">BLOB</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">binary</span><span class="p">(</span><span class="s1">'photo'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>MySQL, MariaDB 또는 SQL Server를 사용할 때 <code class="language-plaintext highlighter-rouge">length</code> 및 <code class="language-plaintext highlighter-rouge">fixed</code> 인수를 전달하여 <code class="language-plaintext highlighter-rouge">VARBINARY</code> 또는 <code class="language-plaintext highlighter-rouge">BINARY</code>에 해당하는 열을 만들 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">binary</span><span class="p">(</span><span class="s1">'data'</span><span class="p">,</span> <span class="n">length</span><span class="o">:</span> <span class="mi">16</span><span class="p">);</span> <span class="c1">// VARBINARY(16)</span>
+
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">binary</span><span class="p">(</span><span class="s1">'data'</span><span class="p">,</span> <span class="n">length</span><span class="o">:</span> <span class="mi">16</span><span class="p">,</span> <span class="n">fixed</span><span class="o">:</span> <span class="kc">true</span><span class="p">);</span> <span class="c1">// BINARY(16)</span>
+</code></pre></div></div>
+
+<p><a name="column-method-boolean"></a></p>
+<h4 id="boolean-collection-method"><code class="language-plaintext highlighter-rouge">boolean()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">boolean</code> 방법은 <code class="language-plaintext highlighter-rouge">BOOLEAN</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">boolean</span><span class="p">(</span><span class="s1">'confirmed'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-char"></a></p>
+<h4 id="char-collection-method"><code class="language-plaintext highlighter-rouge">char()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">char</code> 방법은 지정된 길이의 <code class="language-plaintext highlighter-rouge">CHAR</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">char</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="n">length</span><span class="o">:</span> <span class="mi">100</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-dateTimeTz"></a></p>
+<h4 id="datetimetz-collection-method"><code class="language-plaintext highlighter-rouge">dateTimeTz()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">dateTimeTz</code> 방법은 선택적인 소수 초 정밀도로 <code class="language-plaintext highlighter-rouge">DATETIME</code>(시간대 포함) 동등 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">dateTimeTz</span><span class="p">(</span><span class="s1">'created_at'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-dateTime"></a></p>
+<h4 id="datetime-collection-method"><code class="language-plaintext highlighter-rouge">dateTime()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">dateTime</code> 메서드는 선택적 소수 초 정밀도를 가진 <code class="language-plaintext highlighter-rouge">DATETIME</code>와 동일한 컬럼을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">dateTime</span><span class="p">(</span><span class="s1">'created_at'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-date"></a></p>
+<h4 id="date-collection-method"><code class="language-plaintext highlighter-rouge">date()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">date</code> 방법은 <code class="language-plaintext highlighter-rouge">DATE</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nb">date</span><span class="p">(</span><span class="s1">'created_at'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-decimal"></a></p>
+<h4 id="decimal-collection-method"><code class="language-plaintext highlighter-rouge">decimal()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">decimal</code> 방법은 주어진 정밀도(전체 자릿수)와 스케일(소수 자릿수)로 <code class="language-plaintext highlighter-rouge">DECIMAL</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">decimal</span><span class="p">(</span><span class="s1">'amount'</span><span class="p">,</span> <span class="n">total</span><span class="o">:</span> <span class="mi">8</span><span class="p">,</span> <span class="n">places</span><span class="o">:</span> <span class="mi">2</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-double"></a></p>
+<h4 id="double-collection-method"><code class="language-plaintext highlighter-rouge">double()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">double</code> 방법은 <code class="language-plaintext highlighter-rouge">DOUBLE</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">double</span><span class="p">(</span><span class="s1">'amount'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-enum"></a></p>
+<h4 id="enum-collection-method"><code class="language-plaintext highlighter-rouge">enum()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">enum</code> 방법은 주어진 유효 값으로 <code class="language-plaintext highlighter-rouge">ENUM</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">enum</span><span class="p">(</span><span class="s1">'difficulty'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'easy'</span><span class="p">,</span> <span class="s1">'hard'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>물론, 허용된 값들의 배열을 수동으로 정의하는 대신 <code class="language-plaintext highlighter-rouge">Enum::cases()</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Enums\Difficulty</span><span class="p">;</span>
+
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">enum</span><span class="p">(</span><span class="s1">'difficulty'</span><span class="p">,</span> <span class="nc">Difficulty</span><span class="o">::</span><span class="nf">cases</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p><a name="column-method-float"></a></p>
+<h4 id="float-collection-method"><code class="language-plaintext highlighter-rouge">float()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">float</code> 방법은 주어진 정밀도로 <code class="language-plaintext highlighter-rouge">FLOAT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">float</span><span class="p">(</span><span class="s1">'amount'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">53</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-foreignId"></a></p>
+<h4 id="foreignid-collection-method"><code class="language-plaintext highlighter-rouge">foreignId()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">foreignId</code> 방법은 <code class="language-plaintext highlighter-rouge">UNSIGNED BIGINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignId</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-foreignIdFor"></a></p>
+<h4 id="foreignidfor-collection-method"><code class="language-plaintext highlighter-rouge">foreignIdFor()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">foreignIdFor</code> 메서드는 주어진 모델 클래스에 대해 <code class="language-plaintext highlighter-rouge">{column}_id</code>에 해당하는 열을 추가합니다. 열 유형은 모델 키 유형에 따라 <code class="language-plaintext highlighter-rouge">UNSIGNED BIGINT</code>, <code class="language-plaintext highlighter-rouge">CHAR(36)</code> 또는 <code class="language-plaintext highlighter-rouge">CHAR(26)</code>이 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignIdFor</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-foreignUlid"></a></p>
+<h4 id="foreignulid-collection-method"><code class="language-plaintext highlighter-rouge">foreignUlid()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">foreignUlid</code> 방법은 <code class="language-plaintext highlighter-rouge">ULID</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignUlid</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-foreignUuid"></a></p>
+<h4 id="foreignuuid-collection-method"><code class="language-plaintext highlighter-rouge">foreignUuid()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">foreignUuid</code> 방법은 <code class="language-plaintext highlighter-rouge">UUID</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignUuid</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-foreignUuidFor"></a></p>
+<h4 id="foreignuuidfor-collection-method"><code class="language-plaintext highlighter-rouge">foreignUuidFor()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">foreignUuidFor</code> 메서드는 주어진 모델 클래스에 <code class="language-plaintext highlighter-rouge">{column}_id</code> UUID에 해당하는 컬럼을 추가합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignUuidFor</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-geography"></a></p>
+<h4 id="geography-collection-method"><code class="language-plaintext highlighter-rouge">geography()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">geography</code> 방법은 주어진 공간 유형과 SRID(공간 참조 시스템 식별자)를 가진 <code class="language-plaintext highlighter-rouge">GEOGRAPHY</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">geography</span><span class="p">(</span><span class="s1">'coordinates'</span><span class="p">,</span> <span class="n">subtype</span><span class="o">:</span> <span class="s1">'point'</span><span class="p">,</span> <span class="n">srid</span><span class="o">:</span> <span class="mi">4326</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+공간 유형에 대한 지원은 사용 중인 데이터베이스 드라이버에 따라 다릅니다. 데이터베이스의 문서를 참조하십시오. 애플리케이션이 PostgreSQL 데이터베이스를 사용 중인 경우, <code class="language-plaintext highlighter-rouge">geography</code> 메서드를 사용하기 전에 <a href="https://postgis.net">PostGIS</a> 확장 기능을 설치해야 합니다.</p>
+</blockquote>
+
+<p><a name="column-method-geometry"></a></p>
+<h4 id="geometry-collection-method"><code class="language-plaintext highlighter-rouge">geometry()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">geometry</code> 메서드는 지정된 공간 유형과 SRID(Spatial Reference System Identifier)를 사용하여 <code class="language-plaintext highlighter-rouge">GEOMETRY</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">geometry</span><span class="p">(</span><span class="s1">'positions'</span><span class="p">,</span> <span class="n">subtype</span><span class="o">:</span> <span class="s1">'point'</span><span class="p">,</span> <span class="n">srid</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+공간 타입 지원은 데이터베이스 드라이버에 따라 다릅니다. 데이터베이스 문서를 참조하시기 바랍니다. 애플리케이션이 PostgreSQL 데이터베이스를 사용 중이라면, <code class="language-plaintext highlighter-rouge">geometry</code> 메서드를 사용하기 전에 반드시 <a href="https://postgis.net">PostGIS</a> 확장을 설치해야 합니다.</p>
+</blockquote>
+
+<p><a name="column-method-id"></a></p>
+<h4 id="id-collection-method"><code class="language-plaintext highlighter-rouge">id()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">id</code> 메서드는 <code class="language-plaintext highlighter-rouge">bigIncrements</code> 메서드의 별칭입니다. 기본적으로 이 메서드는 <code class="language-plaintext highlighter-rouge">id</code> 컬럼을 생성하지만, 다른 이름을 컬럼에 지정하고 싶다면 컬럼 이름을 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">id</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="column-method-increments"></a></p>
+<h4 id="increments-collection-method"><code class="language-plaintext highlighter-rouge">increments()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">increments</code> 메서드는 기본 키로서 자동 증가하는 <code class="language-plaintext highlighter-rouge">UNSIGNED INTEGER</code> 동등 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">increments</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-integer"></a></p>
+<h4 id="integer-collection-method"><code class="language-plaintext highlighter-rouge">integer()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">integer</code> 방법은 <code class="language-plaintext highlighter-rouge">INTEGER</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">integer</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-ipAddress"></a></p>
+<h4 id="ipaddress-collection-method"><code class="language-plaintext highlighter-rouge">ipAddress()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">ipAddress</code> 방법은 <code class="language-plaintext highlighter-rouge">VARCHAR</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">ipAddress</span><span class="p">(</span><span class="s1">'visitor'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>PostgreSQL을 사용할 때 <code class="language-plaintext highlighter-rouge">INET</code> 열이 생성됩니다.</p>
+
+<p><a name="column-method-json"></a></p>
+<h4 id="json-collection-method"><code class="language-plaintext highlighter-rouge">json()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">json</code> 메서드는 <code class="language-plaintext highlighter-rouge">JSON</code>와 동등한 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">json</span><span class="p">(</span><span class="s1">'options'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>SQLite를 사용할 때 <code class="language-plaintext highlighter-rouge">TEXT</code> 열이 생성됩니다.</p>
+
+<p><a name="column-method-jsonb"></a></p>
+<h4 id="jsonb-collection-method"><code class="language-plaintext highlighter-rouge">jsonb()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">jsonb</code> 메서드는 <code class="language-plaintext highlighter-rouge">JSONB</code>와 동등한 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">jsonb</span><span class="p">(</span><span class="s1">'options'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>SQLite를 사용할 때 <code class="language-plaintext highlighter-rouge">TEXT</code> 열이 생성됩니다.</p>
+
+<p><a name="column-method-longText"></a></p>
+<h4 id="longtext-collection-method"><code class="language-plaintext highlighter-rouge">longText()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">longText</code> 메서드는 <code class="language-plaintext highlighter-rouge">LONGTEXT</code>와 동등한 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">longText</span><span class="p">(</span><span class="s1">'description'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>MySQL 또는 MariaDB를 사용할 때 열에 <code class="language-plaintext highlighter-rouge">binary</code> 문자 집합을 적용하여 <code class="language-plaintext highlighter-rouge">LONGBLOB</code>에 해당하는 열을 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">longText</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">charset</span><span class="p">(</span><span class="s1">'binary'</span><span class="p">);</span> <span class="c1">// LONGBLOB</span>
+</code></pre></div></div>
+
+<p><a name="column-method-macAddress"></a></p>
+<h4 id="macaddress-collection-method"><code class="language-plaintext highlighter-rouge">macAddress()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">macAddress</code> 방법은 MAC 주소를 저장하도록 설계된 열을 생성합니다. PostgreSQL과 같은 일부 데이터베이스 시스템은 이 유형의 데이터를 위한 전용 열 타입을 제공합니다. 다른 데이터베이스 시스템은 문자열에 해당하는 열을 사용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">macAddress</span><span class="p">(</span><span class="s1">'device'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-mediumIncrements"></a></p>
+<h4 id="mediumincrements-collection-method"><code class="language-plaintext highlighter-rouge">mediumIncrements()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">mediumIncrements</code> 메서드는 기본 키로서 자동 증가하는 <code class="language-plaintext highlighter-rouge">UNSIGNED MEDIUMINT</code> 동등 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">mediumIncrements</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-mediumInteger"></a></p>
+<h4 id="mediuminteger-collection-method"><code class="language-plaintext highlighter-rouge">mediumInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">mediumInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">MEDIUMINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">mediumInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-mediumText"></a></p>
+<h4 id="mediumtext-collection-method"><code class="language-plaintext highlighter-rouge">mediumText()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">mediumText</code> 방법은 <code class="language-plaintext highlighter-rouge">MEDIUMTEXT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">mediumText</span><span class="p">(</span><span class="s1">'description'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>MySQL 또는 MariaDB를 사용할 때 열에 <code class="language-plaintext highlighter-rouge">binary</code> 문자 세트를 적용하여 <code class="language-plaintext highlighter-rouge">MEDIUMBLOB</code>에 해당하는 열을 만들 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">mediumText</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">charset</span><span class="p">(</span><span class="s1">'binary'</span><span class="p">);</span> <span class="c1">// MEDIUMBLOB</span>
+</code></pre></div></div>
+
+<p><a name="column-method-morphs"></a></p>
+<h4 id="morphs-collection-method"><code class="language-plaintext highlighter-rouge">morphs()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">morphs</code> 메서드는 <code class="language-plaintext highlighter-rouge">{column}_type</code> <code class="language-plaintext highlighter-rouge">VARCHAR</code> 동등 컬럼과 <code class="language-plaintext highlighter-rouge">{column}_id</code> 동등 컬럼을 추가하는 편리한 메서드입니다. <code class="language-plaintext highlighter-rouge">{column}_id</code>의 컬럼 유형은 모델 키 유형에 따라 <code class="language-plaintext highlighter-rouge">UNSIGNED BIGINT</code>, <code class="language-plaintext highlighter-rouge">CHAR(36)</code> 또는 <code class="language-plaintext highlighter-rouge">CHAR(26)</code>가 됩니다.</p>
+
+<p>이 메서드는 다형성 <a href="/docs/{{version}}/eloquent-relationships">Eloquent 관계</a>를 정의할 때 필요한 컬럼을 정의하는 데 사용하도록 설계되었습니다. 다음 예제에서는 <code class="language-plaintext highlighter-rouge">taggable_type</code>와 <code class="language-plaintext highlighter-rouge">taggable_id</code> 컬럼이 생성됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">morphs</span><span class="p">(</span><span class="s1">'taggable'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-nullableMorphs"></a></p>
+<h4 id="nullablemorphs-collection-method"><code class="language-plaintext highlighter-rouge">nullableMorphs()</code> {.collection-method}</h4>
+
+<p>이 방법은 <a href="#column-method-morphs">morphs</a> 방법과 유사하지만, 생성되는 열은 “nullable”:” 입니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">nullableMorphs</span><span class="p">(</span><span class="s1">'taggable'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-nullableUlidMorphs"></a></p>
+<h4 id="nullableulidmorphs-collection-method"><code class="language-plaintext highlighter-rouge">nullableUlidMorphs()</code> {.collection-method}</h4>
+
+<p>이 방법은 <a href="#column-method-ulidMorphs">ulidMorphs</a> 방법과 유사합니다; 그러나 생성되는 열은 “nullable”:”입니다</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">nullableUlidMorphs</span><span class="p">(</span><span class="s1">'taggable'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-nullableUuidMorphs"></a></p>
+<h4 id="nullableuuidmorphs-collection-method"><code class="language-plaintext highlighter-rouge">nullableUuidMorphs()</code> {.collection-method}</h4>
+
+<p>이 방법은 <a href="#column-method-uuidMorphs">uuidMorphs</a> 방법과 유사하지만, 생성되는 열은 “nullable”:” 입니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">nullableUuidMorphs</span><span class="p">(</span><span class="s1">'taggable'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-rememberToken"></a></p>
+<h4 id="remembertoken-collection-method"><code class="language-plaintext highlighter-rouge">rememberToken()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">rememberToken</code> 방법은 현재 “로그인 상태 유지” <a href="/docs/{{version}}/authentication#remembering-users">인증 토큰</a>을 저장하도록 의도된, nullable하고 <code class="language-plaintext highlighter-rouge">VARCHAR(100)</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">rememberToken</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="column-method-set"></a></p>
+<h4 id="set-collection-method"><code class="language-plaintext highlighter-rouge">set()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">set</code> 방법은 주어진 유효 값 목록으로 <code class="language-plaintext highlighter-rouge">SET</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'flavors'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'strawberry'</span><span class="p">,</span> <span class="s1">'vanilla'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-smallIncrements"></a></p>
+<h4 id="smallincrements-collection-method"><code class="language-plaintext highlighter-rouge">smallIncrements()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">smallIncrements</code> 메서드는 기본 키로서 자동 증가하는 <code class="language-plaintext highlighter-rouge">UNSIGNED SMALLINT</code> 동등 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">smallIncrements</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-smallInteger"></a></p>
+<h4 id="smallinteger-collection-method"><code class="language-plaintext highlighter-rouge">smallInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">smallInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">SMALLINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">smallInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-softDeletesTz"></a></p>
+<h4 id="softdeletestz-collection-method"><code class="language-plaintext highlighter-rouge">softDeletesTz()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">softDeletesTz</code> 메서드는 선택적 소수점 이하 초 정밀도를 가진 nullable <code class="language-plaintext highlighter-rouge">deleted_at</code> <code class="language-plaintext highlighter-rouge">TIMESTAMP</code>(시간대 포함) 동등 컬럼을 추가합니다. 이 컬럼은 Eloquent의 ‘soft delete’ 기능에 필요한 <code class="language-plaintext highlighter-rouge">deleted_at</code> 타임스탬프를 저장하도록 설계되었습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">softDeletesTz</span><span class="p">(</span><span class="s1">'deleted_at'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-softDeletes"></a></p>
+<h4 id="softdeletes-collection-method"><code class="language-plaintext highlighter-rouge">softDeletes()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">softDeletes</code> 방법은 선택적 소수 초 정밀도를 가진 null 허용 <code class="language-plaintext highlighter-rouge">deleted_at</code> <code class="language-plaintext highlighter-rouge">TIMESTAMP</code> 동등 열을 추가합니다. 이 열은 Eloquent의 “soft delete” 기능에 필요한 <code class="language-plaintext highlighter-rouge">deleted_at</code> 타임스탬프를 저장하기 위해 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">softDeletes</span><span class="p">(</span><span class="s1">'deleted_at'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-string"></a></p>
+<h4 id="string-collection-method"><code class="language-plaintext highlighter-rouge">string()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">string</code> 방법은 주어진 길이의 <code class="language-plaintext highlighter-rouge">VARCHAR</code> 등가 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="n">length</span><span class="o">:</span> <span class="mi">100</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-text"></a></p>
+<h4 id="text-collection-method"><code class="language-plaintext highlighter-rouge">text()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">text</code> 방법은 <code class="language-plaintext highlighter-rouge">TEXT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">text</span><span class="p">(</span><span class="s1">'description'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>MySQL 또는 MariaDB를 사용할 때 열에 <code class="language-plaintext highlighter-rouge">binary</code> 문자 세트를 적용하여 <code class="language-plaintext highlighter-rouge">BLOB</code>에 해당하는 열을 만들 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">text</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">charset</span><span class="p">(</span><span class="s1">'binary'</span><span class="p">);</span> <span class="c1">// BLOB</span>
+</code></pre></div></div>
+
+<p><a name="column-method-timeTz"></a></p>
+<h4 id="timetz-collection-method"><code class="language-plaintext highlighter-rouge">timeTz()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">timeTz</code> 방법은 선택적인 소수 초 정밀도로 <code class="language-plaintext highlighter-rouge">TIME</code>(시간대 포함) 동등 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timeTz</span><span class="p">(</span><span class="s1">'sunrise'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-time"></a></p>
+<h4 id="time-collection-method"><code class="language-plaintext highlighter-rouge">time()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">time</code> 메서드는 선택적 소수 초 정밀도를 가진 <code class="language-plaintext highlighter-rouge">TIME</code>와 동일한 컬럼을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nb">time</span><span class="p">(</span><span class="s1">'sunrise'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-timestampTz"></a></p>
+<h4 id="timestamptz-collection-method"><code class="language-plaintext highlighter-rouge">timestampTz()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">timestampTz</code> 방법은 선택적인 소수 초 정밀도로 <code class="language-plaintext highlighter-rouge">TIMESTAMP</code>(시간대 포함) 동등 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timestampTz</span><span class="p">(</span><span class="s1">'added_at'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-timestamp"></a></p>
+<h4 id="timestamp-collection-method"><code class="language-plaintext highlighter-rouge">timestamp()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">timestamp</code> 메서드는 선택적 소수 초 정밀도를 가진 <code class="language-plaintext highlighter-rouge">TIMESTAMP</code>와 동일한 컬럼을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timestamp</span><span class="p">(</span><span class="s1">'added_at'</span><span class="p">,</span> <span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-timestampsTz"></a></p>
+<h4 id="timestampstz-collection-method"><code class="language-plaintext highlighter-rouge">timestampsTz()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">timestampsTz</code> 방법은 선택적 소수 초 정밀도로 <code class="language-plaintext highlighter-rouge">created_at</code> 및 <code class="language-plaintext highlighter-rouge">updated_at</code> <code class="language-plaintext highlighter-rouge">TIMESTAMP</code>(시간대 포함) 동등 컬럼을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timestampsTz</span><span class="p">(</span><span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-timestamps"></a></p>
+<h4 id="timestamps-collection-method"><code class="language-plaintext highlighter-rouge">timestamps()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">timestamps</code> 방법은 선택적인 소수점 이하 초 정밀도로 <code class="language-plaintext highlighter-rouge">created_at</code> 및 <code class="language-plaintext highlighter-rouge">updated_at</code> <code class="language-plaintext highlighter-rouge">TIMESTAMP</code> 동등한 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timestamps</span><span class="p">(</span><span class="n">precision</span><span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-tinyIncrements"></a></p>
+<h4 id="tinyincrements-collection-method"><code class="language-plaintext highlighter-rouge">tinyIncrements()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">tinyIncrements</code> 메서드는 기본 키로서 자동 증가하는 <code class="language-plaintext highlighter-rouge">UNSIGNED TINYINT</code> 동등 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">tinyIncrements</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-tinyInteger"></a></p>
+<h4 id="tinyinteger-collection-method"><code class="language-plaintext highlighter-rouge">tinyInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">tinyInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">TINYINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">tinyInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-tinyText"></a></p>
+<h4 id="tinytext-collection-method"><code class="language-plaintext highlighter-rouge">tinyText()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">tinyText</code> 방법은 <code class="language-plaintext highlighter-rouge">TINYTEXT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">tinyText</span><span class="p">(</span><span class="s1">'notes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>MySQL 또는 MariaDB를 사용할 때 열에 <code class="language-plaintext highlighter-rouge">binary</code> 문자 세트를 적용하여 <code class="language-plaintext highlighter-rouge">TINYBLOB</code>에 해당하는 열을 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">tinyText</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">charset</span><span class="p">(</span><span class="s1">'binary'</span><span class="p">);</span> <span class="c1">// TINYBLOB</span>
+</code></pre></div></div>
+
+<p><a name="column-method-unsignedBigInteger"></a></p>
+<h4 id="unsignedbiginteger-collection-method"><code class="language-plaintext highlighter-rouge">unsignedBigInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">unsignedBigInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">UNSIGNED BIGINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unsignedBigInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-unsignedInteger"></a></p>
+<h4 id="unsignedinteger-collection-method"><code class="language-plaintext highlighter-rouge">unsignedInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">unsignedInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">UNSIGNED INTEGER</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unsignedInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-unsignedMediumInteger"></a></p>
+<h4 id="unsignedmediuminteger-collection-method"><code class="language-plaintext highlighter-rouge">unsignedMediumInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">unsignedMediumInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">UNSIGNED MEDIUMINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unsignedMediumInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-unsignedSmallInteger"></a></p>
+<h4 id="unsignedsmallinteger-collection-method"><code class="language-plaintext highlighter-rouge">unsignedSmallInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">unsignedSmallInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">UNSIGNED SMALLINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unsignedSmallInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-unsignedTinyInteger"></a></p>
+<h4 id="unsignedtinyinteger-collection-method"><code class="language-plaintext highlighter-rouge">unsignedTinyInteger()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">unsignedTinyInteger</code> 방법은 <code class="language-plaintext highlighter-rouge">UNSIGNED TINYINT</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unsignedTinyInteger</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-ulidMorphs"></a></p>
+<h4 id="ulidmorphs-collection-method"><code class="language-plaintext highlighter-rouge">ulidMorphs()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">ulidMorphs</code> 메서드는 <code class="language-plaintext highlighter-rouge">{column}_type</code> <code class="language-plaintext highlighter-rouge">VARCHAR</code>에 해당하는 컬럼을 추가하고, <code class="language-plaintext highlighter-rouge">{column}_id</code> <code class="language-plaintext highlighter-rouge">CHAR(26)</code>에 해당하는 컬럼을 추가하는 편의 메서드입니다.</p>
+
+<p>이 메서드는 ULID 식별자를 사용하는 다형성 <a href="/docs/{{version}}/eloquent-relationships">Eloquent 관계</a>에 필요한 컬럼을 정의할 때 사용하도록 설계되었습니다. 다음 예제에서는 <code class="language-plaintext highlighter-rouge">taggable_type</code>와 <code class="language-plaintext highlighter-rouge">taggable_id</code> 컬럼이 생성됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">ulidMorphs</span><span class="p">(</span><span class="s1">'taggable'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-uuidMorphs"></a></p>
+<h4 id="uuidmorphs-collection-method"><code class="language-plaintext highlighter-rouge">uuidMorphs()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">uuidMorphs</code> 메서드는 <code class="language-plaintext highlighter-rouge">{column}_type</code> <code class="language-plaintext highlighter-rouge">VARCHAR</code>에 해당하는 컬럼을 추가하고, <code class="language-plaintext highlighter-rouge">{column}_id</code> <code class="language-plaintext highlighter-rouge">CHAR(36)</code>에 해당하는 컬럼을 추가하는 편의 메서드입니다.</p>
+
+<p>이 메서드는 UUID 식별자를 사용하는 <a href="/docs/{{version}}/eloquent-relationships#polymorphic-relationships">다형 Eloquent 관계</a>에 필요한 컬럼을 정의할 때 사용하도록 되어 있습니다. 다음 예제에서는 <code class="language-plaintext highlighter-rouge">taggable_type</code> 및 <code class="language-plaintext highlighter-rouge">taggable_id</code> 컬럼이 생성됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">uuidMorphs</span><span class="p">(</span><span class="s1">'taggable'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-ulid"></a></p>
+<h4 id="ulid-collection-method"><code class="language-plaintext highlighter-rouge">ulid()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">ulid</code> 방법은 <code class="language-plaintext highlighter-rouge">ULID</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">ulid</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-uuid"></a></p>
+<h4 id="uuid-collection-method"><code class="language-plaintext highlighter-rouge">uuid()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">uuid</code> 방법은 <code class="language-plaintext highlighter-rouge">UUID</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">uuid</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-method-vector"></a></p>
+<h4 id="vector-collection-method"><code class="language-plaintext highlighter-rouge">vector()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">vector</code> 방법은 <code class="language-plaintext highlighter-rouge">vector</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">vector</span><span class="p">(</span><span class="s1">'embedding'</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">:</span> <span class="mi">1536</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>벡터 열은 <code class="language-plaintext highlighter-rouge">pgvector</code> 확장을 사용하는 PostgreSQL 연결과 MariaDB 11.7 이상에서 지원됩니다. PostgreSQL을 사용할 때는 <code class="language-plaintext highlighter-rouge">vector</code> 열을 생성하기 전에 <code class="language-plaintext highlighter-rouge">pgvector</code>가 로드되어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">ensureVectorExtensionExists</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a href="/docs/{{version}}/queries#vector-similarity-clauses">벡터 유사성 쿼리</a>를 가속화하려면 열에 벡터 인덱스를 추가할 수 있습니다. <code class="language-plaintext highlighter-rouge">vector</code> 열에서 <code class="language-plaintext highlighter-rouge">index</code> 메서드를 호출하면 코사인 거리를 사용하여 벡터 인덱스를 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">vector</span><span class="p">(</span><span class="s1">'embedding'</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">:</span> <span class="mi">1536</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">index</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="column-method-year"></a></p>
+<h4 id="year-collection-method"><code class="language-plaintext highlighter-rouge">year()</code> {.collection-method}</h4>
+
+<p><code class="language-plaintext highlighter-rouge">year</code> 방법은 <code class="language-plaintext highlighter-rouge">YEAR</code>에 해당하는 열을 생성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">year</span><span class="p">(</span><span class="s1">'birth_year'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="column-modifiers"></a></p>
+<h3 id="열-수정자">열 수정자</h3>
+
+<p>위에 나열된 열 유형 외에도 데이터베이스 테이블에 열을 추가할 때 사용할 수 있는 여러 열 “수정자”가 있습니다. 예를 들어, 열을 “널 허용(nullable)”로 만들려면 <code class="language-plaintext highlighter-rouge">nullable</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">nullable</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>다음 표에는 사용 가능한 모든 열 수정자가 포함되어 있습니다. 이 목록에는 <a href="#creating-indexes">인덱스 수정자</a>는 포함되어 있지 않습니다:</p>
+
+<div class="overflow-auto">
+
+| Modifier                            | Description                                                                                    |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `-&gt;after('column')`                 | Place the column "after" another column (MariaDB / MySQL).                                     |
+| `-&gt;autoIncrement()`                 | Set `INTEGER` columns as auto-incrementing (primary key).                                      |
+| `-&gt;charset('utf8mb4')`              | Specify a character set for the column (MariaDB / MySQL).                                      |
+| `-&gt;collation('utf8mb4_unicode_ci')` | Specify a collation for the column.                                                            |
+| `-&gt;comment('my comment')`           | Add a comment to a column (MariaDB / MySQL / PostgreSQL).                                      |
+| `-&gt;default($value)`                 | Specify a "default" value for the column.                                                      |
+| `-&gt;first()`                         | Place the column "first" in the table (MariaDB / MySQL).                                       |
+| `-&gt;from($integer)`                  | Set the starting value of an auto-incrementing field (MariaDB / MySQL / PostgreSQL).           |
+| `-&gt;instant()`                       | Add or modify the column using an instant operation (MySQL).                                   |
+| `-&gt;invisible()`                     | Make the column "invisible" to `SELECT *` queries (MariaDB / MySQL).                           |
+| `-&gt;lock($mode)`                     | Specify a lock mode for the column operation (MySQL).                                          |
+| `-&gt;nullable($value = true)`         | Allow `NULL` values to be inserted into the column.                                            |
+| `-&gt;storedAs($expression)`           | Create a stored generated column (MariaDB / MySQL / PostgreSQL / SQLite).                      |
+| `-&gt;unsigned()`                      | Set `INTEGER` columns as `UNSIGNED` (MariaDB / MySQL).                                         |
+| `-&gt;using($expression)`              | Specify a casting expression when changing the column type (PostgreSQL).                       |
+| `-&gt;useCurrent()`                    | Set `TIMESTAMP` columns to use `CURRENT_TIMESTAMP` as default value.                           |
+| `-&gt;useCurrentOnUpdate()`            | Set `TIMESTAMP` columns to use `CURRENT_TIMESTAMP` when a record is updated (MariaDB / MySQL). |
+| `-&gt;virtualAs($expression)`          | Create a virtual generated column (MariaDB / MySQL / SQLite).                                  |
+| `-&gt;generatedAs($expression)`        | Create an identity column with specified sequence options (PostgreSQL).                        |
+| `-&gt;always()`                        | Defines the precedence of sequence values over input for an identity column (PostgreSQL).      |
+
+
+
+</div>
+
+<p><a name="default-expressions"></a></p>
+<h4 id="기본-표현식">기본 표현식</h4>
+
+<p><code class="language-plaintext highlighter-rouge">default</code> 수정자는 값 또는 <code class="language-plaintext highlighter-rouge">Illuminate\Database\Query\Expression</code> 인스턴스를 허용합니다. <code class="language-plaintext highlighter-rouge">Expression</code> 인스턴스를 사용하면 Laravel이 값을 따옴표로 감싸지 않으며 데이터베이스 특정 함수를 사용할 수 있습니다. 이것이 특히 유용한 경우는 JSON 열에 기본 값을 할당해야 할 때입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Query\Expression</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Migrations\Migration</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="k">new</span> <span class="kd">class</span> <span class="kd">extends</span> <span class="nc">Migration</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Run the migrations.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">up</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Schema</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="s1">'flights'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">id</span><span class="p">();</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">json</span><span class="p">(</span><span class="s1">'movies'</span><span class="p">)</span><span class="o">-&gt;</span><span class="k">default</span><span class="p">(</span><span class="k">new</span> <span class="nc">Expression</span><span class="p">(</span><span class="s1">'(JSON_ARRAY())'</span><span class="p">));</span>
+            <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">timestamps</span><span class="p">();</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+기본 표현식 지원 여부는 데이터베이스 드라이버, 데이터베이스 버전 및 필드 유형에 따라 다릅니다. 데이터베이스 문서를 참조하세요.</p>
+</blockquote>
+
+<p><a name="column-order"></a></p>
+<h4 id="열-순서">열 순서</h4>
+
+<p>MariaDB 또는 MySQL 데이터베이스를 사용할 때는 스키마의 기존 열 뒤에 열을 추가하기 위해 <code class="language-plaintext highlighter-rouge">after</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">after</span><span class="p">(</span><span class="s1">'password'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'address_line1'</span><span class="p">);</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'address_line2'</span><span class="p">);</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'city'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="instant-column-operations"></a></p>
+<h4 id="즉시-열-작업">즉시 열 작업</h4>
+
+<p>MySQL을 사용할 때, 열 정의에 <code class="language-plaintext highlighter-rouge">instant</code> 수식어를 연결하여 해당 열이 MySQL의 “즉시” 알고리즘을 사용하여 추가되거나 수정되어야 함을 나타낼 수 있습니다. 이 알고리즘은 전체 테이블 재구성이 필요 없이 특정 스키마 변경을 수행할 수 있게 하여 테이블 크기에 관계없이 거의 즉시 변경이 이루어지도록 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">nullable</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">instant</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>즉시 열 추가는 테이블의 끝에만 열을 추가할 수 있으므로 <code class="language-plaintext highlighter-rouge">instant</code> 수정자는 <code class="language-plaintext highlighter-rouge">after</code> 또는 <code class="language-plaintext highlighter-rouge">first</code> 수정자와 결합할 수 없습니다. 또한, 알고리즘은 모든 열 유형이나 연산을 지원하지 않습니다. 요청된 연산이 호환되지 않는 경우 MySQL은 오류를 발생시킵니다.</p>
+
+<p>어떤 연산이 즉시 열 수정과 호환되는지 확인하려면 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-online-ddl-operations.html">MySQL 문서</a>를 참조하십시오.</p>
+
+<p><a name="ddl-locking"></a></p>
+<h4 id="ddl-잠금">DDL 잠금</h4>
+
+<p>MySQL을 사용할 때 열, 인덱스 또는 외래 키 정의에 <code class="language-plaintext highlighter-rouge">lock</code> 수정자를 연결하여 스키마 작업 중 테이블 잠금을 제어할 수 있습니다. MySQL은 여러 잠금 모드를 지원합니다: <code class="language-plaintext highlighter-rouge">none</code>는 동시 읽기 및 쓰기를 허용하고, <code class="language-plaintext highlighter-rouge">shared</code>는 동시 읽기는 허용하지만 쓰기는 차단하며, <code class="language-plaintext highlighter-rouge">exclusive</code>는 모든 동시 접근을 차단하고, <code class="language-plaintext highlighter-rouge">default</code>는 MySQL이 가장 적절한 모드를 선택하도록 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'none'</span><span class="p">);</span>
+
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">index</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'shared'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>요청된 잠금 모드가 작업과 호환되지 않으면 MySQL은 오류를 발생시킵니다. <code class="language-plaintext highlighter-rouge">lock</code> 수정자는 <code class="language-plaintext highlighter-rouge">instant</code> 수정자와 결합하여 스키마 변경을 더욱 최적화할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">instant</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'none'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="modifying-columns"></a></p>
+<h3 id="열-수정">열 수정</h3>
+
+<p><code class="language-plaintext highlighter-rouge">change</code> 메서드를 사용하면 기존 열의 유형과 속성을 수정할 수 있습니다. 예를 들어, <code class="language-plaintext highlighter-rouge">string</code> 열의 크기를 늘리고 싶을 수 있습니다. <code class="language-plaintext highlighter-rouge">change</code> 메서드가 실제로 어떻게 작동하는지 보기 위해, <code class="language-plaintext highlighter-rouge">name</code> 열의 크기를 25에서 50으로 늘려 보겠습니다. 이를 달성하려면 단순히 열의 새로운 상태를 정의한 다음 <code class="language-plaintext highlighter-rouge">change</code> 메서드를 호출하면 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">change</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>열을 수정할 때는 열 정의에서 유지하고자 하는 모든 수정자를 명시적으로 포함해야 합니다 - 누락된 속성은 모두 제거됩니다. 예를 들어, <code class="language-plaintext highlighter-rouge">unsigned</code>, <code class="language-plaintext highlighter-rouge">default</code>, <code class="language-plaintext highlighter-rouge">comment</code> 속성을 유지하려면 열을 변경할 때 각 수정자를 명시적으로 호출해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">integer</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">unsigned</span><span class="p">()</span><span class="o">-&gt;</span><span class="k">default</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">comment</span><span class="p">(</span><span class="s1">'my comment'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">change</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">change</code> 방법은 열의 인덱스를 변경하지 않습니다. 따라서 열을 수정할 때 인덱스 조정자를 사용하여 인덱스를 명시적으로 추가하거나 제거할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Add an index...</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">bigIncrements</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">primary</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">change</span><span class="p">();</span>
+
+<span class="c1">// Drop an index...</span>
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">char</span><span class="p">(</span><span class="s1">'postal_code'</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">unique</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">change</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="postgresql-column-modifications"></a></p>
+<h4 id="postgresql-열-수정">PostgreSQL 열 수정</h4>
+
+<p>PostgreSQL에서 열의 유형을 변경할 때 기존 값을 변환하는 데 사용되는 표현식을 지정하려면 <code class="language-plaintext highlighter-rouge">using</code> 수정자를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nb">date</span><span class="p">(</span><span class="s1">'birthday'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">using</span><span class="p">(</span><span class="s1">'birthday::date'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">change</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="renaming-columns"></a></p>
+<h3 id="열-이름-바꾸기">열 이름 바꾸기</h3>
+
+<p>열 이름을 바꾸려면, 스키마 빌더에서 제공하는 <code class="language-plaintext highlighter-rouge">renameColumn</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">renameColumn</span><span class="p">(</span><span class="s1">'from'</span><span class="p">,</span> <span class="s1">'to'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="dropping-columns"></a></p>
+<h3 id="열-삭제">열 삭제</h3>
+
+<p>열을 삭제하려면 스키마 빌더에서 <code class="language-plaintext highlighter-rouge">dropColumn</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">dropColumn</span><span class="p">(</span><span class="s1">'votes'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">dropColumn</code> 메서드에 열 이름 배열을 전달하여 테이블에서 여러 열을 제거할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">dropColumn</span><span class="p">([</span><span class="s1">'votes'</span><span class="p">,</span> <span class="s1">'avatar'</span><span class="p">,</span> <span class="s1">'location'</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="available-command-aliases"></a></p>
+<h4 id="available-command-aliases">Available Command Aliases</h4>
+
+<p>Laravel provides several convenient methods related to dropping common types of columns. Each of these methods is described in the table below:</p>
+
+<div class="overflow-auto">
+
+| Command                             | Description                                           |
+| ----------------------------------- | ----------------------------------------------------- |
+| `$table-&gt;dropMorphs('morphable');`  | Drop the `morphable_type` and `morphable_id` columns. |
+| `$table-&gt;dropRememberToken();`      | Drop the `remember_token` column.                     |
+| `$table-&gt;dropSoftDeletes();`        | Drop the `deleted_at` column.                         |
+| `$table-&gt;dropSoftDeletesTz();`      | Alias of `dropSoftDeletes()` method.                  |
+| `$table-&gt;dropTimestamps();`         | Drop the `created_at` and `updated_at` columns.       |
+| `$table-&gt;dropTimestampsTz();`       | Alias of `dropTimestamps()` method.                   |
+
+</div>
+
+<p><a name="indexes"></a></p>
+<h2 id="indexes">Indexes</h2>
+
+<p><a name="creating-indexes"></a></p>
+<h3 id="creating-indexes">Creating Indexes</h3>
+
+<p>The Laravel schema builder supports several types of indexes. The following example creates a new <code class="language-plaintext highlighter-rouge">email</code> column and specifies that its values should be unique. To create the index, we can chain the <code class="language-plaintext highlighter-rouge">unique</code> method onto the column definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">unique</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>또는 열을 정의한 후에 인덱스를 생성할 수 있습니다. 이렇게 하려면 스키마 빌더 블루프린트에서 <code class="language-plaintext highlighter-rouge">unique</code> 메서드를 호출해야 합니다. 이 메서드는 고유 인덱스를 받을 열의 이름을 인수로 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unique</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>여러 열의 배열을 인덱스 메서드에 전달하여 복합(또는 합성) 인덱스를 만들 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">index</span><span class="p">([</span><span class="s1">'account_id'</span><span class="p">,</span> <span class="s1">'created_at'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>인덱스를 생성할 때, Laravel은 테이블, 컬럼 이름 및 인덱스 유형에 따라 자동으로 인덱스 이름을 생성하지만, 메서드에 두 번째 인수를 전달하여 직접 인덱스 이름을 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unique</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'unique_email'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="available-index-types"></a></p>
+<h4 id="available-index-types">Available Index Types</h4>
+
+<p>Laravel’s schema builder blueprint class provides methods for creating each type of index supported by Laravel. Each index method accepts an optional second argument to specify the name of the index. If omitted, the name will be derived from the names of the table and column(s) used for the index, as well as the index type. Each of the available index methods is described in the table below:</p>
+
+<div class="overflow-auto">
+
+| Command                                          | Description                                                    |
+| ------------------------------------------------ | -------------------------------------------------------------- |
+| `$table-&gt;primary('id');`                         | Adds a primary key.                                            |
+| `$table-&gt;primary(['id', 'parent_id']);`          | Adds composite keys.                                           |
+| `$table-&gt;unique('email');`                       | Adds a unique index.                                           |
+| `$table-&gt;index('state');`                        | Adds an index.                                                 |
+| `$table-&gt;fullText('body');`                      | Adds a full text index (MariaDB / MySQL / PostgreSQL).         |
+| `$table-&gt;fullText('body')-&gt;language('english');` | Adds a full text index of the specified language (PostgreSQL). |
+| `$table-&gt;spatialIndex('location');`              | Adds a spatial index (except SQLite).                          |
+| `$table-&gt;vectorIndex('embedding');`              | Adds a vector index (MariaDB / PostgreSQL).                    |
+
+</div>
+
+<p><a name="online-index-creation"></a></p>
+<h4 id="online-index-creation">Online Index Creation</h4>
+
+<p>By default, creating an index on a large table can lock the table and block reads or writes while the index is being built. When using PostgreSQL or SQL Server, you may chain the <code class="language-plaintext highlighter-rouge">online</code> method onto an index definition to create the index without locking the table, allowing your application to continue reading and writing data during index creation:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">string</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">unique</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">online</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>PostgreSQL을 사용할 때, 이는 인덱스 생성 문에 <code class="language-plaintext highlighter-rouge">CONCURRENTLY</code> 옵션을 추가합니다. SQL Server를 사용할 때, 이는 <code class="language-plaintext highlighter-rouge">WITH (online = on)</code> 옵션을 추가합니다.</p>
+
+<p>MySQL을 사용할 때, 인덱스나 외래 키 정의에 <code class="language-plaintext highlighter-rouge">inplace</code> 수정자를 체인하여 해당 작업이 <code class="language-plaintext highlighter-rouge">INPLACE</code> 알고리즘을 사용하도록 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">index</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">inplace</span><span class="p">();</span>
+
+<span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreign</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">references</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">on</span><span class="p">(</span><span class="s1">'users'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">inplace</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">inplace</code> 수정자는 작업 중 테이블 잠금을 제어하기 위해 <code class="language-plaintext highlighter-rouge">lock</code> 수정자와 결합될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">index</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">inplace</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">lock</span><span class="p">(</span><span class="s1">'none'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>외래 키 작업에 <code class="language-plaintext highlighter-rouge">inplace</code> 수식어를 사용할 때는 외래 키 검사를 비활성화해야 합니다.</p>
+
+<p>어떤 작업이 <code class="language-plaintext highlighter-rouge">INPLACE</code> 알고리즘과 잠금 모드를 지원하는지 확인하려면 <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-online-ddl-operations.html">MySQL 문서</a>를 참조하십시오.</p>
+
+<p><a name="renaming-indexes"></a></p>
+<h3 id="인덱스-이름-변경">인덱스 이름 변경</h3>
+
+<p>인덱스 이름을 변경하려면 스키마 빌더 청사진에서 제공하는 <code class="language-plaintext highlighter-rouge">renameIndex</code> 메서드를 사용할 수 있습니다. 이 메서드는 현재 인덱스 이름을 첫 번째 인수로 받고, 원하는 이름을 두 번째 인수로 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">renameIndex</span><span class="p">(</span><span class="s1">'from'</span><span class="p">,</span> <span class="s1">'to'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="dropping-indexes"></a></p>
+<h3 id="dropping-indexes">Dropping Indexes</h3>
+
+<p>To drop an index, you must specify the index’s name. By default, Laravel automatically assigns an index name based on the table name, the name of the indexed column, and the index type. Here are some examples:</p>
+
+<div class="overflow-auto">
+
+| Command                                                       | Description                                                 |
+| ------------------------------------------------------------- | ----------------------------------------------------------- |
+| `$table-&gt;dropPrimary('users_id_primary');`                    | Drop a primary key from the "users" table.                  |
+| `$table-&gt;dropUnique('users_email_unique');`                   | Drop a unique index from the "users" table.                 |
+| `$table-&gt;dropIndex('geo_state_index');`                       | Drop a basic index from the "geo" table.                    |
+| `$table-&gt;dropFullText('posts_body_fulltext');`                | Drop a full text index from the "posts" table.              |
+| `$table-&gt;dropSpatialIndex('geo_location_spatialindex');`      | Drop a spatial index from the "geo" table  (except SQLite). |
+| `$table-&gt;dropVectorIndex('documents_embedding_vectorindex');` | Drop a vector index from the "documents" table.             |
+
+</div>
+
+<p>If you pass an array of columns into a method that drops indexes, the conventional index name will be generated based on the table name, columns, and index type:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'geo'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">dropIndex</span><span class="p">([</span><span class="s1">'state'</span><span class="p">]);</span> <span class="c1">// Drops index 'geo_state_index'</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="foreign-key-constraints"></a></p>
+<h3 id="외래-키-제약-조건">외래 키 제약 조건</h3>
+
+<p>Laravel은 또한 데이터베이스 수준에서 참조 무결성을 강제하기 위해 사용되는 외래 키 제약 조건 생성을 지원합니다. 예를 들어, <code class="language-plaintext highlighter-rouge">users</code> 테이블의 <code class="language-plaintext highlighter-rouge">id</code> 열을 참조하는 <code class="language-plaintext highlighter-rouge">posts</code> 테이블에 <code class="language-plaintext highlighter-rouge">user_id</code> 열을 정의해 보겠습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Schema\Blueprint</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">unsignedBigInteger</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">);</span>
+
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreign</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">references</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">on</span><span class="p">(</span><span class="s1">'users'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>이 구문은 다소 장황하기 때문에 Laravel은 개발자 경험을 향상시키기 위해 관례를 사용하는 추가적이고 더 간결한 메서드를 제공합니다. <code class="language-plaintext highlighter-rouge">foreignId</code> 메서드를 사용하여 열을 생성할 때, 위의 예제는 다음과 같이 다시 작성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignId</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">constrained</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">foreignId</code> 메서드는 <code class="language-plaintext highlighter-rouge">UNSIGNED BIGINT</code>에 해당하는 열을 생성하는 반면, <code class="language-plaintext highlighter-rouge">constrained</code> 메서드는 표와 참조되는 열을 결정하기 위해 규칙을 사용합니다. 만약 테이블 이름이 Laravel의 규칙과 일치하지 않는 경우, <code class="language-plaintext highlighter-rouge">constrained</code> 메서드에 수동으로 제공할 수 있습니다. 또한 생성된 인덱스에 할당될 이름을 지정할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignId</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">constrained</span><span class="p">(</span>
+        <span class="n">table</span><span class="o">:</span> <span class="s1">'users'</span><span class="p">,</span> <span class="n">indexName</span><span class="o">:</span> <span class="s1">'posts_user_id'</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>제약 조건의 “on delete” 및 “on update” 속성에 대해 원하는 동작을 지정할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignId</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">constrained</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">onUpdate</span><span class="p">(</span><span class="s1">'cascade'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">onDelete</span><span class="p">(</span><span class="s1">'cascade'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이러한 동작에 대해서는 대안적이고 표현적인 문법도 제공됩니다:</p>
+
+<div class="overflow-auto">
+
+| 메서드                        | 설명                                               |
+| ----------------------------- | ------------------------------------------------- |
+| `$table-&gt;cascadeOnUpdate();`  | 업데이트가 연쇄적으로 적용되어야 합니다.                  |
+| `$table-&gt;restrictOnUpdate();` | 업데이트가 제한되어야 합니다.                            |
+| `$table-&gt;nullOnUpdate();`     | 업데이트가 외래 키 값을 null로 설정해야 합니다.         |
+| `$table-&gt;noActionOnUpdate();` | 업데이트에 대해 아무 동작도 수행하지 않습니다.             |
+| `$table-&gt;cascadeOnDelete();`  | 삭제가 연쇄적으로 적용되어야 합니다.                    |
+| `$table-&gt;restrictOnDelete();` | 삭제가 제한되어야 합니다.                               |
+| `$table-&gt;nullOnDelete();`     | 삭제가 외래 키 값을 null로 설정해야 합니다.              |
+| `$table-&gt;noActionOnDelete();` | 자식 레코드가 존재하면 삭제를 방지합니다.                 |
+
+</div>
+
+<p>추가 <a href="#column-modifiers">열 수정자</a>는 <code class="language-plaintext highlighter-rouge">constrained</code> 메서드를 호출하기 전에 반드시 호출해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">foreignId</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">nullable</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">constrained</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="dropping-foreign-keys"></a></p>
+<h4 id="외래-키-삭제">외래 키 삭제</h4>
+
+<p>외래 키를 삭제하려면 <code class="language-plaintext highlighter-rouge">dropForeign</code> 메서드를 사용하여 삭제할 외래 키 제약 조건의 이름을 인수로 전달할 수 있습니다. 외래 키 제약 조건은 인덱스와 동일한 명명 규칙을 사용합니다. 다시 말해, 외래 키 제약 조건 이름은 테이블 이름과 제약 조건에 있는 열 이름을 기반으로 하며, 그 뒤에 “_foreign” 접미사가 붙습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">dropForeign</span><span class="p">(</span><span class="s1">'posts_user_id_foreign'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>또는 외래 키를 포함하는 열 이름을 담고 있는 배열을 <code class="language-plaintext highlighter-rouge">dropForeign</code> 메서드에 전달할 수 있습니다. 이 배열은 Laravel의 제약 조건 명명 규칙을 사용하여 외래 키 제약 조건 이름으로 변환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">dropForeign</span><span class="p">([</span><span class="s1">'user_id'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="toggling-foreign-key-constraints"></a></p>
+<h4 id="외래-키-제약-조건-전환">외래 키 제약 조건 전환</h4>
+
+<p>다음 방법을 사용하여 마이그레이션 내에서 외래 키 제약 조건을 활성화하거나 비활성화할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">enableForeignKeyConstraints</span><span class="p">();</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">disableForeignKeyConstraints</span><span class="p">();</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">withoutForeignKeyConstraints</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Constraints disabled within this closure...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+SQLite disables foreign key constraints by default. When using SQLite, make sure to <a href="/docs/{{version}}/database#configuration">enable foreign key support</a> in your database configuration before attempting to create them in your migrations.</p>
+</blockquote>
+
+<p><a name="events"></a></p>
+<h2 id="events">Events</h2>
+
+<p>For convenience, each migration operation will dispatch an <a href="/docs/{{version}}/events">event</a>. All of the following events extend the base <code class="language-plaintext highlighter-rouge">Illuminate\Database\Events\MigrationEvent</code> class:</p>
+
+<div class="overflow-auto">
+
+| Class                                            | Description                                      |
+| ------------------------------------------------ | ------------------------------------------------ |
+| `Illuminate\Database\Events\DatabaseRefreshed`   | The `migrate:refresh` command has finished.      |
+| `Illuminate\Database\Events\MigrationsStarted`   | A batch of migrations is about to be executed.   |
+| `Illuminate\Database\Events\MigrationsEnded`     | A batch of migrations has finished.              |
+| `Illuminate\Database\Events\MigrationStarted`    | A single migration is about to be executed.      |
+| `Illuminate\Database\Events\MigrationEnded`      | A single migration has finished.                 |
+| `Illuminate\Database\Events\NoPendingMigrations` | A migration command found no pending migrations. |
+| `Illuminate\Database\Events\SchemaDumped`        | A database schema dump has finished.             |
+| `Illuminate\Database\Events\SchemaLoaded`        | An existing database schema dump has loaded.     |
+
+</div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

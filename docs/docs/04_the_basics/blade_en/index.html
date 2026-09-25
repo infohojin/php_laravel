@@ -1,0 +1,3515 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Blade Templates | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Blade Templates" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/04_the_basics/blade_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/04_the_basics/blade_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Blade Templates" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Blade Templates","url":"http://localhost:4000/docs/04_the_basics/blade_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/04_the_basics/">04 the basics</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Blade Templates</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="blade-templates">Blade Templates</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a>
+    <ul>
+      <li><a href="#supercharging-blade-with-livewire">Supercharging Blade With Livewire</a></li>
+    </ul>
+  </li>
+  <li><a href="#displaying-data">Displaying Data</a>
+    <ul>
+      <li><a href="#html-entity-encoding">HTML Entity Encoding</a></li>
+      <li><a href="#blade-and-javascript-frameworks">Blade and JavaScript Frameworks</a></li>
+    </ul>
+  </li>
+  <li><a href="#blade-directives">Blade Directives</a>
+    <ul>
+      <li><a href="#if-statements">If Statements</a></li>
+      <li><a href="#switch-statements">Switch Statements</a></li>
+      <li><a href="#loops">Loops</a></li>
+      <li><a href="#the-loop-variable">The Loop Variable</a></li>
+      <li><a href="#conditional-classes">Conditional Classes</a></li>
+      <li><a href="#additional-attributes">Additional Attributes</a></li>
+      <li><a href="#including-subviews">Including Subviews</a></li>
+      <li><a href="#the-once-directive">The <code class="language-plaintext highlighter-rouge">@once</code> Directive</a></li>
+      <li><a href="#raw-php">Raw PHP</a></li>
+      <li><a href="#fonts">Fonts</a></li>
+      <li><a href="#comments">Comments</a></li>
+    </ul>
+  </li>
+  <li><a href="#components">Components</a>
+    <ul>
+      <li><a href="#rendering-components">Rendering Components</a></li>
+      <li><a href="#index-components">Index Components</a></li>
+      <li><a href="#passing-data-to-components">Passing Data to Components</a></li>
+      <li><a href="#component-attributes">Component Attributes</a></li>
+      <li><a href="#reserved-keywords">Reserved Keywords</a></li>
+      <li><a href="#slots">Slots</a></li>
+      <li><a href="#inline-component-views">Inline Component Views</a></li>
+      <li><a href="#dynamic-components">Dynamic Components</a></li>
+      <li><a href="#manually-registering-components">Manually Registering Components</a></li>
+    </ul>
+  </li>
+  <li><a href="#anonymous-components">Anonymous Components</a>
+    <ul>
+      <li><a href="#anonymous-index-components">Anonymous Index Components</a></li>
+      <li><a href="#data-properties-attributes">Data Properties / Attributes</a></li>
+      <li><a href="#accessing-parent-data">Accessing Parent Data</a></li>
+      <li><a href="#anonymous-component-paths">Anonymous Component Paths</a></li>
+    </ul>
+  </li>
+  <li><a href="#building-layouts">Building Layouts</a>
+    <ul>
+      <li><a href="#layouts-using-components">Layouts Using Components</a></li>
+      <li><a href="#layouts-using-template-inheritance">Layouts Using Template Inheritance</a></li>
+    </ul>
+  </li>
+  <li><a href="#forms">Forms</a>
+    <ul>
+      <li><a href="#csrf-field">CSRF Field</a></li>
+      <li><a href="#method-field">Method Field</a></li>
+      <li><a href="#validation-errors">Validation Errors</a></li>
+    </ul>
+  </li>
+  <li><a href="#stacks">Stacks</a></li>
+  <li><a href="#service-injection">Service Injection</a></li>
+  <li><a href="#rendering-inline-blade-templates">Rendering Inline Blade Templates</a></li>
+  <li><a href="#rendering-blade-fragments">Rendering Blade Fragments</a></li>
+  <li><a href="#extending-blade">Extending Blade</a>
+    <ul>
+      <li><a href="#custom-echo-handlers">Custom Echo Handlers</a></li>
+      <li><a href="#custom-if-statements">Custom If Statements</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Blade is the simple, yet powerful templating engine that is included with Laravel. Unlike some PHP templating engines, Blade does not restrict you from using plain PHP code in your templates. In fact, all Blade templates are compiled into plain PHP code and cached until they are modified, meaning Blade adds essentially zero overhead to your application. Blade template files use the <code class="language-plaintext highlighter-rouge">.blade.php</code> file extension and are typically stored in the <code class="language-plaintext highlighter-rouge">resources/views</code> directory.</p>
+
+<p>Blade views may be returned from routes or controllers using the global <code class="language-plaintext highlighter-rouge">view</code> helper. Of course, as mentioned in the documentation on <a href="/docs/{{version}}/views">views</a>, data may be passed to the Blade view using the <code class="language-plaintext highlighter-rouge">view</code> helper’s second argument:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'greeting'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Finn'</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="supercharging-blade-with-livewire"></a></p>
+<h3 id="supercharging-blade-with-livewire">Supercharging Blade With Livewire</h3>
+
+<p>Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out <a href="https://livewire.laravel.com">Laravel Livewire</a>. Livewire allows you to write Blade components that are augmented with dynamic functionality that would typically only be possible via frontend frameworks like React, Svelte, or Vue, providing a great approach to building modern, reactive frontends without the complexities, client-side rendering, or build steps of many JavaScript frameworks.</p>
+
+<p><a name="displaying-data"></a></p>
+<h2 id="displaying-data">Displaying Data</h2>
+
+<p>You may display data that is passed to your Blade views by wrapping the variable in curly braces. For example, given the following route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'welcome'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Samantha'</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>You may display the contents of the <code class="language-plaintext highlighter-rouge">name</code> variable like so:</p>
+
+<pre><code class="language-blade">Hello, {{ $name }}.
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]
+Blade’s <code class="language-plaintext highlighter-rouge">{{ }}</code> echo statements are automatically sent through PHP’s <code class="language-plaintext highlighter-rouge">htmlspecialchars</code> function to prevent XSS attacks.</p>
+</blockquote>
+
+<p>You are not limited to displaying the contents of the variables passed to the view. You may also echo the results of any PHP function. In fact, you can put any PHP code you wish inside of a Blade echo statement:</p>
+
+<pre><code class="language-blade">The current UNIX timestamp is {{ time() }}.
+</code></pre>
+
+<p><a name="html-entity-encoding"></a></p>
+<h3 id="html-entity-encoding">HTML Entity Encoding</h3>
+
+<p>By default, Blade (and the Laravel <code class="language-plaintext highlighter-rouge">e</code> function) will double encode HTML entities. If you would like to disable double encoding, call the <code class="language-plaintext highlighter-rouge">Blade::withoutDoubleEncoding</code> method from the <code class="language-plaintext highlighter-rouge">boot</code> method of your <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Blade</span><span class="o">::</span><span class="nf">withoutDoubleEncoding</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="displaying-unescaped-data"></a></p>
+<h4 id="displaying-unescaped-data">Displaying Unescaped Data</h4>
+
+<p>By default, Blade <code class="language-plaintext highlighter-rouge">{{ }}</code> statements are automatically sent through PHP’s <code class="language-plaintext highlighter-rouge">htmlspecialchars</code> function to prevent XSS attacks. If you do not want your data to be escaped, you may use the following syntax:</p>
+
+<pre><code class="language-blade">Hello, {!! $name !!}.
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+Be very careful when echoing content that is supplied by users of your application. You should typically use the escaped, double curly brace syntax to prevent XSS attacks when displaying user supplied data.</p>
+</blockquote>
+
+<p><a name="blade-and-javascript-frameworks"></a></p>
+<h3 id="blade-and-javascript-frameworks">Blade and JavaScript Frameworks</h3>
+
+<p>Since many JavaScript frameworks also use “curly” braces to indicate a given expression should be displayed in the browser, you may use the <code class="language-plaintext highlighter-rouge">@</code> symbol to inform the Blade rendering engine an expression should remain untouched. For example:</p>
+
+<pre><code class="language-blade">&lt;h1&gt;Laravel&lt;/h1&gt;
+
+Hello, @{{ name }}.
+</code></pre>
+
+<p>In this example, the <code class="language-plaintext highlighter-rouge">@</code> symbol will be removed by Blade; however, the <code class="language-plaintext highlighter-rouge">{{ name }}</code> expression will remain untouched by the Blade engine, allowing it to be rendered by your JavaScript framework.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">@</code> symbol may also be used to escape Blade directives:</p>
+
+<pre><code class="language-blade">{{-- Blade template --}}
+@@if()
+
+&lt;!-- HTML output --&gt;
+@if()
+</code></pre>
+
+<p><a name="rendering-json"></a></p>
+<h4 id="rendering-json">Rendering JSON</h4>
+
+<p>Sometimes you may pass an array to your view with the intention of rendering it as JSON in order to initialize a JavaScript variable. For example:</p>
+
+<pre><code class="language-blade">&lt;script&gt;
+    var app = &lt;?php echo json_encode($array); ?&gt;;
+&lt;/script&gt;
+</code></pre>
+
+<p>However, instead of manually calling <code class="language-plaintext highlighter-rouge">json_encode</code>, you may use the <code class="language-plaintext highlighter-rouge">Illuminate\Support\Js::from</code> method. The <code class="language-plaintext highlighter-rouge">from</code> method accepts the same arguments as PHP’s <code class="language-plaintext highlighter-rouge">json_encode</code> function; however, it will ensure that the resulting JSON has been properly escaped for inclusion within HTML quotes. The <code class="language-plaintext highlighter-rouge">from</code> method will return a string <code class="language-plaintext highlighter-rouge">JSON.parse</code> JavaScript statement that will convert the given object or array into a valid JavaScript object:</p>
+
+<pre><code class="language-blade">&lt;script&gt;
+    var app = {{ Illuminate\Support\Js::from($array) }};
+&lt;/script&gt;
+</code></pre>
+
+<p>The latest versions of the Laravel application skeleton include a <code class="language-plaintext highlighter-rouge">Js</code> facade, which provides convenient access to this functionality within your Blade templates:</p>
+
+<pre><code class="language-blade">&lt;script&gt;
+    var app = {{ Js::from($array) }};
+&lt;/script&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+You should only use the <code class="language-plaintext highlighter-rouge">Js::from</code> method to render existing variables as JSON. The Blade templating is based on regular expressions and attempts to pass a complex expression to the directive may cause unexpected failures.</p>
+</blockquote>
+
+<p><a name="the-at-verbatim-directive"></a></p>
+<h4 id="the-verbatim-directive">The <code class="language-plaintext highlighter-rouge">@verbatim</code> Directive</h4>
+
+<p>If you are displaying JavaScript variables in a large portion of your template, you may wrap the HTML in the <code class="language-plaintext highlighter-rouge">@verbatim</code> directive so that you do not have to prefix each Blade echo statement with an <code class="language-plaintext highlighter-rouge">@</code> symbol:</p>
+
+<pre><code class="language-blade">@verbatim
+    &lt;div class="container"&gt;
+        Hello, {{ name }}.
+    &lt;/div&gt;
+@endverbatim
+</code></pre>
+
+<p><a name="blade-directives"></a></p>
+<h2 id="blade-directives">Blade Directives</h2>
+
+<p>In addition to template inheritance and displaying data, Blade also provides convenient shortcuts for common PHP control structures, such as conditional statements and loops. These shortcuts provide a very clean, terse way of working with PHP control structures while also remaining familiar to their PHP counterparts.</p>
+
+<p><a name="if-statements"></a></p>
+<h3 id="if-statements">If Statements</h3>
+
+<p>You may construct <code class="language-plaintext highlighter-rouge">if</code> statements using the <code class="language-plaintext highlighter-rouge">@if</code>, <code class="language-plaintext highlighter-rouge">@elseif</code>, <code class="language-plaintext highlighter-rouge">@else</code>, and <code class="language-plaintext highlighter-rouge">@endif</code> directives. These directives function identically to their PHP counterparts:</p>
+
+<pre><code class="language-blade">@if (count($records) === 1)
+    I have one record!
+@elseif (count($records) &gt; 1)
+    I have multiple records!
+@else
+    I don't have any records!
+@endif
+</code></pre>
+
+<p>For convenience, Blade also provides an <code class="language-plaintext highlighter-rouge">@unless</code> directive:</p>
+
+<pre><code class="language-blade">@unless (Auth::check())
+    You are not signed in.
+@endunless
+</code></pre>
+
+<p>In addition to the conditional directives already discussed, the <code class="language-plaintext highlighter-rouge">@isset</code> and <code class="language-plaintext highlighter-rouge">@empty</code> directives may be used as convenient shortcuts for their respective PHP functions:</p>
+
+<pre><code class="language-blade">@isset($records)
+    // $records is defined and is not null...
+@endisset
+
+@empty($records)
+    // $records is "empty"...
+@endempty
+</code></pre>
+
+<p><a name="authentication-directives"></a></p>
+<h4 id="authentication-directives">Authentication Directives</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">@auth</code> and <code class="language-plaintext highlighter-rouge">@guest</code> directives may be used to quickly determine if the current user is <a href="/docs/{{version}}/authentication">authenticated</a> or is a guest:</p>
+
+<pre><code class="language-blade">@auth
+    // The user is authenticated...
+@endauth
+
+@guest
+    // The user is not authenticated...
+@endguest
+</code></pre>
+
+<p>If needed, you may specify the authentication guard that should be checked when using the <code class="language-plaintext highlighter-rouge">@auth</code> and <code class="language-plaintext highlighter-rouge">@guest</code> directives:</p>
+
+<pre><code class="language-blade">@auth('admin')
+    // The user is authenticated...
+@endauth
+
+@guest('admin')
+    // The user is not authenticated...
+@endguest
+</code></pre>
+
+<p><a name="environment-directives"></a></p>
+<h4 id="environment-directives">Environment Directives</h4>
+
+<p>You may check if the application is running in the production environment using the <code class="language-plaintext highlighter-rouge">@production</code> directive:</p>
+
+<pre><code class="language-blade">@production
+    // Production specific content...
+@endproduction
+</code></pre>
+
+<p>Or, you may determine if the application is running in a specific environment using the <code class="language-plaintext highlighter-rouge">@env</code> directive:</p>
+
+<pre><code class="language-blade">@env('staging')
+    // The application is running in "staging"...
+@endenv
+
+@env(['staging', 'production'])
+    // The application is running in "staging" or "production"...
+@endenv
+</code></pre>
+
+<p><a name="section-directives"></a></p>
+<h4 id="section-directives">Section Directives</h4>
+
+<p>You may determine if a template inheritance section has content using the <code class="language-plaintext highlighter-rouge">@hasSection</code> directive:</p>
+
+<pre><code class="language-blade">@hasSection('navigation')
+    &lt;div class="pull-right"&gt;
+        @yield('navigation')
+    &lt;/div&gt;
+
+    &lt;div class="clearfix"&gt;&lt;/div&gt;
+@endif
+</code></pre>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">sectionMissing</code> directive to determine if a section does not have content:</p>
+
+<pre><code class="language-blade">@sectionMissing('navigation')
+    &lt;div class="pull-right"&gt;
+        @include('default-navigation')
+    &lt;/div&gt;
+@endif
+</code></pre>
+
+<p><a name="session-directives"></a></p>
+<h4 id="session-directives">Session Directives</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">@session</code> directive may be used to determine if a <a href="/docs/{{version}}/session">session</a> value exists. If the session value exists, the template contents within the <code class="language-plaintext highlighter-rouge">@session</code> and <code class="language-plaintext highlighter-rouge">@endsession</code> directives will be evaluated. Within the <code class="language-plaintext highlighter-rouge">@session</code> directive’s contents, you may echo the <code class="language-plaintext highlighter-rouge">$value</code> variable to display the session value:</p>
+
+<pre><code class="language-blade">@session('status')
+    &lt;div class="p-4 bg-green-100"&gt;
+        {{ $value }}
+    &lt;/div&gt;
+@endsession
+</code></pre>
+
+<p><a name="context-directives"></a></p>
+<h4 id="context-directives">Context Directives</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">@context</code> directive may be used to determine if a <a href="/docs/{{version}}/context">context</a> value exists. If the context value exists, the template contents within the <code class="language-plaintext highlighter-rouge">@context</code> and <code class="language-plaintext highlighter-rouge">@endcontext</code> directives will be evaluated. Within the <code class="language-plaintext highlighter-rouge">@context</code> directive’s contents, you may echo the <code class="language-plaintext highlighter-rouge">$value</code> variable to display the context value:</p>
+
+<pre><code class="language-blade">@context('canonical')
+    &lt;link href="{{ $value }}" rel="canonical"&gt;
+@endcontext
+</code></pre>
+
+<p><a name="switch-statements"></a></p>
+<h3 id="switch-statements">Switch Statements</h3>
+
+<p>Switch statements can be constructed using the <code class="language-plaintext highlighter-rouge">@switch</code>, <code class="language-plaintext highlighter-rouge">@case</code>, <code class="language-plaintext highlighter-rouge">@break</code>, <code class="language-plaintext highlighter-rouge">@default</code> and <code class="language-plaintext highlighter-rouge">@endswitch</code> directives:</p>
+
+<pre><code class="language-blade">@switch($i)
+    @case(1)
+        First case...
+        @break
+
+    @case(2)
+        Second case...
+        @break
+
+    @default
+        Default case...
+@endswitch
+</code></pre>
+
+<p><a name="loops"></a></p>
+<h3 id="loops">Loops</h3>
+
+<p>In addition to conditional statements, Blade provides simple directives for working with PHP’s loop structures. Again, each of these directives functions identically to their PHP counterparts:</p>
+
+<pre><code class="language-blade">@for ($i = 0; $i &lt; 10; $i++)
+    The current value is {{ $i }}
+@endfor
+
+@foreach ($users as $user)
+    &lt;p&gt;This is user {{ $user-&gt;id }}&lt;/p&gt;
+@endforeach
+
+@forelse ($users as $user)
+    &lt;li&gt;{{ $user-&gt;name }}&lt;/li&gt;
+@empty
+    &lt;p&gt;No users&lt;/p&gt;
+@endforelse
+
+@while (true)
+    &lt;p&gt;I'm looping forever.&lt;/p&gt;
+@endwhile
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]
+While iterating through a <code class="language-plaintext highlighter-rouge">foreach</code> loop, you may use the <a href="#the-loop-variable">loop variable</a> to gain valuable information about the loop, such as whether you are in the first or last iteration through the loop.</p>
+</blockquote>
+
+<p>When using loops you may also skip the current iteration or end the loop using the <code class="language-plaintext highlighter-rouge">@continue</code> and <code class="language-plaintext highlighter-rouge">@break</code> directives:</p>
+
+<pre><code class="language-blade">@foreach ($users as $user)
+    @if ($user-&gt;type == 1)
+        @continue
+    @endif
+
+    &lt;li&gt;{{ $user-&gt;name }}&lt;/li&gt;
+
+    @if ($user-&gt;number == 5)
+        @break
+    @endif
+@endforeach
+</code></pre>
+
+<p>You may also include the continuation or break condition within the directive declaration:</p>
+
+<pre><code class="language-blade">@foreach ($users as $user)
+    @continue($user-&gt;type == 1)
+
+    &lt;li&gt;{{ $user-&gt;name }}&lt;/li&gt;
+
+    @break($user-&gt;number == 5)
+@endforeach
+</code></pre>
+
+<p><a name="the-loop-variable"></a></p>
+<h3 id="the-loop-variable">The Loop Variable</h3>
+
+<p>While iterating through a <code class="language-plaintext highlighter-rouge">foreach</code> loop, a <code class="language-plaintext highlighter-rouge">$loop</code> variable will be available inside of your loop. This variable provides access to some useful bits of information such as the current loop index and whether this is the first or last iteration through the loop:</p>
+
+<pre><code class="language-blade">@foreach ($users as $user)
+    @if ($loop-&gt;first)
+        This is the first iteration.
+    @endif
+
+    @if ($loop-&gt;last)
+        This is the last iteration.
+    @endif
+
+    &lt;p&gt;This is user {{ $user-&gt;id }}&lt;/p&gt;
+@endforeach
+</code></pre>
+
+<p>If you are in a nested loop, you may access the parent loop’s <code class="language-plaintext highlighter-rouge">$loop</code> variable via the <code class="language-plaintext highlighter-rouge">parent</code> property:</p>
+
+<pre><code class="language-blade">@foreach ($users as $user)
+    @foreach ($user-&gt;posts as $post)
+        @if ($loop-&gt;parent-&gt;first)
+            This is the first iteration of the parent loop.
+        @endif
+    @endforeach
+@endforeach
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">$loop</code> variable also contains a variety of other useful properties:</p>
+
+<div class="overflow-auto">
+
+| Property           | Description                                            |
+| ------------------ | ------------------------------------------------------ |
+| `$loop-&gt;index`     | The index of the current loop iteration (starts at 0). |
+| `$loop-&gt;iteration` | The current loop iteration (starts at 1).              |
+| `$loop-&gt;remaining` | The iterations remaining in the loop.                  |
+| `$loop-&gt;count`     | The total number of items in the array being iterated. |
+| `$loop-&gt;first`     | Whether this is the first iteration through the loop.  |
+| `$loop-&gt;last`      | Whether this is the last iteration through the loop.   |
+| `$loop-&gt;even`      | Whether this is an even iteration through the loop.    |
+| `$loop-&gt;odd`       | Whether this is an odd iteration through the loop.     |
+| `$loop-&gt;depth`     | The nesting level of the current loop.                 |
+| `$loop-&gt;parent`    | When in a nested loop, the parent's loop variable.     |
+
+</div>
+
+<p><a name="conditional-classes"></a></p>
+<h3 id="conditional-classes--styles">Conditional Classes &amp; Styles</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">@class</code> directive conditionally compiles a CSS class string. The directive accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:</p>
+
+<pre><code class="language-blade">@php
+    $isActive = false;
+    $hasError = true;
+@endphp
+
+&lt;span @class([
+    'p-4',
+    'font-bold' =&gt; $isActive,
+    'text-gray-500' =&gt; ! $isActive,
+    'bg-red' =&gt; $hasError,
+])&gt;&lt;/span&gt;
+
+&lt;span class="p-4 text-gray-500 bg-red"&gt;&lt;/span&gt;
+</code></pre>
+
+<p>Likewise, the <code class="language-plaintext highlighter-rouge">@style</code> directive may be used to conditionally add inline CSS styles to an HTML element:</p>
+
+<pre><code class="language-blade">@php
+    $isActive = true;
+@endphp
+
+&lt;span @style([
+    'background-color: red',
+    'font-weight: bold' =&gt; $isActive,
+])&gt;&lt;/span&gt;
+
+&lt;span style="background-color: red; font-weight: bold;"&gt;&lt;/span&gt;
+</code></pre>
+
+<p><a name="additional-attributes"></a></p>
+<h3 id="additional-attributes">Additional Attributes</h3>
+
+<p>For convenience, you may use the <code class="language-plaintext highlighter-rouge">@checked</code> directive to easily indicate if a given HTML checkbox input is “checked”. This directive will echo <code class="language-plaintext highlighter-rouge">checked</code> if the provided condition evaluates to <code class="language-plaintext highlighter-rouge">true</code>:</p>
+
+<pre><code class="language-blade">&lt;input
+    type="checkbox"
+    name="active"
+    value="active"
+    @checked(old('active', $user-&gt;active))
+/&gt;
+</code></pre>
+
+<p>Likewise, the <code class="language-plaintext highlighter-rouge">@selected</code> directive may be used to indicate if a given select option should be “selected”:</p>
+
+<pre><code class="language-blade">&lt;select name="version"&gt;
+    @foreach ($product-&gt;versions as $version)
+        &lt;option value="{{ $version }}" @selected(old('version') == $version)&gt;
+            {{ $version }}
+        &lt;/option&gt;
+    @endforeach
+&lt;/select&gt;
+</code></pre>
+
+<p>Additionally, the <code class="language-plaintext highlighter-rouge">@disabled</code> directive may be used to indicate if a given element should be “disabled”:</p>
+
+<pre><code class="language-blade">&lt;button type="submit" @disabled($errors-&gt;isNotEmpty())&gt;Submit&lt;/button&gt;
+</code></pre>
+
+<p>Moreover, the <code class="language-plaintext highlighter-rouge">@readonly</code> directive may be used to indicate if a given element should be “readonly”:</p>
+
+<pre><code class="language-blade">&lt;input
+    type="email"
+    name="email"
+    value="email@laravel.com"
+    @readonly($user-&gt;isNotAdmin())
+/&gt;
+</code></pre>
+
+<p>In addition, the <code class="language-plaintext highlighter-rouge">@required</code> directive may be used to indicate if a given element should be “required”:</p>
+
+<pre><code class="language-blade">&lt;input
+    type="text"
+    name="title"
+    value="title"
+    @required($user-&gt;isAdmin())
+/&gt;
+</code></pre>
+
+<p><a name="including-subviews"></a></p>
+<h3 id="including-subviews">Including Subviews</h3>
+
+<blockquote>
+  <p>[!NOTE]
+While you’re free to use the <code class="language-plaintext highlighter-rouge">@include</code> directive, Blade <a href="#components">components</a> provide similar functionality and offer several benefits over the <code class="language-plaintext highlighter-rouge">@include</code> directive such as data and attribute binding.</p>
+</blockquote>
+
+<p>Blade’s <code class="language-plaintext highlighter-rouge">@include</code> directive allows you to include a Blade view from within another view. All variables that are available to the parent view will be made available to the included view:</p>
+
+<pre><code class="language-blade">&lt;div&gt;
+    @include('shared.errors')
+
+    &lt;form&gt;
+        &lt;!-- Form Contents --&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Even though the included view will inherit all data available in the parent view, you may also pass an array of additional data that should be made available to the included view:</p>
+
+<pre><code class="language-blade">@include('view.name', ['status' =&gt; 'complete'])
+</code></pre>
+
+<p>If you attempt to <code class="language-plaintext highlighter-rouge">@include</code> a view which does not exist, Laravel will throw an error. If you would like to include a view that may or may not be present, you should use the <code class="language-plaintext highlighter-rouge">@includeIf</code> directive:</p>
+
+<pre><code class="language-blade">@includeIf('view.name', ['status' =&gt; 'complete'])
+</code></pre>
+
+<p>If you would like to <code class="language-plaintext highlighter-rouge">@include</code> a view if a given boolean expression evaluates to <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>, you may use the <code class="language-plaintext highlighter-rouge">@includeWhen</code> and <code class="language-plaintext highlighter-rouge">@includeUnless</code> directives:</p>
+
+<pre><code class="language-blade">@includeWhen($boolean, 'view.name', ['status' =&gt; 'complete'])
+
+@includeUnless($boolean, 'view.name', ['status' =&gt; 'complete'])
+</code></pre>
+
+<p>To include the first view that exists from a given array of views, you may use the <code class="language-plaintext highlighter-rouge">includeFirst</code> directive:</p>
+
+<pre><code class="language-blade">@includeFirst(['custom.admin', 'admin'], ['status' =&gt; 'complete'])
+</code></pre>
+
+<p>If you would like to include a view without inheriting any variables from the parent view, you may use the <code class="language-plaintext highlighter-rouge">@includeIsolated</code> directive. The included view will only have access to variables you explicitly pass:</p>
+
+<pre><code class="language-blade">@includeIsolated('view.name', ['user' =&gt; $user])
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+You should avoid using the <code class="language-plaintext highlighter-rouge">__DIR__</code> and <code class="language-plaintext highlighter-rouge">__FILE__</code> constants in your Blade views, since they will refer to the location of the cached, compiled view.</p>
+</blockquote>
+
+<p><a name="rendering-views-for-collections"></a></p>
+<h4 id="rendering-views-for-collections">Rendering Views for Collections</h4>
+
+<p>You may combine loops and includes into one line with Blade’s <code class="language-plaintext highlighter-rouge">@each</code> directive:</p>
+
+<pre><code class="language-blade">@each('view.name', $jobs, 'job')
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">@each</code> directive’s first argument is the view to render for each element in the array or collection. The second argument is the array or collection you wish to iterate over, while the third argument is the variable name that will be assigned to the current iteration within the view. So, for example, if you are iterating over an array of <code class="language-plaintext highlighter-rouge">jobs</code>, typically you will want to access each job as a <code class="language-plaintext highlighter-rouge">job</code> variable within the view. The array key for the current iteration will be available as the <code class="language-plaintext highlighter-rouge">key</code> variable within the view.</p>
+
+<p>You may also pass a fourth argument to the <code class="language-plaintext highlighter-rouge">@each</code> directive. This argument determines the view that will be rendered if the given array is empty.</p>
+
+<pre><code class="language-blade">@each('view.name', $jobs, 'job', 'view.empty')
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+Views rendered via <code class="language-plaintext highlighter-rouge">@each</code> do not inherit the variables from the parent view. If the child view requires these variables, you should use the <code class="language-plaintext highlighter-rouge">@foreach</code> and <code class="language-plaintext highlighter-rouge">@include</code> directives instead.</p>
+</blockquote>
+
+<p><a name="the-once-directive"></a></p>
+<h3 id="the-once-directive">The <code class="language-plaintext highlighter-rouge">@once</code> Directive</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">@once</code> directive allows you to define a portion of the template that will only be evaluated once per rendering cycle. This may be useful for pushing a given piece of JavaScript into the page’s header using <a href="#stacks">stacks</a>. For example, if you are rendering a given <a href="#components">component</a> within a loop, you may wish to only push the JavaScript to the header the first time the component is rendered:</p>
+
+<pre><code class="language-blade">@once
+    @push('scripts')
+        &lt;script&gt;
+            // Your custom JavaScript...
+        &lt;/script&gt;
+    @endpush
+@endonce
+</code></pre>
+
+<p>Since the <code class="language-plaintext highlighter-rouge">@once</code> directive is often used in conjunction with the <code class="language-plaintext highlighter-rouge">@push</code> or <code class="language-plaintext highlighter-rouge">@prepend</code> directives, the <code class="language-plaintext highlighter-rouge">@pushOnce</code> and <code class="language-plaintext highlighter-rouge">@prependOnce</code> directives are available for your convenience:</p>
+
+<pre><code class="language-blade">@pushOnce('scripts')
+    &lt;script&gt;
+        // Your custom JavaScript...
+    &lt;/script&gt;
+@endPushOnce
+</code></pre>
+
+<p>If you are pushing duplicate content from two separate Blade templates, you should provide a unique identifier as the second argument to the <code class="language-plaintext highlighter-rouge">@pushOnce</code> directive to ensure the content is only rendered once:</p>
+
+<pre><code class="language-blade">&lt;!-- pie-chart.blade.php --&gt;
+@pushOnce('scripts', 'chart.js')
+    &lt;script src="/chart.js"&gt;&lt;/script&gt;
+@endPushOnce
+
+&lt;!-- line-chart.blade.php --&gt;
+@pushOnce('scripts', 'chart.js')
+    &lt;script src="/chart.js"&gt;&lt;/script&gt;
+@endPushOnce
+</code></pre>
+
+<p><a name="raw-php"></a></p>
+<h3 id="raw-php">Raw PHP</h3>
+
+<p>In some situations, it’s useful to embed PHP code into your views. You can use the Blade <code class="language-plaintext highlighter-rouge">@php</code> directive to execute a block of plain PHP within your template:</p>
+
+<pre><code class="language-blade">@php
+    $counter = 1;
+@endphp
+</code></pre>
+
+<p>Or, if you only need to use PHP to import a class, you may use the <code class="language-plaintext highlighter-rouge">@use</code> directive:</p>
+
+<pre><code class="language-blade">@use('App\Models\Flight')
+</code></pre>
+
+<p>A second argument may be provided to the <code class="language-plaintext highlighter-rouge">@use</code> directive to alias the imported class:</p>
+
+<pre><code class="language-blade">@use('App\Models\Flight', 'FlightModel')
+</code></pre>
+
+<p>If you have multiple classes within the same namespace, you may group the imports of those classes:</p>
+
+<pre><code class="language-blade">@use('App\Models\{Flight, Airport}')
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">@use</code> directive also supports importing PHP functions and constants by prefixing the import path with the <code class="language-plaintext highlighter-rouge">function</code> or <code class="language-plaintext highlighter-rouge">const</code> modifiers:</p>
+
+<pre><code class="language-blade">@use(function App\Helpers\format_currency)
+@use(const App\Constants\MAX_ATTEMPTS)
+</code></pre>
+
+<p>Just like class imports, aliases are supported for functions and constants as well:</p>
+
+<pre><code class="language-blade">@use(function App\Helpers\format_currency, 'formatMoney')
+@use(const App\Constants\MAX_ATTEMPTS, 'MAX_TRIES')
+</code></pre>
+
+<p>Grouped imports are also supported with both function and const modifiers, allowing you to import multiple symbols from the same namespace in a single directive:</p>
+
+<pre><code class="language-blade">@use(function App\Helpers\{format_currency, format_date})
+@use(const App\Constants\{MAX_ATTEMPTS, DEFAULT_TIMEOUT})
+</code></pre>
+
+<p><a name="fonts"></a></p>
+<h3 id="fonts">Fonts</h3>
+
+<p>When using <a href="/docs/{{version}}/vite#working-with-fonts">Laravel’s Vite font optimization</a>, you may use the <code class="language-plaintext highlighter-rouge">@fonts</code> directive to render your configured font preload links and inline font CSS in your application’s layout:</p>
+
+<pre><code class="language-blade">&lt;!doctype html&gt;
+&lt;head&gt;
+    {{-- ... --}}
+
+    @fonts
+    @vite('resources/js/app.js')
+&lt;/head&gt;
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">@fonts</code> directive renders all font families configured in your <code class="language-plaintext highlighter-rouge">vite.config.js</code> file. The directive should typically be placed in the <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> of your application’s root layout before any content that uses those fonts.</p>
+
+<p>If a page only needs some of your configured fonts, you may pass one or more font aliases to the directive:</p>
+
+<pre><code class="language-blade">{{-- Load a single font alias... --}}
+@fonts('sans')
+
+{{-- Load multiple font aliases... --}}
+@fonts(['sans', 'mono'])
+</code></pre>
+
+<p>Font aliases are configured using the <code class="language-plaintext highlighter-rouge">alias</code> option when defining fonts in your Vite configuration. The <code class="language-plaintext highlighter-rouge">@fonts</code> directive calls the <code class="language-plaintext highlighter-rouge">fonts</code> method provided by the <code class="language-plaintext highlighter-rouge">Vite</code> facade, which may also be invoked directly:</p>
+
+<pre><code class="language-blade">{{ Vite::fonts(['sans', 'mono']) }}
+</code></pre>
+
+<p><a name="comments"></a></p>
+<h3 id="comments">Comments</h3>
+
+<p>Blade also allows you to define comments in your views. However, unlike HTML comments, Blade comments are not included in the HTML returned by your application:</p>
+
+<pre><code class="language-blade">{{-- This comment will not be present in the rendered HTML --}}
+</code></pre>
+
+<p><a name="components"></a></p>
+<h2 id="components">Components</h2>
+
+<p>Components and slots provide similar benefits to sections, layouts, and includes; however, some may find the mental model of components and slots easier to understand. There are two approaches to writing components: class-based components and anonymous components.</p>
+
+<p>To create a class-based component, you may use the <code class="language-plaintext highlighter-rouge">make:component</code> Artisan command. To illustrate how to use components, we will create a simple <code class="language-plaintext highlighter-rouge">Alert</code> component. The <code class="language-plaintext highlighter-rouge">make:component</code> command will place the component in the <code class="language-plaintext highlighter-rouge">app/View/Components</code> directory:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:component Alert
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">make:component</code> command will also create a view template for the component. The view will be placed in the <code class="language-plaintext highlighter-rouge">resources/views/components</code> directory. When writing components for your own application, components are automatically discovered within the <code class="language-plaintext highlighter-rouge">app/View/Components</code> directory and <code class="language-plaintext highlighter-rouge">resources/views/components</code> directory, so no further component registration is typically required.</p>
+
+<p>You may also create components within subdirectories:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:component Forms/Input
+</code></pre></div></div>
+
+<p>The command above will create an <code class="language-plaintext highlighter-rouge">Input</code> component in the <code class="language-plaintext highlighter-rouge">app/View/Components/Forms</code> directory and the view will be placed in the <code class="language-plaintext highlighter-rouge">resources/views/components/forms</code> directory.</p>
+
+<p><a name="manually-registering-package-components"></a></p>
+<h4 id="manually-registering-package-components">Manually Registering Package Components</h4>
+
+<p>When writing components for your own application, components are automatically discovered within the <code class="language-plaintext highlighter-rouge">app/View/Components</code> directory and <code class="language-plaintext highlighter-rouge">resources/views/components</code> directory.</p>
+
+<p>However, if you are building a package that utilizes Blade components, you will need to manually register your component class and its HTML tag alias. You should typically register your components in the <code class="language-plaintext highlighter-rouge">boot</code> method of your package’s service provider:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap your package's services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Blade</span><span class="o">::</span><span class="nf">component</span><span class="p">(</span><span class="s1">'package-alert'</span><span class="p">,</span> <span class="nc">Alert</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once your component has been registered, it may be rendered using its tag alias:</p>
+
+<pre><code class="language-blade">&lt;x-package-alert/&gt;
+</code></pre>
+
+<p>Alternatively, you may use the <code class="language-plaintext highlighter-rouge">componentNamespace</code> method to autoload component classes by convention. For example, a <code class="language-plaintext highlighter-rouge">Nightshade</code> package might have <code class="language-plaintext highlighter-rouge">Calendar</code> and <code class="language-plaintext highlighter-rouge">ColorPicker</code> components that reside within the <code class="language-plaintext highlighter-rouge">Package\Views\Components</code> namespace:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap your package's services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Blade</span><span class="o">::</span><span class="nf">componentNamespace</span><span class="p">(</span><span class="s1">'Nightshade\\Views\\Components'</span><span class="p">,</span> <span class="s1">'nightshade'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will allow the usage of package components by their vendor namespace using the <code class="language-plaintext highlighter-rouge">package-name::</code> syntax:</p>
+
+<pre><code class="language-blade">&lt;x-nightshade::calendar /&gt;
+&lt;x-nightshade::color-picker /&gt;
+</code></pre>
+
+<p>Blade will automatically detect the class that’s linked to this component by pascal-casing the component name. Subdirectories are also supported using “dot” notation.</p>
+
+<p><a name="rendering-components"></a></p>
+<h3 id="rendering-components">Rendering Components</h3>
+
+<p>To display a component, you may use a Blade component tag within one of your Blade templates. Blade component tags start with the string <code class="language-plaintext highlighter-rouge">x-</code> followed by the kebab case name of the component class:</p>
+
+<pre><code class="language-blade">&lt;x-alert/&gt;
+
+&lt;x-user-profile/&gt;
+</code></pre>
+
+<p>If the component class is nested deeper within the <code class="language-plaintext highlighter-rouge">app/View/Components</code> directory, you may use the <code class="language-plaintext highlighter-rouge">.</code> character to indicate directory nesting. For example, if we assume a component is located at <code class="language-plaintext highlighter-rouge">app/View/Components/Inputs/Button.php</code>, we may render it like so:</p>
+
+<pre><code class="language-blade">&lt;x-inputs.button/&gt;
+</code></pre>
+
+<p>If you would like to conditionally render your component, you may define a <code class="language-plaintext highlighter-rouge">shouldRender</code> method on your component class. If the <code class="language-plaintext highlighter-rouge">shouldRender</code> method returns <code class="language-plaintext highlighter-rouge">false</code> the component will not be rendered:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Str</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Whether the component should be rendered
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">shouldRender</span><span class="p">():</span> <span class="kt">bool</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Str</span><span class="o">::</span><span class="nf">length</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">message</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="index-components"></a></p>
+<h3 id="index-components">Index Components</h3>
+
+<p>Sometimes components are part of a component group and you may wish to group the related components within a single directory. For example, imagine a “card” component with the following class structure:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>App\Views\Components\Card\Card
+App\Views\Components\Card\Header
+App\Views\Components\Card\Body
+</code></pre></div></div>
+
+<p>Since the root <code class="language-plaintext highlighter-rouge">Card</code> component is nested within a <code class="language-plaintext highlighter-rouge">Card</code> directory, you might expect that you would need to render the component via <code class="language-plaintext highlighter-rouge">&lt;x-card.card&gt;</code>. However, when a component’s file name matches the name of the component’s directory, Laravel automatically assumes that component is the “root” component and allows you to render the component without repeating the directory name:</p>
+
+<pre><code class="language-blade">&lt;x-card&gt;
+    &lt;x-card.header&gt;...&lt;/x-card.header&gt;
+    &lt;x-card.body&gt;...&lt;/x-card.body&gt;
+&lt;/x-card&gt;
+</code></pre>
+
+<p><a name="passing-data-to-components"></a></p>
+<h3 id="passing-data-to-components">Passing Data to Components</h3>
+
+<p>You may pass data to Blade components using HTML attributes. Hard-coded, primitive values may be passed to the component using simple HTML attribute strings. PHP expressions and variables should be passed to the component via attributes that use the <code class="language-plaintext highlighter-rouge">:</code> character as a prefix:</p>
+
+<pre><code class="language-blade">&lt;x-alert type="error" :message="$message"/&gt;
+</code></pre>
+
+<p>You should define all of the component’s data attributes in its class constructor. All public properties on a component will automatically be made available to the component’s view. It is not necessary to pass the data to the view from the component’s <code class="language-plaintext highlighter-rouge">render</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\View\Components</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\View\Component</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\View\View</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Alert</span> <span class="kd">extends</span> <span class="nc">Component</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Create the component instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="nv">$type</span><span class="p">,</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="nv">$message</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Get the view / contents that represent the component.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">render</span><span class="p">():</span> <span class="kt">View</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'components.alert'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When your component is rendered, you may display the contents of your component’s public variables by echoing the variables by name:</p>
+
+<pre><code class="language-blade">&lt;div class="alert alert-{{ $type }}"&gt;
+    {{ $message }}
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="casing"></a></p>
+<h4 id="casing">Casing</h4>
+
+<p>Component constructor arguments should be specified using <code class="language-plaintext highlighter-rouge">camelCase</code>, while <code class="language-plaintext highlighter-rouge">kebab-case</code> should be used when referencing the argument names in your HTML attributes. For example, given the following component constructor:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Create the component instance.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="nv">$alertType</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">$alertType</code> argument may be provided to the component like so:</p>
+
+<pre><code class="language-blade">&lt;x-alert alert-type="danger" /&gt;
+</code></pre>
+
+<p><a name="short-attribute-syntax"></a></p>
+<h4 id="short-attribute-syntax">Short Attribute Syntax</h4>
+
+<p>When passing attributes to components, you may also use a “short attribute” syntax. This is often convenient since attribute names frequently match the variable names they correspond to:</p>
+
+<pre><code class="language-blade">{{-- Short attribute syntax... --}}
+&lt;x-profile :$userId :$name /&gt;
+
+{{-- Is equivalent to... --}}
+&lt;x-profile :user-id="$userId" :name="$name" /&gt;
+</code></pre>
+
+<p><a name="escaping-attribute-rendering"></a></p>
+<h4 id="escaping-attribute-rendering">Escaping Attribute Rendering</h4>
+
+<p>Since some JavaScript frameworks such as Alpine.js also use colon-prefixed attributes, you may use a double colon (<code class="language-plaintext highlighter-rouge">::</code>) prefix to inform Blade that the attribute is not a PHP expression. For example, given the following component:</p>
+
+<pre><code class="language-blade">&lt;x-button ::class="{ danger: isDeleting }"&gt;
+    Submit
+&lt;/x-button&gt;
+</code></pre>
+
+<p>The following HTML will be rendered by Blade:</p>
+
+<pre><code class="language-blade">&lt;button :class="{ danger: isDeleting }"&gt;
+    Submit
+&lt;/button&gt;
+</code></pre>
+
+<p><a name="component-methods"></a></p>
+<h4 id="component-methods">Component Methods</h4>
+
+<p>In addition to public variables being available to your component template, any public methods on the component may be invoked. For example, imagine a component that has an <code class="language-plaintext highlighter-rouge">isSelected</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Determine if the given option is the currently selected option.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">isSelected</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$option</span><span class="p">):</span> <span class="kt">bool</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$option</span> <span class="o">===</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">selected</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may execute this method from your component template by invoking the variable matching the name of the method:</p>
+
+<pre><code class="language-blade">&lt;option {{ $isSelected($value) ? 'selected' : '' }} value="{{ $value }}"&gt;
+    {{ $label }}
+&lt;/option&gt;
+</code></pre>
+
+<p><a name="using-attributes-slots-within-component-class"></a></p>
+<h4 id="accessing-attributes-and-slots-within-component-classes">Accessing Attributes and Slots Within Component Classes</h4>
+
+<p>Blade components also allow you to access the component name, attributes, and slot inside the class’s render method. However, in order to access this data, you should return a closure from your component’s <code class="language-plaintext highlighter-rouge">render</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Closure</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the view / contents that represent the component.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">render</span><span class="p">():</span> <span class="kt">Closure</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">'&lt;div {{ $attributes }}&gt;Components content&lt;/div&gt;'</span><span class="p">;</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The closure returned by your component’s <code class="language-plaintext highlighter-rouge">render</code> method may also receive a <code class="language-plaintext highlighter-rouge">$data</code> array as its only argument. This array will contain several elements that provide information about the component:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">function</span> <span class="p">(</span><span class="kt">array</span> <span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// $data['componentName'];</span>
+    <span class="c1">// $data['attributes'];</span>
+    <span class="c1">// $data['slot'];</span>
+
+    <span class="k">return</span> <span class="s1">'&lt;div {{ $attributes }}&gt;Components content&lt;/div&gt;'</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+The elements in the <code class="language-plaintext highlighter-rouge">$data</code> array should never be directly embedded into the Blade string returned by your <code class="language-plaintext highlighter-rouge">render</code> method, as doing so could allow remote code execution via malicious attribute content.</p>
+</blockquote>
+
+<p>The <code class="language-plaintext highlighter-rouge">componentName</code> is equal to the name used in the HTML tag after the <code class="language-plaintext highlighter-rouge">x-</code> prefix. So <code class="language-plaintext highlighter-rouge">&lt;x-alert /&gt;</code>’s <code class="language-plaintext highlighter-rouge">componentName</code> will be <code class="language-plaintext highlighter-rouge">alert</code>. The <code class="language-plaintext highlighter-rouge">attributes</code> element will contain all of the attributes that were present on the HTML tag. The <code class="language-plaintext highlighter-rouge">slot</code> element is an <code class="language-plaintext highlighter-rouge">Illuminate\Support\HtmlString</code> instance with the contents of the component’s slot.</p>
+
+<p>The closure should return a string. If the returned string corresponds to an existing view, that view will be rendered; otherwise, the returned string will be evaluated as an inline Blade view.</p>
+
+<p><a name="additional-dependencies"></a></p>
+<h4 id="additional-dependencies">Additional Dependencies</h4>
+
+<p>If your component requires dependencies from Laravel’s <a href="/docs/{{version}}/container">service container</a>, you may list them before any of the component’s data attributes and they will automatically be injected by the container:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Services\AlertCreator</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Create the component instance.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+    <span class="k">public</span> <span class="kt">AlertCreator</span> <span class="nv">$creator</span><span class="p">,</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="nv">$type</span><span class="p">,</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="nv">$message</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<p><a name="hiding-attributes-and-methods"></a></p>
+<h4 id="hiding-attributes--methods">Hiding Attributes / Methods</h4>
+
+<p>If you would like to prevent some public methods or properties from being exposed as variables to your component template, you may add them to an <code class="language-plaintext highlighter-rouge">$except</code> array property on your component:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\View\Components</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\View\Component</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Alert</span> <span class="kd">extends</span> <span class="nc">Component</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * The properties / methods that should not be exposed to the component template.
+     *
+     * @var array
+     */</span>
+    <span class="k">protected</span> <span class="nv">$except</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'type'</span><span class="p">];</span>
+
+    <span class="cd">/**
+     * Create the component instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="nv">$type</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="component-attributes"></a></p>
+<h3 id="component-attributes">Component Attributes</h3>
+
+<p>We’ve already examined how to pass data attributes to a component; however, sometimes you may need to specify additional HTML attributes, such as <code class="language-plaintext highlighter-rouge">class</code>, that are not part of the data required for a component to function. Typically, you want to pass these additional attributes down to the root element of the component template. For example, imagine we want to render an <code class="language-plaintext highlighter-rouge">alert</code> component like so:</p>
+
+<pre><code class="language-blade">&lt;x-alert type="error" :message="$message" class="mt-4"/&gt;
+</code></pre>
+
+<p>All of the attributes that are not part of the component’s constructor will automatically be added to the component’s “attribute bag”. This attribute bag is automatically made available to the component via the <code class="language-plaintext highlighter-rouge">$attributes</code> variable. All of the attributes may be rendered within the component by echoing this variable:</p>
+
+<pre><code class="language-blade">&lt;div {{ $attributes }}&gt;
+    &lt;!-- Component content --&gt;
+&lt;/div&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+Using directives such as <code class="language-plaintext highlighter-rouge">@env</code> within component tags is not supported at this time. For example, <code class="language-plaintext highlighter-rouge">&lt;x-alert :live="@env('production')"/&gt;</code> will not be compiled.</p>
+</blockquote>
+
+<p><a name="default-merged-attributes"></a></p>
+<h4 id="default--merged-attributes">Default / Merged Attributes</h4>
+
+<p>Sometimes you may need to specify default values for attributes or merge additional values into some of the component’s attributes. To accomplish this, you may use the attribute bag’s <code class="language-plaintext highlighter-rouge">merge</code> method. This method is particularly useful for defining a set of default CSS classes that should always be applied to a component:</p>
+
+<pre><code class="language-blade">&lt;div {{ $attributes-&gt;merge(['class' =&gt; 'alert alert-'.$type]) }}&gt;
+    {{ $message }}
+&lt;/div&gt;
+</code></pre>
+
+<p>If we assume this component is utilized like so:</p>
+
+<pre><code class="language-blade">&lt;x-alert type="error" :message="$message" class="mb-4"/&gt;
+</code></pre>
+
+<p>The final, rendered HTML of the component will appear like the following:</p>
+
+<pre><code class="language-blade">&lt;div class="alert alert-error mb-4"&gt;
+    &lt;!-- Contents of the $message variable --&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="conditionally-merge-classes"></a></p>
+<h4 id="conditionally-merge-classes">Conditionally Merge Classes</h4>
+
+<p>Sometimes you may wish to merge classes if a given condition is <code class="language-plaintext highlighter-rouge">true</code>. You can accomplish this via the <code class="language-plaintext highlighter-rouge">class</code> method, which accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:</p>
+
+<pre><code class="language-blade">&lt;div {{ $attributes-&gt;class(['p-4', 'bg-red' =&gt; $hasError]) }}&gt;
+    {{ $message }}
+&lt;/div&gt;
+</code></pre>
+
+<p>If you need to merge other attributes onto your component, you can chain the <code class="language-plaintext highlighter-rouge">merge</code> method onto the <code class="language-plaintext highlighter-rouge">class</code> method:</p>
+
+<pre><code class="language-blade">&lt;button {{ $attributes-&gt;class(['p-4'])-&gt;merge(['type' =&gt; 'button']) }}&gt;
+    {{ $slot }}
+&lt;/button&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]
+If you need to conditionally compile classes on other HTML elements that shouldn’t receive merged attributes, you can use the <a href="#conditional-classes">@class directive</a>.</p>
+</blockquote>
+
+<p><a name="non-class-attribute-merging"></a></p>
+<h4 id="non-class-attribute-merging">Non-Class Attribute Merging</h4>
+
+<p>When merging attributes that are not <code class="language-plaintext highlighter-rouge">class</code> attributes, the values provided to the <code class="language-plaintext highlighter-rouge">merge</code> method will be considered the “default” values of the attribute. However, unlike the <code class="language-plaintext highlighter-rouge">class</code> attribute, these attributes will not be merged with injected attribute values. Instead, they will be overwritten. For example, a <code class="language-plaintext highlighter-rouge">button</code> component’s implementation may look like the following:</p>
+
+<pre><code class="language-blade">&lt;button {{ $attributes-&gt;merge(['type' =&gt; 'button']) }}&gt;
+    {{ $slot }}
+&lt;/button&gt;
+</code></pre>
+
+<p>To render the button component with a custom <code class="language-plaintext highlighter-rouge">type</code>, it may be specified when consuming the component. If no type is specified, the <code class="language-plaintext highlighter-rouge">button</code> type will be used:</p>
+
+<pre><code class="language-blade">&lt;x-button type="submit"&gt;
+    Submit
+&lt;/x-button&gt;
+</code></pre>
+
+<p>The rendered HTML of the <code class="language-plaintext highlighter-rouge">button</code> component in this example would be:</p>
+
+<pre><code class="language-blade">&lt;button type="submit"&gt;
+    Submit
+&lt;/button&gt;
+</code></pre>
+
+<p>If you would like an attribute other than <code class="language-plaintext highlighter-rouge">class</code> to have its default value and injected values joined together, you may use the <code class="language-plaintext highlighter-rouge">prepends</code> method. In this example, the <code class="language-plaintext highlighter-rouge">data-controller</code> attribute will always begin with <code class="language-plaintext highlighter-rouge">profile-controller</code> and any additional injected <code class="language-plaintext highlighter-rouge">data-controller</code> values will be placed after this default value:</p>
+
+<pre><code class="language-blade">&lt;div {{ $attributes-&gt;merge(['data-controller' =&gt; $attributes-&gt;prepends('profile-controller')]) }}&gt;
+    {{ $slot }}
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="filtering-attributes"></a></p>
+<h4 id="retrieving-and-filtering-attributes">Retrieving and Filtering Attributes</h4>
+
+<p>You may filter attributes using the <code class="language-plaintext highlighter-rouge">filter</code> method. This method accepts a closure which should return <code class="language-plaintext highlighter-rouge">true</code> if you wish to retain the attribute in the attribute bag:</p>
+
+<pre><code class="language-blade">{{ $attributes-&gt;filter(fn (string $value, string $key) =&gt; $key == 'foo') }}
+</code></pre>
+
+<p>For convenience, you may use the <code class="language-plaintext highlighter-rouge">whereStartsWith</code> method to retrieve all attributes whose keys begin with a given string:</p>
+
+<pre><code class="language-blade">{{ $attributes-&gt;whereStartsWith('wire:model') }}
+</code></pre>
+
+<p>Conversely, the <code class="language-plaintext highlighter-rouge">whereDoesntStartWith</code> method may be used to exclude all attributes whose keys begin with a given string:</p>
+
+<pre><code class="language-blade">{{ $attributes-&gt;whereDoesntStartWith('wire:model') }}
+</code></pre>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">first</code> method, you may render the first attribute in a given attribute bag:</p>
+
+<pre><code class="language-blade">{{ $attributes-&gt;whereStartsWith('wire:model')-&gt;first() }}
+</code></pre>
+
+<p>If you would like to check if an attribute is present on the component, you may use the <code class="language-plaintext highlighter-rouge">has</code> method. This method accepts the attribute name as its only argument and returns a boolean indicating whether or not the attribute is present:</p>
+
+<pre><code class="language-blade">@if ($attributes-&gt;has('class'))
+    &lt;div&gt;Class attribute is present&lt;/div&gt;
+@endif
+</code></pre>
+
+<p>If an array is passed to the <code class="language-plaintext highlighter-rouge">has</code> method, the method will determine if all of the given attributes are present on the component:</p>
+
+<pre><code class="language-blade">@if ($attributes-&gt;has(['name', 'class']))
+    &lt;div&gt;All of the attributes are present&lt;/div&gt;
+@endif
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">hasAny</code> method may be used to determine if any of the given attributes are present on the component:</p>
+
+<pre><code class="language-blade">@if ($attributes-&gt;hasAny(['href', ':href', 'v-bind:href']))
+    &lt;div&gt;One of the attributes is present&lt;/div&gt;
+@endif
+</code></pre>
+
+<p>You may retrieve a specific attribute’s value using the <code class="language-plaintext highlighter-rouge">get</code> method:</p>
+
+<pre><code class="language-blade">{{ $attributes-&gt;get('class') }}
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">only</code> method may be used to retrieve only the attributes with the given keys:</p>
+
+<pre><code class="language-blade">{{ $attributes-&gt;only(['class']) }}
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">except</code> method may be used to retrieve all attributes except those with the given keys:</p>
+
+<pre><code class="language-blade">{{ $attributes-&gt;except(['class']) }}
+</code></pre>
+
+<p><a name="reserved-keywords"></a></p>
+<h3 id="reserved-keywords">Reserved Keywords</h3>
+
+<p>By default, some keywords are reserved for Blade’s internal use in order to render components. The following keywords cannot be defined as public properties or method names within your components:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">data</code></li>
+    <li><code class="language-plaintext highlighter-rouge">render</code></li>
+    <li><code class="language-plaintext highlighter-rouge">resolve</code></li>
+    <li><code class="language-plaintext highlighter-rouge">resolveView</code></li>
+    <li><code class="language-plaintext highlighter-rouge">shouldRender</code></li>
+    <li><code class="language-plaintext highlighter-rouge">view</code></li>
+    <li><code class="language-plaintext highlighter-rouge">withAttributes</code></li>
+    <li><code class="language-plaintext highlighter-rouge">withName</code></li>
+  </ul>
+
+</div>
+
+<p><a name="slots"></a></p>
+<h3 id="slots">Slots</h3>
+
+<p>You will often need to pass additional content to your component via “slots”. Component slots are rendered by echoing the <code class="language-plaintext highlighter-rouge">$slot</code> variable. To explore this concept, let’s imagine that an <code class="language-plaintext highlighter-rouge">alert</code> component has the following markup:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/components/alert.blade.php --&gt;
+
+&lt;div class="alert alert-danger"&gt;
+    {{ $slot }}
+&lt;/div&gt;
+</code></pre>
+
+<p>We may pass content to the <code class="language-plaintext highlighter-rouge">slot</code> by injecting content into the component:</p>
+
+<pre><code class="language-blade">&lt;x-alert&gt;
+    &lt;strong&gt;Whoops!&lt;/strong&gt; Something went wrong!
+&lt;/x-alert&gt;
+</code></pre>
+
+<p>Sometimes a component may need to render multiple different slots in different locations within the component. Let’s modify our alert component to allow for the injection of a “title” slot:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/components/alert.blade.php --&gt;
+
+&lt;span class="alert-title"&gt;{{ $title }}&lt;/span&gt;
+
+&lt;div class="alert alert-danger"&gt;
+    {{ $slot }}
+&lt;/div&gt;
+</code></pre>
+
+<p>You may define the content of the named slot using the <code class="language-plaintext highlighter-rouge">x-slot</code> tag. Any content not within an explicit <code class="language-plaintext highlighter-rouge">x-slot</code> tag will be passed to the component in the <code class="language-plaintext highlighter-rouge">$slot</code> variable:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;x-alert&gt;</span>
+    <span class="nt">&lt;x-slot:title&gt;</span>
+        Server Error
+    <span class="nt">&lt;/x-slot&gt;</span>
+
+    <span class="nt">&lt;strong&gt;</span>Whoops!<span class="nt">&lt;/strong&gt;</span> Something went wrong!
+<span class="nt">&lt;/x-alert&gt;</span>
+</code></pre></div></div>
+
+<p>You may invoke a slot’s <code class="language-plaintext highlighter-rouge">isEmpty</code> method to determine if the slot contains content:</p>
+
+<pre><code class="language-blade">&lt;span class="alert-title"&gt;{{ $title }}&lt;/span&gt;
+
+&lt;div class="alert alert-danger"&gt;
+    @if ($slot-&gt;isEmpty())
+        This is default content if the slot is empty.
+    @else
+        {{ $slot }}
+    @endif
+&lt;/div&gt;
+</code></pre>
+
+<p>Additionally, the <code class="language-plaintext highlighter-rouge">hasActualContent</code> method may be used to determine if the slot contains any “actual” content that is not an HTML comment:</p>
+
+<pre><code class="language-blade">@if ($slot-&gt;hasActualContent())
+    The scope has non-comment content.
+@endif
+</code></pre>
+
+<p><a name="scoped-slots"></a></p>
+<h4 id="scoped-slots">Scoped Slots</h4>
+
+<p>If you have used a JavaScript framework such as Vue, you may be familiar with “scoped slots”, which allow you to access data or methods from the component within your slot. You may achieve similar behavior in Laravel by defining public methods or properties on your component and accessing the component within your slot via the <code class="language-plaintext highlighter-rouge">$component</code> variable. In this example, we will assume that the <code class="language-plaintext highlighter-rouge">x-alert</code> component has a public <code class="language-plaintext highlighter-rouge">formatAlert</code> method defined on its component class:</p>
+
+<pre><code class="language-blade">&lt;x-alert&gt;
+    &lt;x-slot:title&gt;
+        {{ $component-&gt;formatAlert('Server Error') }}
+    &lt;/x-slot&gt;
+
+    &lt;strong&gt;Whoops!&lt;/strong&gt; Something went wrong!
+&lt;/x-alert&gt;
+</code></pre>
+
+<p><a name="slot-attributes"></a></p>
+<h4 id="slot-attributes">Slot Attributes</h4>
+
+<p>Like Blade components, you may assign additional <a href="#component-attributes">attributes</a> to slots such as CSS class names:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;x-card</span> <span class="na">class=</span><span class="s">"shadow-sm"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;x-slot:heading</span> <span class="na">class=</span><span class="s">"font-bold"</span><span class="nt">&gt;</span>
+        Heading
+    <span class="nt">&lt;/x-slot&gt;</span>
+
+    Content
+
+    <span class="nt">&lt;x-slot:footer</span> <span class="na">class=</span><span class="s">"text-sm"</span><span class="nt">&gt;</span>
+        Footer
+    <span class="nt">&lt;/x-slot&gt;</span>
+<span class="nt">&lt;/x-card&gt;</span>
+</code></pre></div></div>
+
+<p>To interact with slot attributes, you may access the <code class="language-plaintext highlighter-rouge">attributes</code> property of the slot’s variable. For more information on how to interact with attributes, please consult the documentation on <a href="#component-attributes">component attributes</a>:</p>
+
+<pre><code class="language-blade">@props([
+    'heading',
+    'footer',
+])
+
+&lt;div {{ $attributes-&gt;class(['border']) }}&gt;
+    &lt;h1 {{ $heading-&gt;attributes-&gt;class(['text-lg']) }}&gt;
+        {{ $heading }}
+    &lt;/h1&gt;
+
+    {{ $slot }}
+
+    &lt;footer {{ $footer-&gt;attributes-&gt;class(['text-gray-700']) }}&gt;
+        {{ $footer }}
+    &lt;/footer&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="inline-component-views"></a></p>
+<h3 id="inline-component-views">Inline Component Views</h3>
+
+<p>For very small components, it may feel cumbersome to manage both the component class and the component’s view template. For this reason, you may return the component’s markup directly from the <code class="language-plaintext highlighter-rouge">render</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the view / contents that represent the component.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">render</span><span class="p">():</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="sh">&lt;&lt;&lt;'blade'
+        &lt;div class="alert alert-danger"&gt;
+            {{ $slot }}
+        &lt;/div&gt;
+    blade;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="generating-inline-view-components"></a></p>
+<h4 id="generating-inline-view-components">Generating Inline View Components</h4>
+
+<p>To create a component that renders an inline view, you may use the <code class="language-plaintext highlighter-rouge">inline</code> option when executing the <code class="language-plaintext highlighter-rouge">make:component</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:component Alert <span class="nt">--inline</span>
+</code></pre></div></div>
+
+<p><a name="dynamic-components"></a></p>
+<h3 id="dynamic-components">Dynamic Components</h3>
+
+<p>Sometimes you may need to render a component but not know which component should be rendered until runtime. In this situation, you may use Laravel’s built-in <code class="language-plaintext highlighter-rouge">dynamic-component</code> component to render the component based on a runtime value or variable:</p>
+
+<pre><code class="language-blade">// $componentName = "secondary-button";
+
+&lt;x-dynamic-component :component="$componentName" class="mt-4" /&gt;
+</code></pre>
+
+<p><a name="manually-registering-components"></a></p>
+<h3 id="manually-registering-components">Manually Registering Components</h3>
+
+<blockquote>
+  <p>[!WARNING]
+The following documentation on manually registering components is primarily applicable to those who are writing Laravel packages that include view components. If you are not writing a package, this portion of the component documentation may not be relevant to you.</p>
+</blockquote>
+
+<p>When writing components for your own application, components are automatically discovered within the <code class="language-plaintext highlighter-rouge">app/View/Components</code> directory and <code class="language-plaintext highlighter-rouge">resources/views/components</code> directory.</p>
+
+<p>However, if you are building a package that utilizes Blade components or placing components in non-conventional directories, you will need to manually register your component class and its HTML tag alias so that Laravel knows where to find the component. You should typically register your components in the <code class="language-plaintext highlighter-rouge">boot</code> method of your package’s service provider:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">VendorPackage\View\Components\AlertComponent</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap your package's services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Blade</span><span class="o">::</span><span class="nf">component</span><span class="p">(</span><span class="s1">'package-alert'</span><span class="p">,</span> <span class="nc">AlertComponent</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once your component has been registered, it may be rendered using its tag alias:</p>
+
+<pre><code class="language-blade">&lt;x-package-alert/&gt;
+</code></pre>
+
+<h4 id="autoloading-package-components">Autoloading Package Components</h4>
+
+<p>Alternatively, you may use the <code class="language-plaintext highlighter-rouge">componentNamespace</code> method to autoload component classes by convention. For example, a <code class="language-plaintext highlighter-rouge">Nightshade</code> package might have <code class="language-plaintext highlighter-rouge">Calendar</code> and <code class="language-plaintext highlighter-rouge">ColorPicker</code> components that reside within the <code class="language-plaintext highlighter-rouge">Package\Views\Components</code> namespace:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap your package's services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Blade</span><span class="o">::</span><span class="nf">componentNamespace</span><span class="p">(</span><span class="s1">'Nightshade\\Views\\Components'</span><span class="p">,</span> <span class="s1">'nightshade'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will allow the usage of package components by their vendor namespace using the <code class="language-plaintext highlighter-rouge">package-name::</code> syntax:</p>
+
+<pre><code class="language-blade">&lt;x-nightshade::calendar /&gt;
+&lt;x-nightshade::color-picker /&gt;
+</code></pre>
+
+<p>Blade will automatically detect the class that’s linked to this component by pascal-casing the component name. Subdirectories are also supported using “dot” notation.</p>
+
+<p><a name="anonymous-components"></a></p>
+<h2 id="anonymous-components">Anonymous Components</h2>
+
+<p>Similar to inline components, anonymous components provide a mechanism for managing a component via a single file. However, anonymous components utilize a single view file and have no associated class. To define an anonymous component, you only need to place a Blade template within your <code class="language-plaintext highlighter-rouge">resources/views/components</code> directory. For example, assuming you have defined a component at <code class="language-plaintext highlighter-rouge">resources/views/components/alert.blade.php</code>, you may simply render it like so:</p>
+
+<pre><code class="language-blade">&lt;x-alert/&gt;
+</code></pre>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">.</code> character to indicate if a component is nested deeper inside the <code class="language-plaintext highlighter-rouge">components</code> directory. For example, assuming the component is defined at <code class="language-plaintext highlighter-rouge">resources/views/components/inputs/button.blade.php</code>, you may render it like so:</p>
+
+<pre><code class="language-blade">&lt;x-inputs.button/&gt;
+</code></pre>
+
+<p>To create an anonymous component via Artisan, you may use the <code class="language-plaintext highlighter-rouge">--view</code> flag when invoking the <code class="language-plaintext highlighter-rouge">make:component</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:component forms.input <span class="nt">--view</span>
+</code></pre></div></div>
+
+<p>The command above will create a Blade file at <code class="language-plaintext highlighter-rouge">resources/views/components/forms/input.blade.php</code> which can be rendered as a component via <code class="language-plaintext highlighter-rouge">&lt;x-forms.input /&gt;</code>.</p>
+
+<p><a name="anonymous-index-components"></a></p>
+<h3 id="anonymous-index-components">Anonymous Index Components</h3>
+
+<p>Sometimes, when a component is made up of many Blade templates, you may wish to group the given component’s templates within a single directory. For example, imagine an “accordion” component with the following directory structure:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/resources/views/components/accordion.blade.php
+/resources/views/components/accordion/item.blade.php
+</code></pre></div></div>
+
+<p>This directory structure allows you to render the accordion component and its item like so:</p>
+
+<pre><code class="language-blade">&lt;x-accordion&gt;
+    &lt;x-accordion.item&gt;
+        ...
+    &lt;/x-accordion.item&gt;
+&lt;/x-accordion&gt;
+</code></pre>
+
+<p>However, in order to render the accordion component via <code class="language-plaintext highlighter-rouge">x-accordion</code>, we were forced to place the “index” accordion component template in the <code class="language-plaintext highlighter-rouge">resources/views/components</code> directory instead of nesting it within the <code class="language-plaintext highlighter-rouge">accordion</code> directory with the other accordion related templates.</p>
+
+<p>Thankfully, Blade allows you to place a file matching the component’s directory name within the component’s directory itself. When this template exists, it can be rendered as the “root” element of the component even though it is nested within a directory. So, we can continue to use the same Blade syntax given in the example above; however, we will adjust our directory structure like so:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/resources/views/components/accordion/accordion.blade.php
+/resources/views/components/accordion/item.blade.php
+</code></pre></div></div>
+
+<p><a name="data-properties-attributes"></a></p>
+<h3 id="data-properties--attributes">Data Properties / Attributes</h3>
+
+<p>Since anonymous components do not have any associated class, you may wonder how you may differentiate which data should be passed to the component as variables and which attributes should be placed in the component’s <a href="#component-attributes">attribute bag</a>.</p>
+
+<p>You may specify which attributes should be considered data variables using the <code class="language-plaintext highlighter-rouge">@props</code> directive at the top of your component’s Blade template. All other attributes on the component will be available via the component’s attribute bag. If you wish to give a data variable a default value, you may specify the variable’s name as the array key and the default value as the array value:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/components/alert.blade.php --&gt;
+
+@props(['type' =&gt; 'info', 'message'])
+
+&lt;div {{ $attributes-&gt;merge(['class' =&gt; 'alert alert-'.$type]) }}&gt;
+    {{ $message }}
+&lt;/div&gt;
+</code></pre>
+
+<p>Given the component definition above, we may render the component like so:</p>
+
+<pre><code class="language-blade">&lt;x-alert type="error" :message="$message" class="mb-4"/&gt;
+</code></pre>
+
+<p><a name="accessing-parent-data"></a></p>
+<h3 id="accessing-parent-data">Accessing Parent Data</h3>
+
+<p>Sometimes you may want to access data from a parent component inside a child component. In these cases, you may use the <code class="language-plaintext highlighter-rouge">@aware</code> directive. For example, imagine we are building a complex menu component consisting of a parent <code class="language-plaintext highlighter-rouge">&lt;x-menu&gt;</code> and child <code class="language-plaintext highlighter-rouge">&lt;x-menu.item&gt;</code>:</p>
+
+<pre><code class="language-blade">&lt;x-menu color="purple"&gt;
+    &lt;x-menu.item&gt;...&lt;/x-menu.item&gt;
+    &lt;x-menu.item&gt;...&lt;/x-menu.item&gt;
+&lt;/x-menu&gt;
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;x-menu&gt;</code> component may have an implementation like the following:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/components/menu/index.blade.php --&gt;
+
+@props(['color' =&gt; 'gray'])
+
+&lt;ul {{ $attributes-&gt;merge(['class' =&gt; 'bg-'.$color.'-200']) }}&gt;
+    {{ $slot }}
+&lt;/ul&gt;
+</code></pre>
+
+<p>Because the <code class="language-plaintext highlighter-rouge">color</code> prop was only passed into the parent (<code class="language-plaintext highlighter-rouge">&lt;x-menu&gt;</code>), it won’t be available inside <code class="language-plaintext highlighter-rouge">&lt;x-menu.item&gt;</code>. However, if we use the <code class="language-plaintext highlighter-rouge">@aware</code> directive, we can make it available inside <code class="language-plaintext highlighter-rouge">&lt;x-menu.item&gt;</code> as well:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/components/menu/item.blade.php --&gt;
+
+@aware(['color' =&gt; 'gray'])
+
+&lt;li {{ $attributes-&gt;merge(['class' =&gt; 'text-'.$color.'-800']) }}&gt;
+    {{ $slot }}
+&lt;/li&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+The <code class="language-plaintext highlighter-rouge">@aware</code> directive cannot access parent data that is not explicitly passed to the parent component via HTML attributes. Default <code class="language-plaintext highlighter-rouge">@props</code> values that are not explicitly passed to the parent component cannot be accessed by the <code class="language-plaintext highlighter-rouge">@aware</code> directive.</p>
+</blockquote>
+
+<p><a name="anonymous-component-paths"></a></p>
+<h3 id="anonymous-component-paths">Anonymous Component Paths</h3>
+
+<p>As previously discussed, anonymous components are typically defined by placing a Blade template within your <code class="language-plaintext highlighter-rouge">resources/views/components</code> directory. However, you may occasionally want to register other anonymous component paths with Laravel in addition to the default path.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">anonymousComponentPath</code> method accepts the “path” to the anonymous component location as its first argument and an optional “namespace” that components should be placed under as its second argument. Typically, this method should be called from the <code class="language-plaintext highlighter-rouge">boot</code> method of one of your application’s <a href="/docs/{{version}}/providers">service providers</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Blade</span><span class="o">::</span><span class="nf">anonymousComponentPath</span><span class="p">(</span><span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../components'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When component paths are registered without a specified prefix as in the example above, they may be rendered in your Blade components without a corresponding prefix as well. For example, if a <code class="language-plaintext highlighter-rouge">panel.blade.php</code> component exists in the path registered above, it may be rendered like so:</p>
+
+<pre><code class="language-blade">&lt;x-panel /&gt;
+</code></pre>
+
+<p>Prefix “namespaces” may be provided as the second argument to the <code class="language-plaintext highlighter-rouge">anonymousComponentPath</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Blade</span><span class="o">::</span><span class="nf">anonymousComponentPath</span><span class="p">(</span><span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../components'</span><span class="p">,</span> <span class="s1">'dashboard'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>When a prefix is provided, components within that “namespace” may be rendered by prefixing the component’s namespace to the component name when the component is rendered:</p>
+
+<pre><code class="language-blade">&lt;x-dashboard::panel /&gt;
+</code></pre>
+
+<p><a name="building-layouts"></a></p>
+<h2 id="building-layouts">Building Layouts</h2>
+
+<p><a name="layouts-using-components"></a></p>
+<h3 id="layouts-using-components">Layouts Using Components</h3>
+
+<p>Most web applications maintain the same general layout across various pages. It would be incredibly cumbersome and hard to maintain our application if we had to repeat the entire layout HTML in every view we create. Thankfully, it’s convenient to define this layout as a single <a href="#components">Blade component</a> and then use it throughout our application.</p>
+
+<p><a name="defining-the-layout-component"></a></p>
+<h4 id="defining-the-layout-component">Defining the Layout Component</h4>
+
+<p>For example, imagine we are building a “todo” list application. We might define a <code class="language-plaintext highlighter-rouge">layout</code> component that looks like the following:</p>
+
+<pre><code class="language-blade">&lt;!-- resources/views/components/layout.blade.php --&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;{{ $title ?? 'Todo Manager' }}&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Todos&lt;/h1&gt;
+        &lt;hr/&gt;
+        {{ $slot }}
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p><a name="applying-the-layout-component"></a></p>
+<h4 id="applying-the-layout-component">Applying the Layout Component</h4>
+
+<p>Once the <code class="language-plaintext highlighter-rouge">layout</code> component has been defined, we may create a Blade view that utilizes the component. In this example, we will define a simple view that displays our task list:</p>
+
+<pre><code class="language-blade">&lt;!-- resources/views/tasks.blade.php --&gt;
+
+&lt;x-layout&gt;
+    @foreach ($tasks as $task)
+        &lt;div&gt;{{ $task }}&lt;/div&gt;
+    @endforeach
+&lt;/x-layout&gt;
+</code></pre>
+
+<p>Remember, content that is injected into a component will be supplied to the default <code class="language-plaintext highlighter-rouge">$slot</code> variable within our <code class="language-plaintext highlighter-rouge">layout</code> component. As you may have noticed, our <code class="language-plaintext highlighter-rouge">layout</code> also respects a <code class="language-plaintext highlighter-rouge">$title</code> slot if one is provided; otherwise, a default title is shown. We may inject a custom title from our task list view using the standard slot syntax discussed in the <a href="#components">component documentation</a>:</p>
+
+<pre><code class="language-blade">&lt;!-- resources/views/tasks.blade.php --&gt;
+
+&lt;x-layout&gt;
+    &lt;x-slot:title&gt;
+        Custom Title
+    &lt;/x-slot&gt;
+
+    @foreach ($tasks as $task)
+        &lt;div&gt;{{ $task }}&lt;/div&gt;
+    @endforeach
+&lt;/x-layout&gt;
+</code></pre>
+
+<p>Now that we have defined our layout and task list views, we just need to return the <code class="language-plaintext highlighter-rouge">task</code> view from a route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Task</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/tasks'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'tasks'</span> <span class="o">=&gt;</span> <span class="nc">Task</span><span class="o">::</span><span class="nf">all</span><span class="p">()]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="layouts-using-template-inheritance"></a></p>
+<h3 id="layouts-using-template-inheritance">Layouts Using Template Inheritance</h3>
+
+<p><a name="defining-a-layout"></a></p>
+<h4 id="defining-a-layout">Defining a Layout</h4>
+
+<p>Layouts may also be created via “template inheritance”. This was the primary way of building applications prior to the introduction of <a href="#components">components</a>.</p>
+
+<p>To get started, let’s take a look at a simple example. First, we will examine a page layout. Since most web applications maintain the same general layout across various pages, it’s convenient to define this layout as a single Blade view:</p>
+
+<pre><code class="language-blade">&lt;!-- resources/views/layouts/app.blade.php --&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;App Name - @yield('title')&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        @section('sidebar')
+            This is the master sidebar.
+        @show
+
+        &lt;div class="container"&gt;
+            @yield('content')
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>As you can see, this file contains typical HTML mark-up. However, take note of the <code class="language-plaintext highlighter-rouge">@section</code> and <code class="language-plaintext highlighter-rouge">@yield</code> directives. The <code class="language-plaintext highlighter-rouge">@section</code> directive, as the name implies, defines a section of content, while the <code class="language-plaintext highlighter-rouge">@yield</code> directive is used to display the contents of a given section.</p>
+
+<p>Now that we have defined a layout for our application, let’s define a child page that inherits the layout.</p>
+
+<p><a name="extending-a-layout"></a></p>
+<h4 id="extending-a-layout">Extending a Layout</h4>
+
+<p>When defining a child view, use the <code class="language-plaintext highlighter-rouge">@extends</code> Blade directive to specify which layout the child view should “inherit”. Views which extend a Blade layout may inject content into the layout’s sections using <code class="language-plaintext highlighter-rouge">@section</code> directives. Remember, as seen in the example above, the contents of these sections will be displayed in the layout using <code class="language-plaintext highlighter-rouge">@yield</code>:</p>
+
+<pre><code class="language-blade">&lt;!-- resources/views/child.blade.php --&gt;
+
+@extends('layouts.app')
+
+@section('title', 'Page Title')
+
+@section('sidebar')
+    @@parent
+
+    &lt;p&gt;This is appended to the master sidebar.&lt;/p&gt;
+@endsection
+
+@section('content')
+    &lt;p&gt;This is my body content.&lt;/p&gt;
+@endsection
+</code></pre>
+
+<p>In this example, the <code class="language-plaintext highlighter-rouge">sidebar</code> section is utilizing the <code class="language-plaintext highlighter-rouge">@@parent</code> directive to append (rather than overwriting) content to the layout’s sidebar. The <code class="language-plaintext highlighter-rouge">@@parent</code> directive will be replaced by the content of the layout when the view is rendered.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Contrary to the previous example, this <code class="language-plaintext highlighter-rouge">sidebar</code> section ends with <code class="language-plaintext highlighter-rouge">@endsection</code> instead of <code class="language-plaintext highlighter-rouge">@show</code>. The <code class="language-plaintext highlighter-rouge">@endsection</code> directive will only define a section while <code class="language-plaintext highlighter-rouge">@show</code> will define and <strong>immediately yield</strong> the section.</p>
+</blockquote>
+
+<p>The <code class="language-plaintext highlighter-rouge">@yield</code> directive also accepts a default value as its second parameter. This value will be rendered if the section being yielded is undefined:</p>
+
+<pre><code class="language-blade">@yield('content', 'Default content')
+</code></pre>
+
+<p><a name="forms"></a></p>
+<h2 id="forms">Forms</h2>
+
+<p><a name="csrf-field"></a></p>
+<h3 id="csrf-field">CSRF Field</h3>
+
+<p>Anytime you define an HTML form in your application, you should include a hidden CSRF token field in the form so that <a href="/docs/{{version}}/csrf">the CSRF protection</a> middleware can validate the request. You may use the <code class="language-plaintext highlighter-rouge">@csrf</code> Blade directive to generate the token field:</p>
+
+<pre><code class="language-blade">&lt;form method="POST" action="/profile"&gt;
+    @csrf
+
+    ...
+&lt;/form&gt;
+</code></pre>
+
+<p><a name="method-field"></a></p>
+<h3 id="method-field">Method Field</h3>
+
+<p>Since HTML forms can’t make <code class="language-plaintext highlighter-rouge">PUT</code>, <code class="language-plaintext highlighter-rouge">PATCH</code>, or <code class="language-plaintext highlighter-rouge">DELETE</code> requests, you will need to add a hidden <code class="language-plaintext highlighter-rouge">_method</code> field to spoof these HTTP verbs. The <code class="language-plaintext highlighter-rouge">@method</code> Blade directive can create this field for you:</p>
+
+<pre><code class="language-blade">&lt;form action="/foo/bar" method="POST"&gt;
+    @method('PUT')
+
+    ...
+&lt;/form&gt;
+</code></pre>
+
+<p><a name="validation-errors"></a></p>
+<h3 id="validation-errors">Validation Errors</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">@error</code> directive may be used to quickly check if <a href="/docs/{{version}}/validation#quick-displaying-the-validation-errors">validation error messages</a> exist for a given attribute. Within an <code class="language-plaintext highlighter-rouge">@error</code> directive, you may echo the <code class="language-plaintext highlighter-rouge">$message</code> variable to display the error message:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/post/create.blade.php --&gt;
+
+&lt;label for="title"&gt;Post Title&lt;/label&gt;
+
+&lt;input
+    id="title"
+    type="text"
+    class="@error('title') is-invalid @enderror"
+/&gt;
+
+@error('title')
+    &lt;div class="alert alert-danger"&gt;{{ $message }}&lt;/div&gt;
+@enderror
+</code></pre>
+
+<p>Since the <code class="language-plaintext highlighter-rouge">@error</code> directive compiles to an “if” statement, you may use the <code class="language-plaintext highlighter-rouge">@else</code> directive to render content when there is not an error for an attribute:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/auth.blade.php --&gt;
+
+&lt;label for="email"&gt;Email address&lt;/label&gt;
+
+&lt;input
+    id="email"
+    type="email"
+    class="@error('email') is-invalid @else is-valid @enderror"
+/&gt;
+</code></pre>
+
+<p>You may pass <a href="/docs/{{version}}/validation#named-error-bags">the name of a specific error bag</a> as the second parameter to the <code class="language-plaintext highlighter-rouge">@error</code> directive to retrieve validation error messages on pages containing multiple forms:</p>
+
+<pre><code class="language-blade">&lt;!-- /resources/views/auth.blade.php --&gt;
+
+&lt;label for="email"&gt;Email address&lt;/label&gt;
+
+&lt;input
+    id="email"
+    type="email"
+    class="@error('email', 'login') is-invalid @enderror"
+/&gt;
+
+@error('email', 'login')
+    &lt;div class="alert alert-danger"&gt;{{ $message }}&lt;/div&gt;
+@enderror
+</code></pre>
+
+<p><a name="stacks"></a></p>
+<h2 id="stacks">Stacks</h2>
+
+<p>Blade allows you to push to named stacks which can be rendered somewhere else in another view or layout. This can be particularly useful for specifying any JavaScript libraries required by your child views:</p>
+
+<pre><code class="language-blade">@push('scripts')
+    &lt;script src="/example.js"&gt;&lt;/script&gt;
+@endpush
+</code></pre>
+
+<p>If you would like to <code class="language-plaintext highlighter-rouge">@push</code> content if a given boolean expression evaluates to <code class="language-plaintext highlighter-rouge">true</code>, you may use the <code class="language-plaintext highlighter-rouge">@pushIf</code> directive:</p>
+
+<pre><code class="language-blade">@pushIf($shouldPush, 'scripts')
+    &lt;script src="/example.js"&gt;&lt;/script&gt;
+@endPushIf
+</code></pre>
+
+<p>You may push to a stack as many times as needed. To render the complete stack contents, pass the name of the stack to the <code class="language-plaintext highlighter-rouge">@stack</code> directive:</p>
+
+<pre><code class="language-blade">&lt;head&gt;
+    &lt;!-- Head Contents --&gt;
+
+    @stack('scripts')
+&lt;/head&gt;
+</code></pre>
+
+<p>If you would like to prepend content onto the beginning of a stack, you should use the <code class="language-plaintext highlighter-rouge">@prepend</code> directive:</p>
+
+<pre><code class="language-blade">@push('scripts')
+    This will be second...
+@endpush
+
+// Later...
+
+@prepend('scripts')
+    This will be first...
+@endprepend
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">@hasstack</code> directive may be used to determine if a stack is empty:</p>
+
+<pre><code class="language-blade">@hasstack('list')
+    &lt;ul&gt;
+        @stack('list')
+    &lt;/ul&gt;
+@endif
+</code></pre>
+
+<p><a name="service-injection"></a></p>
+<h2 id="service-injection">Service Injection</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">@inject</code> directive may be used to retrieve a service from the Laravel <a href="/docs/{{version}}/container">service container</a>. The first argument passed to <code class="language-plaintext highlighter-rouge">@inject</code> is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:</p>
+
+<pre><code class="language-blade">@inject('metrics', 'App\Services\MetricsService')
+
+&lt;div&gt;
+    Monthly Revenue: {{ $metrics-&gt;monthlyRevenue() }}.
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="rendering-inline-blade-templates"></a></p>
+<h2 id="rendering-inline-blade-templates">Rendering Inline Blade Templates</h2>
+
+<p>Sometimes you may need to transform a raw Blade template string into valid HTML. You may accomplish this using the <code class="language-plaintext highlighter-rouge">render</code> method provided by the <code class="language-plaintext highlighter-rouge">Blade</code> facade. The <code class="language-plaintext highlighter-rouge">render</code> method accepts the Blade template string and an optional array of data to provide to the template:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="nc">Blade</span><span class="o">::</span><span class="nf">render</span><span class="p">(</span><span class="s1">'Hello, {{ $name }}'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Julian Bashir'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>Laravel renders inline Blade templates by writing them to the <code class="language-plaintext highlighter-rouge">storage/framework/views</code> directory. If you would like Laravel to remove these temporary files after rendering the Blade template, you may provide the <code class="language-plaintext highlighter-rouge">deleteCachedView</code> argument to the method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Blade</span><span class="o">::</span><span class="nf">render</span><span class="p">(</span>
+    <span class="s1">'Hello, {{ $name }}'</span><span class="p">,</span>
+    <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Julian Bashir'</span><span class="p">],</span>
+    <span class="n">deleteCachedView</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="rendering-blade-fragments"></a></p>
+<h2 id="rendering-blade-fragments">Rendering Blade Fragments</h2>
+
+<p>When using frontend frameworks such as <a href="https://turbo.hotwired.dev/">Turbo</a> and <a href="https://htmx.org/">htmx</a>, you may occasionally need to only return a portion of a Blade template within your HTTP response. Blade “fragments” allow you to do just that. To get started, place a portion of your Blade template within <code class="language-plaintext highlighter-rouge">@fragment</code> and <code class="language-plaintext highlighter-rouge">@endfragment</code> directives:</p>
+
+<pre><code class="language-blade">@fragment('user-list')
+    &lt;ul&gt;
+        @foreach ($users as $user)
+            &lt;li&gt;{{ $user-&gt;name }}&lt;/li&gt;
+        @endforeach
+    &lt;/ul&gt;
+@endfragment
+</code></pre>
+
+<p>Then, when rendering the view that utilizes this template, you may invoke the <code class="language-plaintext highlighter-rouge">fragment</code> method to specify that only the specified fragment should be included in the outgoing HTTP response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="nv">$users</span><span class="p">])</span><span class="o">-&gt;</span><span class="nf">fragment</span><span class="p">(</span><span class="s1">'user-list'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">fragmentIf</code> method allows you to conditionally return a fragment of a view based on a given condition. Otherwise, the entire view will be returned:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="nv">$users</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="nf">fragmentIf</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">hasHeader</span><span class="p">(</span><span class="s1">'HX-Request'</span><span class="p">),</span> <span class="s1">'user-list'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">fragments</code> and <code class="language-plaintext highlighter-rouge">fragmentsIf</code> methods allow you to return multiple view fragments in the response. The fragments will be concatenated together:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">view</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="nv">$users</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="nf">fragments</span><span class="p">([</span><span class="s1">'user-list'</span><span class="p">,</span> <span class="s1">'comment-list'</span><span class="p">]);</span>
+
+<span class="nf">view</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="nv">$users</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="nf">fragmentsIf</span><span class="p">(</span>
+        <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">hasHeader</span><span class="p">(</span><span class="s1">'HX-Request'</span><span class="p">),</span>
+        <span class="p">[</span><span class="s1">'user-list'</span><span class="p">,</span> <span class="s1">'comment-list'</span><span class="p">]</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="extending-blade"></a></p>
+<h2 id="extending-blade">Extending Blade</h2>
+
+<p>Blade allows you to define your own custom directives using the <code class="language-plaintext highlighter-rouge">directive</code> method. When the Blade compiler encounters the custom directive, it will call the provided callback with the expression that the directive contains.</p>
+
+<p>The following example creates a <code class="language-plaintext highlighter-rouge">@datetime($var)</code> directive which formats a given <code class="language-plaintext highlighter-rouge">$var</code>, which should be an instance of <code class="language-plaintext highlighter-rouge">DateTime</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Register any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">register</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Blade</span><span class="o">::</span><span class="nf">directive</span><span class="p">(</span><span class="s1">'datetime'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$expression</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s2">"&lt;?php echo (</span><span class="nv">$expression</span><span class="s2">)-&gt;format('m/d/Y H:i'); ?&gt;"</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, we will chain the <code class="language-plaintext highlighter-rouge">format</code> method onto whatever expression is passed into the directive. So, in this example, the final PHP generated by this directive will be:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="p">(</span><span class="nv">$var</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">format</span><span class="p">(</span><span class="s1">'m/d/Y H:i'</span><span class="p">);</span> <span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the <code class="language-plaintext highlighter-rouge">view:clear</code> Artisan command.</p>
+</blockquote>
+
+<p><a name="custom-echo-handlers"></a></p>
+<h3 id="custom-echo-handlers">Custom Echo Handlers</h3>
+
+<p>If you attempt to “echo” an object using Blade, the object’s <code class="language-plaintext highlighter-rouge">__toString</code> method will be invoked. The <a href="https://www.php.net/manual/en/language.oop5.magic.php#object.tostring">__toString</a> method is one of PHP’s built-in “magic methods”. However, sometimes you may not have control over the <code class="language-plaintext highlighter-rouge">__toString</code> method of a given class, such as when the class that you are interacting with belongs to a third-party library.</p>
+
+<p>In these cases, Blade allows you to register a custom echo handler for that particular type of object. To accomplish this, you should invoke Blade’s <code class="language-plaintext highlighter-rouge">stringable</code> method. The <code class="language-plaintext highlighter-rouge">stringable</code> method accepts a closure. This closure should type-hint the type of object that it is responsible for rendering. Typically, the <code class="language-plaintext highlighter-rouge">stringable</code> method should be invoked within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Money\Money</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Blade</span><span class="o">::</span><span class="nf">stringable</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Money</span> <span class="nv">$money</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$money</span><span class="o">-&gt;</span><span class="nf">formatTo</span><span class="p">(</span><span class="s1">'en_GB'</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once your custom echo handler has been defined, you may simply echo the object in your Blade template:</p>
+
+<pre><code class="language-blade">Cost: {{ $money }}
+</code></pre>
+
+<p><a name="custom-if-statements"></a></p>
+<h3 id="custom-if-statements">Custom If Statements</h3>
+
+<p>Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a <code class="language-plaintext highlighter-rouge">Blade::if</code> method which allows you to quickly define custom conditional directives using closures. For example, let’s define a custom conditional that checks the configured default “disk” for the application. We may do this in the <code class="language-plaintext highlighter-rouge">boot</code> method of our <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Blade</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Blade</span><span class="o">::</span><span class="k">if</span><span class="p">(</span><span class="s1">'disk'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">config</span><span class="p">(</span><span class="s1">'filesystems.default'</span><span class="p">)</span> <span class="o">===</span> <span class="nv">$value</span><span class="p">;</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once the custom conditional has been defined, you can use it within your templates:</p>
+
+<pre><code class="language-blade">@disk('local')
+    &lt;!-- The application is using the local disk... --&gt;
+@elsedisk('s3')
+    &lt;!-- The application is using the s3 disk... --&gt;
+@else
+    &lt;!-- The application is using some other disk... --&gt;
+@enddisk
+
+@unlessdisk('local')
+    &lt;!-- The application is not using the local disk... --&gt;
+@enddisk
+</code></pre>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

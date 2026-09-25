@@ -1,0 +1,2553 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Artisan Console | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Artisan Console" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/05_digging_deeper/artisan_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/05_digging_deeper/artisan_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Artisan Console" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Artisan Console","url":"http://localhost:4000/docs/05_digging_deeper/artisan_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/05_digging_deeper/">05 digging deeper</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Artisan Console</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="artisan-console">Artisan Console</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a>
+    <ul>
+      <li><a href="#tinker">Tinker (REPL)</a></li>
+    </ul>
+  </li>
+  <li><a href="#writing-commands">Writing Commands</a>
+    <ul>
+      <li><a href="#generating-commands">Generating Commands</a></li>
+      <li><a href="#command-structure">Command Structure</a></li>
+      <li><a href="#closure-commands">Closure Commands</a></li>
+      <li><a href="#isolatable-commands">Isolatable Commands</a></li>
+    </ul>
+  </li>
+  <li><a href="#defining-input-expectations">Defining Input Expectations</a>
+    <ul>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#options">Options</a></li>
+      <li><a href="#input-arrays">Input Arrays</a></li>
+      <li><a href="#input-descriptions">Input Descriptions</a></li>
+      <li><a href="#prompting-for-missing-input">Prompting for Missing Input</a></li>
+    </ul>
+  </li>
+  <li><a href="#command-io">Command I/O</a>
+    <ul>
+      <li><a href="#retrieving-input">Retrieving Input</a></li>
+      <li><a href="#prompting-for-input">Prompting for Input</a></li>
+      <li><a href="#writing-output">Writing Output</a></li>
+    </ul>
+  </li>
+  <li><a href="#registering-commands">Registering Commands</a></li>
+  <li><a href="#programmatically-executing-commands">Programmatically Executing Commands</a>
+    <ul>
+      <li><a href="#calling-commands-from-other-commands">Calling Commands From Other Commands</a></li>
+    </ul>
+  </li>
+  <li><a href="#signal-handling">Signal Handling</a></li>
+  <li><a href="#the-dev-command">The Dev Command</a>
+    <ul>
+      <li><a href="#customizing-dev-processes">Customizing Dev Processes</a></li>
+      <li><a href="#filtering-dev-processes">Filtering Dev Processes</a></li>
+    </ul>
+  </li>
+  <li><a href="#stub-customization">Stub Customization</a></li>
+  <li><a href="#events">Events</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Artisan is the command line interface included with Laravel. Artisan exists at the root of your application as the <code class="language-plaintext highlighter-rouge">artisan</code> script and provides a number of helpful commands you can use while building your application. To view a list of all available Artisan commands, you may use the <code class="language-plaintext highlighter-rouge">list</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan list
+</code></pre></div></div>
+
+<p>Every command also includes a “help” screen which displays and describes the command’s available arguments and options. To view a help screen, precede the name of the command with <code class="language-plaintext highlighter-rouge">help</code>:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan <span class="nb">help </span>migrate
+</code></pre></div></div>
+
+<p><a name="laravel-sail"></a></p>
+<h4 id="laravel-sail">Laravel Sail</h4>
+
+<p>If you are using <a href="/docs/{{version}}/sail">Laravel Sail</a> as your local development environment, remember to use the <code class="language-plaintext highlighter-rouge">sail</code> command line to invoke Artisan commands. Sail will execute your Artisan commands within your application’s Docker containers:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./vendor/bin/sail artisan list
+</code></pre></div></div>
+
+<p><a name="tinker"></a></p>
+<h3 id="tinker-repl">Tinker (REPL)</h3>
+
+<p><a href="https://github.com/laravel/tinker">Laravel Tinker</a> is a powerful REPL for the Laravel framework, powered by the <a href="https://github.com/bobthecow/psysh">PsySH</a> package.</p>
+
+<p><a name="installation"></a></p>
+<h4 id="installation">Installation</h4>
+
+<p>All Laravel applications include Tinker by default. However, you may install Tinker using Composer if you have previously removed it from your application:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require laravel/tinker
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Looking for hot reloading, multiline code editing, and autocompletion when interacting with your Laravel application? Check out <a href="https://tinkerwell.app">Tinkerwell</a>!</p>
+</blockquote>
+
+<p><a name="usage"></a></p>
+<h4 id="usage">Usage</h4>
+
+<p>Tinker allows you to interact with your entire Laravel application on the command line, including your Eloquent models, jobs, events, and more. To enter the Tinker environment, run the <code class="language-plaintext highlighter-rouge">tinker</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan tinker
+</code></pre></div></div>
+
+<p>You can publish Tinker’s configuration file using the <code class="language-plaintext highlighter-rouge">vendor:publish</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--provider</span><span class="o">=</span><span class="s2">"Laravel</span><span class="se">\T</span><span class="s2">inker</span><span class="se">\T</span><span class="s2">inkerServiceProvider"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+The <code class="language-plaintext highlighter-rouge">dispatch</code> helper function and <code class="language-plaintext highlighter-rouge">dispatch</code> method on the <code class="language-plaintext highlighter-rouge">Dispatchable</code> class depend on garbage collection to place the job on the queue. Therefore, when using Tinker, you should use <code class="language-plaintext highlighter-rouge">Bus::dispatch</code> or <code class="language-plaintext highlighter-rouge">Queue::push</code> to dispatch jobs.</p>
+</blockquote>
+
+<p><a name="command-allow-list"></a></p>
+<h4 id="command-allow-list">Command Allow List</h4>
+
+<p>Tinker utilizes an “allow” list to determine which Artisan commands are allowed to be run within its shell. By default, you may run the <code class="language-plaintext highlighter-rouge">clear-compiled</code>, <code class="language-plaintext highlighter-rouge">down</code>, <code class="language-plaintext highlighter-rouge">env</code>, <code class="language-plaintext highlighter-rouge">inspire</code>, <code class="language-plaintext highlighter-rouge">migrate</code>, <code class="language-plaintext highlighter-rouge">migrate:install</code>, <code class="language-plaintext highlighter-rouge">up</code>, and <code class="language-plaintext highlighter-rouge">optimize</code> commands. If you would like to allow more commands you may add them to the <code class="language-plaintext highlighter-rouge">commands</code> array in your <code class="language-plaintext highlighter-rouge">tinker.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'commands'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// App\Console\Commands\ExampleCommand::class,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="classes-that-should-not-be-aliased"></a></p>
+<h4 id="classes-that-should-not-be-aliased">Classes That Should Not Be Aliased</h4>
+
+<p>Typically, Tinker automatically aliases classes as you interact with them in Tinker. However, you may wish to never alias some classes. You may accomplish this by listing the classes in the <code class="language-plaintext highlighter-rouge">dont_alias</code> array of your <code class="language-plaintext highlighter-rouge">tinker.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'dont_alias'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nc">App\Models\User</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="writing-commands"></a></p>
+<h2 id="writing-commands">Writing Commands</h2>
+
+<p>In addition to the commands provided with Artisan, you may build your own custom commands. Commands are typically stored in the <code class="language-plaintext highlighter-rouge">app/Console/Commands</code> directory; however, you are free to choose your own storage location as long as you instruct Laravel to <a href="#registering-commands">scan other directories for Artisan commands</a>.</p>
+
+<p><a name="generating-commands"></a></p>
+<h3 id="generating-commands">Generating Commands</h3>
+
+<p>To create a new command, you may use the <code class="language-plaintext highlighter-rouge">make:command</code> Artisan command. This command will create a new command class in the <code class="language-plaintext highlighter-rouge">app/Console/Commands</code> directory. Don’t worry if this directory does not exist in your application - it will be created the first time you run the <code class="language-plaintext highlighter-rouge">make:command</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:command SendEmails
+</code></pre></div></div>
+
+<p><a name="command-structure"></a></p>
+<h3 id="command-structure">Command Structure</h3>
+
+<p>After generating your command, you should define the command’s signature and description using the <code class="language-plaintext highlighter-rouge">Signature</code> and <code class="language-plaintext highlighter-rouge">Description</code> attributes. The <code class="language-plaintext highlighter-rouge">Signature</code> attribute also allows you to define <a href="#defining-input-expectations">your command’s input expectations</a>. The <code class="language-plaintext highlighter-rouge">handle</code> method will be called when your command is executed. You may place your command logic in this method.</p>
+
+<p>Let’s take a look at an example command. Note that we are able to request any dependencies we need via the command’s <code class="language-plaintext highlighter-rouge">handle</code> method. The Laravel <a href="/docs/{{version}}/container">service container</a> will automatically inject all dependencies that are type-hinted in this method’s signature:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Console\Commands</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Support\DripEmailer</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Console\Attributes\Description</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Console\Attributes\Signature</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Console\Command</span><span class="p">;</span>
+
+<span class="na">#[Signature('mail:send {user}')]</span>
+<span class="na">#[Description('Send a marketing email to a user')]</span>
+<span class="kd">class</span> <span class="nc">SendEmails</span> <span class="kd">extends</span> <span class="nc">Command</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Execute the console command.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">DripEmailer</span> <span class="nv">$drip</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$drip</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">argument</span><span class="p">(</span><span class="s1">'user'</span><span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example above, note that we inject a service class to do the “heavy lifting” of sending the emails.</p>
+</blockquote>
+
+<p><a name="exit-codes"></a></p>
+<h4 id="exit-codes">Exit Codes</h4>
+
+<p>If nothing is returned from the <code class="language-plaintext highlighter-rouge">handle</code> method and the command executes successfully, the command will exit with a <code class="language-plaintext highlighter-rouge">0</code> exit code, indicating success. However, the <code class="language-plaintext highlighter-rouge">handle</code> method may optionally return an integer to manually specify the command’s exit code:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">error</span><span class="p">(</span><span class="s1">'Something went wrong.'</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>If you would like to “fail” the command from any method within the command, you may utilize the <code class="language-plaintext highlighter-rouge">fail</code> method. The <code class="language-plaintext highlighter-rouge">fail</code> method will immediately terminate execution of the command and return an exit code of <code class="language-plaintext highlighter-rouge">1</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">fail</span><span class="p">(</span><span class="s1">'Something went wrong.'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="closure-commands"></a></p>
+<h3 id="closure-commands">Closure Commands</h3>
+
+<p>Closure-based commands provide an alternative to defining console commands as classes. In the same way that route closures are an alternative to controllers, think of command closures as an alternative to command classes.</p>
+
+<p>Even though the <code class="language-plaintext highlighter-rouge">routes/console.php</code> file does not define HTTP routes, it defines console-based entry points (routes) into your application. Within this file, you may define all of your closure-based console commands using the <code class="language-plaintext highlighter-rouge">Artisan::command</code> method. The <code class="language-plaintext highlighter-rouge">command</code> method accepts two arguments: the <a href="#defining-input-expectations">command signature</a> and a closure which receives the command’s arguments and options:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Artisan</span><span class="o">::</span><span class="nf">command</span><span class="p">(</span><span class="s1">'mail:send {user}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">info</span><span class="p">(</span><span class="s2">"Sending email to: </span><span class="si">{</span><span class="nv">$user</span><span class="si">}</span><span class="s2">!"</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>The closure is bound to the underlying command instance, so you have full access to all of the helper methods you would typically be able to access on a full command class.</p>
+
+<p><a name="type-hinting-dependencies"></a></p>
+<h4 id="type-hinting-dependencies">Type-Hinting Dependencies</h4>
+
+<p>In addition to receiving your command’s arguments and options, command closures may also type-hint additional dependencies that you would like resolved out of the <a href="/docs/{{version}}/container">service container</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Support\DripEmailer</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Artisan</span><span class="p">;</span>
+
+<span class="nc">Artisan</span><span class="o">::</span><span class="nf">command</span><span class="p">(</span><span class="s1">'mail:send {user}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">DripEmailer</span> <span class="nv">$drip</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$drip</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="nv">$user</span><span class="p">));</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="closure-command-descriptions"></a></p>
+<h4 id="closure-command-descriptions">Closure Command Descriptions</h4>
+
+<p>When defining a closure-based command, you may use the <code class="language-plaintext highlighter-rouge">purpose</code> method to add a description to the command. This description will be displayed when you run the <code class="language-plaintext highlighter-rouge">php artisan list</code> or <code class="language-plaintext highlighter-rouge">php artisan help</code> commands:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Artisan</span><span class="o">::</span><span class="nf">command</span><span class="p">(</span><span class="s1">'mail:send {user}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">purpose</span><span class="p">(</span><span class="s1">'Send a marketing email to a user'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="isolatable-commands"></a></p>
+<h3 id="isolatable-commands">Isolatable Commands</h3>
+
+<blockquote>
+  <p>[!WARNING]
+To utilize this feature, your application must be using the <code class="language-plaintext highlighter-rouge">memcached</code>, <code class="language-plaintext highlighter-rouge">redis</code>, <code class="language-plaintext highlighter-rouge">dynamodb</code>, <code class="language-plaintext highlighter-rouge">database</code>, <code class="language-plaintext highlighter-rouge">file</code>, or <code class="language-plaintext highlighter-rouge">array</code> cache driver as your application’s default cache driver. In addition, all servers must be communicating with the same central cache server.</p>
+</blockquote>
+
+<p>Sometimes you may wish to ensure that only one instance of a command can run at a time. To accomplish this, you may implement the <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Console\Isolatable</code> interface on your command class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Console\Commands</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Console\Command</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Console\Isolatable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendEmails</span> <span class="kd">extends</span> <span class="nc">Command</span> <span class="kd">implements</span> <span class="nc">Isolatable</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When you mark a command as <code class="language-plaintext highlighter-rouge">Isolatable</code>, Laravel automatically makes the <code class="language-plaintext highlighter-rouge">--isolated</code> option available for the command without needing to explicitly define it in the command’s options. When the command is invoked with that option, Laravel will ensure that no other instances of that command are already running. Laravel accomplishes this by attempting to acquire an atomic lock using your application’s default cache driver. If other instances of the command are running, the command will not execute; however, the command will still exit with a successful exit status code:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan mail:send 1 <span class="nt">--isolated</span>
+</code></pre></div></div>
+
+<p>If you would like to specify the exit status code that the command should return if it is not able to execute, you may provide the desired status code via the <code class="language-plaintext highlighter-rouge">isolated</code> option:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan mail:send 1 <span class="nt">--isolated</span><span class="o">=</span>12
+</code></pre></div></div>
+
+<p><a name="lock-id"></a></p>
+<h4 id="lock-id">Lock ID</h4>
+
+<p>By default, Laravel will use the command’s name to generate the string key that is used to acquire the atomic lock in your application’s cache. However, you may customize this key by defining an <code class="language-plaintext highlighter-rouge">isolatableId</code> method on your Artisan command class, allowing you to integrate the command’s arguments or options into the key:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the isolatable ID for the command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">isolatableId</span><span class="p">():</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">argument</span><span class="p">(</span><span class="s1">'user'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="lock-expiration-time"></a></p>
+<h4 id="lock-expiration-time">Lock Expiration Time</h4>
+
+<p>By default, isolation locks expire after the command is finished. Or, if the command is interrupted and unable to finish, the lock will expire after one hour. However, you may adjust the lock expiration time by defining an <code class="language-plaintext highlighter-rouge">isolationLockExpiresAt</code> method on your command:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">DateTimeInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">DateInterval</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Determine when an isolation lock expires for the command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">isolationLockExpiresAt</span><span class="p">():</span> <span class="kt">DateTimeInterface</span><span class="o">|</span><span class="nc">DateInterval</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nf">now</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">plus</span><span class="p">(</span><span class="n">minutes</span><span class="o">:</span> <span class="mi">5</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="defining-input-expectations"></a></p>
+<h2 id="defining-input-expectations">Defining Input Expectations</h2>
+
+<p>When writing console commands, it is common to gather input from the user through arguments or options. Laravel makes it very convenient to define the input you expect from the user using the <code class="language-plaintext highlighter-rouge">signature</code> property on your commands. The <code class="language-plaintext highlighter-rouge">signature</code> property allows you to define the name, arguments, and options for the command in a single, expressive, route-like syntax.</p>
+
+<p><a name="arguments"></a></p>
+<h3 id="arguments">Arguments</h3>
+
+<p>All user supplied arguments and options are wrapped in curly braces. In the following example, the command defines one required argument: <code class="language-plaintext highlighter-rouge">user</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * The name and signature of the console command.
+ *
+ * @var string
+ */</span>
+<span class="k">protected</span> <span class="nv">$signature</span> <span class="o">=</span> <span class="s1">'mail:send {user}'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>You may also make arguments optional or define default values for arguments:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Optional argument...</span>
+<span class="s1">'mail:send {user?}'</span>
+
+<span class="c1">// Optional argument with default value...</span>
+<span class="s1">'mail:send {user=foo}'</span>
+</code></pre></div></div>
+
+<p><a name="options"></a></p>
+<h3 id="options">Options</h3>
+
+<p>Options, like arguments, are another form of user input. Options are prefixed by two hyphens (<code class="language-plaintext highlighter-rouge">--</code>) when they are provided via the command line. There are two types of options: those that receive a value and those that don’t. Options that don’t receive a value serve as a boolean “switch”. Let’s take a look at an example of this type of option:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * The name and signature of the console command.
+ *
+ * @var string
+ */</span>
+<span class="k">protected</span> <span class="nv">$signature</span> <span class="o">=</span> <span class="s1">'mail:send {user} {--queue}'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>In this example, the <code class="language-plaintext highlighter-rouge">--queue</code> switch may be specified when calling the Artisan command. If the <code class="language-plaintext highlighter-rouge">--queue</code> switch is passed, the value of the option will be <code class="language-plaintext highlighter-rouge">true</code>. Otherwise, the value will be <code class="language-plaintext highlighter-rouge">false</code>:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan mail:send 1 <span class="nt">--queue</span>
+</code></pre></div></div>
+
+<p><a name="options-with-values"></a></p>
+<h4 id="options-with-values">Options With Values</h4>
+
+<p>Next, let’s take a look at an option that expects a value. If the user must specify a value for an option, you should suffix the option name with a <code class="language-plaintext highlighter-rouge">=</code> sign:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * The name and signature of the console command.
+ *
+ * @var string
+ */</span>
+<span class="k">protected</span> <span class="nv">$signature</span> <span class="o">=</span> <span class="s1">'mail:send {user} {--queue=}'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>In this example, the user may pass a value for the option like so. If the option is not specified when invoking the command, its value will be <code class="language-plaintext highlighter-rouge">null</code>:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan mail:send 1 <span class="nt">--queue</span><span class="o">=</span>default
+</code></pre></div></div>
+
+<p>You may assign default values to options by specifying the default value after the option name. If no option value is passed by the user, the default value will be used:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mail:send {user} {--queue=default}'</span>
+</code></pre></div></div>
+
+<p><a name="option-shortcuts"></a></p>
+<h4 id="option-shortcuts">Option Shortcuts</h4>
+
+<p>To assign a shortcut when defining an option, you may specify it before the option name and use the <code class="language-plaintext highlighter-rouge">|</code> character as a delimiter to separate the shortcut from the full option name:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mail:send {user} {--Q|queue=}'</span>
+</code></pre></div></div>
+
+<p>When invoking the command on your terminal, option shortcuts should be prefixed with a single hyphen and no <code class="language-plaintext highlighter-rouge">=</code> character should be included when specifying a value for the option:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan mail:send 1 <span class="nt">-Qdefault</span>
+</code></pre></div></div>
+
+<p><a name="input-arrays"></a></p>
+<h3 id="input-arrays">Input Arrays</h3>
+
+<p>If you would like to define arguments or options to expect multiple input values, you may use the <code class="language-plaintext highlighter-rouge">*</code> character. First, let’s take a look at an example that specifies such an argument:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mail:send {user*}'</span>
+</code></pre></div></div>
+
+<p>When running this command, the <code class="language-plaintext highlighter-rouge">user</code> arguments may be passed in order to the command line. For example, the following command will set the value of <code class="language-plaintext highlighter-rouge">user</code> to an array with <code class="language-plaintext highlighter-rouge">1</code> and <code class="language-plaintext highlighter-rouge">2</code> as its values:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan mail:send 1 2
+</code></pre></div></div>
+
+<p>This <code class="language-plaintext highlighter-rouge">*</code> character can be combined with an optional argument definition to allow zero or more instances of an argument:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mail:send {user?*}'</span>
+</code></pre></div></div>
+
+<p><a name="option-arrays"></a></p>
+<h4 id="option-arrays">Option Arrays</h4>
+
+<p>When defining an option that expects multiple input values, each option value passed to the command should be prefixed with the option name:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mail:send {--id=*}'</span>
+</code></pre></div></div>
+
+<p>Such a command may be invoked by passing multiple <code class="language-plaintext highlighter-rouge">--id</code> arguments:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan mail:send <span class="nt">--id</span><span class="o">=</span>1 <span class="nt">--id</span><span class="o">=</span>2
+</code></pre></div></div>
+
+<p><a name="input-descriptions"></a></p>
+<h3 id="input-descriptions">Input Descriptions</h3>
+
+<p>You may assign descriptions to input arguments and options by separating the argument name from the description using a colon. If you need a little extra room to define your command, feel free to spread the definition across multiple lines:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * The name and signature of the console command.
+ *
+ * @var string
+ */</span>
+<span class="k">protected</span> <span class="nv">$signature</span> <span class="o">=</span> <span class="s1">'mail:send
+                        {user : The ID of the user}
+                        {--queue : Whether the job should be queued}'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><a name="prompting-for-missing-input"></a></p>
+<h3 id="prompting-for-missing-input">Prompting for Missing Input</h3>
+
+<p>If your command contains required arguments, the user will receive an error message when they are not provided. Alternatively, you may configure your command to automatically prompt the user when required arguments are missing by implementing the <code class="language-plaintext highlighter-rouge">PromptsForMissingInput</code> interface:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Console\Commands</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Console\Command</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Console\PromptsForMissingInput</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendEmails</span> <span class="kd">extends</span> <span class="nc">Command</span> <span class="kd">implements</span> <span class="nc">PromptsForMissingInput</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */</span>
+    <span class="k">protected</span> <span class="nv">$signature</span> <span class="o">=</span> <span class="s1">'mail:send {user}'</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If Laravel needs to gather a required argument from the user, it will automatically ask the user for the argument by intelligently phrasing the question using either the argument name or description. If you wish to customize the question used to gather the required argument, you may implement the <code class="language-plaintext highlighter-rouge">promptForMissingArgumentsUsing</code> method, returning an array of questions keyed by the argument names:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Prompt for missing input arguments using the returned questions.
+ *
+ * @return array&lt;string, string&gt;
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">promptForMissingArgumentsUsing</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="s1">'Which user ID should receive the mail?'</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may also provide placeholder text by using a tuple containing the question and placeholder:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">[</span>
+    <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'Which user ID should receive the mail?'</span><span class="p">,</span> <span class="s1">'E.g. 123'</span><span class="p">],</span>
+<span class="p">];</span>
+</code></pre></div></div>
+
+<p>If you would like complete control over the prompt, you may provide a closure that should prompt the user and return their answer:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="k">function</span> <span class="n">Laravel\Prompts\search</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">return</span> <span class="p">[</span>
+    <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nf">search</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">:</span> <span class="s1">'Search for a user:'</span><span class="p">,</span>
+        <span class="n">placeholder</span><span class="o">:</span> <span class="s1">'E.g. Taylor Otwell'</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">:</span> <span class="k">fn</span> <span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="o">?</span> <span class="nc">User</span><span class="o">::</span><span class="nf">whereLike</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s2">"%</span><span class="si">{</span><span class="nv">$value</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">pluck</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">all</span><span class="p">()</span>
+            <span class="o">:</span> <span class="p">[]</span>
+    <span class="p">),</span>
+<span class="p">];</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+The comprehensive <a href="/docs/{{version}}/prompts">Laravel Prompts</a> documentation includes additional information on the available prompts and their usage.</p>
+</blockquote>
+
+<p>If you wish to prompt the user to select or enter <a href="#options">options</a>, you may include prompts in your command’s <code class="language-plaintext highlighter-rouge">handle</code> method. However, if you only wish to prompt the user when they have also been automatically prompted for missing arguments, then you may implement the <code class="language-plaintext highlighter-rouge">afterPromptingForMissingArguments</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Symfony\Component\Console\Input\InputInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Console\Output\OutputInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="k">function</span> <span class="n">Laravel\Prompts\confirm</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="cd">/**
+ * Perform actions after the user was prompted for missing arguments.
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">afterPromptingForMissingArguments</span><span class="p">(</span><span class="kt">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="kt">OutputInterface</span> <span class="nv">$output</span><span class="p">):</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nv">$input</span><span class="o">-&gt;</span><span class="nf">setOption</span><span class="p">(</span><span class="s1">'queue'</span><span class="p">,</span> <span class="nf">confirm</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">:</span> <span class="s1">'Would you like to queue the mail?'</span><span class="p">,</span>
+        <span class="k">default</span><span class="o">:</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">option</span><span class="p">(</span><span class="s1">'queue'</span><span class="p">)</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="command-io"></a></p>
+<h2 id="command-io">Command I/O</h2>
+
+<p><a name="retrieving-input"></a></p>
+<h3 id="retrieving-input">Retrieving Input</h3>
+
+<p>While your command is executing, you will likely need to access the values for the arguments and options accepted by your command. To do so, you may use the <code class="language-plaintext highlighter-rouge">argument</code> and <code class="language-plaintext highlighter-rouge">option</code> methods. If an argument or option does not exist, <code class="language-plaintext highlighter-rouge">null</code> will be returned:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Execute the console command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nv">$userId</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">argument</span><span class="p">(</span><span class="s1">'user'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you need to retrieve all of the arguments as an <code class="language-plaintext highlighter-rouge">array</code>, call the <code class="language-plaintext highlighter-rouge">arguments</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$arguments</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">arguments</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Options may be retrieved just as easily as arguments using the <code class="language-plaintext highlighter-rouge">option</code> method. To retrieve all of the options as an array, call the <code class="language-plaintext highlighter-rouge">options</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Retrieve a specific option...</span>
+<span class="nv">$queueName</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">option</span><span class="p">(</span><span class="s1">'queue'</span><span class="p">);</span>
+
+<span class="c1">// Retrieve all options as an array...</span>
+<span class="nv">$options</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">options</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">input</code> method to retrieve a command’s arguments and options as an <code class="language-plaintext highlighter-rouge">Illuminate\Console\CommandInput</code> instance, which provides the same typed accessors that are available on HTTP requests and other data containers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Enums\ReportType</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Execute the console command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nv">$input</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">()</span><span class="o">-&gt;</span><span class="nb">date</span><span class="p">(</span><span class="s1">'from'</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">input</code> method may also be used to retrieve a single input value from either the arguments or options:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$queue</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'queue'</span><span class="p">,</span> <span class="s1">'default'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="prompting-for-input"></a></p>
+<h3 id="prompting-for-input">Prompting for Input</h3>
+
+<blockquote>
+  <p>[!NOTE]
+<a href="/docs/{{version}}/prompts">Laravel Prompts</a> is a PHP package for adding beautiful and user-friendly forms to your command-line applications, with browser-like features including placeholder text and validation.</p>
+</blockquote>
+
+<p>In addition to displaying output, you may also ask the user to provide input during the execution of your command. The <code class="language-plaintext highlighter-rouge">ask</code> method will prompt the user with the given question, accept their input, and then return the user’s input back to your command:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Execute the console command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">ask</span><span class="p">(</span><span class="s1">'What is your name?'</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ask</code> method also accepts an optional second argument which specifies the default value that should be returned if no user input is provided:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">ask</span><span class="p">(</span><span class="s1">'What is your name?'</span><span class="p">,</span> <span class="s1">'Taylor'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">secret</code> method is similar to <code class="language-plaintext highlighter-rouge">ask</code>, but the user’s input will not be visible to them as they type in the console. This method is useful when asking for sensitive information such as passwords:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$password</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">secret</span><span class="p">(</span><span class="s1">'What is the password?'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="asking-for-confirmation"></a></p>
+<h4 id="asking-for-confirmation">Asking for Confirmation</h4>
+
+<p>If you need to ask the user for a simple “yes or no” confirmation, you may use the <code class="language-plaintext highlighter-rouge">confirm</code> method. By default, this method will return <code class="language-plaintext highlighter-rouge">false</code>. However, if the user enters <code class="language-plaintext highlighter-rouge">y</code> or <code class="language-plaintext highlighter-rouge">yes</code> in response to the prompt, the method will return <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">confirm</span><span class="p">(</span><span class="s1">'Do you wish to continue?'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If necessary, you may specify that the confirmation prompt should return <code class="language-plaintext highlighter-rouge">true</code> by default by passing <code class="language-plaintext highlighter-rouge">true</code> as the second argument to the <code class="language-plaintext highlighter-rouge">confirm</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">confirm</span><span class="p">(</span><span class="s1">'Do you wish to continue?'</span><span class="p">,</span> <span class="kc">true</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="auto-completion"></a></p>
+<h4 id="auto-completion">Auto-Completion</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">anticipate</code> method can be used to provide auto-completion for possible choices. The user can still provide any answer, regardless of the auto-completion hints:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">anticipate</span><span class="p">(</span><span class="s1">'What is your name?'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Taylor'</span><span class="p">,</span> <span class="s1">'Dayle'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may pass a closure as the second argument to the <code class="language-plaintext highlighter-rouge">anticipate</code> method. The closure will be called each time the user types an input character. The closure should accept a string parameter containing the user’s input so far, and return an array of options for auto-completion:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Address</span><span class="p">;</span>
+
+<span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">anticipate</span><span class="p">(</span><span class="s1">'What is your address?'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Address</span><span class="o">::</span><span class="nf">whereLike</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s2">"</span><span class="si">{</span><span class="nv">$input</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">pluck</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">all</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="multiple-choice-questions"></a></p>
+<h4 id="multiple-choice-questions">Multiple Choice Questions</h4>
+
+<p>If you need to give the user a predefined set of choices when asking a question, you may use the <code class="language-plaintext highlighter-rouge">choice</code> method. You may set the array index of the default value to be returned if no option is chosen by passing the index as the third argument to the method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">choice</span><span class="p">(</span>
+    <span class="s1">'What is your name?'</span><span class="p">,</span>
+    <span class="p">[</span><span class="s1">'Taylor'</span><span class="p">,</span> <span class="s1">'Dayle'</span><span class="p">],</span>
+    <span class="nv">$defaultIndex</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>In addition, the <code class="language-plaintext highlighter-rouge">choice</code> method accepts optional fourth and fifth arguments for determining the maximum number of attempts to select a valid response and whether multiple selections are permitted:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$name</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">choice</span><span class="p">(</span>
+    <span class="s1">'What is your name?'</span><span class="p">,</span>
+    <span class="p">[</span><span class="s1">'Taylor'</span><span class="p">,</span> <span class="s1">'Dayle'</span><span class="p">],</span>
+    <span class="nv">$defaultIndex</span><span class="p">,</span>
+    <span class="nv">$maxAttempts</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nv">$allowMultipleSelections</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="writing-output"></a></p>
+<h3 id="writing-output">Writing Output</h3>
+
+<p>To send output to the console, you may use the <code class="language-plaintext highlighter-rouge">line</code>, <code class="language-plaintext highlighter-rouge">newLine</code>, <code class="language-plaintext highlighter-rouge">info</code>, <code class="language-plaintext highlighter-rouge">comment</code>, <code class="language-plaintext highlighter-rouge">question</code>, <code class="language-plaintext highlighter-rouge">warn</code>, <code class="language-plaintext highlighter-rouge">alert</code>, and <code class="language-plaintext highlighter-rouge">error</code> methods. Each of these methods will use appropriate ANSI colors for their purpose. For example, let’s display some general information to the user. Typically, the <code class="language-plaintext highlighter-rouge">info</code> method will display in the console as green colored text:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Execute the console command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">info</span><span class="p">(</span><span class="s1">'The command was successful!'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To display an error message, use the <code class="language-plaintext highlighter-rouge">error</code> method. Error message text is typically displayed in red:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">error</span><span class="p">(</span><span class="s1">'Something went wrong!'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">line</code> method to display plain, uncolored text:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">line</span><span class="p">(</span><span class="s1">'Display this on the screen'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">newLine</code> method to display a blank line:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Write a single blank line...</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">newLine</span><span class="p">();</span>
+
+<span class="c1">// Write three blank lines...</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">newLine</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="tables"></a></p>
+<h4 id="tables">Tables</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">table</code> method makes it easy to correctly format multiple rows / columns of data. All you need to do is provide the column names and the data for the table and Laravel will automatically calculate the appropriate width and height of the table for you:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">table</span><span class="p">(</span>
+    <span class="p">[</span><span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'Email'</span><span class="p">],</span>
+    <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">])</span><span class="o">-&gt;</span><span class="nf">toArray</span><span class="p">()</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="progress-bars"></a></p>
+<h4 id="progress-bars">Progress Bars</h4>
+
+<p>For long running tasks, it can be helpful to show a progress bar that informs users how complete the task is. Using the <code class="language-plaintext highlighter-rouge">withProgressBar</code> method, Laravel will display a progress bar and advance its progress for each iteration over a given iterable value:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nv">$users</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">withProgressBar</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">(),</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">performTask</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Sometimes, you may need more manual control over how a progress bar is advanced. First, define the total number of steps the process will iterate through. Then, advance the progress bar after processing each item:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$users</span> <span class="o">=</span> <span class="nc">App\Models\User</span><span class="o">::</span><span class="nf">all</span><span class="p">();</span>
+
+<span class="nv">$bar</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">output</span><span class="o">-&gt;</span><span class="nf">createProgressBar</span><span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$users</span><span class="p">));</span>
+
+<span class="nv">$bar</span><span class="o">-&gt;</span><span class="nf">start</span><span class="p">();</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$users</span> <span class="k">as</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">performTask</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+
+    <span class="nv">$bar</span><span class="o">-&gt;</span><span class="nf">advance</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nv">$bar</span><span class="o">-&gt;</span><span class="nf">finish</span><span class="p">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+For more advanced options, check out the <a href="https://symfony.com/doc/current/components/console/helpers/progressbar.html">Symfony Progress Bar component documentation</a>.</p>
+</blockquote>
+
+<p><a name="registering-commands"></a></p>
+<h2 id="registering-commands">Registering Commands</h2>
+
+<p>By default, Laravel automatically registers all commands within the <code class="language-plaintext highlighter-rouge">app/Console/Commands</code> directory. However, you can instruct Laravel to scan other directories for Artisan commands using the <code class="language-plaintext highlighter-rouge">withCommands</code> method in your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withCommands</span><span class="p">([</span>
+    <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../app/Domain/Orders/Commands'</span><span class="p">,</span>
+<span class="p">])</span>
+</code></pre></div></div>
+
+<p>If necessary, you may also manually register commands by providing the command’s class name to the <code class="language-plaintext highlighter-rouge">withCommands</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Domain\Orders\Commands\SendEmails</span><span class="p">;</span>
+
+<span class="o">-&gt;</span><span class="nf">withCommands</span><span class="p">([</span>
+    <span class="nc">SendEmails</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+<span class="p">])</span>
+</code></pre></div></div>
+
+<p>When Artisan boots, all the commands in your application will be resolved by the <a href="/docs/{{version}}/container">service container</a> and registered with Artisan.</p>
+
+<p><a name="programmatically-executing-commands"></a></p>
+<h2 id="programmatically-executing-commands">Programmatically Executing Commands</h2>
+
+<p>Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to execute an Artisan command from a route or controller. You may use the <code class="language-plaintext highlighter-rouge">call</code> method on the <code class="language-plaintext highlighter-rouge">Artisan</code> facade to accomplish this. The <code class="language-plaintext highlighter-rouge">call</code> method accepts either the command’s signature name or class name as its first argument, and an array of command parameters as the second argument. The exit code will be returned:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Artisan</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/user/{user}/mail'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$exitCode</span> <span class="o">=</span> <span class="nc">Artisan</span><span class="o">::</span><span class="nf">call</span><span class="p">(</span><span class="s1">'mail:send'</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="p">,</span> <span class="s1">'--queue'</span> <span class="o">=&gt;</span> <span class="s1">'default'</span>
+    <span class="p">]);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may pass the entire Artisan command to the <code class="language-plaintext highlighter-rouge">call</code> method as a string:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Artisan</span><span class="o">::</span><span class="nf">call</span><span class="p">(</span><span class="s1">'mail:send 1 --queue=default'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="passing-array-values"></a></p>
+<h4 id="passing-array-values">Passing Array Values</h4>
+
+<p>If your command defines an option that accepts an array, you may pass an array of values to that option:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Artisan</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/mail'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$exitCode</span> <span class="o">=</span> <span class="nc">Artisan</span><span class="o">::</span><span class="nf">call</span><span class="p">(</span><span class="s1">'mail:send'</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'--id'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">13</span><span class="p">]</span>
+    <span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="passing-boolean-values"></a></p>
+<h4 id="passing-boolean-values">Passing Boolean Values</h4>
+
+<p>If you need to specify the value of an option that does not accept string values, such as the <code class="language-plaintext highlighter-rouge">--force</code> flag on the <code class="language-plaintext highlighter-rouge">migrate:refresh</code> command, you should pass <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code> as the value of the option:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$exitCode</span> <span class="o">=</span> <span class="nc">Artisan</span><span class="o">::</span><span class="nf">call</span><span class="p">(</span><span class="s1">'migrate:refresh'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'--force'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="queueing-artisan-commands"></a></p>
+<h4 id="queueing-artisan-commands">Queueing Artisan Commands</h4>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">queue</code> method on the <code class="language-plaintext highlighter-rouge">Artisan</code> facade, you may even queue Artisan commands so they are processed in the background by your <a href="/docs/{{version}}/queues">queue workers</a>. Before using this method, make sure you have configured your queue and are running a queue listener:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Artisan</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/user/{user}/mail'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nc">Artisan</span><span class="o">::</span><span class="nf">queue</span><span class="p">(</span><span class="s1">'mail:send'</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="p">,</span> <span class="s1">'--queue'</span> <span class="o">=&gt;</span> <span class="s1">'default'</span>
+    <span class="p">]);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">onConnection</code> and <code class="language-plaintext highlighter-rouge">onQueue</code> methods, you may specify the connection or queue the Artisan command should be dispatched to:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Artisan</span><span class="o">::</span><span class="nf">queue</span><span class="p">(</span><span class="s1">'mail:send'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'--queue'</span> <span class="o">=&gt;</span> <span class="s1">'default'</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">onConnection</span><span class="p">(</span><span class="s1">'redis'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">onQueue</span><span class="p">(</span><span class="s1">'commands'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="calling-commands-from-other-commands"></a></p>
+<h3 id="calling-commands-from-other-commands">Calling Commands From Other Commands</h3>
+
+<p>Sometimes you may wish to call other commands from an existing Artisan command. You may do so using the <code class="language-plaintext highlighter-rouge">call</code> method. This <code class="language-plaintext highlighter-rouge">call</code> method accepts the command name and an array of command arguments / options:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Execute the console command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">call</span><span class="p">(</span><span class="s1">'mail:send'</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'--queue'</span> <span class="o">=&gt;</span> <span class="s1">'default'</span>
+    <span class="p">]);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you would like to call another console command and suppress all of its output, you may use the <code class="language-plaintext highlighter-rouge">callSilently</code> method. The <code class="language-plaintext highlighter-rouge">callSilently</code> method has the same signature as the <code class="language-plaintext highlighter-rouge">call</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">callSilently</span><span class="p">(</span><span class="s1">'mail:send'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'--queue'</span> <span class="o">=&gt;</span> <span class="s1">'default'</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="signal-handling"></a></p>
+<h2 id="signal-handling">Signal Handling</h2>
+
+<p>As you may know, operating systems allow signals to be sent to running processes. For example, the <code class="language-plaintext highlighter-rouge">SIGTERM</code> signal is how operating systems ask a program to terminate gracefully. If you wish to listen for signals in your Artisan console commands and execute code when they occur, you may use the <code class="language-plaintext highlighter-rouge">trap</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Execute the console command.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">trap</span><span class="p">(</span><span class="no">SIGTERM</span><span class="p">,</span> <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">shouldKeepRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">shouldKeepRunning</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To listen for multiple signals at once, you may provide an array of signals to the <code class="language-plaintext highlighter-rouge">trap</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">trap</span><span class="p">([</span><span class="no">SIGTERM</span><span class="p">,</span> <span class="no">SIGQUIT</span><span class="p">],</span> <span class="k">function</span> <span class="p">(</span><span class="kt">int</span> <span class="nv">$signal</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">shouldKeepRunning</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+    <span class="nf">dump</span><span class="p">(</span><span class="nv">$signal</span><span class="p">);</span> <span class="c1">// SIGTERM / SIGQUIT</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="the-dev-command"></a></p>
+<h2 id="the-dev-command">The Dev Command</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">dev</code> Artisan command starts all of the processes needed for local development in a single terminal window. By default, it concurrently runs the PHP development server, a queue worker, log tailing via <a href="/docs/{{version}}/logging#tailing-log-messages-using-pail">Pail</a>, and Vite asset compilation:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan dev
+</code></pre></div></div>
+
+<p>Under the hood, the <code class="language-plaintext highlighter-rouge">dev</code> command uses the <code class="language-plaintext highlighter-rouge">@laravel/multiplex</code> npm package to manage the processes, giving each process its own tab with searchable, scrollable output. Each process is labeled and color-coded so you can easily distinguish between them. If a process crashes, it will be restarted automatically, and when you quit, all of the output is written back to your terminal so nothing is lost.</p>
+
+<blockquote>
+  <p>[!NOTE]
+The <code class="language-plaintext highlighter-rouge">dev</code> command requires Node 22.13 or later. On Windows, it falls back to the <code class="language-plaintext highlighter-rouge">concurrently</code> npm package and the tabbed interface is not available.</p>
+</blockquote>
+
+<p>The default processes are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Command</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">server</code></td>
+      <td><code class="language-plaintext highlighter-rouge">php artisan serve --host=localhost</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">queue</code></td>
+      <td><code class="language-plaintext highlighter-rouge">php artisan queue:listen --tries=1 --timeout=0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">logs</code></td>
+      <td><code class="language-plaintext highlighter-rouge">php artisan pail --timeout=0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">vite</code></td>
+      <td><code class="language-plaintext highlighter-rouge">npm run dev</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>[!NOTE]
+The <code class="language-plaintext highlighter-rouge">vite</code> process automatically detects your Node package manager (npm, pnpm, Yarn, or Bun) and uses the appropriate run command.</p>
+</blockquote>
+
+<p><a name="customizing-dev-processes"></a></p>
+<h3 id="customizing-dev-processes">Customizing Dev Processes</h3>
+
+<p>You may customize the processes that the <code class="language-plaintext highlighter-rouge">dev</code> command runs by using the <code class="language-plaintext highlighter-rouge">DevCommands</code> class, typically within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>. The <code class="language-plaintext highlighter-rouge">register</code> method accepts a command string and an optional name:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Foundation\DevCommands</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">DevCommands</span><span class="o">::</span><span class="nf">register</span><span class="p">(</span><span class="s1">'some-command --flag'</span><span class="p">,</span> <span class="s1">'my-process'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When registering an Artisan command, you may use the <code class="language-plaintext highlighter-rouge">artisan</code> method which automatically prefixes the command with <code class="language-plaintext highlighter-rouge">php artisan</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DevCommands</span><span class="o">::</span><span class="nf">artisan</span><span class="p">(</span><span class="s1">'horizon'</span><span class="p">,</span> <span class="s1">'horizon'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Likewise, the <code class="language-plaintext highlighter-rouge">node</code> method prefixes the command with your detected package manager’s run command (e.g. <code class="language-plaintext highlighter-rouge">npm run</code>), and the <code class="language-plaintext highlighter-rouge">nodeExec</code> method prefixes the command with the package manager’s exec command (e.g. <code class="language-plaintext highlighter-rouge">npx</code>):</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DevCommands</span><span class="o">::</span><span class="nf">node</span><span class="p">(</span><span class="s1">'storybook'</span><span class="p">,</span> <span class="s1">'storybook'</span><span class="p">);</span>
+
+<span class="nc">DevCommands</span><span class="o">::</span><span class="nf">nodeExec</span><span class="p">(</span><span class="s1">'tailwindcss -i resources/css/app.css -o public/css/app.css --watch'</span><span class="p">,</span> <span class="s1">'tailwind'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>If you register a process with the same name as a default process, your process will replace the default. For example, you may customize the server process to use a different port:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DevCommands</span><span class="o">::</span><span class="nf">artisan</span><span class="p">(</span><span class="s1">'serve --host=localhost --port=9000'</span><span class="p">,</span> <span class="s1">'server'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may also customize the color of a process label in your terminal. The available color methods are <code class="language-plaintext highlighter-rouge">blue</code>, <code class="language-plaintext highlighter-rouge">purple</code>, <code class="language-plaintext highlighter-rouge">pink</code>, <code class="language-plaintext highlighter-rouge">orange</code>, <code class="language-plaintext highlighter-rouge">green</code>, and <code class="language-plaintext highlighter-rouge">yellow</code>. You may also pass a custom hex color to the <code class="language-plaintext highlighter-rouge">color</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DevCommands</span><span class="o">::</span><span class="nf">register</span><span class="p">(</span><span class="s1">'my-command'</span><span class="p">,</span> <span class="s1">'my-process'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">green</span><span class="p">();</span>
+
+<span class="nc">DevCommands</span><span class="o">::</span><span class="nf">register</span><span class="p">(</span><span class="s1">'my-command'</span><span class="p">,</span> <span class="s1">'my-process'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">color</span><span class="p">(</span><span class="s1">'#ff6347'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>To see all registered dev processes without starting them, use the <code class="language-plaintext highlighter-rouge">dev:list</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan dev:list
+</code></pre></div></div>
+
+<p><a name="restarting-failed-processes"></a></p>
+<h4 id="restarting-failed-processes">Restarting Failed Processes</h4>
+
+<p>If a process crashes, Laravel will restart it after a short delay, up to five times, before marking it as failed. A process that dies within a second of starting is not restarted, since it likely never started successfully in the first place. Restarting a process manually with <code class="language-plaintext highlighter-rouge">r</code> resets the counter.</p>
+
+<p>You may disable this behavior for a single run using the <code class="language-plaintext highlighter-rouge">--no-restart</code> option:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan dev <span class="nt">--no-restart</span>
+</code></pre></div></div>
+
+<p>Or, you may disable it for your entire application using the <code class="language-plaintext highlighter-rouge">disableAutoRestart</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DevCommands</span><span class="o">::</span><span class="nf">disableAutoRestart</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="filtering-dev-processes"></a></p>
+<h3 id="filtering-dev-processes">Filtering Dev Processes</h3>
+
+<p>You may instruct the <code class="language-plaintext highlighter-rouge">dev</code> command to only run specific processes when it is invoked using the <code class="language-plaintext highlighter-rouge">only</code> method. Similarly, you may exclude specific processes using the <code class="language-plaintext highlighter-rouge">except</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Only run the server and vite processes...</span>
+<span class="nc">DevCommands</span><span class="o">::</span><span class="nf">only</span><span class="p">(</span><span class="s1">'server'</span><span class="p">,</span> <span class="s1">'vite'</span><span class="p">);</span>
+
+<span class="c1">// Run all processes except the queue worker...</span>
+<span class="nc">DevCommands</span><span class="o">::</span><span class="nf">except</span><span class="p">(</span><span class="s1">'queue'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may exclude commands registered by packages or Laravel’s default commands using the <code class="language-plaintext highlighter-rouge">withoutVendorCommands</code> and <code class="language-plaintext highlighter-rouge">withoutDefaultCommands</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DevCommands</span><span class="o">::</span><span class="nf">withoutVendorCommands</span><span class="p">();</span>
+
+<span class="nc">DevCommands</span><span class="o">::</span><span class="nf">withoutDefaultCommands</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="stub-customization"></a></p>
+<h2 id="stub-customization">Stub Customization</h2>
+
+<p>The Artisan console’s <code class="language-plaintext highlighter-rouge">make</code> commands are used to create a variety of classes, such as controllers, jobs, migrations, and tests. These classes are generated using “stub” files that are populated with values based on your input. However, you may want to make small changes to files generated by Artisan. To accomplish this, you may use the <code class="language-plaintext highlighter-rouge">stub:publish</code> command to publish the most common stubs to your application so that you can customize them:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan stub:publish
+</code></pre></div></div>
+
+<p>The published stubs will be located within a <code class="language-plaintext highlighter-rouge">stubs</code> directory in the root of your application. Any changes you make to these stubs will be reflected when you generate their corresponding classes using Artisan’s <code class="language-plaintext highlighter-rouge">make</code> commands.</p>
+
+<p><a name="events"></a></p>
+<h2 id="events">Events</h2>
+
+<p>Artisan dispatches three events when running commands: <code class="language-plaintext highlighter-rouge">Illuminate\Console\Events\ArtisanStarting</code>, <code class="language-plaintext highlighter-rouge">Illuminate\Console\Events\CommandStarting</code>, and <code class="language-plaintext highlighter-rouge">Illuminate\Console\Events\CommandFinished</code>. The <code class="language-plaintext highlighter-rouge">ArtisanStarting</code> event is dispatched immediately when Artisan starts running. Next, the <code class="language-plaintext highlighter-rouge">CommandStarting</code> event is dispatched immediately before a command runs. Finally, the <code class="language-plaintext highlighter-rouge">CommandFinished</code> event is dispatched once a command finishes executing.</p>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

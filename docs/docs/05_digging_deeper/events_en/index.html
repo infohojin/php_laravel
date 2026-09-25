@@ -1,0 +1,2859 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Events | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Events" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/05_digging_deeper/events_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/05_digging_deeper/events_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Events" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Events","url":"http://localhost:4000/docs/05_digging_deeper/events_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/05_digging_deeper/">05 digging deeper</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Events</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="events">Events</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#generating-events-and-listeners">Generating Events and Listeners</a></li>
+  <li><a href="#registering-events-and-listeners">Registering Events and Listeners</a>
+    <ul>
+      <li><a href="#event-discovery">Event Discovery</a></li>
+      <li><a href="#manually-registering-events">Manually Registering Events</a></li>
+      <li><a href="#closure-listeners">Closure Listeners</a></li>
+    </ul>
+  </li>
+  <li><a href="#defining-events">Defining Events</a></li>
+  <li><a href="#defining-listeners">Defining Listeners</a></li>
+  <li><a href="#queued-event-listeners">Queued Event Listeners</a>
+    <ul>
+      <li><a href="#manually-interacting-with-the-queue">Manually Interacting With the Queue</a></li>
+      <li><a href="#queued-event-listeners-and-database-transactions">Queued Event Listeners and Database Transactions</a></li>
+      <li><a href="#queued-listener-middleware">Queued Listener Middleware</a></li>
+      <li><a href="#encrypted-queued-listeners">Encrypted Queued Listeners</a></li>
+      <li><a href="#unique-event-listeners">Unique Event Listeners</a>
+        <ul>
+          <li><a href="#keeping-listeners-unique-until-processing-begins">Keeping Listeners Unique Until Processing Begins</a></li>
+          <li><a href="#unique-listener-locks">Unique Listener Locks</a></li>
+        </ul>
+      </li>
+      <li><a href="#debounced-event-listeners">Debounced Event Listeners</a></li>
+      <li><a href="#handling-failed-jobs">Handling Failed Jobs</a></li>
+    </ul>
+  </li>
+  <li><a href="#dispatching-events">Dispatching Events</a>
+    <ul>
+      <li><a href="#dispatching-events-after-database-transactions">Dispatching Events After Database Transactions</a></li>
+      <li><a href="#deferring-events">Deferring Events</a></li>
+    </ul>
+  </li>
+  <li><a href="#event-subscribers">Event Subscribers</a>
+    <ul>
+      <li><a href="#writing-event-subscribers">Writing Event Subscribers</a></li>
+      <li><a href="#registering-event-subscribers">Registering Event Subscribers</a></li>
+    </ul>
+  </li>
+  <li><a href="#testing">Testing</a>
+    <ul>
+      <li><a href="#faking-a-subset-of-events">Faking a Subset of Events</a></li>
+      <li><a href="#scoped-event-fakes">Scoped Event Fakes</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Laravel’s events provide a simple observer pattern implementation, allowing you to subscribe and listen for various events that occur within your application. Event classes are typically stored in the <code class="language-plaintext highlighter-rouge">app/Events</code> directory, while their listeners are stored in <code class="language-plaintext highlighter-rouge">app/Listeners</code>. Don’t worry if you don’t see these directories in your application as they will be created for you as you generate events and listeners using Artisan console commands.</p>
+
+<p>Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that do not depend on each other. For example, you may wish to send a Slack notification to your user each time an order has shipped. Instead of coupling your order processing code to your Slack notification code, you can raise an <code class="language-plaintext highlighter-rouge">App\Events\OrderShipped</code> event which a listener can receive and use to dispatch a Slack notification.</p>
+
+<p><a name="generating-events-and-listeners"></a></p>
+<h2 id="generating-events-and-listeners">Generating Events and Listeners</h2>
+
+<p>To quickly generate events and listeners, you may use the <code class="language-plaintext highlighter-rouge">make:event</code> and <code class="language-plaintext highlighter-rouge">make:listener</code> Artisan commands:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:event PodcastProcessed
+
+php artisan make:listener SendPodcastNotification <span class="nt">--event</span><span class="o">=</span>PodcastProcessed
+</code></pre></div></div>
+
+<p>For convenience, you may also invoke the <code class="language-plaintext highlighter-rouge">make:event</code> and <code class="language-plaintext highlighter-rouge">make:listener</code> Artisan commands without additional arguments. When you do so, Laravel will automatically prompt you for the class name and, when creating a listener, the event it should listen to:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:event
+
+php artisan make:listener
+</code></pre></div></div>
+
+<p><a name="registering-events-and-listeners"></a></p>
+<h2 id="registering-events-and-listeners">Registering Events and Listeners</h2>
+
+<p><a name="event-discovery"></a></p>
+<h3 id="event-discovery">Event Discovery</h3>
+
+<p>By default, Laravel will automatically find and register your event listeners by scanning your application’s <code class="language-plaintext highlighter-rouge">Listeners</code> directory. When Laravel finds any listener class method that begins with <code class="language-plaintext highlighter-rouge">handle</code> or <code class="language-plaintext highlighter-rouge">__invoke</code>, Laravel will register those methods as event listeners for the event that is type-hinted in the method’s signature:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Events\PodcastProcessed</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendPodcastNotification</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">PodcastProcessed</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may listen to multiple events using PHP’s union types:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Handle the event.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">PodcastProcessed</span><span class="o">|</span><span class="nc">PodcastPublished</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you plan to store your listeners in a different directory or within multiple directories, you may instruct Laravel to scan those directories using the <code class="language-plaintext highlighter-rouge">withEvents</code> method in your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withEvents</span><span class="p">(</span><span class="n">discover</span><span class="o">:</span> <span class="p">[</span>
+    <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../app/Domain/Orders/Listeners'</span><span class="p">,</span>
+<span class="p">])</span>
+</code></pre></div></div>
+
+<p>You may scan for listeners in multiple similar directories using the <code class="language-plaintext highlighter-rouge">*</code> character as a wildcard:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withEvents</span><span class="p">(</span><span class="n">discover</span><span class="o">:</span> <span class="p">[</span>
+    <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../app/Domain/*/Listeners'</span><span class="p">,</span>
+<span class="p">])</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">event:list</code> command may be used to list all of the listeners registered within your application:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan event:list
+</code></pre></div></div>
+
+<p><a name="event-discovery-in-production"></a></p>
+<h4 id="event-discovery-in-production">Event Discovery in Production</h4>
+
+<p>To give your application a speed boost, you should cache a manifest of all of your application’s listeners using the <code class="language-plaintext highlighter-rouge">optimize</code> or <code class="language-plaintext highlighter-rouge">event:cache</code> Artisan commands. Typically, this command should be run as part of your application’s <a href="/docs/{{version}}/deployment#optimization">deployment process</a>. This manifest will be used by the framework to speed up the event registration process. The <code class="language-plaintext highlighter-rouge">event:clear</code> command may be used to destroy the event cache.</p>
+
+<p><a name="dynamic-event-discovery"></a></p>
+<h4 id="dynamic-event-discovery">Dynamic Event Discovery</h4>
+
+<p>To dynamically control whether a given listener is discovered, you may implement the <code class="language-plaintext highlighter-rouge">ShouldBeDiscovered</code> interface on the listener class and define a <code class="language-plaintext highlighter-rouge">shouldBeDiscovered</code> method that returns a boolean value. If the method returns <code class="language-plaintext highlighter-rouge">false</code>, the listener will not be registered during event discovery:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Contracts\Events\ShouldBeDiscovered</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendPodcastNotification</span> <span class="kd">implements</span> <span class="nc">ShouldBeDiscovered</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">PodcastProcessed</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Determine if the listener should be discovered.
+     */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="n">shouldBeDiscovered</span><span class="p">():</span> <span class="kt">bool</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">app</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">environment</span><span class="p">(</span><span class="s1">'production'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="manually-registering-events"></a></p>
+<h3 id="manually-registering-events">Manually Registering Events</h3>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">Event</code> facade, you may manually register events and their corresponding listeners within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Domain\Orders\Events\PodcastProcessed</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Domain\Orders\Listeners\SendPodcastNotification</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span>
+        <span class="nc">PodcastProcessed</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+        <span class="nc">SendPodcastNotification</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">event:list</code> command may be used to list all of the listeners registered within your application:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan event:list
+</code></pre></div></div>
+
+<p><a name="closure-listeners"></a></p>
+<h3 id="closure-listeners">Closure Listeners</h3>
+
+<p>Typically, listeners are defined as classes; however, you may also manually register closure-based event listeners in the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Events\PodcastProcessed</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">PodcastProcessed</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="queueable-anonymous-event-listeners"></a></p>
+<h4 id="queueable-anonymous-event-listeners">Queueable Anonymous Event Listeners</h4>
+
+<p>When registering closure-based event listeners, you may wrap the listener closure within the <code class="language-plaintext highlighter-rouge">Illuminate\Events\queueable</code> function to instruct Laravel to execute the listener using the <a href="/docs/{{version}}/queues">queue</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Events\PodcastProcessed</span><span class="p">;</span>
+<span class="kn">use</span> <span class="k">function</span> <span class="n">Illuminate\Events\queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span><span class="nf">queueable</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">PodcastProcessed</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Like queued jobs, you may use the <code class="language-plaintext highlighter-rouge">onConnection</code>, <code class="language-plaintext highlighter-rouge">onQueue</code>, and <code class="language-plaintext highlighter-rouge">delay</code> methods to customize the execution of the queued listener:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span><span class="nf">queueable</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">PodcastProcessed</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">onConnection</span><span class="p">(</span><span class="s1">'redis'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">onQueue</span><span class="p">(</span><span class="s1">'podcasts'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">delay</span><span class="p">(</span><span class="nf">now</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">plus</span><span class="p">(</span><span class="n">seconds</span><span class="o">:</span> <span class="mi">10</span><span class="p">)));</span>
+</code></pre></div></div>
+
+<p>If you would like to handle anonymous queued listener failures, you may provide a closure to the <code class="language-plaintext highlighter-rouge">catch</code> method while defining the <code class="language-plaintext highlighter-rouge">queueable</code> listener. This closure will receive the event instance and the <code class="language-plaintext highlighter-rouge">Throwable</code> instance that caused the listener’s failure:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Events\PodcastProcessed</span><span class="p">;</span>
+<span class="kn">use</span> <span class="k">function</span> <span class="n">Illuminate\Events\queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Throwable</span><span class="p">;</span>
+
+<span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span><span class="nf">queueable</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">PodcastProcessed</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="k">catch</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">PodcastProcessed</span> <span class="nv">$event</span><span class="p">,</span> <span class="kt">Throwable</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The queued listener failed...</span>
+<span class="p">}));</span>
+</code></pre></div></div>
+
+<p><a name="wildcard-event-listeners"></a></p>
+<h4 id="wildcard-event-listeners">Wildcard Event Listeners</h4>
+
+<p>You may also register listeners using the <code class="language-plaintext highlighter-rouge">*</code> character as a wildcard parameter, allowing you to catch multiple events on the same listener. Wildcard listeners receive the event name as their first argument and the entire event data array as their second argument:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span><span class="s1">'event.*'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$eventName</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="defining-events"></a></p>
+<h2 id="defining-events">Defining Events</h2>
+
+<p>An event class is essentially a data container which holds the information related to the event. For example, let’s assume an <code class="language-plaintext highlighter-rouge">App\Events\OrderShipped</code> event receives an <a href="/docs/{{version}}/eloquent">Eloquent ORM</a> object:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Events</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Broadcasting\InteractsWithSockets</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Events\Dispatchable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Dispatchable</span><span class="p">,</span> <span class="nc">InteractsWithSockets</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new event instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">public</span> <span class="kt">Order</span> <span class="nv">$order</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, this event class contains no logic. It is a container for the <code class="language-plaintext highlighter-rouge">App\Models\Order</code> instance that was purchased. The <code class="language-plaintext highlighter-rouge">SerializesModels</code> trait used by the event will gracefully serialize any Eloquent models if the event object is serialized using PHP’s <code class="language-plaintext highlighter-rouge">serialize</code> function, such as when utilizing <a href="#queued-event-listeners">queued listeners</a>.</p>
+
+<p><a name="defining-listeners"></a></p>
+<h2 id="defining-listeners">Defining Listeners</h2>
+
+<p>Next, let’s take a look at the listener for our example event. Event listeners receive event instances in their <code class="language-plaintext highlighter-rouge">handle</code> method. The <code class="language-plaintext highlighter-rouge">make:listener</code> Artisan command, when invoked with the <code class="language-plaintext highlighter-rouge">--event</code> option, will automatically import the proper event class and type-hint the event in the <code class="language-plaintext highlighter-rouge">handle</code> method. Within the <code class="language-plaintext highlighter-rouge">handle</code> method, you may perform any actions necessary to respond to the event:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Create the event listener.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// Access the order using $event-&gt;order...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Your event listeners may also type-hint any dependencies they need on their constructors. All event listeners are resolved via the Laravel <a href="/docs/{{version}}/container">service container</a>, so dependencies will be injected automatically.</p>
+</blockquote>
+
+<p><a name="stopping-the-propagation-of-an-event"></a></p>
+<h4 id="stopping-the-propagation-of-an-event">Stopping The Propagation Of An Event</h4>
+
+<p>Sometimes, you may wish to stop the propagation of an event to other listeners. You may do so by returning <code class="language-plaintext highlighter-rouge">false</code> from your listener’s <code class="language-plaintext highlighter-rouge">handle</code> method.</p>
+
+<p><a name="queued-event-listeners"></a></p>
+<h2 id="queued-event-listeners">Queued Event Listeners</h2>
+
+<p>Queueing listeners can be beneficial if your listener is going to perform a slow task such as sending an email or making an HTTP request. Before using queued listeners, make sure to <a href="/docs/{{version}}/queues">configure your queue</a> and start a queue worker on your server or local development environment.</p>
+
+<p>To specify that a listener should be queued, add the <code class="language-plaintext highlighter-rouge">ShouldQueue</code> interface to the listener class. Listeners generated by the <code class="language-plaintext highlighter-rouge">make:listener</code> Artisan commands already have this interface imported into the current namespace so you can use it immediately:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>That’s it! Now, when an event handled by this listener is dispatched, the listener will automatically be queued by the event dispatcher using Laravel’s <a href="/docs/{{version}}/queues">queue system</a>. If no exceptions are thrown when the listener is executed by the queue, the queued job will automatically be deleted after it has finished processing.</p>
+
+<p><a name="customizing-the-queue-connection-queue-name"></a></p>
+<h4 id="customizing-the-queue-connection-name--delay">Customizing The Queue Connection, Name, &amp; Delay</h4>
+
+<p>If you would like to customize the queue connection, queue name, or queue delay time of an event listener, you may use the <code class="language-plaintext highlighter-rouge">Connection</code>, <code class="language-plaintext highlighter-rouge">Queue</code>, and <code class="language-plaintext highlighter-rouge">Delay</code> attributes on your listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Connection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Delay</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Queue</span><span class="p">;</span>
+
+<span class="na">#[Connection('sqs')]</span>
+<span class="na">#[Queue('listeners')]</span>
+<span class="na">#[Delay(60)]</span>
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>If you would like to define the listener’s queue connection, queue name, or delay at runtime, you may define <code class="language-plaintext highlighter-rouge">viaConnection</code>, <code class="language-plaintext highlighter-rouge">viaQueue</code>, or <code class="language-plaintext highlighter-rouge">withDelay</code> methods on the listener:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the name of the listener's queue connection.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">viaConnection</span><span class="p">():</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'sqs'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cd">/**
+ * Get the name of the listener's queue.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">viaQueue</span><span class="p">():</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'listeners'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cd">/**
+ * Get the number of seconds before the job should be processed.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">withDelay</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">int</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="n">highPriority</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">60</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you would like all of your queued listeners to use the same queue without customizing each listener class, you may <a href="/docs/{{version}}/queues#queue-routing">route the <code class="language-plaintext highlighter-rouge">ShouldQueue</code> contract to a queue</a> instead.</p>
+
+<p><a name="conditionally-queueing-listeners"></a></p>
+<h4 id="conditionally-queueing-listeners">Conditionally Queueing Listeners</h4>
+
+<p>Sometimes, you may need to determine whether a listener should be queued based on some data that are only available at runtime. To accomplish this, a <code class="language-plaintext highlighter-rouge">shouldQueue</code> method may be added to a listener to determine whether the listener should be queued. If the <code class="language-plaintext highlighter-rouge">shouldQueue</code> method returns <code class="language-plaintext highlighter-rouge">false</code>, the listener will not be queued:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderCreated</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">RewardGiftCard</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Reward a gift card to the customer.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">OrderCreated</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Determine whether the listener should be queued.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">shouldQueue</span><span class="p">(</span><span class="kt">OrderCreated</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">bool</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">subtotal</span> <span class="o">&gt;=</span> <span class="mi">5000</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="manually-interacting-with-the-queue"></a></p>
+<h3 id="manually-interacting-with-the-queue">Manually Interacting With the Queue</h3>
+
+<p>If you need to manually access the listener’s underlying queue job’s <code class="language-plaintext highlighter-rouge">delete</code> and <code class="language-plaintext highlighter-rouge">release</code> methods, you may do so using the <code class="language-plaintext highlighter-rouge">Illuminate\Queue\InteractsWithQueue</code> trait. This trait is imported by default on generated listeners and provides access to these methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\InteractsWithQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">InteractsWithQueue</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$condition</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">release</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="queued-event-listeners-and-database-transactions"></a></p>
+<h3 id="queued-event-listeners-and-database-transactions">Queued Event Listeners and Database Transactions</h3>
+
+<p>When queued listeners are dispatched within database transactions, they may be processed by the queue before the database transaction has committed. When this happens, any updates you have made to models or database records during the database transaction may not yet be reflected in the database. In addition, any models or database records created within the transaction may not exist in the database. If your listener depends on these models, unexpected errors can occur when the job that dispatches the queued listener is processed.</p>
+
+<p>If your queue connection’s <code class="language-plaintext highlighter-rouge">after_commit</code> configuration option is set to <code class="language-plaintext highlighter-rouge">false</code>, you may still indicate that a particular queued listener should be dispatched after all open database transactions have been committed by implementing the <code class="language-plaintext highlighter-rouge">ShouldQueueAfterCommit</code> interface on the listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueueAfterCommit</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\InteractsWithQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueueAfterCommit</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">InteractsWithQueue</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+To learn more about working around these issues, please review the documentation regarding <a href="/docs/{{version}}/queues#jobs-and-database-transactions">queued jobs and database transactions</a>.</p>
+</blockquote>
+
+<p><a name="queued-listener-middleware"></a></p>
+<h3 id="queued-listener-middleware">Queued Listener Middleware</h3>
+
+<p>Queued listeners can also utilize <a href="/docs/{{version}}/queues#job-middleware">job middleware</a>. Job middleware allow you to wrap custom logic around the execution of queued listeners, reducing boilerplate in the listeners themselves. After creating job middleware, they may be attached to a listener by returning them from the listener’s <code class="language-plaintext highlighter-rouge">middleware</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Jobs\Middleware\RateLimited</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// Process the event...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get the middleware the listener should pass through.
+     *
+     * @return array&lt;int, object&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">middleware</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="k">new</span> <span class="nc">RateLimited</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="encrypted-queued-listeners"></a></p>
+<h4 id="encrypted-queued-listeners">Encrypted Queued Listeners</h4>
+
+<p>Laravel allows you to ensure the privacy and integrity of a queued listener’s data via <a href="/docs/{{version}}/encryption">encryption</a>. To get started, simply add the <code class="language-plaintext highlighter-rouge">ShouldBeEncrypted</code> interface to the listener class. Once this interface has been added to the class, Laravel will automatically encrypt your listener before pushing it onto a queue:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldBeEncrypted</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span><span class="p">,</span> <span class="nc">ShouldBeEncrypted</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="unique-event-listeners"></a></p>
+<h3 id="unique-event-listeners">Unique Event Listeners</h3>
+
+<blockquote>
+  <p>[!WARNING]
+Unique listeners require a cache driver that supports <a href="/docs/{{version}}/cache#atomic-locks">locks</a>. Currently, the <code class="language-plaintext highlighter-rouge">memcached</code>, <code class="language-plaintext highlighter-rouge">redis</code>, <code class="language-plaintext highlighter-rouge">dynamodb</code>, <code class="language-plaintext highlighter-rouge">database</code>, <code class="language-plaintext highlighter-rouge">file</code>, and <code class="language-plaintext highlighter-rouge">array</code> cache drivers support atomic locks.</p>
+</blockquote>
+
+<p>Sometimes, you may want to ensure that only one instance of a specific listener is on the queue at any point in time. You may do so by implementing the <code class="language-plaintext highlighter-rouge">ShouldBeUnique</code> interface on your listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\LicenseSaved</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldBeUnique</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AcquireProductKey</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span><span class="p">,</span> <span class="nc">ShouldBeUnique</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__invoke</span><span class="p">(</span><span class="kt">LicenseSaved</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In the example above, the <code class="language-plaintext highlighter-rouge">AcquireProductKey</code> listener is unique. So, the listener will not be queued if another instance of the listener is already on the queue and has not finished processing. This ensures that only one product key is acquired for each license, even if the license is saved multiple times in quick succession.</p>
+
+<p>In certain cases, you may want to define a specific “key” that makes the listener unique or you may want to specify a timeout beyond which the listener no longer stays unique. To accomplish this, you may define <code class="language-plaintext highlighter-rouge">uniqueId</code> and <code class="language-plaintext highlighter-rouge">uniqueFor</code> properties or methods on your listener class. The methods receive the event instance, allowing you to use event data to construct the return value:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\LicenseSaved</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldBeUnique</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AcquireProductKey</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span><span class="p">,</span> <span class="nc">ShouldBeUnique</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * The number of seconds after which the listener's unique lock will be released.
+     *
+     * @var int
+     */</span>
+    <span class="k">public</span> <span class="nv">$uniqueFor</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__invoke</span><span class="p">(</span><span class="kt">LicenseSaved</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get the unique ID for the listener.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">uniqueId</span><span class="p">(</span><span class="kt">LicenseSaved</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">'listener:'</span><span class="mf">.</span><span class="nv">$event</span><span class="o">-&gt;</span><span class="n">license</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In the example above, the <code class="language-plaintext highlighter-rouge">AcquireProductKey</code> listener is unique by license ID. So, any new dispatches of the listener for the same license will be ignored until the existing listener has completed processing. This prevents duplicate product keys from being acquired for the same license. In addition, if the existing listener is not processed within one hour, the unique lock will be released and another listener with the same unique key can be queued.</p>
+
+<blockquote>
+  <p>[!WARNING]
+If your application dispatches events from multiple web servers or containers, you should ensure that all of your servers are communicating with the same central cache server so that Laravel can accurately determine if a listener is unique.</p>
+</blockquote>
+
+<p><a name="keeping-listeners-unique-until-processing-begins"></a></p>
+<h4 id="keeping-listeners-unique-until-processing-begins">Keeping Listeners Unique Until Processing Begins</h4>
+
+<p>By default, unique listeners are “unlocked” after a listener completes processing or fails all of its retry attempts. However, there may be situations where you would like your listener to unlock immediately before it is processed. To accomplish this, your listener should implement the <code class="language-plaintext highlighter-rouge">ShouldBeUniqueUntilProcessing</code> contract instead of the <code class="language-plaintext highlighter-rouge">ShouldBeUnique</code> contract:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\LicenseSaved</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AcquireProductKey</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span><span class="p">,</span> <span class="nc">ShouldBeUniqueUntilProcessing</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="unique-listener-locks"></a></p>
+<h4 id="unique-listener-locks">Unique Listener Locks</h4>
+
+<p>Behind the scenes, when a <code class="language-plaintext highlighter-rouge">ShouldBeUnique</code> listener is dispatched, Laravel attempts to acquire a <a href="/docs/{{version}}/cache#atomic-locks">lock</a> with the <code class="language-plaintext highlighter-rouge">uniqueId</code> key. If the lock is already held, the listener is not dispatched. This lock is released when the listener completes processing or fails all of its retry attempts. By default, Laravel will use the default cache driver to obtain this lock. However, if you wish to use another driver for acquiring the lock, you may define a <code class="language-plaintext highlighter-rouge">uniqueVia</code> method that returns the cache driver that should be used:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\LicenseSaved</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Cache\Repository</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Cache</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AcquireProductKey</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span><span class="p">,</span> <span class="nc">ShouldBeUnique</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="cd">/**
+     * Get the cache driver for the unique listener lock.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">uniqueVia</span><span class="p">(</span><span class="kt">LicenseSaved</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">Repository</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Cache</span><span class="o">::</span><span class="nf">driver</span><span class="p">(</span><span class="s1">'redis'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+If you only need to limit the concurrent processing of a listener, use the <a href="/docs/{{version}}/queues#preventing-job-overlaps">WithoutOverlapping</a> job middleware instead.</p>
+</blockquote>
+
+<p><a name="debounced-event-listeners"></a></p>
+<h3 id="debounced-event-listeners">Debounced Event Listeners</h3>
+
+<p>Sometimes, you may want to handle only the latest instance of an event dispatched repeatedly within a short period. You may do so by adding the <code class="language-plaintext highlighter-rouge">DebounceFor</code> attribute to a queued listener:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\ProductUpdated</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\DebounceFor</span><span class="p">;</span>
+
+<span class="na">#[DebounceFor(30)]</span>
+<span class="kd">class</span> <span class="nc">UpdateProductSearchIndex</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">ProductUpdated</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// Update the product's search index...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get the debounce ID for the listener.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">debounceId</span><span class="p">(</span><span class="kt">ProductUpdated</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="n">product</span><span class="o">-&gt;</span><span class="nf">getKey</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In the example above, repeatedly dispatching <code class="language-plaintext highlighter-rouge">ProductUpdated</code> events for the same product within <code class="language-plaintext highlighter-rouge">30</code> seconds will debounce the listener so that only the latest event is handled. Different debounce IDs are handled independently.</p>
+
+<p>If you would like to cap how long a frequently dispatched event can defer a listener, you may provide the <code class="language-plaintext highlighter-rouge">maxWait</code> argument to the <code class="language-plaintext highlighter-rouge">DebounceFor</code> attribute:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">#[DebounceFor(30, maxWait: 120)]</span>
+<span class="kd">class</span> <span class="nc">UpdateProductSearchIndex</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may customize the cache store used for debounce tracking by defining a <code class="language-plaintext highlighter-rouge">debounceVia</code> method on your listener. The method receives the event instance and should return a cache repository:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Contracts\Cache\Repository</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Cache</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="n">debounceVia</span><span class="p">(</span><span class="kt">ProductUpdated</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">Repository</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Cache</span><span class="o">::</span><span class="nf">driver</span><span class="p">(</span><span class="s1">'redis'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Debounced listeners and unique listeners are mutually exclusive. A listener using the <code class="language-plaintext highlighter-rouge">DebounceFor</code> attribute should not implement <code class="language-plaintext highlighter-rouge">ShouldBeUnique</code>.</p>
+
+<blockquote>
+  <p>[!WARNING]
+If your application dispatches events from multiple web servers or containers, you should ensure that all of your servers are communicating with the same central cache server.</p>
+</blockquote>
+
+<p><a name="handling-failed-jobs"></a></p>
+<h3 id="handling-failed-jobs">Handling Failed Jobs</h3>
+
+<p>Sometimes your queued event listeners may fail. If the queued listener exceeds the maximum number of attempts as defined by your queue worker, the <code class="language-plaintext highlighter-rouge">failed</code> method will be called on your listener. The <code class="language-plaintext highlighter-rouge">failed</code> method receives the event instance and the <code class="language-plaintext highlighter-rouge">Throwable</code> that caused the failure:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\InteractsWithQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Throwable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">InteractsWithQueue</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Handle a job failure.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">failed</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">,</span> <span class="kt">Throwable</span> <span class="nv">$exception</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="specifying-queued-listener-maximum-attempts"></a></p>
+<h4 id="specifying-queued-listener-maximum-attempts">Specifying Queued Listener Maximum Attempts</h4>
+
+<p>If one of your queued listeners is encountering an error, you likely do not want it to keep retrying indefinitely. Therefore, Laravel provides various ways to specify how many times or for how long a listener may be attempted.</p>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">Tries</code> attribute on your listener class to specify how many times the listener may be attempted before it is considered to have failed:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Tries</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\InteractsWithQueue</span><span class="p">;</span>
+
+<span class="na">#[Tries(5)]</span>
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">InteractsWithQueue</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As an alternative to defining how many times a listener may be attempted before it fails, you may define a time at which the listener should no longer be attempted. This allows a listener to be attempted any number of times within a given time frame. To define the time at which a listener should no longer be attempted, add a <code class="language-plaintext highlighter-rouge">retryUntil</code> method to your listener class. This method should return a <code class="language-plaintext highlighter-rouge">DateTimeInterface</code> instance:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">DateTimeInterface</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Determine the time at which the listener should timeout.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">retryUntil</span><span class="p">():</span> <span class="kt">DateTimeInterface</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nf">now</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">plus</span><span class="p">(</span><span class="n">minutes</span><span class="o">:</span> <span class="mi">5</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If both <code class="language-plaintext highlighter-rouge">retryUntil</code> and <code class="language-plaintext highlighter-rouge">tries</code> are defined, Laravel gives precedence to the <code class="language-plaintext highlighter-rouge">retryUntil</code> method.</p>
+
+<p><a name="specifying-queued-listener-backoff"></a></p>
+<h4 id="specifying-queued-listener-backoff">Specifying Queued Listener Backoff</h4>
+
+<p>If you would like to configure how many seconds Laravel should wait before retrying a listener that has encountered an exception, you may use the <code class="language-plaintext highlighter-rouge">Backoff</code> attribute on your listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Backoff</span><span class="p">;</span>
+
+<span class="na">#[Backoff(3)]</span>
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you require more complex logic for determining the listeners’s backoff time, you may define a <code class="language-plaintext highlighter-rouge">backoff</code> method on your listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Calculate the number of seconds to wait before retrying the queued listener.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">backoff</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">int</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may easily configure “exponential” backoffs by returning an array of backoff values from the <code class="language-plaintext highlighter-rouge">backoff</code> method. In this example, the retry delay will be 1 second for the first retry, 5 seconds for the second retry, 10 seconds for the third retry, and 10 seconds for every subsequent retry if there are more attempts remaining:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Calculate the number of seconds to wait before retrying the queued listener.
+ *
+ * @return list&lt;int&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">backoff</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="specifying-queued-listener-max-exceptions"></a></p>
+<h4 id="specifying-queued-listener-max-exceptions">Specifying Queued Listener Max Exceptions</h4>
+
+<p>Sometimes you may wish to specify that a queued listener may be attempted many times, but should fail if the retries are triggered by a given number of unhandled exceptions (as opposed to being released by the <code class="language-plaintext highlighter-rouge">release</code> method directly). To accomplish this, you may use the <code class="language-plaintext highlighter-rouge">Tries</code> and <code class="language-plaintext highlighter-rouge">MaxExceptions</code> attributes on your listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\MaxExceptions</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Tries</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\InteractsWithQueue</span><span class="p">;</span>
+
+<span class="na">#[Tries(25)]</span>
+<span class="na">#[MaxExceptions(3)]</span>
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">InteractsWithQueue</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// Process the event...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this example, the listener will be retried up to 25 times. However, the listener will fail if three unhandled exceptions are thrown by the listener.</p>
+
+<p><a name="specifying-queued-listener-timeout"></a></p>
+<h4 id="specifying-queued-listener-timeout">Specifying Queued Listener Timeout</h4>
+
+<p>Often, you know roughly how long you expect your queued listeners to take. For this reason, Laravel allows you to specify a “timeout” value. If a listener is processing for longer than the number of seconds specified by the timeout value, the worker processing the listener will exit with an error. You may define the maximum number of seconds a listener should be allowed to run by using the <code class="language-plaintext highlighter-rouge">Timeout</code> attribute on your listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Timeout</span><span class="p">;</span>
+
+<span class="na">#[Timeout(120)]</span>
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you would like to indicate that a listener should be marked as failed on timeout, you may use the <code class="language-plaintext highlighter-rouge">FailOnTimeout</code> attribute on the listener class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\FailOnTimeout</span><span class="p">;</span>
+
+<span class="na">#[FailOnTimeout]</span>
+<span class="kd">class</span> <span class="nc">SendShipmentNotification</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="dispatching-events"></a></p>
+<h2 id="dispatching-events">Dispatching Events</h2>
+
+<p>To dispatch an event, you may call the static <code class="language-plaintext highlighter-rouge">dispatch</code> method on the event. This method is made available on the event by the <code class="language-plaintext highlighter-rouge">Illuminate\Foundation\Events\Dispatchable</code> trait. Any arguments passed to the <code class="language-plaintext highlighter-rouge">dispatch</code> method will be passed to the event’s constructor:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Events\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipmentController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Ship the given order.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">store</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="nv">$order</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="n">order_id</span><span class="p">);</span>
+
+        <span class="c1">// Order shipment logic...</span>
+
+        <span class="nc">OrderShipped</span><span class="o">::</span><span class="nf">dispatch</span><span class="p">(</span><span class="nv">$order</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/orders'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you would like to conditionally dispatch an event, you may use the <code class="language-plaintext highlighter-rouge">dispatchIf</code> and <code class="language-plaintext highlighter-rouge">dispatchUnless</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">OrderShipped</span><span class="o">::</span><span class="nf">dispatchIf</span><span class="p">(</span><span class="nv">$condition</span><span class="p">,</span> <span class="nv">$order</span><span class="p">);</span>
+
+<span class="nc">OrderShipped</span><span class="o">::</span><span class="nf">dispatchUnless</span><span class="p">(</span><span class="nv">$condition</span><span class="p">,</span> <span class="nv">$order</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel’s <a href="#testing">built-in testing helpers</a> make it a cinch.</p>
+</blockquote>
+
+<p><a name="dispatching-events-after-database-transactions"></a></p>
+<h3 id="dispatching-events-after-database-transactions">Dispatching Events After Database Transactions</h3>
+
+<p>Sometimes, you may want to instruct Laravel to only dispatch an event after the active database transaction has committed. To do so, you may implement the <code class="language-plaintext highlighter-rouge">ShouldDispatchAfterCommit</code> interface on the event class.</p>
+
+<p>This interface instructs Laravel to not dispatch the event until the current database transaction is committed. If the transaction fails, the event will be discarded. If no database transaction is in progress when the event is dispatched, the event will be dispatched immediately:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Events</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Broadcasting\InteractsWithSockets</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Events\ShouldDispatchAfterCommit</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Events\Dispatchable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">implements</span> <span class="nc">ShouldDispatchAfterCommit</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Dispatchable</span><span class="p">,</span> <span class="nc">InteractsWithSockets</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new event instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">public</span> <span class="kt">Order</span> <span class="nv">$order</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="deferring-events"></a></p>
+<h3 id="deferring-events">Deferring Events</h3>
+
+<p>Deferred events allow you to delay the dispatching of model events and execution of event listeners until after a specific block of code has completed. This is particularly useful when you need to ensure that all related records are created before event listeners are triggered.</p>
+
+<p>To defer events, provide a closure to the <code class="language-plaintext highlighter-rouge">Event::defer()</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+
+<span class="nc">Event</span><span class="o">::</span><span class="nf">defer</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">create</span><span class="p">([</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Victoria Otwell'</span><span class="p">]);</span>
+
+    <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">posts</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">([</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'My first post!'</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>All events triggered within the closure will be dispatched after the closure is executed. This ensures that event listeners have access to all related records that were created during the deferred execution. If an exception occurs within the closure, the deferred events will not be dispatched.</p>
+
+<p>To defer only specific events, pass an array of events as the second argument to the <code class="language-plaintext highlighter-rouge">defer</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+
+<span class="nc">Event</span><span class="o">::</span><span class="nf">defer</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">create</span><span class="p">([</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Victoria Otwell'</span><span class="p">]);</span>
+
+    <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">posts</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">([</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'My first post!'</span><span class="p">]);</span>
+<span class="p">},</span> <span class="p">[</span><span class="s1">'eloquent.created: '</span><span class="mf">.</span><span class="nc">User</span><span class="o">::</span><span class="n">class</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="event-subscribers"></a></p>
+<h2 id="event-subscribers">Event Subscribers</h2>
+
+<p><a name="writing-event-subscribers"></a></p>
+<h3 id="writing-event-subscribers">Writing Event Subscribers</h3>
+
+<p>Event subscribers are classes that may subscribe to multiple events from within the subscriber class itself, allowing you to define several event handlers within a single class. Subscribers should define a <code class="language-plaintext highlighter-rouge">subscribe</code> method, which receives an event dispatcher instance. You may call the <code class="language-plaintext highlighter-rouge">listen</code> method on the given dispatcher to register event listeners:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Events\Login</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Events\Logout</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Events\Dispatcher</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserEventSubscriber</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle user login events.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handleUserLogin</span><span class="p">(</span><span class="kt">Login</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Handle user logout events.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handleUserLogout</span><span class="p">(</span><span class="kt">Logout</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Register the listeners for the subscriber.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">subscribe</span><span class="p">(</span><span class="kt">Dispatcher</span> <span class="nv">$events</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$events</span><span class="o">-&gt;</span><span class="nf">listen</span><span class="p">(</span>
+            <span class="nc">Login</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+            <span class="p">[</span><span class="nc">UserEventSubscriber</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'handleUserLogin'</span><span class="p">]</span>
+        <span class="p">);</span>
+
+        <span class="nv">$events</span><span class="o">-&gt;</span><span class="nf">listen</span><span class="p">(</span>
+            <span class="nc">Logout</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+            <span class="p">[</span><span class="nc">UserEventSubscriber</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'handleUserLogout'</span><span class="p">]</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If your event listener methods are defined within the subscriber itself, you may find it more convenient to return an array of events and method names from the subscriber’s <code class="language-plaintext highlighter-rouge">subscribe</code> method. Laravel will automatically determine the subscriber’s class name when registering the event listeners:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Listeners</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Events\Login</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Events\Logout</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Events\Dispatcher</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserEventSubscriber</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle user login events.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handleUserLogin</span><span class="p">(</span><span class="kt">Login</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Handle user logout events.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handleUserLogout</span><span class="p">(</span><span class="kt">Logout</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Register the listeners for the subscriber.
+     *
+     * @return array&lt;string, string&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">subscribe</span><span class="p">(</span><span class="kt">Dispatcher</span> <span class="nv">$events</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="nc">Login</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="s1">'handleUserLogin'</span><span class="p">,</span>
+            <span class="nc">Logout</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="s1">'handleUserLogout'</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="registering-event-subscribers"></a></p>
+<h3 id="registering-event-subscribers">Registering Event Subscribers</h3>
+
+<p>After writing the subscriber, Laravel will automatically register handler methods within the subscriber if they follow Laravel’s <a href="#event-discovery">event discovery conventions</a>. Otherwise, you may manually register your subscriber using the <code class="language-plaintext highlighter-rouge">subscribe</code> method of the <code class="language-plaintext highlighter-rouge">Event</code> facade. Typically, this should be done within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Listeners\UserEventSubscriber</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Event</span><span class="o">::</span><span class="nf">subscribe</span><span class="p">(</span><span class="nc">UserEventSubscriber</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="testing"></a></p>
+<h2 id="testing">Testing</h2>
+
+<p>When testing code that dispatches events, you may wish to instruct Laravel to not actually execute the event’s listeners, since the listener’s code can be tested directly and separately of the code that dispatches the corresponding event. Of course, to test the listener itself, you may instantiate a listener instance and invoke the <code class="language-plaintext highlighter-rouge">handle</code> method directly in your test.</p>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">Event</code> facade’s <code class="language-plaintext highlighter-rouge">fake</code> method, you may prevent listeners from executing, execute the code under test, and then assert which events were dispatched by your application using the <code class="language-plaintext highlighter-rouge">assertDispatched</code>, <code class="language-plaintext highlighter-rouge">assertNotDispatched</code>, and <code class="language-plaintext highlighter-rouge">assertNothingDispatched</code> methods:</p>
+
+<p>```php tab=Pest
+&lt;?php</p>
+
+<p>use App\Events\OrderFailedToShip;
+use App\Events\OrderShipped;
+use Illuminate\Support\Facades\Event;</p>
+
+<p>test(‘orders can be shipped’, function () {
+    Event::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Perform order shipping...
+
+// Assert that an event was dispatched...
+Event::assertDispatched(OrderShipped::class);
+
+// Assert an event was dispatched twice...
+Event::assertDispatched(OrderShipped::class, 2);
+
+// Assert an event was dispatched once...
+Event::assertDispatchedOnce(OrderShipped::class);
+
+// Assert an event was not dispatched...
+Event::assertNotDispatched(OrderFailedToShip::class);
+
+// Assert that no events were dispatched...
+Event::assertNothingDispatched(); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use App\Events\OrderFailedToShip;
+use App\Events\OrderShipped;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * Test order shipping.
+     */
+    public function test_orders_can_be_shipped(): void
+    {
+        Event::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    // Perform order shipping...
+
+    // Assert that an event was dispatched...
+    Event::assertDispatched(OrderShipped::class);
+
+    // Assert an event was dispatched twice...
+    Event::assertDispatched(OrderShipped::class, 2);
+
+    // Assert an event was dispatched once...
+    Event::assertDispatchedOnce(OrderShipped::class);
+
+    // Assert an event was not dispatched...
+    Event::assertNotDispatched(OrderFailedToShip::class);
+
+    // Assert that no events were dispatched...
+    Event::assertNothingDispatched();
+} } ```
+</code></pre></div></div>
+
+<p>You may pass a closure to the <code class="language-plaintext highlighter-rouge">assertDispatched</code> or <code class="language-plaintext highlighter-rouge">assertNotDispatched</code> methods in order to assert that an event was dispatched that passes a given “truth test”. If at least one event was dispatched that passes the given truth test then the assertion will be successful:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Event</span><span class="o">::</span><span class="nf">assertDispatched</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$event</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$order</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>If you would simply like to assert that an event listener is listening to a given event, you may use the <code class="language-plaintext highlighter-rouge">assertListening</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Event</span><span class="o">::</span><span class="nf">assertListening</span><span class="p">(</span>
+    <span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="nc">SendShipmentNotification</span><span class="o">::</span><span class="n">class</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+After calling <code class="language-plaintext highlighter-rouge">Event::fake()</code>, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model’s <code class="language-plaintext highlighter-rouge">creating</code> event, you should call <code class="language-plaintext highlighter-rouge">Event::fake()</code> <strong>after</strong> using your factories.</p>
+</blockquote>
+
+<p><a name="faking-a-subset-of-events"></a></p>
+<h3 id="faking-a-subset-of-events">Faking a Subset of Events</h3>
+
+<p>If you only want to fake event listeners for a specific set of events, you may pass them to the <code class="language-plaintext highlighter-rouge">fake</code> or <code class="language-plaintext highlighter-rouge">fakeFor</code> method:</p>
+
+<p>```php tab=Pest
+test(‘orders can be processed’, function () {
+    Event::fake([
+        OrderCreated::class,
+    ]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$order = Order::factory()-&gt;create();
+
+Event::assertDispatched(OrderCreated::class);
+
+// Other events are dispatched as normal...
+$order-&gt;update([
+    // ...
+]); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+/**</p>
+<ul>
+  <li>
+    <p>Test order process.
+ */
+public function test_orders_can_be_processed(): void
+{
+ Event::fake([
+     OrderCreated::class,
+ ]);</p>
+
+    <p>$order = Order::factory()-&gt;create();</p>
+
+    <p>Event::assertDispatched(OrderCreated::class);</p>
+
+    <p>// Other events are dispatched as normal…
+ $order-&gt;update([
+     // …
+ ]);
+}
+```</p>
+  </li>
+</ul>
+
+<p>You may fake all events except for a set of specified events using the <code class="language-plaintext highlighter-rouge">except</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Event</span><span class="o">::</span><span class="nf">fake</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">except</span><span class="p">([</span>
+    <span class="nc">OrderCreated</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="scoped-event-fakes"></a></p>
+<h3 id="scoped-event-fakes">Scoped Event Fakes</h3>
+
+<p>If you only want to fake event listeners for a portion of your test, you may use the <code class="language-plaintext highlighter-rouge">fakeFor</code> method:</p>
+
+<p>```php tab=Pest
+&lt;?php</p>
+
+<p>use App\Events\OrderCreated;
+use App\Models\Order;
+use Illuminate\Support\Facades\Event;</p>
+
+<p>test(‘orders can be processed’, function () {
+    $order = Event::fakeFor(function () {
+        $order = Order::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Event::assertDispatched(OrderCreated::class);
+
+    return $order;
+});
+
+// Events are dispatched as normal and observers will run...
+$order-&gt;update([
+    // ...
+]); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use App\Events\OrderCreated;
+use App\Models\Order;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * Test order process.
+     */
+    public function test_orders_can_be_processed(): void
+    {
+        $order = Event::fakeFor(function () {
+            $order = Order::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        Event::assertDispatched(OrderCreated::class);
+
+        return $order;
+    });
+
+    // Events are dispatched as normal and observers will run...
+    $order-&gt;update([
+        // ...
+    ]);
+} } ```
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

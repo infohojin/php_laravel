@@ -1,0 +1,2763 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Laravel Scout | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Laravel Scout" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/11_packages/scout_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/11_packages/scout_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Laravel Scout" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Laravel Scout","url":"http://localhost:4000/docs/11_packages/scout_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="true">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/11_packages/">11 packages</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Laravel Scout</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="laravel-scout">Laravel Scout</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#installation">Installation</a>
+    <ul>
+      <li><a href="#queueing">Queueing</a></li>
+    </ul>
+  </li>
+  <li><a href="#driver-prerequisites">Driver Prerequisites</a>
+    <ul>
+      <li><a href="#algolia">Algolia</a></li>
+      <li><a href="#meilisearch">Meilisearch</a></li>
+      <li><a href="#typesense">Typesense</a></li>
+      <li><a href="#turbopuffer">Turbopuffer</a></li>
+    </ul>
+  </li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#configuring-searchable-data">Configuring Searchable Data</a></li>
+    </ul>
+  </li>
+  <li><a href="#database-and-collection-engines">Database / Collection Engines</a>
+    <ul>
+      <li><a href="#database-engine">Database Engine</a></li>
+      <li><a href="#collection-engine">Collection Engine</a></li>
+    </ul>
+  </li>
+  <li><a href="#third-party-engine-configuration">Third-Party Engine Configuration</a>
+    <ul>
+      <li><a href="#configuring-model-indexes">Configuring Model Indexes</a></li>
+      <li><a href="#algolia-configuration">Algolia</a></li>
+      <li><a href="#meilisearch-configuration">Meilisearch</a></li>
+      <li><a href="#typesense-configuration">Typesense</a></li>
+      <li><a href="#turbopuffer-configuration">Turbopuffer</a></li>
+    </ul>
+  </li>
+  <li><a href="#indexing">Third-Party Engine Indexing</a>
+    <ul>
+      <li><a href="#batch-import">Batch Import</a></li>
+      <li><a href="#adding-records">Adding Records</a></li>
+      <li><a href="#updating-records">Updating Records</a></li>
+      <li><a href="#removing-records">Removing Records</a></li>
+      <li><a href="#pausing-indexing">Pausing Indexing</a></li>
+      <li><a href="#conditionally-searchable-model-instances">Conditionally Searchable Model Instances</a></li>
+    </ul>
+  </li>
+  <li><a href="#searching">Searching</a>
+    <ul>
+      <li><a href="#where-clauses">Where Clauses</a></li>
+      <li><a href="#semantic-search">Semantic Search</a></li>
+      <li><a href="#pagination">Pagination</a></li>
+      <li><a href="#soft-deleting">Soft Deleting</a></li>
+      <li><a href="#customizing-engine-searches">Customizing Engine Searches</a></li>
+    </ul>
+  </li>
+  <li><a href="#custom-engines">Custom Engines</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://github.com/laravel/scout">Laravel Scout</a> provides a simple, driver-based solution for adding full-text search to your <a href="/docs/{{version}}/eloquent">Eloquent models</a>. Using model observers, Scout will automatically keep your search indexes in sync with your Eloquent records.</p>
+
+<p>Scout ships with a built-in <code class="language-plaintext highlighter-rouge">database</code> engine that uses MySQL / PostgreSQL full-text indexes and <code class="language-plaintext highlighter-rouge">LIKE</code> clauses to search your existing database — no external service required. For most applications, this is all you need. For an overview of all search options available in Laravel, consult the <a href="/docs/{{version}}/search">search documentation</a>.</p>
+
+<p>Scout는 또한 <a href="https://www.algolia.com/">Algolia</a>, <a href="https://www.meilisearch.com">Meilisearch</a>, <a href="https://typesense.org">Typesense</a>, 그리고 <a href="https://turbopuffer.com">Turbopuffer</a>에 대한 드라이버를 포함하고 있어, 오타 허용, 계층형 필터링, 벡터 검색, 또는 대규모 지리 검색 같은 기능이 필요할 때 사용할 수 있습니다. 로컬 개발을 위한 “컬렉션” 드라이버도 제공되며, <a href="#custom-engines">사용자 정의 엔진</a>을 작성할 수도 있습니다.</p>
+
+<p><a name="installation"></a></p>
+<h2 id="설치">설치</h2>
+
+<p>먼저, Composer 패키지 관리자를 통해 Scout를 설치합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require laravel/scout
+</code></pre></div></div>
+
+<p>Scout를 설치한 후, <code class="language-plaintext highlighter-rouge">vendor:publish</code> Artisan 명령어를 사용하여 Scout 구성 파일을 게시해야 합니다. 이 명령어는 <code class="language-plaintext highlighter-rouge">scout.php</code> 구성 파일을 애플리케이션의 <code class="language-plaintext highlighter-rouge">config</code> 디렉터리에 게시합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--provider</span><span class="o">=</span><span class="s2">"Laravel</span><span class="se">\S</span><span class="s2">cout</span><span class="se">\S</span><span class="s2">coutServiceProvider"</span>
+</code></pre></div></div>
+
+<p>마지막으로, 검색 가능하게 만들고 싶은 모델에 <code class="language-plaintext highlighter-rouge">Laravel\Scout\Searchable</code> 트레이트를 추가하세요. 이 트레이트는 모델 옵저버를 등록하여 모델이 검색 드라이버와 자동으로 동기화되도록 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Searchable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Post</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Searchable</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="queueing"></a></p>
+<h3 id="큐잉">큐잉</h3>
+
+<p><code class="language-plaintext highlighter-rouge">database</code> 또는 <code class="language-plaintext highlighter-rouge">collection</code> 엔진이 아닌 엔진을 사용할 경우, 라이브러리를 사용하기 전에 <a href="/docs/{{version}}/queues">큐 드라이버</a>를 구성하는 것을 강력히 고려해야 합니다. 큐 워커를 실행하면 Scout이 모델 정보를 검색 인덱스로 동기화하는 모든 작업을 큐에 넣을 수 있어, 애플리케이션 웹 인터페이스의 응답 시간을 훨씬 개선할 수 있습니다.</p>
+
+<p>큐 드라이버를 구성한 후에는 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 구성 파일에서 <code class="language-plaintext highlighter-rouge">queue</code> 옵션의 값을 <code class="language-plaintext highlighter-rouge">true</code>로 설정하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'queue'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">queue</code> 옵션이 <code class="language-plaintext highlighter-rouge">false</code>로 설정되어 있더라도, Algolia나 Meilisearch와 같은 일부 Scout 드라이버는 항상 레코드를 비동기적으로 인덱싱한다는 점을 기억하는 것이 중요합니다. 다시 말해, 인덱스 작업이 Laravel 애플리케이션 내에서 완료되었더라도 검색 엔진 자체가 새로운 업데이트된 레코드를 즉시 반영하지 않을 수 있습니다.</p>
+
+<p>Scout 작업에서 사용할 연결과 큐를 지정하려면, <code class="language-plaintext highlighter-rouge">queue</code> 설정 옵션을 배열로 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'queue'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'connection'</span> <span class="o">=&gt;</span> <span class="s1">'redis'</span><span class="p">,</span>
+    <span class="s1">'queue'</span> <span class="o">=&gt;</span> <span class="s1">'scout'</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>물론, Scout 작업이 사용하는 연결과 큐를 사용자 지정하는 경우, 해당 연결과 큐에서 작업을 처리하기 위해 큐 워커를 실행해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan queue:work redis <span class="nt">--queue</span><span class="o">=</span>scout
+</code></pre></div></div>
+
+<p><a name="unique-jobs"></a></p>
+<h4 id="유일한-작업">유일한 작업</h4>
+
+<p>쓰기 중심의 애플리케이션에서는 Scout가 동일한 모델 레코드에 대해 중복 작업을 대기열에 추가하지 않도록 하길 원할 수 있습니다. 일반적으로 서비스 제공자의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드 내에서 <code class="language-plaintext highlighter-rouge">MakeSearchableUniquely</code> 및 <code class="language-plaintext highlighter-rouge">RemoveFromSearchUniquely</code> 작업 클래스를 등록하여 유일한 인덱싱 작업을 선택할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Scout\Jobs\MakeSearchableUniquely</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Jobs\RemoveFromSearchUniquely</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Scout</span><span class="p">;</span>
+
+<span class="nc">Scout</span><span class="o">::</span><span class="nf">makeSearchableUsing</span><span class="p">(</span><span class="nc">MakeSearchableUniquely</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nc">Scout</span><span class="o">::</span><span class="nf">removeFromSearchUsing</span><span class="p">(</span><span class="nc">RemoveFromSearchUniquely</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이 작업들은 Laravel의 <a href="/docs/{{version}}/queues#unique-jobs">고유 작업 잠금</a>을 사용하여 동일한 검색 가능한 모델 레코드에 대해 이미 일치하는 작업이 큐에 있는 동안 중복된 큐 인덱싱 작업이 디스패치되지 않도록 합니다.</p>
+
+<p><a name="driver-prerequisites"></a></p>
+<h2 id="드라이버-전제-조건">드라이버 전제 조건</h2>
+
+<p><a name="algolia"></a></p>
+<h3 id="algolia">Algolia</h3>
+
+<p>Algolia 드라이버를 사용할 때는 Algolia <code class="language-plaintext highlighter-rouge">id</code> 및 <code class="language-plaintext highlighter-rouge">secret</code> 자격 증명을 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 구성 파일에 설정해야 합니다. 자격 증명이 설정되면 Composer 패키지 관리자를 통해 Algolia PHP SDK도 설치해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require algolia/algoliasearch-client-php
+</code></pre></div></div>
+
+<p><a name="meilisearch"></a></p>
+<h3 id="meilisearch">Meilisearch</h3>
+
+<p><a href="https://www.meilisearch.com">Meilisearch</a>는 빠르고 오픈 소스 검색 엔진입니다. 로컬 컴퓨터에 Meilisearch를 설치하는 방법을 확실히 모른다면, Laravel의 공식 지원 Docker 개발 환경인 <a href="/docs/{{version}}/sail#meilisearch">Laravel Sail</a>을 사용할 수 있습니다.</p>
+
+<p>Meilisearch 드라이버를 사용할 때는 Composer 패키지 관리자를 통해 Meilisearch PHP SDK를 설치해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require meilisearch/meilisearch-php http-interop/http-factory-guzzle
+</code></pre></div></div>
+
+<p>그런 다음, 애플리케이션의 <code class="language-plaintext highlighter-rouge">.env</code> 파일 내에서 <code class="language-plaintext highlighter-rouge">SCOUT_DRIVER</code> 환경 변수와 Meilisearch <code class="language-plaintext highlighter-rouge">host</code> 및 <code class="language-plaintext highlighter-rouge">key</code> 자격 증명을 설정하십시오:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">SCOUT_DRIVER</span><span class="p">=</span><span class="s">meilisearch</span>
+<span class="py">MEILISEARCH_HOST</span><span class="p">=</span><span class="s">http://127.0.0.1:7700</span>
+<span class="py">MEILISEARCH_KEY</span><span class="p">=</span><span class="s">masterKey</span>
+</code></pre></div></div>
+
+<p>Meilisearch에 대한 자세한 정보는 <a href="https://docs.meilisearch.com/learn/getting_started/quick_start.html">Meilisearch 문서</a>를 참조하십시오.</p>
+
+<p>또한, Meilisearch 바이너리 버전과 호환되는 <code class="language-plaintext highlighter-rouge">meilisearch/meilisearch-php</code> 버전을 설치했는지 확인하려면 <a href="https://github.com/meilisearch/meilisearch-php#-compatibility-with-meilisearch">바이너리 호환성에 관한 Meilisearch 문서</a>를 검토하십시오.</p>
+
+<blockquote>
+  <p>[!WARNING]
+Meilisearch를 사용하는 애플리케이션에서 Scout를 업그레이드할 때, 항상 Meilisearch 서비스 자체의 <a href="https://github.com/meilisearch/Meilisearch/releases">추가적인 Breaking Changes</a>를 검토해야 합니다.</p>
+</blockquote>
+
+<p><a name="typesense"></a></p>
+<h3 id="typesense">Typesense</h3>
+
+<p><a href="https://typesense.org">Typesense</a>는 매우 빠른 오픈 소스 검색 엔진으로, 키워드 검색, 의미 검색, 지리 검색, 벡터 검색을 지원합니다.</p>
+
+<p>Typesense를 <a href="https://typesense.org/docs/guide/install-typesense.html#option-2-local-machine-self-hosting">셀프 호스팅</a>하거나 <a href="https://cloud.typesense.org">Typesense Cloud</a>를 사용할 수 있습니다.</p>
+
+<p>Scout와 함께 Typesense를 사용하려면 Composer 패키지 관리자를 통해 Typesense PHP SDK를 설치하십시오:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require typesense/typesense-php
+</code></pre></div></div>
+
+<p>그런 다음, 애플리케이션의 .env 파일 내에서 <code class="language-plaintext highlighter-rouge">SCOUT_DRIVER</code> 환경 변수와 Typesense 호스트 및 API 키 자격 증명을 설정하세요:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">SCOUT_DRIVER</span><span class="p">=</span><span class="s">typesense</span>
+<span class="py">TYPESENSE_API_KEY</span><span class="p">=</span><span class="s">masterKey</span>
+<span class="py">TYPESENSE_HOST</span><span class="p">=</span><span class="s">localhost</span>
+</code></pre></div></div>
+
+<p>만약 <a href="/docs/{{version}}/sail">Laravel Sail</a>을 사용하고 있다면, Docker 컨테이너 이름과 일치하도록 <code class="language-plaintext highlighter-rouge">TYPESENSE_HOST</code> 환경 변수를 조정해야 할 수도 있습니다. 또한 선택적으로 설치의 포트, 경로 및 프로토콜을 지정할 수 있습니다:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">TYPESENSE_PORT</span><span class="p">=</span><span class="s">8108</span>
+<span class="py">TYPESENSE_PATH</span><span class="p">=</span>
+<span class="py">TYPESENSE_PROTOCOL</span><span class="p">=</span><span class="s">http</span>
+</code></pre></div></div>
+
+<p>Typesense 컬렉션에 대한 추가 설정 및 스키마 정의는 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 구성 파일에서 찾을 수 있습니다. Typesense에 대한 자세한 정보는 <a href="https://typesense.org/docs/guide/#quick-start">Typesense 문서</a>를 참조하십시오.</p>
+
+<p><a name="turbopuffer"></a></p>
+<h3 id="터보퍼퍼turbopuffer">터보퍼퍼(Turbopuffer)</h3>
+
+<p><a href="https://turbopuffer.com">Turbopuffer</a>는 전체 텍스트, 의미 기반 및 하이브리드 검색을 지원하는 검색 엔진입니다. Turbopuffer 드라이버를 사용하려면 <code class="language-plaintext highlighter-rouge">SCOUT_DRIVER</code> 환경 변수를 설정하고 Turbopuffer API 키를 제공하십시오:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">SCOUT_DRIVER</span><span class="p">=</span><span class="s">turbopuffer</span>
+<span class="py">TURBOPUFFER_API_KEY</span><span class="p">=</span><span class="s">tpuf_...</span>
+<span class="py">TURBOPUFFER_REGION</span><span class="p">=</span><span class="s">gcp-us-central1</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">TURBOPUFFER_REGION</code> 환경 변수는 선택 사항이며 기본값은 <code class="language-plaintext highlighter-rouge">gcp-us-central1</code>입니다.</p>
+
+<p><a name="configuration"></a></p>
+<h2 id="구성">구성</h2>
+
+<p><a name="configuring-searchable-data"></a></p>
+<h3 id="검색-가능한-데이터-구성">검색 가능한 데이터 구성</h3>
+
+<p>기본적으로 주어진 모델의 전체 <code class="language-plaintext highlighter-rouge">toArray</code> 형태가 검색 인덱스에 저장됩니다. 검색 인덱스로 동기화되는 데이터를 맞춤 설정하려면 모델에서 <code class="language-plaintext highlighter-rouge">toSearchableArray</code> 메서드를 재정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Searchable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Post</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Searchable</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Get the indexable data array for the model.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toSearchableArray</span><span class="p">():</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="nv">$array</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">toArray</span><span class="p">();</span>
+
+        <span class="c1">// Customize the data array...</span>
+
+        <span class="k">return</span> <span class="nv">$array</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="configuring-search-engines-per-model"></a></p>
+<h4 id="모델-엔진-구성">모델 엔진 구성</h4>
+
+<p>검색할 때, Scout는 일반적으로 애플리케이션의 <code class="language-plaintext highlighter-rouge">scout</code> 구성 파일에 지정된 기본 검색 엔진을 사용합니다. 그러나 특정 모델의 검색 엔진은 모델에서 <code class="language-plaintext highlighter-rouge">searchableUsing</code> 메서드를 재정의하여 변경할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Engines\Engine</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Scout</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Searchable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Searchable</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Get the engine used to index the model.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">searchableUsing</span><span class="p">():</span> <span class="kt">Engine</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Scout</span><span class="o">::</span><span class="nf">engine</span><span class="p">(</span><span class="s1">'meilisearch'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="database-and-collection-engines"></a></p>
+<h2 id="데이터베이스--컬렉션-엔진">데이터베이스 / 컬렉션 엔진</h2>
+
+<p><a name="database-engine"></a></p>
+<h3 id="데이터베이스-엔진">데이터베이스 엔진</h3>
+
+<blockquote>
+  <p>[!WARNING]
+현재 데이터베이스 엔진은 MySQL과 PostgreSQL을 지원하며, 두 데이터베이스 모두 빠른 전체 텍스트 컬럼 인덱싱을 제공합니다.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">database</code> 엔진은 MySQL / PostgreSQL 전체 텍스트 인덱스와 <code class="language-plaintext highlighter-rouge">LIKE</code> 절을 사용하여 기존 데이터베이스를 직접 검색합니다. 많은 응용 프로그램에서 이는 검색을 추가하는 가장 간단하고 실용적인 방법으로, 외부 서비스나 추가 인프라가 필요하지 않습니다.</p>
+
+<p>데이터베이스 엔진을 사용하려면, <code class="language-plaintext highlighter-rouge">SCOUT_DRIVER</code> 환경 변수를 <code class="language-plaintext highlighter-rouge">database</code>로 설정하세요:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">SCOUT_DRIVER</span><span class="p">=</span><span class="s">database</span>
+</code></pre></div></div>
+
+<p>한 번 구성하면 <a href="#configuring-searchable-data">검색 가능한 데이터를 정의</a>하고 모델에 대해 <a href="#searching">검색 쿼리를 실행</a>할 수 있습니다. 서드파티 엔진과 달리, 데이터베이스 엔진은 별도의 인덱싱 단계가 필요하지 않으며 — 데이터베이스 테이블을 직접 검색합니다.</p>
+
+<p><a name="database-semantic-and-hybrid-search"></a></p>
+<h4 id="의미-기반-검색-및-하이브리드-검색">의미 기반 검색 및 하이브리드 검색</h4>
+
+<p>데이터베이스 엔진은 PostgreSQL에서 <code class="language-plaintext highlighter-rouge">pgvector</code> 확장을 사용할 때 의미 기반 검색과 하이브리드 검색을 지원합니다. 시작하려면, 모델의 테이블에 null 허용 벡터 컬럼과 전문 검색(full-text) 인덱스를 추가하십시오. 벡터 컬럼은 Scout가 모델이 저장된 후 임베딩을 저장하기 때문에 null 허용이어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">ensureVectorExtensionExists</span><span class="p">();</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'articles'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Blueprint</span> <span class="nv">$table</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">vector</span><span class="p">(</span><span class="s1">'embedding'</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">:</span> <span class="mi">1536</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">nullable</span><span class="p">();</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">vectorIndex</span><span class="p">(</span><span class="s1">'embedding'</span><span class="p">);</span>
+    <span class="nv">$table</span><span class="o">-&gt;</span><span class="nf">fullText</span><span class="p">([</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'body'</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>다음으로, 모델에서 <code class="language-plaintext highlighter-rouge">toSearchableEmbedding</code> 메서드를 정의합니다. 이 메서드는 Scout가 임베딩해야 할 소스 텍스트나 미리 계산된 임베딩 배열을 반환할 수 있습니다. Scout는 기본적으로 임베딩을 <code class="language-plaintext highlighter-rouge">embedding</code> 열에 저장하며, 다른 열을 사용하려면 모델에서 <code class="language-plaintext highlighter-rouge">searchableEmbeddingColumn</code> 메서드를 정의하십시오.</p>
+
+<h4 id="데이터베이스-검색-전략-사용자-정의">데이터베이스 검색 전략 사용자 정의</h4>
+
+<p>기본적으로 데이터베이스 엔진은 <a href="#configuring-searchable-data">검색 가능하도록 구성한</a> 모든 모델 속성에 대해 <code class="language-plaintext highlighter-rouge">LIKE</code> 쿼리를 실행합니다. 그러나 특정 열에 대해 더 효율적인 검색 전략을 지정할 수 있습니다. <code class="language-plaintext highlighter-rouge">SearchUsingFullText</code> 속성은 해당 열에 대해 데이터베이스의 전체 텍스트 인덱스를 사용하고, <code class="language-plaintext highlighter-rouge">SearchUsingPrefix</code>는 문자열의 시작 부분(<code class="language-plaintext highlighter-rouge">example%</code>)만 일치시키며 전체 문자열(<code class="language-plaintext highlighter-rouge">%example%</code>) 내 검색 대신 사용합니다.</p>
+
+<p>이 동작을 정의하려면 모델의 <code class="language-plaintext highlighter-rouge">toSearchableArray</code> 메서드에 PHP 속성을 지정하십시오. 속성이 없는 열은 계속 기본 <code class="language-plaintext highlighter-rouge">LIKE</code> 전략을 사용합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Scout\Attributes\SearchUsingFullText</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Attributes\SearchUsingPrefix</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the indexable data array for the model.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="na">#[SearchUsingPrefix(['id', 'email'])]</span>
+<span class="na">#[SearchUsingFullText(['bio'])]</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toSearchableArray</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+        <span class="s1">'bio'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">bio</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+컬럼이 전체 텍스트 쿼리 제약 조건을 사용하도록 지정하기 전에, 해당 컬럼에 <a href="/docs/{{version}}/migrations#available-index-types">전체 텍스트 인덱스</a>가 할당되어 있는지 확인하십시오.</p>
+</blockquote>
+
+<p><a name="collection-engine"></a></p>
+<h3 id="컬렉션-엔진">컬렉션 엔진</h3>
+
+<p>“컬렉션” 엔진은 빠른 프로토타입, 매우 작은 데이터셋(수백 개 레코드) 또는 테스트 실행을 위해 설계되었습니다. 데이터베이스에서 가능한 모든 레코드를 가져오고 Laravel의 <code class="language-plaintext highlighter-rouge">Str::is</code> 헬퍼를 사용하여 PHP에서 필터링하므로, 인덱싱이나 데이터베이스 특정 기능이 필요하지 않습니다. 사소한 사용 사례를 넘어서는 경우에는 대신 <a href="#database-engine">데이터베이스 엔진</a>을 사용하는 것이 좋습니다.</p>
+
+<p>컬렉션 엔진을 사용하려면 <code class="language-plaintext highlighter-rouge">SCOUT_DRIVER</code> 환경 변수의 값을 단순히 <code class="language-plaintext highlighter-rouge">collection</code>로 설정하거나, 애플리케이션의 <code class="language-plaintext highlighter-rouge">scout</code> 구성 파일에서 <code class="language-plaintext highlighter-rouge">collection</code> 드라이버를 직접 지정하면 됩니다:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">SCOUT_DRIVER</span><span class="p">=</span><span class="s">collection</span>
+</code></pre></div></div>
+
+<p>Once you have specified the collection driver as your preferred driver, you may start <a href="#searching">executing search queries</a> against your models. Search engine indexing, such as the indexing needed to seed Algolia, Meilisearch, or Typesense indexes, is unnecessary when using the collection engine.</p>
+
+<h4 id="differences-from-database-engine">Differences From Database Engine</h4>
+
+<p>While the database engine uses full-text indexes and <code class="language-plaintext highlighter-rouge">LIKE</code> clauses to find matching records efficiently, the collection engine pulls all records and filters them in PHP. The collection engine is the most portable option as it works across all relational databases supported by Laravel (including SQLite and SQL Server); however, it is significantly less efficient than the database engine and should not be used with large datasets.</p>
+
+<p><a name="third-party-engine-configuration"></a></p>
+<h2 id="third-party-engine-configuration">Third-Party Engine Configuration</h2>
+
+<p>The following configuration options are only relevant when using a third-party search engine such as Algolia, Meilisearch, or Typesense. If you are using the <a href="#database-engine">database engine</a>, you may skip this section.</p>
+
+<p><a name="configuring-model-indexes"></a></p>
+<h3 id="configuring-model-indexes">Configuring Model Indexes</h3>
+
+<p>When using a third-party engine, each Eloquent model is synced with a given search “index”, which contains all of the searchable records for that model. By default, each model will be persisted to an index matching the model’s typical “table” name. Typically, this is the plural form of the model name; however, you are free to customize the model’s index by overriding the <code class="language-plaintext highlighter-rouge">searchableAs</code> method on the model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Searchable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Post</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Searchable</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Get the name of the index associated with the model.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">searchableAs</span><span class="p">():</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">'posts_index'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+<code class="language-plaintext highlighter-rouge">searchableAs</code> 메서드는 데이터베이스 엔진을 사용할 때 효과가 없으며, 데이터베이스 엔진은 항상 모델의 데이터베이스 테이블을 직접 검색합니다.</p>
+</blockquote>
+
+<p><a name="configuring-the-model-id"></a></p>
+<h4 id="모델-id-구성">모델 ID 구성</h4>
+
+<p>기본적으로 Scout는 모델의 기본 키를 검색 인덱스에 저장되는 모델의 고유 ID/키로 사용합니다. 서드파티 엔진을 사용할 때 이 동작을 사용자 정의해야 하는 경우, 모델에서 <code class="language-plaintext highlighter-rouge">getScoutKey</code>와 <code class="language-plaintext highlighter-rouge">getScoutKeyName</code> 메서드를 재정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\Searchable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Searchable</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Get the value used to index the model.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getScoutKey</span><span class="p">():</span> <span class="kt">mixed</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get the key name used to index the model.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getScoutKeyName</span><span class="p">():</span> <span class="kt">mixed</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">'email'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+데이터베이스 엔진을 사용할 때 <code class="language-plaintext highlighter-rouge">getScoutKey</code> 및 <code class="language-plaintext highlighter-rouge">getScoutKeyName</code> 메서드는 효과가 없으며, 데이터베이스 엔진은 항상 모델의 기본 키를 사용합니다.</p>
+</blockquote>
+
+<p><a name="algolia-configuration"></a></p>
+<h3 id="algolia-1">Algolia</h3>
+
+<p><a name="algolia-index-settings"></a></p>
+<h4 id="인덱스-설정">인덱스 설정</h4>
+
+<p>때때로 Algolia 인덱스에서 추가 설정을 구성하고 싶을 수 있습니다. 이러한 설정은 Algolia UI를 통해 관리할 수 있지만, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 설정 파일에서 직접 인덱스 구성의 원하는 상태를 관리하는 것이 더 효율적일 때도 있습니다.</p>
+
+<p>이 접근 방식은 애플리케이션의 자동화된 배포 파이프라인을 통해 설정을 배포할 수 있게 하여 수동 구성을 피하고 여러 환경에서 일관성을 보장합니다. 필터링 가능한 속성, 순위, 페이싱 또는 <a href="https://www.algolia.com/doc/rest-api/search/#tag/Indices/operation/setSettings">그 밖의 지원되는 설정</a>을 구성할 수 있습니다.</p>
+
+<p>시작하려면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 설정 파일에서 각 인덱스에 대한 설정을 추가하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Flight</span><span class="p">;</span>
+
+<span class="s1">'algolia'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'ALGOLIA_APP_ID'</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'ALGOLIA_SECRET'</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span>
+    <span class="s1">'index-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">User</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'searchableAttributes'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">],</span>
+            <span class="s1">'attributesForFaceting'</span><span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'filterOnly(email)'</span><span class="p">],</span>
+            <span class="c1">// Other settings fields...</span>
+        <span class="p">],</span>
+        <span class="nc">Flight</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'searchableAttributes'</span><span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'destination'</span><span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>주어진 인덱스의 기반 모델이 소프트 삭제 가능하고 <code class="language-plaintext highlighter-rouge">index-settings</code> 배열에 포함되어 있는 경우, Scout는 해당 인덱스에서 소프트 삭제된 모델에 대한 페이싱 지원을 자동으로 포함합니다. 소프트 삭제 가능한 모델 인덱스에 대해 정의할 다른 페이싱 속성이 없다면, 단순히 해당 모델에 대해 <code class="language-plaintext highlighter-rouge">index-settings</code> 배열에 빈 항목을 추가하면 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'index-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nc">Flight</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[]</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>애플리케이션의 인덱스 설정을 구성한 후에는 <code class="language-plaintext highlighter-rouge">scout:sync-index-settings</code> Artisan 명령을 실행해야 합니다. 이 명령은 현재 구성된 인덱스 설정을 Algolia에 알립니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들고 싶을 수도 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan scout:sync-index-settings
+</code></pre></div></div>
+
+<p><a name="algolia-identifying-users"></a></p>
+<h4 id="사용자-식별">사용자 식별</h4>
+
+<p>Scout는 Algolia를 사용할 때 사용자를 자동으로 식별할 수 있도록 합니다. 인증된 사용자를 검색 작업과 연결하면 Algolia 대시보드에서 검색 분석을 볼 때 유용할 수 있습니다. 애플리케이션의 <code class="language-plaintext highlighter-rouge">.env</code> 파일에서 <code class="language-plaintext highlighter-rouge">SCOUT_IDENTIFY</code> 환경 변수를 <code class="language-plaintext highlighter-rouge">true</code>로 정의하여 사용자 식별을 활성화할 수 있습니다:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">SCOUT_IDENTIFY</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div></div>
+
+<p>이 기능을 활성화하면 요청의 IP 주소와 인증된 사용자의 주요 식별자가 Algolia로 전달되어, 사용자가 수행하는 모든 검색 요청에 이 데이터가 연결됩니다.</p>
+
+<p><a name="meilisearch-configuration"></a></p>
+<h3 id="meilisearch-1">Meilisearch</h3>
+
+<p><a name="meilisearch-index-settings"></a></p>
+<h4 id="인덱스-설정-1">인덱스 설정</h4>
+
+<p>Meilisearch는 필터링 가능한 속성, 정렬 가능한 속성 및 <a href="https://docs.meilisearch.com/reference/api/settings.html">기타 지원되는 설정 필드</a>와 같은 인덱스 검색 설정을 미리 정의해야 합니다.</p>
+
+<p>필터링 가능한 속성은 Scout의 <code class="language-plaintext highlighter-rouge">where</code> 메서드를 호출할 때 필터링할 계획이 있는 속성이며, 정렬 가능한 속성은 Scout의 <code class="language-plaintext highlighter-rouge">orderBy</code> 메서드를 호출할 때 정렬할 계획이 있는 속성입니다. 인덱스 설정을 정의하려면 애플리케이션의 <code class="language-plaintext highlighter-rouge">scout</code> 설정 파일에서 <code class="language-plaintext highlighter-rouge">meilisearch</code> 구성 항목의 <code class="language-plaintext highlighter-rouge">index-settings</code> 부분을 조정하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Flight</span><span class="p">;</span>
+
+<span class="s1">'meilisearch'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MEILISEARCH_HOST'</span><span class="p">,</span> <span class="s1">'http://localhost:7700'</span><span class="p">),</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MEILISEARCH_KEY'</span><span class="p">,</span> <span class="kc">null</span><span class="p">),</span>
+    <span class="s1">'index-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">User</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'filterableAttributes'</span><span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">],</span>
+            <span class="s1">'sortableAttributes'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'created_at'</span><span class="p">],</span>
+            <span class="c1">// Other settings fields...</span>
+        <span class="p">],</span>
+        <span class="nc">Flight</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'filterableAttributes'</span><span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'destination'</span><span class="p">],</span>
+            <span class="s1">'sortableAttributes'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'updated_at'</span><span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>주어진 인덱스의 기반 모델이 소프트 삭제 가능하고 <code class="language-plaintext highlighter-rouge">index-settings</code> 배열에 포함되어 있는 경우, Scout는 해당 인덱스에서 소프트 삭제된 모델에 대한 필터링 지원을 자동으로 포함합니다. 소프트 삭제 가능 모델 인덱스에 대해 정의할 다른 필터 가능하거나 정렬 가능한 속성이 없는 경우, 해당 모델에 대해 <code class="language-plaintext highlighter-rouge">index-settings</code> 배열에 빈 항목을 추가하기만 하면 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'index-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nc">Flight</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[]</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>애플리케이션의 인덱스 설정을 구성한 후에는 <code class="language-plaintext highlighter-rouge">scout:sync-index-settings</code> Artisan 명령을 실행해야 합니다. 이 명령은 현재 구성된 인덱스 설정을 Meilisearch에 알립니다. 편의를 위해 이 명령을 배포 과정에 포함시키는 것을 고려할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan scout:sync-index-settings
+</code></pre></div></div>
+
+<p><a name="meilisearch-semantic-and-hybrid-search"></a></p>
+<h4 id="의미-기반-및-하이브리드-검색">의미 기반 및 하이브리드 검색</h4>
+
+<p>Meilisearch에서 의미 기반 또는 하이브리드 검색을 사용하려면, 검색 가능한 각 모델에 대해 인덱스 설정과 임베딩 설정에서 임베더를 구성하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'meilisearch'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'index-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">Article</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'embedders'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                    <span class="s1">'source'</span> <span class="o">=&gt;</span> <span class="s1">'userProvided'</span><span class="p">,</span>
+                    <span class="s1">'dimensions'</span> <span class="o">=&gt;</span> <span class="mi">1536</span><span class="p">,</span>
+                <span class="p">],</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+    <span class="s1">'model-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">Article</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'embedding'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'embedder'</span> <span class="o">=&gt;</span> <span class="s1">'default'</span><span class="p">,</span>
+                <span class="s1">'dimensions'</span> <span class="o">=&gt;</span> <span class="mi">1536</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>모델의 <code class="language-plaintext highlighter-rouge">toSearchableEmbedding</code> 메서드는 소스 텍스트를 반환할 수 있으며, Scout는 이를 <a href="/docs/{{version}}/ai-sdk">Laravel AI SDK</a>를 사용해 임베딩하거나, 미리 계산된 임베딩 배열을 사용할 수 있습니다. 구성 업데이트 후에는 <code class="language-plaintext highlighter-rouge">scout:sync-index-settings</code> 명령을 실행하십시오.</p>
+
+<p>또는 embedding <code class="language-plaintext highlighter-rouge">driver</code>를 <code class="language-plaintext highlighter-rouge">meilisearch</code>로 설정하여 Meilisearch의 기본 임베딩을 사용할 수도 있습니다. 이 모드에서는 Meilisearch가 구성된 임베더를 사용하여 문서 및 쿼리 임베딩을 생성하므로 <code class="language-plaintext highlighter-rouge">dimensions</code> 옵션과 <code class="language-plaintext highlighter-rouge">toSearchableEmbedding</code> 메서드는 필요하지 않습니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'meilisearch'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'index-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">Article</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'embedders'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                    <span class="s1">'source'</span> <span class="o">=&gt;</span> <span class="s1">'openAi'</span><span class="p">,</span>
+                    <span class="s1">'apiKey'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'OPENAI_API_KEY'</span><span class="p">),</span>
+                    <span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="s1">'text-embedding-3-small'</span><span class="p">,</span>
+                    <span class="s1">'documentTemplate'</span> <span class="o">=&gt;</span> <span class="s1">'An article titled {{ doc.title }}: {{ doc.body }}'</span><span class="p">,</span>
+                <span class="p">],</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+    <span class="s1">'model-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">Article</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'embedding'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'embedder'</span> <span class="o">=&gt;</span> <span class="s1">'default'</span><span class="p">,</span>
+                <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'meilisearch'</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>네이티브 임베딩을 사용할 때, Scout는 인덱싱된 문서에 벡터를 생성하거나 추가하지 않습니다. <code class="language-plaintext highlighter-rouge">vector</code> 검색 옵션을 사용하여 미리 계산된 쿼리 벡터를 제공할 수 있습니다.</p>
+
+<p><a name="meilisearch-data-types"></a></p>
+<h4 id="검색-가능한-데이터-유형">검색 가능한 데이터 유형</h4>
+
+<p>Meilisearch는 올바른 유형의 데이터에서만 필터 연산(<code class="language-plaintext highlighter-rouge">&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;</code> 등)을 수행합니다. 검색 가능한 데이터를 맞춤 설정할 때, 숫자 값을 올바른 유형으로 캐스팅했는지 확인해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">function</span> <span class="n">toSearchableArray</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">int</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'price'</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">float</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">price</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="typesense-configuration"></a></p>
+<h3 id="typesense-1">Typesense</h3>
+
+<p><a name="typesense-searchable-data"></a></p>
+<h4 id="검색-가능한-데이터-준비">검색 가능한 데이터 준비</h4>
+
+<p>Typesense를 사용할 때, 검색 가능한 모델은 모델의 기본 키를 문자열로, 생성일을 UNIX 타임스탬프로 변환하는 <code class="language-plaintext highlighter-rouge">toSearchableArray</code> 메서드를 정의해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the indexable data array for the model.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toSearchableArray</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nb">array_merge</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">toArray</span><span class="p">(),[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="o">-&gt;</span><span class="n">timestamp</span><span class="p">,</span>
+    <span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>애플리케이션의 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 파일에서 Typesense 컬렉션 스키마를 정의해야 합니다. 컬렉션 스키마는 Typesense를 통해 검색 가능한 각 필드의 데이터 유형을 설명합니다. 모든 사용 가능한 스키마 옵션에 대한 자세한 내용은 <a href="https://typesense.org/docs/latest/api/collections.html#schema-parameters">Typesense 문서</a>를 참조하시기 바랍니다.</p>
+
+<p>Typesense 컬렉션의 스키마를 정의한 후에 변경해야 하는 경우, 기존 인덱스 데이터를 모두 삭제하고 스키마를 재생성하는 <code class="language-plaintext highlighter-rouge">scout:flush</code>와 <code class="language-plaintext highlighter-rouge">scout:import</code>를 실행할 수 있습니다. 또는 인덱스된 데이터를 제거하지 않고 Typesense API를 사용하여 컬렉션 스키마를 수정할 수도 있습니다.</p>
+
+<p>검색 가능한 모델이 소프트 삭제 가능하다면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 구성 파일 내 모델에 해당하는 Typesense 스키마에서 <code class="language-plaintext highlighter-rouge">__soft_deleted</code> 필드를 정의해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">User</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'collection-schema'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'fields'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="c1">// ...</span>
+            <span class="p">[</span>
+                <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'__soft_deleted'</span><span class="p">,</span>
+                <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'int32'</span><span class="p">,</span>
+                <span class="s1">'optional'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="typesense-embeddings"></a></p>
+<h4 id="임베딩">임베딩</h4>
+
+<p>의미 기반 및 하이브리드 검색을 활성화하려면 모델의 Typesense 구성에서 <code class="language-plaintext highlighter-rouge">embedding</code> 설정과 벡터 필드를 정의하십시오. 기본적으로 Scout는 임베딩을 생성하기 위해 <a href="/docs/{{version}}/ai-sdk">Laravel AI SDK</a>를 사용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Article</span><span class="p">;</span>
+
+<span class="s1">'model-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nc">Article</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'collection-schema'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'fields'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'title'</span><span class="p">,</span> <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">],</span>
+                <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'embedding'</span><span class="p">,</span> <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'float[]'</span><span class="p">,</span> <span class="s1">'num_dim'</span> <span class="o">=&gt;</span> <span class="mi">1536</span><span class="p">],</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+        <span class="s1">'search-parameters'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'query_by'</span> <span class="o">=&gt;</span> <span class="s1">'title'</span><span class="p">],</span>
+        <span class="s1">'embedding'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'attribute'</span> <span class="o">=&gt;</span> <span class="s1">'embedding'</span><span class="p">,</span>
+            <span class="s1">'dimensions'</span> <span class="o">=&gt;</span> <span class="mi">1536</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>귀하의 모델 <code class="language-plaintext highlighter-rouge">toSearchableEmbedding</code> 메서드는 Scout가 임베드해야 할 원본 텍스트 또는 미리 계산된 임베딩 배열을 반환해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">function</span> <span class="n">toSearchableEmbedding</span><span class="p">():</span> <span class="kt">string</span><span class="o">|</span><span class="k">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">title</span><span class="mf">.</span><span class="s1">' '</span><span class="mf">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">body</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="typesense-dynamic-search-parameters"></a></p>
+<h4 id="동적-검색-매개변수">동적 검색 매개변수</h4>
+
+<p>Typesense는 <code class="language-plaintext highlighter-rouge">options</code> 방법을 통해 검색 작업을 수행할 때 <a href="https://typesense.org/docs/latest/api/search.html#search-parameters">검색 매개변수</a>를 동적으로 수정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Todo</span><span class="p">;</span>
+
+<span class="nc">Todo</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Groceries'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">options</span><span class="p">([</span>
+    <span class="s1">'query_by'</span> <span class="o">=&gt;</span> <span class="s1">'title, description'</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="turbopuffer-configuration"></a></p>
+<h3 id="터보퍼퍼">터보퍼퍼</h3>
+
+<p>터보퍼퍼는 각 모델에 대한 스키마와 검색 가능한 속성이 필요합니다. 이를 <code class="language-plaintext highlighter-rouge">scout</code> 구성 파일 내의 <code class="language-plaintext highlighter-rouge">turbopuffer</code> 구성의 <code class="language-plaintext highlighter-rouge">model-settings</code> 배열에 정의하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Article</span><span class="p">;</span>
+
+<span class="s1">'turbopuffer'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'model-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">Article</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'searchable-attributes'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">'body'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">'schema'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">,</span> <span class="s1">'full_text_search'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">],</span>
+                <span class="s1">'body'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">,</span> <span class="s1">'full_text_search'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">],</span>
+                <span class="s1">'status'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">],</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">searchable-attributes</code>에 할당된 숫자 값은 상대적인 BM25 가중치입니다. 위 예제에서 기사 제목의 일치 항목은 본문 내 일치 항목의 점수보다 세 배의 기여를 합니다.</p>
+
+<p>시맨틱 및 하이브리드 검색을 활성화하려면 모델 구성에 <code class="language-plaintext highlighter-rouge">embedding</code> 설정과 벡터 스키마를 추가하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'turbopuffer'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'model-settings'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">Article</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'searchable-attributes'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="s1">'body'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">'embedding'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'attribute'</span> <span class="o">=&gt;</span> <span class="s1">'embedding'</span><span class="p">,</span>
+                <span class="s1">'dimensions'</span> <span class="o">=&gt;</span> <span class="mi">1536</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s1">'schema'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">,</span> <span class="s1">'full_text_search'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">],</span>
+                <span class="s1">'body'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">,</span> <span class="s1">'full_text_search'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">],</span>
+                <span class="s1">'embedding'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'[1536]f32'</span><span class="p">,</span> <span class="s1">'ann'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">],</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>귀하의 모델 <code class="language-plaintext highlighter-rouge">toSearchableEmbedding</code> 메서드는 Scout가 임베드해야 할 원문 텍스트 또는 미리 계산된 임베딩 배열을 반환해야 합니다. Scout는 <a href="/docs/{{version}}/ai-sdk">Laravel AI SDK</a>를 사용하여 원문 텍스트 임베딩을 생성합니다.</p>
+
+<p>또는 Laravel AI SDK를 설치하거나 <code class="language-plaintext highlighter-rouge">toSearchableEmbedding</code> 메서드를 정의하지 않고 Turbopuffer의 기본 임베딩을 사용할 수 있습니다. 임베딩 드라이버를 <code class="language-plaintext highlighter-rouge">turbopuffer</code>로 설정하고 검색 가능한 소스 속성에 <code class="language-plaintext highlighter-rouge">embed</code> 스키마를 구성하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'embedding'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'turbopuffer'</span><span class="p">,</span>
+    <span class="s1">'attribute'</span> <span class="o">=&gt;</span> <span class="s1">'embedding_text'</span><span class="p">,</span>
+<span class="p">],</span>
+
+<span class="s1">'schema'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'embedding_text'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">,</span>
+        <span class="s1">'embed'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'model'</span> <span class="o">=&gt;</span> <span class="s1">'voyage/voyage-4'</span><span class="p">,</span>
+            <span class="s1">'dimensions'</span> <span class="o">=&gt;</span> <span class="mi">1024</span><span class="p">,</span>
+            <span class="s1">'attribute'</span> <span class="o">=&gt;</span> <span class="s1">'embedding'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>모델의 <code class="language-plaintext highlighter-rouge">toSearchableArray</code> 출력에 source 속성을 포함해야 합니다.</p>
+
+<p><a name="indexing"></a></p>
+<h2 id="서드파티-엔진-인덱싱">서드파티 엔진 인덱싱</h2>
+
+<blockquote>
+  <p>[!NOTE]
+이 섹션에서 설명하는 인덱싱 기능은 주로 서드파티 엔진(Algolia, Meilisearch, Typesense, Turbopuffer)을 사용할 때 관련이 있습니다. 데이터베이스 엔진은 데이터베이스 테이블을 직접 검색하므로 수동 인덱스 관리가 필요하지 않습니다.</p>
+</blockquote>
+
+<p><a name="batch-import"></a></p>
+<h3 id="일괄-가져오기">일괄 가져오기</h3>
+
+<p>Scout를 기존 프로젝트에 설치하는 경우, 이미 인덱스로 가져와야 하는 데이터베이스 레코드가 있을 수 있습니다. Scout는 모든 기존 레코드를 검색 인덱스로 가져오는 데 사용할 수 있는 <code class="language-plaintext highlighter-rouge">scout:import</code> Artisan 명령을 제공합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan scout:import <span class="s2">"App</span><span class="se">\M</span><span class="s2">odels</span><span class="se">\P</span><span class="s2">ost"</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">scout:queue-import</code> 명령은 <a href="/docs/{{version}}/queues">대기 중인 작업</a>을 사용하여 기존 모든 기록을 가져오는 데 사용할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan scout:queue-import <span class="s2">"App</span><span class="se">\M</span><span class="s2">odels</span><span class="se">\P</span><span class="s2">ost"</span> <span class="nt">--chunk</span><span class="o">=</span>500
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">flush</code> 명령은 모델의 모든 레코드를 검색 색인에서 제거하는 데 사용할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan scout:flush <span class="s2">"App</span><span class="se">\M</span><span class="s2">odels</span><span class="se">\P</span><span class="s2">ost"</span>
+</code></pre></div></div>
+
+<p><a name="modifying-the-import-query"></a></p>
+<h4 id="가져오기-쿼리-수정하기">가져오기 쿼리 수정하기</h4>
+
+<p>일괄 가져오기를 위해 모든 모델을 가져오는 데 사용되는 쿼리를 수정하고 싶다면, 모델에 <code class="language-plaintext highlighter-rouge">makeAllSearchableUsing</code> 메서드를 정의할 수 있습니다. 모델을 가져오기 전에 필요한 즉시 로딩 관계(eager relationship loading)를 추가하기에 좋은 위치입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Builder</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Modify the query used to retrieve models when making all of the models searchable.
+ */</span>
+<span class="k">protected</span> <span class="k">function</span> <span class="n">makeAllSearchableUsing</span><span class="p">(</span><span class="kt">Builder</span> <span class="nv">$query</span><span class="p">):</span> <span class="kt">Builder</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$query</span><span class="o">-&gt;</span><span class="nf">with</span><span class="p">(</span><span class="s1">'author'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+<code class="language-plaintext highlighter-rouge">makeAllSearchableUsing</code> 방법은 모델을 배치로 가져오기 위해 큐를 사용할 때 적용되지 않을 수 있습니다. 모델 컬렉션이 작업으로 처리될 때 관계는 <a href="/docs/{{version}}/queues#handling-relationships">복원되지</a> 않습니다.</p>
+</blockquote>
+
+<p><a name="adding-records"></a></p>
+<h3 id="레코드-추가">레코드 추가</h3>
+
+<p>모델에 <code class="language-plaintext highlighter-rouge">Laravel\Scout\Searchable</code> 특성을 추가한 후에는 <code class="language-plaintext highlighter-rouge">save</code> 또는 <code class="language-plaintext highlighter-rouge">create</code> 모델 인스턴스를 수행하기만 하면 자동으로 검색 색인에 추가됩니다. Scout을 <a href="#queueing">큐 사용</a>으로 구성한 경우 이 작업은 큐 작업자가 백그라운드에서 수행합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nv">$order</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Order</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="nv">$order</span><span class="o">-&gt;</span><span class="nf">save</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="adding-records-via-query"></a></p>
+<h4 id="쿼리를-통해-레코드-추가하기">쿼리를 통해 레코드 추가하기</h4>
+
+<p>Eloquent 쿼리를 통해 검색 인덱스에 모델 컬렉션을 추가하고 싶다면, Eloquent 쿼리에 <code class="language-plaintext highlighter-rouge">searchable</code> 메서드를 연결하면 됩니다. <code class="language-plaintext highlighter-rouge">searchable</code> 메서드는 쿼리의 <a href="/docs/{{version}}/eloquent#chunking-results">결과를 청크 처리</a>하고 레코드를 검색 인덱스에 추가합니다. 다시 말하지만, Scout를 큐 사용으로 구성한 경우, 모든 청크는 백그라운드에서 큐 작업자에 의해 가져와집니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nc">Order</span><span class="o">::</span><span class="nf">where</span><span class="p">(</span><span class="s1">'price'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">searchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Eloquent 관계 인스턴스에서 <code class="language-plaintext highlighter-rouge">searchable</code> 메서드를 호출할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">orders</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">searchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>또는, 이미 메모리에 Eloquent 모델 컬렉션이 있는 경우, 컬렉션 인스턴스에서 <code class="language-plaintext highlighter-rouge">searchable</code> 메서드를 호출하여 모델 인스턴스들을 해당 인덱스에 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span><span class="o">-&gt;</span><span class="nf">searchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+<code class="language-plaintext highlighter-rouge">searchable</code> 방법은 “업서트(upsert)” 연산으로 간주될 수 있습니다. 즉, 모델 레코드가 이미 인덱스에 있으면 업데이트됩니다. 검색 인덱스에 존재하지 않으면 인덱스에 추가됩니다.</p>
+</blockquote>
+
+<p><a name="updating-records"></a></p>
+<h3 id="레코드-업데이트">레코드 업데이트</h3>
+
+<p>검색 가능한 모델을 업데이트하려면, 모델 인스턴스의 속성을 업데이트하고 <code class="language-plaintext highlighter-rouge">save</code> 모델을 데이터베이스에 저장하기만 하면 됩니다. Scout은 변경 사항을 자동으로 검색 인덱스에 반영합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nv">$order</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// Update the order...</span>
+
+<span class="nv">$order</span><span class="o">-&gt;</span><span class="nf">save</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Eloquent 쿼리 인스턴스에서 <code class="language-plaintext highlighter-rouge">searchable</code> 메서드를 호출하여 모델 컬렉션을 업데이트할 수도 있습니다. 모델이 검색 인덱스에 존재하지 않는 경우, 새로 생성됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Order</span><span class="o">::</span><span class="nf">where</span><span class="p">(</span><span class="s1">'price'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">searchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>관계에 있는 모든 모델의 검색 인덱스 레코드를 업데이트하려면, 관계 인스턴스에서 <code class="language-plaintext highlighter-rouge">searchable</code>를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">orders</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">searchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>또는, 이미 메모리에 Eloquent 모델 컬렉션이 있는 경우, 컬렉션 인스턴스에서 <code class="language-plaintext highlighter-rouge">searchable</code> 메서드를 호출하여 해당 인덱스에 있는 모델 인스턴스를 업데이트할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span><span class="o">-&gt;</span><span class="nf">searchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="modifying-records-before-importing"></a></p>
+<h4 id="가져오기-전에-레코드-수정하기">가져오기 전에 레코드 수정하기</h4>
+
+<p>때때로 검색 가능하게 만들기 전에 모델 컬렉션을 준비해야 할 때가 있습니다. 예를 들어, 관계 데이터를 검색 인덱스에 효율적으로 추가할 수 있도록 관계를 미리 로드(eager load)하고 싶을 수 있습니다. 이를 달성하려면, 해당 모델에 <code class="language-plaintext highlighter-rouge">makeSearchableUsing</code> 메서드를 정의하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Collection</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Modify the collection of models being made searchable.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">makeSearchableUsing</span><span class="p">(</span><span class="kt">Collection</span> <span class="nv">$models</span><span class="p">):</span> <span class="kt">Collection</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$models</span><span class="o">-&gt;</span><span class="nf">load</span><span class="p">(</span><span class="s1">'author'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="conditionally-updating-the-search-index"></a></p>
+<h4 id="검색-인덱스-조건부-업데이트">검색 인덱스 조건부 업데이트</h4>
+
+<p>기본적으로 Scout는 어떤 속성이 수정되었는지와 상관없이 업데이트된 모델을 다시 인덱싱합니다. 이 동작을 사용자 정의하고 싶다면 모델에 <code class="language-plaintext highlighter-rouge">searchIndexShouldBeUpdated</code> 메서드를 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Determine if the search index should be updated.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">searchIndexShouldBeUpdated</span><span class="p">():</span> <span class="kt">bool</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">wasRecentlyCreated</span> <span class="o">||</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">wasChanged</span><span class="p">([</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'body'</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="removing-records"></a></p>
+<h3 id="레코드-제거">레코드 제거</h3>
+
+<p>인덱스에서 레코드를 제거하려면 데이터베이스에서 모델을 단순히 <code class="language-plaintext highlighter-rouge">delete</code>하면 됩니다. 이것은 <a href="/docs/{{version}}/eloquent#soft-deleting">소프트 삭제된</a> 모델을 사용하는 경우에도 수행할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nv">$order</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nv">$order</span><span class="o">-&gt;</span><span class="nb">delete</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>레코드를 삭제하기 전에 모델을 가져오고 싶지 않다면, Eloquent 쿼리 인스턴스에서 <code class="language-plaintext highlighter-rouge">unsearchable</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Order</span><span class="o">::</span><span class="nf">where</span><span class="p">(</span><span class="s1">'price'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">unsearchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>관계에 있는 모든 모델의 검색 인덱스 레코드를 제거하려면, 관계 인스턴스에서 <code class="language-plaintext highlighter-rouge">unsearchable</code>를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">orders</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">unsearchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>또는, 이미 메모리에 Eloquent 모델 컬렉션이 있는 경우, 컬렉션 인스턴스에서 <code class="language-plaintext highlighter-rouge">unsearchable</code> 메서드를 호출하여 해당 모델 인스턴스를 해당 인덱스에서 제거할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span><span class="o">-&gt;</span><span class="nf">unsearchable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>모든 모델 레코드를 해당 인덱스에서 제거하려면, <code class="language-plaintext highlighter-rouge">removeAllFromSearch</code> 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Order</span><span class="o">::</span><span class="nf">removeAllFromSearch</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="pausing-indexing"></a></p>
+<h3 id="인덱싱-일시-중지">인덱싱 일시 중지</h3>
+
+<p>때때로 모델 데이터를 검색 인덱스와 동기화하지 않고 모델에 대한 일괄 Eloquent 작업을 수행해야 할 수도 있습니다. 이때 <code class="language-plaintext highlighter-rouge">withoutSyncingToSearch</code> 메서드를 사용할 수 있습니다. 이 메서드는 즉시 실행되는 단일 클로저를 받습니다. 클로저 내에서 발생하는 모든 모델 작업은 모델의 인덱스와 동기화되지 않습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nc">Order</span><span class="o">::</span><span class="nf">withoutSyncingToSearch</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Perform model actions...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="conditionally-searchable-model-instances"></a></p>
+<h3 id="조건부-검색-가능한-모델-인스턴스">조건부 검색 가능한 모델 인스턴스</h3>
+
+<p>때때로 특정 조건에서만 모델을 검색 가능하게 만들고 싶을 수 있습니다. 예를 들어, <code class="language-plaintext highlighter-rouge">App\Models\Post</code> 모델이 “draft”와 “published”의 두 가지 상태 중 하나일 수 있다고 가정해 봅시다. 이 경우, “published” 상태의 게시물만 검색 가능하도록 허용하고 싶을 수 있습니다. 이를 달성하기 위해 모델에 <code class="language-plaintext highlighter-rouge">shouldBeSearchable</code> 메서드를 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Determine if the model should be searchable.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">shouldBeSearchable</span><span class="p">():</span> <span class="kt">bool</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">isPublished</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">shouldBeSearchable</code> 메소드는 <code class="language-plaintext highlighter-rouge">save</code> 및 <code class="language-plaintext highlighter-rouge">create</code> 메소드, 쿼리 또는 관계를 통해 모델을 조작할 때만 적용됩니다. <code class="language-plaintext highlighter-rouge">searchable</code> 메소드를 사용하여 모델이나 컬렉션을 직접 검색 가능하게 하면 <code class="language-plaintext highlighter-rouge">shouldBeSearchable</code> 메소드의 결과가 무시됩니다.</p>
+
+<blockquote>
+  <p>[!WARNING]
+Scout의 “database” 엔진을 사용할 때는 <code class="language-plaintext highlighter-rouge">shouldBeSearchable</code> 메소드를 적용할 수 없습니다. 데이터베이스 엔진을 사용할 때 유사한 동작을 달성하려면 대신 <a href="#where-clauses">where 절</a>을 사용해야 합니다.</p>
+</blockquote>
+
+<p><a name="searching"></a></p>
+<h2 id="검색">검색</h2>
+
+<p><code class="language-plaintext highlighter-rouge">search</code> 메소드를 사용하여 모델 검색을 시작할 수 있습니다. search 메소드는 모델을 검색하는 데 사용될 단일 문자열을 받습니다. 그 다음 search 쿼리에 <code class="language-plaintext highlighter-rouge">get</code> 메소드를 체인하여 주어진 검색 쿼리에 일치하는 Eloquent 모델을 검색해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Scout 검색이 Eloquent 모델의 컬렉션을 반환하기 때문에, 결과를 라우트나 컨트롤러에서 직접 반환해도 자동으로 JSON으로 변환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/search'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Eloquent 모델로 변환되기 전에 원시 검색 결과를 받고 싶다면, <code class="language-plaintext highlighter-rouge">raw</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">raw</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="semantic-search"></a></p>
+<h3 id="의미-기반-검색">의미 기반 검색</h3>
+
+<p>데이터베이스, Meilisearch, Typesense 및 Turbopuffer 엔진은 쿼리의 의미를 기반으로 레코드를 일치시키는 의미 기반 검색을 지원합니다. Scout가 임베딩을 생성할 때, 의미 기반 검색 및 하이브리드 검색에는 <a href="/docs/{{version}}/ai-sdk">Laravel AI SDK</a>가 필요합니다. <a href="#typesense-embeddings">Typesense의 네이티브 임베딩</a>, <a href="#turbopuffer-configuration">Turbopuffer의 네이티브 임베딩</a>, 그리고 미리 계산된 쿼리 벡터는 Laravel AI SDK가 필요하지 않습니다.</p>
+
+<p>선택한 엔진에 대한 임베딩 구성을 완료한 후, 검색 쿼리에 대해 <code class="language-plaintext highlighter-rouge">semantic</code> 메서드를 호출합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$articles</span> <span class="o">=</span> <span class="nc">Article</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'staying cool in the summer'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">semantic</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>선택한 엔진에서 지원되는 경우 최소 유사성 임계값을 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$articles</span> <span class="o">=</span> <span class="nc">Article</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'renewable energy storage'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">semantic</span><span class="p">(</span><span class="n">minSimilarity</span><span class="o">:</span> <span class="mf">0.6</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>전체 텍스트 검색과 의미 검색을 결합하려면 <code class="language-plaintext highlighter-rouge">hybrid</code> 방법을 사용하세요. 첫 두 인수는 텍스트 결과와 의미 결과의 상대적 가중치를 제어합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$articles</span> <span class="o">=</span> <span class="nc">Article</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'renewable energy storage'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">hybrid</span><span class="p">(</span><span class="n">textWeight</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">semanticWeight</span><span class="o">:</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="custom-indexes"></a></p>
+<h4 id="맞춤-인덱스">맞춤 인덱스</h4>
+
+<p>타사 검색 엔진을 사용할 때 검색 쿼리는 일반적으로 모델의 <a href="#configuring-model-indexes">searchableAs</a> 메서드에 의해 지정된 인덱스에서 수행됩니다. 그러나 대신 검색할 맞춤 인덱스를 지정하려면 <code class="language-plaintext highlighter-rouge">within</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">within</span><span class="p">(</span><span class="s1">'tv_shows_popularity_desc'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="where-clauses"></a></p>
+<h3 id="where-절">Where 절</h3>
+
+<p>Scout는 검색 쿼리에 “where” 절을 추가할 수 있습니다. 예를 들어, 기본 동등성 검사는 소유자 ID로 검색 쿼리의 범위를 지정할 때 유용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'user_id'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>또한 더 고급 쿼리를 작성하기 위해 <code class="language-plaintext highlighter-rouge">=</code>, <code class="language-plaintext highlighter-rouge">!=</code>, <code class="language-plaintext highlighter-rouge">&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;</code>, <code class="language-plaintext highlighter-rouge">&gt;=</code>, <code class="language-plaintext highlighter-rouge">&lt;=</code> 비교 연산자를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'status'</span><span class="p">,</span> <span class="s1">'='</span><span class="p">,</span> <span class="s1">'completed'</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'is_refunded'</span><span class="p">,</span> <span class="s1">'!='</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'total_price'</span><span class="p">,</span> <span class="s1">'&gt;'</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'shipping_cost'</span><span class="p">,</span> <span class="s1">'&lt;'</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'discount_percent'</span><span class="p">,</span> <span class="s1">'&gt;='</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'item_count'</span><span class="p">,</span> <span class="s1">'&lt;='</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>또한, <code class="language-plaintext highlighter-rouge">whereIn</code> 방법은 주어진 열의 값이 주어진 배열에 포함되어 있는지 확인하는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">whereIn</span><span class="p">(</span>
+    <span class="s1">'status'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'open'</span><span class="p">,</span> <span class="s1">'paid'</span><span class="p">]</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">whereNotIn</code> 메서드는 지정된 열의 값이 주어진 배열에 포함되어 있지 않은지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">whereNotIn</span><span class="p">(</span>
+    <span class="s1">'status'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'closed'</span><span class="p">]</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+애플리케이션이 Meilisearch를 사용하는 경우, Scout의 “where” 절을 사용하기 전에 애플리케이션의 <a href="#meilisearch-index-settings">필터 가능 속성</a>을 구성해야 합니다.</p>
+</blockquote>
+
+<p><a name="customizing-the-eloquent-results-query"></a></p>
+<h4 id="eloquent-결과-쿼리-사용자-정의">Eloquent 결과 쿼리 사용자 정의</h4>
+
+<p>Scout가 애플리케이션의 검색 엔진에서 일치하는 Eloquent 모델 목록을 가져온 후, Eloquent를 사용하여 기본 키로 모든 일치하는 모델을 검색합니다. <code class="language-plaintext highlighter-rouge">query</code> 메소드를 호출하여 이 쿼리를 사용자 정의할 수 있습니다. <code class="language-plaintext highlighter-rouge">query</code> 메소드는 Eloquent 쿼리 빌더 인스턴스를 인수로 받는 클로저를 허용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Builder</span><span class="p">;</span>
+
+<span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">query</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Builder</span> <span class="nv">$query</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$query</span><span class="o">-&gt;</span><span class="nf">with</span><span class="p">(</span><span class="s1">'invoices'</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>서드파티 엔진을 사용할 때, 관련 모델을 검색 엔진에서 이미 가져온 후에 이 콜백이 호출되므로 결과를 “필터링”하는 데 사용해서는 안 됩니다 — 대신 <a href="#where-clauses">Scout where 절</a>을 사용하세요. 그러나 데이터베이스 엔진을 사용할 경우, <code class="language-plaintext highlighter-rouge">query</code> 메소드의 제약 조건이 데이터베이스 쿼리에 직접 적용되므로 필터링에도 사용할 수 있습니다.</p>
+
+<p><a name="pagination"></a></p>
+<h3 id="페이지네이션">페이지네이션</h3>
+
+<p>모델 컬렉션을 가져오는 것 외에도, <code class="language-plaintext highlighter-rouge">paginate</code> 메서드를 사용하여 검색 결과를 페이지별로 나눌 수 있습니다. 이 메서드는 <a href="/docs/{{version}}/pagination">전통적인 Eloquent 쿼리를 페이지네이션 했을 때</a>와 마찬가지로 <code class="language-plaintext highlighter-rouge">Illuminate\Pagination\LengthAwarePaginator</code> 인스턴스를 반환합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">paginate</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">paginate</code> 메서드에 첫 번째 인수로 수량을 전달하여 페이지당 검색할 모델 수를 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">paginate</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>데이터베이스 엔진을 사용할 때 <code class="language-plaintext highlighter-rouge">simplePaginate</code> 방법을 사용할 수도 있습니다. 전체 일치 레코드 수를 가져와 페이지 번호를 표시할 수 있는 <code class="language-plaintext highlighter-rouge">paginate</code>와 달리, <code class="language-plaintext highlighter-rouge">simplePaginate</code>는 현재 페이지를 넘어 더 많은 결과가 있는지 여부만 확인하므로, 이전 및 다음 링크만 필요할 때 대용량 데이터셋에서 더 효율적입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">simplePaginate</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>결과를 가져온 후에는, 전통적인 Eloquent 쿼리를 페이징한 것처럼 <a href="/docs/{{version}}/blade">Blade</a>를 사용하여 결과를 표시하고 페이지 링크를 렌더링할 수 있습니다:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container"</span><span class="nt">&gt;</span>
+    @foreach ($orders as $order)
+        {{ $order-&gt;price }}
+    @endforeach
+<span class="nt">&lt;/div&gt;</span>
+
+{{ $orders-&gt;links() }}
+</code></pre></div></div>
+
+<p>물론, 페이지네이션 결과를 JSON으로 가져오고 싶다면, 라우트나 컨트롤러에서 페이징 인스턴스를 직접 반환할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/orders'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'query'</span><span class="p">))</span><span class="o">-&gt;</span><span class="nf">paginate</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+검색 엔진은 여러분의 Eloquent 모델의 글로벌 스코프 정의를 인식하지 못하므로, Scout 페이지네이션을 사용하는 애플리케이션에서는 글로벌 스코프를 사용하지 않아야 합니다. 또는 Scout를 통해 검색할 때 글로벌 스코프의 제약 조건을 다시 만들어야 합니다.</p>
+</blockquote>
+
+<p><a name="soft-deleting"></a></p>
+<h3 id="소프트-삭제">소프트 삭제</h3>
+
+<p>인덱싱된 모델이 <a href="/docs/{{version}}/eloquent#soft-deleting">소프트 삭제</a>되고 소프트 삭제된 모델을 검색해야 하는 경우, <code class="language-plaintext highlighter-rouge">config/scout.php</code> 구성 파일의 <code class="language-plaintext highlighter-rouge">soft_delete</code> 옵션을 <code class="language-plaintext highlighter-rouge">true</code>로 설정하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'soft_delete'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+</code></pre></div></div>
+
+<p>이 구성 옵션이 <code class="language-plaintext highlighter-rouge">true</code>일 때, Scout는 검색 인덱스에서 소프트 삭제된 모델을 제거하지 않습니다. 대신, 인덱스된 레코드에 숨겨진 <code class="language-plaintext highlighter-rouge">__soft_deleted</code> 속성을 설정합니다. 그런 다음, 검색할 때 소프트 삭제된 레코드를 가져오기 위해 <code class="language-plaintext highlighter-rouge">withTrashed</code> 또는 <code class="language-plaintext highlighter-rouge">onlyTrashed</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="c1">// Include trashed records when retrieving results...</span>
+<span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withTrashed</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+
+<span class="c1">// Only include trashed records when retrieving results...</span>
+<span class="nv">$orders</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span><span class="s1">'Star Trek'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">onlyTrashed</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+소프트 삭제된 모델이 <code class="language-plaintext highlighter-rouge">forceDelete</code>를 사용하여 영구적으로 삭제되면 Scout는 검색 색인에서 자동으로 이를 제거합니다.</p>
+</blockquote>
+
+<p><a name="customizing-engine-searches"></a></p>
+<h3 id="엔진-검색-사용자-정의">엔진 검색 사용자 정의</h3>
+
+<p>엔진의 검색 동작을 고급으로 사용자 정의해야 하는 경우 <code class="language-plaintext highlighter-rouge">search</code> 메서드의 두 번째 인수로 클로저를 전달할 수 있습니다. 예를 들어, 이 콜백을 사용하여 검색 쿼리가 Algolia에 전달되기 전에 검색 옵션에 지리 위치 데이터를 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Algolia\AlgoliaSearch\SearchIndex</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+
+<span class="nc">Order</span><span class="o">::</span><span class="nf">search</span><span class="p">(</span>
+    <span class="s1">'Star Trek'</span><span class="p">,</span>
+    <span class="k">function</span> <span class="p">(</span><span class="kt">SearchIndex</span> <span class="nv">$algolia</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$query</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$options</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$options</span><span class="p">[</span><span class="s1">'body'</span><span class="p">][</span><span class="s1">'query'</span><span class="p">][</span><span class="s1">'bool'</span><span class="p">][</span><span class="s1">'filter'</span><span class="p">][</span><span class="s1">'geo_distance'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">'distance'</span> <span class="o">=&gt;</span> <span class="s1">'1000km'</span><span class="p">,</span>
+            <span class="s1">'location'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'lat'</span> <span class="o">=&gt;</span> <span class="mi">36</span><span class="p">,</span> <span class="s1">'lon'</span> <span class="o">=&gt;</span> <span class="mi">111</span><span class="p">],</span>
+        <span class="p">];</span>
+
+        <span class="k">return</span> <span class="nv">$algolia</span><span class="o">-&gt;</span><span class="nf">search</span><span class="p">(</span><span class="nv">$query</span><span class="p">,</span> <span class="nv">$options</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="custom-engines"></a></p>
+<h2 id="맞춤-엔진">맞춤 엔진</h2>
+
+<p><a name="writing-the-engine"></a></p>
+<h4 id="엔진-작성">엔진 작성</h4>
+
+<p>내장된 Scout 검색 엔진 중 하나가 필요에 맞지 않다면, 직접 맞춤 엔진을 작성하고 Scout에 등록할 수 있습니다. 엔진은 <code class="language-plaintext highlighter-rouge">Laravel\Scout\Engines\Engine</code> 추상 클래스를 확장해야 합니다. 이 추상 클래스에는 맞춤 엔진이 구현해야 하는 여덟 가지 메서드가 포함되어 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Scout\Builder</span><span class="p">;</span>
+
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="nv">$models</span><span class="p">);</span>
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">delete</span><span class="p">(</span><span class="nv">$models</span><span class="p">);</span>
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">search</span><span class="p">(</span><span class="kt">Builder</span> <span class="nv">$builder</span><span class="p">);</span>
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">paginate</span><span class="p">(</span><span class="kt">Builder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="nv">$perPage</span><span class="p">,</span> <span class="nv">$page</span><span class="p">);</span>
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">mapIds</span><span class="p">(</span><span class="nv">$results</span><span class="p">);</span>
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">map</span><span class="p">(</span><span class="kt">Builder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="nv">$results</span><span class="p">,</span> <span class="nv">$model</span><span class="p">);</span>
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">getTotalCount</span><span class="p">(</span><span class="nv">$results</span><span class="p">);</span>
+<span class="k">abstract</span> <span class="k">public</span> <span class="k">function</span> <span class="n">flush</span><span class="p">(</span><span class="nv">$model</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이러한 메서드의 구현을 <code class="language-plaintext highlighter-rouge">Laravel\Scout\Engines\AlgoliaEngine</code> 클래스에서 검토하는 것이 도움이 될 수 있습니다. 이 클래스는 각 메서드를 자신의 엔진에서 구현하는 방법을 배우는 데 좋은 출발점을 제공합니다.</p>
+
+<p><a name="registering-the-engine"></a></p>
+<h4 id="엔진-등록">엔진 등록</h4>
+
+<p>맞춤형 엔진을 작성한 후에는 Scout의 엔진 매니저에서 <code class="language-plaintext highlighter-rouge">extend</code> 메서드를 사용하여 Scout에 등록할 수 있습니다. Scout의 엔진 매니저는 Laravel 서비스 컨테이너에서 해결할 수 있습니다. <code class="language-plaintext highlighter-rouge">App\Providers\AppServiceProvider</code> 클래스나 애플리케이션에서 사용되는 다른 서비스 제공자의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 <code class="language-plaintext highlighter-rouge">extend</code> 메서드를 호출해야 합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\ScoutExtensions\MySqlSearchEngine</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Scout\EngineManager</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nf">resolve</span><span class="p">(</span><span class="nc">EngineManager</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">extend</span><span class="p">(</span><span class="s1">'mysql'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">MySqlSearchEngine</span><span class="p">;</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>엔진이 등록되면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/scout.php</code> 구성 파일에서 기본 Scout <code class="language-plaintext highlighter-rouge">driver</code>로 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'mysql'</span><span class="p">,</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

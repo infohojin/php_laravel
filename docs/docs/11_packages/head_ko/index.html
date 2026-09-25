@@ -1,0 +1,2286 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>라라벨 헤드 | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="라라벨 헤드" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/11_packages/head_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/11_packages/head_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="라라벨 헤드" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"라라벨 헤드","url":"http://localhost:4000/docs/11_packages/head_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="true">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/11_packages/">11 packages</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">라라벨 헤드</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="라라벨-헤드">라라벨 헤드</h1>
+
+<ul>
+  <li><a href="#introduction">소개</a></li>
+  <li><a href="#installation">설치</a></li>
+  <li>퀵스타트 (#quickstart)</li>
+  <li><a href="#resolution-precedence">Resolution Precedence</a></li>
+  <li><a href="#defining-metadata">정의 메타데이터</a></li>
+  <li><a href="#defaults">기본값</a></li>
+  <li>루트 메타데이터 (#route-metadata)</li>
+  <li><a href="#runtime-metadata">런타임 메타데이터</a></li>
+  <li><a href="#error-pages">오류 페이지</a></li>
+  <li>오픈 그래프 (#open-graph)</li>
+  <li><a href="#twitter-cards">X / 트위터 카드</a></li>
+  <li>테마 컬러 (#theme-colors)</li>
+  <li><a href="#app-metadata-and-icons">애플리케이션 메타데이터 및 아이콘</a></li>
+  <li>프로그레시브 웹 앱 (#progressive-web-apps)</li>
+  <li>퍼포먼스 및 디스커버리 (#performance-and-discovery)</li>
+  <li>커스텀 태그 (#custom-tags)</li>
+  <li><a href="#schemas">Schemas</a></li>
+  <li>브레드크럼브스 (#breadcrumbs)</li>
+  <li><a href="#faqs">FAQs</a></li>
+  <li>커스텀 스키마 (#custom-schemas)</li>
+  <li><a href="#rendering">렌더링</a></li>
+  <li>블레이드 (#blade)</li>
+  <li>라이브와이어 (#livewire)</li>
+  <li><a href="#inertia">관성</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="소개">소개</h2>
+
+<p><a href="https://github.com/laravel/head">Laravel Head</a> 는 제목 및 메타 태그， Open Graph 메타데이터， 정규 URL, 로봇 지침， 성능 힌트 및 구조화된 데이터를 포함하여 애플리케이션의 문서 <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> 요소를 관리하기 위한 원활한 API 를 제공합니다. Blade, Livewire 및 Inertia 와 작동합니다。</p>
+
+<p><a name="installation"></a></p>
+<h2 id="설치">설치</h2>
+
+<p>Composer 패키지 관리자를 사용하여 Laravel Head 를 설치할 수 있습니다：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require laravel/head
+</code></pre></div></div>
+
+<p><a name="quickstart"></a></p>
+<h2 id="빠른-시작">빠른 시작</h2>
+
+<p>서비스 제공자에 사이트 전체 기본값 등록:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\HeadBuilder</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">defaults</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">HeadBuilder</span> <span class="nv">$head</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$head</span>
+    <span class="o">-&gt;</span><span class="nf">title</span><span class="p">(</span><span class="s1">'Laravel'</span><span class="p">,</span> <span class="n">suffix</span><span class="o">:</span> <span class="s1">' - Laravel'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">description</span><span class="p">(</span><span class="s1">'Build something great.'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>런타임에 페이지별 메타데이터 설정:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">title</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">description</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">description</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>해결된 태그를 레이아웃에 렌더링하세요:</p>
+
+<pre><code class="language-blade">&lt;head&gt;
+    @head
+&lt;/head&gt;
+</code></pre>
+
+<p><a name="resolution-precedence"></a></p>
+<h2 id="우선순위-해상도">우선순위 해상도</h2>
+
+<p>페이지 메타데이터는 다섯 계층에서 해상되며, 아래에서 위로 갈수록 우선순위가 높습니다:</p>
+
+<ol>
+  <li>페이지 기본값</li>
+  <li>라우트 그룹 메타데이터</li>
+  <li>라우트 메타데이터</li>
+  <li>런타임 메타데이터</li>
+  <li>오류 메타데이터</li>
+</ol>
+
+<p>상위 계층은 하위 계층을 필드별로 대체합니다. 예를 들어, 런타임 제목은 라우트 제목을 대체하지만 라우트 설명은 대체하지 않습니다. 다음 섹션에서는 각 계층에서 메타데이터를 설정하는 방법을 설명합니다. Blade, Livewire, Inertia에서 해상된 메타데이터를 렌더링하는 방법은 <a href="#rendering">Rendering</a>을 참조하세요.</p>
+
+<p><a name="defining-metadata"></a></p>
+<h2 id="메타데이터-정의">메타데이터 정의</h2>
+
+<p>Laravel Head를 사용하면 사이트 전체 기본값, 라우트 메타데이터, 런타임 호출 및 오류 페이지 정의를 통해 메타데이터를 정의할 수 있습니다.</p>
+
+<p><a name="defaults"></a></p>
+<h3 id="기본값">기본값</h3>
+
+<p>서비스 프로바이더에서 페이지 기본값을 등록하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\OgType</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\HeadBuilder</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">defaults</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">HeadBuilder</span> <span class="nv">$head</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$head</span>
+        <span class="o">-&gt;</span><span class="nf">title</span><span class="p">(</span><span class="s1">'Laravel'</span><span class="p">,</span> <span class="n">suffix</span><span class="o">:</span> <span class="s1">' - Laravel'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">description</span><span class="p">(</span><span class="s1">'Build something great.'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">canonical</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">og</span><span class="p">(</span><span class="n">siteName</span><span class="o">:</span> <span class="s1">'Laravel'</span><span class="p">,</span> <span class="n">type</span><span class="o">:</span> <span class="nc">OgType</span><span class="o">::</span><span class="nc">Website</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">searchableByRobots</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">preconnect</span><span class="p">(</span><span class="s1">'https://fonts.example.com'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>기본값은 우선순위가 가장 낮은 페이지 메타데이터 계층입니다. 경로， 런타임 또는 오류 메타데이터가 제목을 설정하지 않으면 <code class="language-plaintext highlighter-rouge">Laravel</code> 는 있는 그대로 렌더링됩니다. 더 높은 계층이 페이지 제목을 설정하면 상속된 접미사가 적용되므로 <code class="language-plaintext highlighter-rouge">Head::title('About')</code> 는 <code class="language-plaintext highlighter-rouge">About - Laravel</code> 를 렌더링합니다. 상속된 접미사나 접두사를 무시해야 하는 제목의 경우 <code class="language-plaintext highlighter-rouge">exact: true</code> 를 전달합니다。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Head::canonical()</code> 를 호출하면 현재 요청 URL 을 사용하여 정규 URL 을 렌더링합니다. 명시적 URL 을 설정하려면 <code class="language-plaintext highlighter-rouge">Head::canonical('/about')</code> 와 같은 문자열을 전달합니다. 정규 URL 은 기본적으로 <code class="language-plaintext highlighter-rouge">https</code> 로 정규화됩니다. 요청 스키마를 보존하려면 <code class="language-plaintext highlighter-rouge">forceHttps: false</code> 를 전달합니다。</p>
+
+<p>로봇 지침은 원시 문자열로， <code class="language-plaintext highlighter-rouge">RobotsRule</code> 열거 사례로， 또는 두 형식을 혼합한 목록으로 전달될 수 있습니다. 목록은 쉼표로 구분된 지침으로 렌더링되므로 <code class="language-plaintext highlighter-rouge">Head::robots([RobotsRule::NoIndex, RobotsRule::NoFollow])</code> 는 <code class="language-plaintext highlighter-rouge">noindex, nofollow</code> 를 렌더링합니다。</p>
+
+<p>편의상 <code class="language-plaintext highlighter-rouge">searchableByRobots</code> 메서드는 <code class="language-plaintext highlighter-rouge">all</code> 를 렌더링하고， <code class="language-plaintext highlighter-rouge">hiddenFromRobots</code> 메서드는 <code class="language-plaintext highlighter-rouge">none</code> 를 렌더링합니다。</p>
+
+<p><a name="route-metadata"></a></p>
+<h3 id="경로-메타데이터">경로 메타데이터</h3>
+
+<p>경로에서 메타데이터를 직접 정의할 수 있습니다. 이는 메타데이터가 미리 알려진 반정적 페이지에 특히 유용합니다。</p>
+
+<p><a name="routes-and-groups"></a></p>
+<h4 id="경로-및-그룹">경로 및 그룹</h4>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">view</span><span class="p">(</span><span class="s1">'/contact'</span><span class="p">,</span> <span class="s1">'contact'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'contact'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">withHead</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">:</span> <span class="s1">'Contact Us'</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">:</span> <span class="s1">'Get in touch.'</span><span class="p">,</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+
+<p>공유 라우트 메타데이터는 체인 내의 어느 위치에서든 그룹에 적용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">withHead</span><span class="p">(</span><span class="n">robots</span><span class="o">:</span> <span class="s1">'noindex, nofollow'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">prefix</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'admin.'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">,</span> <span class="nc">DashboardController</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withHead</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="s1">'Dashboard'</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<p>리소스 및 싱글톤 경로에 대한 메타데이터를 정의할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">resource</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="nc">PostController</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withHead</span><span class="p">(</span>
+    <span class="n">robots</span><span class="o">:</span> <span class="s1">'index, follow'</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">singleton</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">,</span> <span class="nc">ProfileController</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withHead</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">:</span> <span class="s1">'Your Profile'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">withHead</code> 방법은 Laravel의 기본 라우트 메타데이터 API를 통해 일반 배열을 저장합니다. 이는 <code class="language-plaintext highlighter-rouge">head</code> 키 하위에 속성을 중첩하여 <code class="language-plaintext highlighter-rouge">metadata</code> 메서드를 호출하는 것과 동일하므로 메타데이터가 캐시된 라우트와 호환성을 유지합니다.</p>
+
+<p>명명된 인수는 편집기와 정적 분석 도구가 잘못된 이름을 감지할 수 있도록 의도적으로 Laravel Head의 내장 라우트 속성으로 제한됩니다. 커스텀 태그 빌더에 의해 등록된 라우트 속성은 <code class="language-plaintext highlighter-rouge">extensions</code>를 통해 전달될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/article'</span><span class="p">,</span> <span class="nc">ArticleController</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withHead</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">:</span> <span class="s1">'Article'</span><span class="p">,</span>
+    <span class="n">extensions</span><span class="o">:</span> <span class="p">[</span><span class="s1">'readingTime'</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">],</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="supported-properties"></a></p>
+<h4 id="지원되는-속성">지원되는 속성</h4>
+
+<p>지원되는 경로 속성은 유창한 빌더 메서드와 동일한 이름에 매핑됩니다：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>카테고리</th>
+      <th>속성</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>문서</td>
+      <td><code class="language-plaintext highlighter-rouge">title</code>, <code class="language-plaintext highlighter-rouge">description</code>, <code class="language-plaintext highlighter-rouge">canonical</code>, <code class="language-plaintext highlighter-rouge">robots</code></td>
+    </tr>
+    <tr>
+      <td>애플리케이션 메타데이터</td>
+      <td><code class="language-plaintext highlighter-rouge">themeColor</code>, <code class="language-plaintext highlighter-rouge">applicationName</code>, <code class="language-plaintext highlighter-rouge">colorScheme</code>, <code class="language-plaintext highlighter-rouge">referrer</code>, <code class="language-plaintext highlighter-rouge">viewport</code>, <code class="language-plaintext highlighter-rouge">appleWebAppTitle</code>, <code class="language-plaintext highlighter-rouge">webAppCapable</code>, <code class="language-plaintext highlighter-rouge">appleWebAppStatusBarStyle</code></td>
+    </tr>
+    <tr>
+      <td>소셜</td>
+      <td><code class="language-plaintext highlighter-rouge">og</code>, <code class="language-plaintext highlighter-rouge">ogImage</code>, <code class="language-plaintext highlighter-rouge">ogVideo</code>, <code class="language-plaintext highlighter-rouge">ogAudio</code>, <code class="language-plaintext highlighter-rouge">twitter</code>, <code class="language-plaintext highlighter-rouge">twitterImage</code></td>
+    </tr>
+    <tr>
+      <td>성능</td>
+      <td><code class="language-plaintext highlighter-rouge">preload</code>, <code class="language-plaintext highlighter-rouge">prefetch</code>, <code class="language-plaintext highlighter-rouge">preconnect</code>, <code class="language-plaintext highlighter-rouge">dnsPrefetch</code></td>
+    </tr>
+    <tr>
+      <td>발견</td>
+      <td><code class="language-plaintext highlighter-rouge">alternates</code>, <code class="language-plaintext highlighter-rouge">feed</code>, <code class="language-plaintext highlighter-rouge">icon</code>, <code class="language-plaintext highlighter-rouge">favicon</code>, <code class="language-plaintext highlighter-rouge">appleTouchIcon</code>, <code class="language-plaintext highlighter-rouge">appleTouchStartupImage</code>, <code class="language-plaintext highlighter-rouge">maskIcon</code>, <code class="language-plaintext highlighter-rouge">manifest</code></td>
+    </tr>
+    <tr>
+      <td>구조화된 데이터</td>
+      <td><code class="language-plaintext highlighter-rouge">schema</code></td>
+    </tr>
+    <tr>
+      <td>사용자 지정 태그</td>
+      <td><code class="language-plaintext highlighter-rouge">meta</code>, <code class="language-plaintext highlighter-rouge">link</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>중첩 옵션 이름은 <code class="language-plaintext highlighter-rouge">forceHttps</code>, <code class="language-plaintext highlighter-rouge">siteName</code> 및 <code class="language-plaintext highlighter-rouge">secureUrl</code> 와 같은 유창한 API 와 동일한 <code class="language-plaintext highlighter-rouge">camelCase</code> 명명을 사용합니다。</p>
+
+<p><code class="language-plaintext highlighter-rouge">ogImage</code>, <code class="language-plaintext highlighter-rouge">preload</code>, <code class="language-plaintext highlighter-rouge">feed</code>, <code class="language-plaintext highlighter-rouge">schema</code>, <code class="language-plaintext highlighter-rouge">icon</code>, <code class="language-plaintext highlighter-rouge">appleTouchStartupImage</code> 와 같은 반복 가능한 속성은 단일 값 또는 목록을 허용합니다。</p>
+
+<p><a name="runtime-metadata"></a></p>
+<h3 id="런타임-메타데이터">런타임 메타데이터</h3>
+
+<p>요청이 도착할 때까지 값을 알 수 없는 경우， 예를 들어 보고 있는 게시물의 제목과 같은 경우， 런타임에서 설정할 수 있습니다：</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="n">__invoke</span><span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">Response</span>
+<span class="p">{</span>
+    <span class="nc">Head</span><span class="o">::</span><span class="nf">title</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Head</code> 퍼사드를 통해 이루어진 런타임 호출은 요청 종속 데이터에 대한 라우트 메타데이터를 재정의합니다. 컨트롤러와 액션은 이러한 호출이 이루어지는 가장 일반적인 장소입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="n">show</span><span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nc">Head</span><span class="o">::</span><span class="nf">title</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">description</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">description</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'posts.show'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'post'</span> <span class="o">=&gt;</span> <span class="nv">$post</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>여러 런타임 호출은 실행되는 순서대로 병합됩니다. title, description, canonical URL, robots 지시어와 같은 단일 값 필드의 경우, 나중 호출이 우선합니다. 반복 가능한 필드는 여러 항목을 유지하지만, 동일한 키를 다시 추가하면 이전 항목이 업데이트됩니다. <code class="language-plaintext highlighter-rouge">ogImage</code> 메서드의 경우, URL이 키입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">ogImage</span><span class="p">(</span><span class="s1">'/images/cover.jpg'</span><span class="p">,</span> <span class="n">alt</span><span class="o">:</span> <span class="s1">'Draft cover'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">ogImage</span><span class="p">(</span><span class="s1">'/images/gallery.jpg'</span><span class="p">,</span> <span class="n">alt</span><span class="o">:</span> <span class="s1">'Gallery image'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">ogImage</span><span class="p">(</span><span class="s1">'/images/cover.jpg'</span><span class="p">,</span> <span class="n">alt</span><span class="o">:</span> <span class="s1">'Final cover'</span><span class="p">,</span> <span class="n">width</span><span class="o">:</span> <span class="mi">1200</span><span class="p">,</span> <span class="n">height</span><span class="o">:</span> <span class="mi">630</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:image"</span> <span class="na">content=</span><span class="s">"/images/cover.jpg"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:image:width"</span> <span class="na">content=</span><span class="s">"1200"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:image:height"</span> <span class="na">content=</span><span class="s">"630"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:image:alt"</span> <span class="na">content=</span><span class="s">"Final cover"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:image"</span> <span class="na">content=</span><span class="s">"/images/gallery.jpg"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:image:alt"</span> <span class="na">content=</span><span class="s">"Gallery image"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>기본값에서 상속된 Open Graph 미디어는 대체 수단으로 작용합니다. 경로, 런타임 또는 오류 메타데이터가 동일한 유형의 자체 미디어를 정의하면 기본 미디어는 병합되는 대신 대체되므로, 페이지의 <code class="language-plaintext highlighter-rouge">og:image</code>가 사이트 전체 기본 이미지보다 우선합니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">when</code> 및 <code class="language-plaintext highlighter-rouge">unless</code> 메서드를 사용하여 조건부 메타데이터를 유창하게 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">title</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">when</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="nf">isDraft</span><span class="p">(),</span> <span class="k">fn</span> <span class="p">(</span><span class="nv">$head</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$head</span><span class="o">-&gt;</span><span class="nf">hiddenFromRobots</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p><a name="error-pages"></a></p>
+<h3 id="오류-페이지">오류 페이지</h3>
+
+<p>일반적으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">AppServiceProvider</code> 클래스의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드 내에서 오류 메타데이터를 등록해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\ErrorPages</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Head</span><span class="o">::</span><span class="nf">errors</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">ErrorPages</span> <span class="nv">$errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$errors</span><span class="o">-&gt;</span><span class="nf">defaults</span><span class="p">(</span><span class="n">robots</span><span class="o">:</span> <span class="s1">'noindex, follow'</span><span class="p">);</span>
+
+        <span class="nv">$errors</span><span class="o">-&gt;</span><span class="nf">status</span><span class="p">(</span>
+            <span class="mi">404</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">:</span> <span class="s1">'Page Not Found'</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">:</span> <span class="s1">'The page you are looking for could not be found.'</span><span class="p">,</span>
+        <span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">defaults</code>와 <code class="language-plaintext highlighter-rouge">status</code> 메서드도 <code class="language-plaintext highlighter-rouge">Head::defaults()</code>에서 사용된 것과 동일한 유창한 빌더 콜백을 허용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\ErrorPages</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\HeadBuilder</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">errors</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">ErrorPages</span> <span class="nv">$errors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$errors</span><span class="o">-&gt;</span><span class="nf">status</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">HeadBuilder</span> <span class="nv">$head</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$head</span>
+        <span class="o">-&gt;</span><span class="nf">title</span><span class="p">(</span><span class="s1">'Page Not Found'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">description</span><span class="p">(</span><span class="s1">'The page you are looking for could not be found.'</span><span class="p">));</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>등록된 오류 상태에 대한 응답이 렌더링될 때, 해당 메타데이터가 다른 모든 계층보다 우선합니다.</p>
+
+<p>Laravel은 오류 뷰를 렌더링하거나 Inertia의 <code class="language-plaintext highlighter-rouge">handleExceptionsUsing()</code> 메서드와 같은 응답 단계 훅을 실행할 때 응답 상태를 자동으로 감지합니다. <code class="language-plaintext highlighter-rouge">$exceptions-&gt;render()</code> 콜백 안에서 오류 응답을 렌더링하는 경우, 렌더링 전에 <code class="language-plaintext highlighter-rouge">Head::status(404)</code>를 호출하여 오류 메타데이터가 적용되도록 하십시오.</p>
+
+<p><a name="open-graph"></a></p>
+<h2 id="오픈-그래프">오픈 그래프</h2>
+
+<p><code class="language-plaintext highlighter-rouge">og</code> 메서드를 사용하여 Open Graph 속성을 설정할 수 있습니다. 반복 가능한 미디어는 상위 수준 메서드를 사용하여 추가할 수 있으며, 상위 수준 메서드는 명명된 인수를 직접 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\ImageType</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Enums\OgType</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">og</span><span class="p">(</span><span class="n">type</span><span class="o">:</span> <span class="nc">OgType</span><span class="o">::</span><span class="nc">Article</span><span class="p">,</span> <span class="n">title</span><span class="o">:</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">ogImage</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">hero_image_url</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">ogImage</span><span class="p">(</span>
+        <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">gallery_image_url</span><span class="p">,</span>
+        <span class="n">alt</span><span class="o">:</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">gallery_image_alt</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">:</span> <span class="mi">1200</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">:</span> <span class="mi">630</span><span class="p">,</span>
+        <span class="n">type</span><span class="o">:</span> <span class="nc">ImageType</span><span class="o">::</span><span class="nc">Jpeg</span><span class="p">,</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ogImage</code>, <code class="language-plaintext highlighter-rouge">ogVideo</code>, 그리고 <code class="language-plaintext highlighter-rouge">ogAudio</code> 메서드는 첫 번째 인수로 URL을 받으며, Open Graph 사양에서 지원되는 경우 <code class="language-plaintext highlighter-rouge">alt</code>, <code class="language-plaintext highlighter-rouge">width</code>, <code class="language-plaintext highlighter-rouge">height</code>, <code class="language-plaintext highlighter-rouge">type</code>, <code class="language-plaintext highlighter-rouge">secureUrl</code>와 같은 선택적 명명 인수도 함께 받을 수 있습니다.</p>
+
+<p>API가 이미지 <code class="language-plaintext highlighter-rouge">type</code>를 받는 모든 위치에서 <code class="language-plaintext highlighter-rouge">ImageType</code> 열거형 케이스로 이미지 MIME 타입을 전달할 수 있으며, 예를 들어 <code class="language-plaintext highlighter-rouge">ImageType::Svg</code>, <code class="language-plaintext highlighter-rouge">ImageType::Png</code>, <code class="language-plaintext highlighter-rouge">ImageType::Jpeg</code>, <code class="language-plaintext highlighter-rouge">ImageType::Webp</code>가 있습니다.</p>
+
+<blockquote>
+  <p>[!NOTE]
+문서 <code class="language-plaintext highlighter-rouge">title</code>와 <code class="language-plaintext highlighter-rouge">description</code>는 누락된 <code class="language-plaintext highlighter-rouge">og:title</code>와 <code class="language-plaintext highlighter-rouge">og:description</code> 값을 자동으로 채웁니다.</p>
+</blockquote>
+
+<p>다른 속성이 없는 단일 Open Graph 이미지의 경우, <code class="language-plaintext highlighter-rouge">og</code> 메서드에 <code class="language-plaintext highlighter-rouge">image</code> 명명 인수를 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">og</span><span class="p">(</span>
+    <span class="n">type</span><span class="o">:</span> <span class="nc">OgType</span><span class="o">::</span><span class="nc">Website</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">:</span> <span class="nv">$page</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">:</span> <span class="nv">$page</span><span class="o">-&gt;</span><span class="n">description</span><span class="p">,</span>
+    <span class="n">image</span><span class="o">:</span> <span class="nv">$page</span><span class="o">-&gt;</span><span class="n">og_image_url</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">og(image: ...)</code>와 <code class="language-plaintext highlighter-rouge">ogImage(...)</code> 호출은 동일한 기본 이미지 목록에 쓰기 때문에 호출 위치에서 더 표현력이 있는 쪽을 사용하면 됩니다. 제품 또는 기사 속성과 같은 맞춤 Open Graph 확장을 위해 <a href="#custom-tags"><code class="language-plaintext highlighter-rouge">meta</code></a> 메서드를 사용할 수 있습니다.</p>
+
+<p><a name="twitter-cards"></a></p>
+<h3 id="x--트위터-카드">X / 트위터 카드</h3>
+
+<p>Open Graph에서 사용된 것과 동일한 제목, 설명 및 이미지로 X / 트위터 카드를 렌더링하려면 기본값에 <code class="language-plaintext highlighter-rouge">twitter()</code>를 등록하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\TwitterCard</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\HeadBuilder</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">defaults</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">HeadBuilder</span> <span class="nv">$head</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$head</span><span class="o">-&gt;</span><span class="nf">twitter</span><span class="p">(</span>
+    <span class="n">card</span><span class="o">:</span> <span class="nc">TwitterCard</span><span class="o">::</span><span class="nc">SummaryWithLargeImage</span><span class="p">,</span>
+<span class="p">));</span>
+</code></pre></div></div>
+
+<p>그런 다음 페이지 수준 메타데이터를 설정합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">title</span><span class="p">(</span><span class="s1">'Introducing Laravel Head'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">description</span><span class="p">(</span><span class="s1">'A fluent API for Laravel document head metadata.'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">ogImage</span><span class="p">(</span><span class="s1">'https://example.com/social.jpg'</span><span class="p">,</span> <span class="n">alt</span><span class="o">:</span> <span class="s1">'Introducing Laravel Head'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이것은 일치하는 트위터 태그를 렌더링합니다:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:card"</span> <span class="na">content=</span><span class="s">"summary_large_image"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:title"</span> <span class="na">content=</span><span class="s">"Introducing Laravel Head"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:description"</span> <span class="na">content=</span><span class="s">"A fluent API for Laravel document head metadata."</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image"</span> <span class="na">content=</span><span class="s">"https://example.com/social.jpg"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"twitter:image:alt"</span> <span class="na">content=</span><span class="s">"Introducing Laravel Head"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>개별 페이지를 명시적인 Twitter 값으로 사용자 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">twitter</span><span class="p">(</span><span class="n">title</span><span class="o">:</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">social_title</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">twitterImage</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="n">social_image_url</span><span class="p">,</span> <span class="n">alt</span><span class="o">:</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>루트 메타데이터는 <code class="language-plaintext highlighter-rouge">twitter</code>와 <code class="language-plaintext highlighter-rouge">twitterImage</code>를 허용합니다.</p>
+
+<p><a name="theme-colors"></a></p>
+<h2 id="테마-색상">테마 색상</h2>
+
+<p>테마 색상은 전역, 개별 루트별 또는 런타임에 설정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">themeColor</span><span class="p">(</span><span class="s1">'#0f172a'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이것은 <code class="language-plaintext highlighter-rouge">&lt;meta name="theme-color"&gt;</code> 태그를 렌더링합니다. 미디어별 테마 색상을 위해 <code class="language-plaintext highlighter-rouge">Media</code> 열거형을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\Media</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">themeColor</span><span class="p">(</span><span class="s1">'#ffffff'</span><span class="p">,</span> <span class="n">media</span><span class="o">:</span> <span class="nc">Media</span><span class="o">::</span><span class="nc">Light</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">themeColor</span><span class="p">(</span><span class="s1">'#111827'</span><span class="p">,</span> <span class="n">media</span><span class="o">:</span> <span class="nc">Media</span><span class="o">::</span><span class="nc">Dark</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Media</code> 열거형에는 <code class="language-plaintext highlighter-rouge">Portrait</code> 및 <code class="language-plaintext highlighter-rouge">Landscape</code>도 포함됩니다. <code class="language-plaintext highlighter-rouge">media</code> 인수는 사용자 지정 미디어 쿼리 문자열도 허용합니다.</p>
+
+<p>라우트 메타데이터는 동일한 <code class="language-plaintext highlighter-rouge">camelCase</code> 키를 통해 단일 테마 색상을 지원합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">view</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">,</span> <span class="s1">'dashboard'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withHead</span><span class="p">(</span>
+    <span class="n">themeColor</span><span class="o">:</span> <span class="s1">'#0f172a'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="app-metadata-and-icons"></a></p>
+<h2 id="애플리케이션-메타데이터-및-아이콘">애플리케이션 메타데이터 및 아이콘</h2>
+
+<p>Laravel Head는 일반적인 브라우저 및 애플리케이션 메타데이터를 위한 메서드를 포함합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\ImageType</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Enums\Media</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">applicationName</span><span class="p">(</span><span class="s1">'Laravel'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">colorScheme</span><span class="p">(</span><span class="s1">'light dark'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">referrer</span><span class="p">(</span><span class="s1">'strict-origin-when-cross-origin'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">viewport</span><span class="p">(</span><span class="s1">'width=device-width, initial-scale=1'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">appleWebAppTitle</span><span class="p">(</span><span class="s1">'Laravel'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">webAppCapable</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">appleWebAppStatusBarStyle</span><span class="p">(</span><span class="s1">'black'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">favicon</span><span class="p">(</span><span class="s1">'/favicon.svg'</span><span class="p">,</span> <span class="n">type</span><span class="o">:</span> <span class="nc">ImageType</span><span class="o">::</span><span class="nc">Svg</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">icon</span><span class="p">(</span><span class="s1">'/favicon-32x32.png'</span><span class="p">,</span> <span class="n">type</span><span class="o">:</span> <span class="nc">ImageType</span><span class="o">::</span><span class="nc">Png</span><span class="p">,</span> <span class="n">sizes</span><span class="o">:</span> <span class="s1">'32x32'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">appleTouchIcon</span><span class="p">(</span><span class="s1">'/apple-touch-icon.png'</span><span class="p">,</span> <span class="n">sizes</span><span class="o">:</span> <span class="s1">'180x180'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">appleTouchStartupImage</span><span class="p">(</span><span class="s1">'/launch.png'</span><span class="p">,</span> <span class="n">media</span><span class="o">:</span> <span class="nc">Media</span><span class="o">::</span><span class="nc">Portrait</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">maskIcon</span><span class="p">(</span><span class="s1">'/safari-pinned-tab.svg'</span><span class="p">,</span> <span class="n">color</span><span class="o">:</span> <span class="s1">'#111827'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">manifest</span><span class="p">(</span><span class="s1">'/site.webmanifest'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">favicon</code> 메서드는 <code class="language-plaintext highlighter-rouge">icon</code> 메서드의 별칭이며 동일한 <code class="language-plaintext highlighter-rouge">type</code>, <code class="language-plaintext highlighter-rouge">sizes</code>, <code class="language-plaintext highlighter-rouge">media</code> 인수를 허용합니다.</p>
+
+<p>라우트 메타데이터는 동일한 이름을 사용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\ImageType</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Enums\Media</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">view</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">,</span> <span class="s1">'dashboard'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withHead</span><span class="p">(</span>
+    <span class="n">applicationName</span><span class="o">:</span> <span class="s1">'Laravel'</span><span class="p">,</span>
+    <span class="n">colorScheme</span><span class="o">:</span> <span class="s1">'light dark'</span><span class="p">,</span>
+    <span class="n">appleWebAppTitle</span><span class="o">:</span> <span class="s1">'Laravel'</span><span class="p">,</span>
+    <span class="n">webAppCapable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="n">appleWebAppStatusBarStyle</span><span class="o">:</span> <span class="s1">'black'</span><span class="p">,</span>
+    <span class="n">favicon</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">'href'</span> <span class="o">=&gt;</span> <span class="s1">'/favicon.svg'</span><span class="p">,</span> <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="nc">ImageType</span><span class="o">::</span><span class="nc">Svg</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">'href'</span> <span class="o">=&gt;</span> <span class="s1">'/favicon-32x32.png'</span><span class="p">,</span> <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="nc">ImageType</span><span class="o">::</span><span class="nc">Png</span><span class="p">,</span> <span class="s1">'sizes'</span> <span class="o">=&gt;</span> <span class="s1">'32x32'</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">appleTouchIcon</span><span class="o">:</span> <span class="p">[</span><span class="s1">'href'</span> <span class="o">=&gt;</span> <span class="s1">'/apple-touch-icon.png'</span><span class="p">,</span> <span class="s1">'sizes'</span> <span class="o">=&gt;</span> <span class="s1">'180x180'</span><span class="p">],</span>
+    <span class="n">appleTouchStartupImage</span><span class="o">:</span> <span class="p">[</span><span class="s1">'href'</span> <span class="o">=&gt;</span> <span class="s1">'/launch.png'</span><span class="p">,</span> <span class="s1">'media'</span> <span class="o">=&gt;</span> <span class="nc">Media</span><span class="o">::</span><span class="nc">Portrait</span><span class="p">],</span>
+    <span class="n">manifest</span><span class="o">:</span> <span class="s1">'/site.webmanifest'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="progressive-web-apps"></a></p>
+<h2 id="점진적-웹-앱">점진적 웹 앱</h2>
+
+<p><code class="language-plaintext highlighter-rouge">pwa</code> 방법은 설치 가능한 웹 앱에 필요한 공통 문서 <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> 태그를 구성합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">pwa</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">:</span> <span class="s1">'Laravel'</span><span class="p">,</span>
+    <span class="n">manifest</span><span class="o">:</span> <span class="s1">'/site.webmanifest'</span><span class="p">,</span>
+    <span class="n">themeColor</span><span class="o">:</span> <span class="s1">'#0f172a'</span><span class="p">,</span>
+    <span class="n">appleTouchIcon</span><span class="o">:</span> <span class="s1">'/apple-touch-icon.png'</span><span class="p">,</span>
+    <span class="n">appleWebAppStatusBarStyle</span><span class="o">:</span> <span class="s1">'black'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>이것은 애플리케이션 이름, 웹 애플리케이션 매니페스트 링크 및 iOS 독립형 메타데이터를 렌더링합니다. 제공된 경우, 테마 색상, Apple 상태 표시줄 스타일, Apple 터치 아이콘도 렌더링됩니다. 웹 애플리케이션 매니페스트 생성과 서비스 워커 등록은 여전히 애플리케이션의 책임입니다.</p>
+
+<p>기본값이나 런타임 메타데이터에서 <code class="language-plaintext highlighter-rouge">pwa</code> 방법을 사용할 수 있습니다. 라우트 메타데이터는 위에서 표시된 개별 속성을 지원합니다.</p>
+
+<p><a name="performance-and-discovery"></a></p>
+<h2 id="성능-및-검색">성능 및 검색</h2>
+
+<p>Laravel Head는 성능 힌트, 페이지네이션 링크, 로케일 대체 및 피드 검색을 렌더링합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">preload</span><span class="p">(</span><span class="nf">asset</span><span class="p">(</span><span class="s1">'fonts/inter.woff2'</span><span class="p">),</span> <span class="k">as</span><span class="o">:</span> <span class="s1">'font'</span><span class="p">,</span> <span class="n">crossorigin</span><span class="o">:</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">prefetch</span><span class="p">(</span><span class="nf">asset</span><span class="p">(</span><span class="s1">'images/next.webp'</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="nf">preconnect</span><span class="p">(</span><span class="s1">'https://cdn.example.com'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">dnsPrefetch</span><span class="p">(</span><span class="s1">'https://analytics.example.com'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">paginate</span><span class="p">(</span><span class="nv">$posts</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">alternates</span><span class="p">([</span>
+        <span class="s1">'en'</span> <span class="o">=&gt;</span> <span class="s1">'https://example.com/en/about'</span><span class="p">,</span>
+        <span class="s1">'fr'</span> <span class="o">=&gt;</span> <span class="s1">'https://example.com/fr/about'</span><span class="p">,</span>
+        <span class="s1">'x-default'</span> <span class="o">=&gt;</span> <span class="s1">'https://example.com/about'</span><span class="p">,</span>
+    <span class="p">])</span>
+    <span class="o">-&gt;</span><span class="nf">feed</span><span class="p">(</span><span class="s1">'/feed'</span><span class="p">,</span> <span class="n">title</span><span class="o">:</span> <span class="s1">'Laravel RSS'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">feed</span><span class="p">(</span><span class="s1">'/feed.atom'</span><span class="p">,</span> <span class="n">type</span><span class="o">:</span> <span class="s1">'atom'</span><span class="p">,</span> <span class="n">title</span><span class="o">:</span> <span class="s1">'Laravel Atom'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>로컬 자산의 경우, <code class="language-plaintext highlighter-rouge">preloadAsset()</code>와 <code class="language-plaintext highlighter-rouge">prefetchAsset()</code>는 <code class="language-plaintext highlighter-rouge">asset()</code> 헬퍼를 통해 URL을 해결하고 파일 확장자에서 <code class="language-plaintext highlighter-rouge">as</code> 속성을 감지합니다. 폰트 프리로드는 자동으로 <code class="language-plaintext highlighter-rouge">crossorigin</code>를 포함하며, 프리로드 명세에서는 동일 출처 폰트에도 이를 요구합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">preloadAsset</span><span class="p">(</span><span class="s1">'fonts/inter.woff2'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">prefetchAsset</span><span class="p">(</span><span class="s1">'images/next.webp'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preload"</span> <span class="na">href=</span><span class="s">"https://example.com/fonts/inter.woff2"</span> <span class="na">as=</span><span class="s">"font"</span> <span class="na">crossorigin</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"prefetch"</span> <span class="na">href=</span><span class="s">"https://example.com/images/next.webp"</span> <span class="na">as=</span><span class="s">"image"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>명시적으로 <code class="language-plaintext highlighter-rouge">as</code>를 전달하여 감지를 무시할 수 있습니다. <code class="language-plaintext highlighter-rouge">preloadAsset</code> 메서드는 브라우저가 이 속성이 없는 사전 로드를 무시하기 때문에 확장에서 <code class="language-plaintext highlighter-rouge">as</code> 속성을 감지할 수 없으면 예외를 발생시킵니다; <code class="language-plaintext highlighter-rouge">prefetchAsset</code> 메서드는 단순히 이를 생략합니다.</p>
+
+<p><a name="custom-tags"></a></p>
+<h2 id="사용자-정의-태그">사용자 정의 태그</h2>
+
+<p>전용 메서드가 없는 태그의 경우 <code class="language-plaintext highlighter-rouge">meta()</code> 및 <code class="language-plaintext highlighter-rouge">link()</code>를 사용하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">meta</span><span class="p">(</span><span class="s1">'format-detection'</span><span class="p">,</span> <span class="s1">'telephone=no'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">meta</span><span class="p">(</span><span class="s1">'article:author'</span><span class="p">,</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">author</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nb">link</span><span class="p">(</span><span class="s1">'search'</span><span class="p">,</span> <span class="s1">'/opensearch.xml'</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'application/opensearchdescription+xml'</span><span class="p">,</span>
+        <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'Laravel Search'</span><span class="p">,</span>
+    <span class="p">])</span>
+    <span class="o">-&gt;</span><span class="nb">link</span><span class="p">(</span><span class="s1">'me'</span><span class="p">,</span> <span class="s1">'https://social.example.com/@laravel'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>브라우저가 일치하는 조건에서만 태그를 적용해야 할 때, 메타 태그에 미디어 쿼리를 포함할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\Media</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">meta</span><span class="p">(</span><span class="s1">'theme-color'</span><span class="p">,</span> <span class="s1">'#ffffff'</span><span class="p">,</span> <span class="n">media</span><span class="o">:</span> <span class="nc">Media</span><span class="o">::</span><span class="nc">Light</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">meta</span><span class="p">(</span><span class="s1">'theme-color'</span><span class="p">,</span> <span class="s1">'#111827'</span><span class="p">,</span> <span class="n">media</span><span class="o">:</span> <span class="nc">Media</span><span class="o">::</span><span class="nc">Dark</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">meta</code> 방법은 일반 메타 태그에 <code class="language-plaintext highlighter-rouge">name</code> 속성을 사용합니다. 일반적으로 Open Graph(<code class="language-plaintext highlighter-rouge">og:</code>)나 기사 메타데이터(<code class="language-plaintext highlighter-rouge">article:</code>)와 같이 <code class="language-plaintext highlighter-rouge">property</code> 속성을 사용하는 키의 경우, 이 방법은 자동으로 전환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">meta</span><span class="p">(</span><span class="s1">'description'</span><span class="p">,</span> <span class="s1">'About Laravel'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">meta</span><span class="p">(</span><span class="s1">'og:title'</span><span class="p">,</span> <span class="s1">'About Laravel'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"description"</span> <span class="na">content=</span><span class="s">"About Laravel"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:title"</span> <span class="na">content=</span><span class="s">"About Laravel"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>명시적으로 어느 속성을 선택하려면 <code class="language-plaintext highlighter-rouge">property: true</code> 또는 <code class="language-plaintext highlighter-rouge">property: false</code>를 전달할 수 있습니다.</p>
+
+<p><a name="schemas"></a></p>
+<h2 id="스키마">스키마</h2>
+
+<p>내장 스키마 빌더는 일반적인 JSON-LD 유형을 다룹니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Enums\OfferAvailability</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Schema</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">schema</span><span class="p">(</span>
+    <span class="nc">Schema</span><span class="o">::</span><span class="nf">product</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="nv">$product</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">offers</span><span class="p">(</span>
+            <span class="nc">Schema</span><span class="o">::</span><span class="nf">offer</span><span class="p">()</span>
+                <span class="o">-&gt;</span><span class="nf">price</span><span class="p">(</span><span class="nv">$product</span><span class="o">-&gt;</span><span class="n">price</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">currency</span><span class="p">(</span><span class="s1">'USD'</span><span class="p">)</span>
+                <span class="o">-&gt;</span><span class="nf">availability</span><span class="p">(</span><span class="nc">OfferAvailability</span><span class="o">::</span><span class="nc">InStock</span><span class="p">)</span>
+        <span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>내장된 팩토리 메서드는 <code class="language-plaintext highlighter-rouge">article</code>, <code class="language-plaintext highlighter-rouge">blogPosting</code>, <code class="language-plaintext highlighter-rouge">product</code>, <code class="language-plaintext highlighter-rouge">offer</code>, <code class="language-plaintext highlighter-rouge">brand</code>, <code class="language-plaintext highlighter-rouge">breadcrumbs</code>, <code class="language-plaintext highlighter-rouge">faq</code>, <code class="language-plaintext highlighter-rouge">organization</code>, <code class="language-plaintext highlighter-rouge">person</code>, <code class="language-plaintext highlighter-rouge">webPage</code>, 그리고 <code class="language-plaintext highlighter-rouge">webSite</code>입니다. 알 수 없는 팩토리 메서드는 일반 스키마 객체를 생성하므로, 여전히 맞춤 schema.org 타입을 표현할 수 있습니다.</p>
+
+<p>JSON-LD 스키마 데이터가 유효하지 않은 경우, Laravel Head는 비프로덕션 환경에서는 예외를 발생시키고, 프로덕션 환경에서는 경고를 기록합니다.</p>
+
+<p><a name="breadcrumbs"></a></p>
+<h3 id="브레드크럼">브레드크럼</h3>
+
+<p>브레드크럼 항목은 한 번에 하나씩 또는 일괄적으로 추가할 수 있습니다. 위치는 항목이 추가되는 순서에 따라 자동으로 할당됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">schema</span><span class="p">(</span>
+    <span class="nc">Schema</span><span class="o">::</span><span class="nf">breadcrumbs</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">items</span><span class="p">([</span>
+        <span class="s1">'Home'</span> <span class="o">=&gt;</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'home'</span><span class="p">),</span>
+        <span class="s1">'Shop'</span> <span class="o">=&gt;</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'shop.index'</span><span class="p">),</span>
+        <span class="s1">'Shoes'</span> <span class="o">=&gt;</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'shop.category'</span><span class="p">,</span> <span class="s1">'shoes'</span><span class="p">),</span>
+    <span class="p">])</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>단일 빵부스러기 항목을 추가하려면 <code class="language-plaintext highlighter-rouge">item</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Schema</span><span class="o">::</span><span class="nf">breadcrumbs</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">item</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">,</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'home'</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="nf">item</span><span class="p">(</span><span class="s1">'Shop'</span><span class="p">,</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'shop.index'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="faqs"></a></p>
+<h3 id="자주-묻는-질문faqs">자주 묻는 질문(FAQs)</h3>
+
+<p>FAQ 항목은 동일한 패턴을 따릅니다. <code class="language-plaintext highlighter-rouge">question</code> 방법을 사용하여 하나씩 추가하거나 <code class="language-plaintext highlighter-rouge">questions</code> 방법을 사용하여 한 번에 여러 항목을 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Head</span><span class="o">::</span><span class="nf">schema</span><span class="p">(</span>
+    <span class="nc">Schema</span><span class="o">::</span><span class="nf">faq</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">questions</span><span class="p">([</span>
+        <span class="s1">'What is Laravel Head?'</span> <span class="o">=&gt;</span> <span class="s1">'A fluent API for managing the document head.'</span><span class="p">,</span>
+        <span class="s1">'Is it free?'</span> <span class="o">=&gt;</span> <span class="s1">'Yes, it is open source.'</span><span class="p">,</span>
+    <span class="p">])</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="custom-schemas"></a></p>
+<h3 id="사용자-정의-스키마">사용자 정의 스키마</h3>
+
+<p>사용자가 명시적으로 사용자 정의 스키마 유형을 등록할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">DateTimeInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Schema</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\Schema\SchemaObject</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\SchemaType</span><span class="p">;</span>
+
+<span class="na">#[SchemaType('JobPosting')]</span>
+<span class="kd">class</span> <span class="nc">JobPosting</span> <span class="kd">extends</span> <span class="nc">SchemaObject</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">title</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$title</span><span class="p">):</span> <span class="kt">static</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="nv">$title</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="n">datePosted</span><span class="p">(</span><span class="kt">DateTimeInterface</span><span class="o">|</span><span class="n">string</span> <span class="nv">$date</span><span class="p">):</span> <span class="kt">static</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nb">date</span><span class="p">(</span><span class="s1">'datePosted'</span><span class="p">,</span> <span class="nv">$date</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nc">Schema</span><span class="o">::</span><span class="nf">register</span><span class="p">(</span><span class="nc">JobPosting</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">schema</span><span class="p">(</span>
+    <span class="nc">Schema</span><span class="o">::</span><span class="nf">jobPosting</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">title</span><span class="p">(</span><span class="s1">'Senior Laravel Developer'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">datePosted</span><span class="p">(</span><span class="nf">now</span><span class="p">())</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="rendering"></a></p>
+<h2 id="렌더링">렌더링</h2>
+
+<p>Laravel Head는 현재 응답의 페이지 메타데이터를 태그로 변환합니다. 이러한 태그가 렌더링되는 방식은 애플리케이션 스택에 따라 다릅니다.</p>
+
+<p>HTML 렌더러는 <code class="language-plaintext highlighter-rouge">@head</code> 지시문과 Laravel Head가 Inertia에 <code class="language-plaintext highlighter-rouge">head</code> prop을 통해 공유하는 렌더링된 요소를 지원합니다. 배열 렌더러는 구조화된 데이터로 해결된 메타데이터가 필요한 애플리케이션에서 <code class="language-plaintext highlighter-rouge">Head::toArray()</code>를 지원합니다.</p>
+
+<p><a name="blade"></a></p>
+<h3 id="블레이드">블레이드</h3>
+
+<p>레이아웃의 <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code>에서 <code class="language-plaintext highlighter-rouge">@head</code> 지시문을 사용하여 누적된 태그를 렌더링합니다:</p>
+
+<pre><code class="language-blade">&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    @head
+&lt;/head&gt;
+</code></pre>
+
+<p><code class="language-plaintext highlighter-rouge">@head</code> 지시문은 동기적으로 렌더링되므로 레이아웃이 렌더링되기 전에 페이지 메타데이터를 정의해야 합니다.</p>
+
+<p><a name="livewire"></a></p>
+<h3 id="라이브와이어">라이브와이어</h3>
+
+<p>라이브와이어 애플리케이션은 문서 레이아웃에서 동일한 <code class="language-plaintext highlighter-rouge">@head</code> 지시문을 사용합니다:</p>
+
+<pre><code class="language-blade">&lt;head&gt;
+    @head
+&lt;/head&gt;
+
+&lt;body&gt;
+    {{ $slot }}
+
+    @livewireScripts
+&lt;/body&gt;
+</code></pre>
+
+<p>Livewire 전용 설정은 필요하지 않습니다. Laravel 헤드 메타데이터는 요청별로 해결되며, 리졸버는 요청 스코프입니다. 따라서 각 <code class="language-plaintext highlighter-rouge">wire:navigate</code> 방문은 목적지 경로의 메타데이터를 반영한 새로운 문서를 가져옵니다. <code class="language-plaintext highlighter-rouge">wire:navigate</code>를 사용하여 방문한 페이지는 컴포넌트 수준의 헤드 코드를 요구하지 않고도 적절한 경로, 런타임 및 오류 메타데이터를 받습니다.</p>
+
+<p><a name="inertia"></a></p>
+<h3 id="inertia">Inertia</h3>
+
+<p>Inertia 자체 구성 요소와 함께 Inertia 루트 템플릿에서 동일한 <code class="language-plaintext highlighter-rouge">@head</code> 지시문을 사용합니다:</p>
+
+<pre><code class="language-blade">&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    @head
+
+    @viteReactRefresh
+    @vite(['resources/css/app.css', 'resources/js/app.tsx'])
+    &lt;x-inertia::head /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;x-inertia::app /&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Inertia가 설치되면, Laravel Head는 페이지에서 관리되는 head를 각 페이지 객체의 <code class="language-plaintext highlighter-rouge">head</code> 속성 아래에 렌더링된 요소 문자열 배열로 자동으로 공유합니다:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"props"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"head"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"&lt;title data-inertia=</span><span class="se">\"</span><span class="s2">title</span><span class="se">\"</span><span class="s2">&gt;Dashboard - Laravel&lt;/title&gt;"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"&lt;meta data-inertia=</span><span class="se">\"</span><span class="s2">description</span><span class="se">\"</span><span class="s2"> name=</span><span class="se">\"</span><span class="s2">description</span><span class="se">\"</span><span class="s2"> content=</span><span class="se">\"</span><span class="s2">Your application overview.</span><span class="se">\"</span><span class="s2">&gt;"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>애플리케이션에서 <code class="language-plaintext highlighter-rouge">createInertiaApp()</code>를 호출하는 모든 곳에서 Inertia의 <code class="language-plaintext highlighter-rouge">serverHead</code> 옵션을 활성화하세요. 이 옵션은 Inertia 3.5 이상에서 사용 가능합니다:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">createInertiaApp</span><span class="p">({</span>
+    <span class="c1">// ...</span>
+    <span class="na">serverHead</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>각 페이지 관리 요소에는 안정적인 <code class="language-plaintext highlighter-rouge">data-inertia</code> 키가 있습니다. <code class="language-plaintext highlighter-rouge">@head</code> 디렉티브는 초기 문서를 렌더링하며， 그 후 관성은 해당 요소들을 채택하여 표준 방문， <a href="https://inertiajs.com/docs/v3/the-basics/instant-visits">인스턴트 방문</a> 및 역방향 및 순방향 탐색 중에 동기화를 유지합니다. 요소들은 초기 HTML 응답에 존재하므로， 크롤러와 링크 미리보기 봇은 JavaScript 를 실행하지 않고도 이를 읽을 수 있습니다. 클라이언트 측 <code class="language-plaintext highlighter-rouge">&lt;Head&gt;</code> 구성 요소는 필요하지 않습니다。</p>
+
+<p>이는 <a href="https://inertiajs.com/docs/v3/advanced/server-side-rendering">서버 측 렌더링 (SSR)</a> 과 함께 또는 함께 작동합니다. 애플리케이션에 별도의 SSR 엔트리 포인트가 있는 경우 거기에서도 <code class="language-plaintext highlighter-rouge">serverHead</code> 를 활성화합니다. Laravel 헤드는 JavaScript SSR 에서 생성된 다른 헤더 요소를 보존하면서 <code class="language-plaintext highlighter-rouge">@head</code> 와 <code class="language-plaintext highlighter-rouge">&lt;x-inertia::head /&gt;</code> 간의 페이지 관리 요소를 순서에 관계없이 자동으로 중복 제거합니다。</p>
+
+<blockquote>
+  <p>[!NOTE]
+기존 Inertia 애플리케이션에 Laravel Head 를 추가할 때， Laravel Head 가 최종 문서 제목을 관리할 수 있도록 <code class="language-plaintext highlighter-rouge">resources/js/app.tsx</code> 및 <code class="language-plaintext highlighter-rouge">resources/js/ssr.tsx</code> 에서 제목 콜백을 제거하고， Inertia 의 <a href="https://inertiajs.com/docs/v3/the-basics/title-and-meta"><code class="language-plaintext highlighter-rouge">&lt;Head&gt;</code> 구성 요소</a> 에서 관리하는 태그를 Laravel Head 로 이동하여 두 요소가 동일한 요소를 정의하지 않도록 합니다。</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">head</code> 프로퍼는 부분 다시 로드 응답에서 생략되므로 관성은 마지막 전체 페이지 헤더를 유지합니다. 인스턴트 방문도 백그라운드 응답이 도착할 때까지 현재 헤더를 유지합니다。</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Head</span><span class="o">::</span><span class="nf">inertia</span><span class="p">(</span><span class="n">prop</span><span class="o">:</span> <span class="s1">'_head'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>그런 다음 <code class="language-plaintext highlighter-rouge">serverHead: '_head'</code>로 같은 prop에 Inertia를 지정합니다.</p>
+
+<p><a name="static-inertia-tags"></a></p>
+<h4 id="정적-inertia-태그">정적 Inertia 태그</h4>
+
+<p>대부분의 태그는 기본값, 라우트 메타데이터 또는 런타임 메타데이터에 있어야 하며, 그래야 Laravel Head가 각 페이지에 대한 올바른 값을 해결할 수 있습니다. Inertia 글로벌은 첫 번째 HTML 응답에서 렌더링되고 Inertia에 의해 세션 동안 변경되지 않은 문서 태그에만 사용하세요.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Head::inertiaGlobals()</code>와 함께 서비스 프로바이더에 등록하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Head\Facades\Head</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Head\HeadBuilder</span><span class="p">;</span>
+
+<span class="nc">Head</span><span class="o">::</span><span class="nf">inertiaGlobals</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">HeadBuilder</span> <span class="nv">$head</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$head</span>
+        <span class="o">-&gt;</span><span class="nf">viewport</span><span class="p">(</span><span class="s1">'width=device-width, initial-scale=1'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">colorScheme</span><span class="p">(</span><span class="s1">'light dark'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">icon</span><span class="p">(</span><span class="s1">'/favicon.svg'</span><span class="p">,</span> <span class="n">type</span><span class="o">:</span> <span class="s1">'image/svg+xml'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">appleTouchIcon</span><span class="p">(</span><span class="s1">'/apple-touch-icon.png'</span><span class="p">,</span> <span class="n">sizes</span><span class="o">:</span> <span class="s1">'180x180'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">manifest</span><span class="p">(</span><span class="s1">'/site.webmanifest'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>관성 글로벌(Inertia globals)은 <code class="language-plaintext highlighter-rouge">head</code> 속성에서 제외되며, <code class="language-plaintext highlighter-rouge">data-inertia</code> 소유 속성 없이 렌더링되고, 첫 번째 응답 이후에는 절대 업데이트되지 않습니다. 이러한 글로벌은 뷰포트, 색상 체계, 파비콘, 터치 아이콘, 매니페스트와 같은 안정적인 브라우저 힌트에 적합합니다. 만약 태그가 페이지별이거나 SEO 관련이거나 나중에 덮어쓸 가능성이 있다면, 대신 <code class="language-plaintext highlighter-rouge">defaults</code>, 라우트 메타데이터, 또는 런타임 메타데이터에 넣으세요.</p>
+
+<p>렌더링된 태그 대신 구조화된 데이터로 해결된 메타데이터가 필요한 애플리케이션은 <code class="language-plaintext highlighter-rouge">Head::toArray()</code>를 호출할 수 있습니다. 반환되는 데이터에는 제목, Open Graph 값, JSON-LD 스키마 및 기타 해결된 메타데이터가 포함됩니다.</p>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

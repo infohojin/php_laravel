@@ -1,0 +1,2359 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Laravel Pulse | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Laravel Pulse" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/11_packages/pulse_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/11_packages/pulse_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Laravel Pulse" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Laravel Pulse","url":"http://localhost:4000/docs/11_packages/pulse_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="true">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/11_packages/">11 packages</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Laravel Pulse</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<hr />
+<p>layout: docs
+title: “Laravel Pulse”
+—</p>
+
+<h1 id="laravel-pulse">Laravel Pulse</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#installation">Installation</a>
+    <ul>
+      <li><a href="#configuration">Configuration</a></li>
+    </ul>
+  </li>
+  <li><a href="#dashboard">Dashboard</a>
+    <ul>
+      <li><a href="#dashboard-authorization">Authorization</a></li>
+      <li><a href="#dashboard-customization">Customization</a></li>
+      <li><a href="#dashboard-resolving-users">Resolving Users</a></li>
+      <li><a href="#dashboard-cards">Cards</a></li>
+    </ul>
+  </li>
+  <li><a href="#capturing-entries">Capturing Entries</a>
+    <ul>
+      <li><a href="#recorders">Recorders</a></li>
+      <li><a href="#filtering">Filtering</a></li>
+    </ul>
+  </li>
+  <li><a href="#performance">Performance</a>
+    <ul>
+      <li><a href="#using-a-different-database">Using a Different Database</a></li>
+      <li><a href="#ingest">Redis Ingest</a></li>
+      <li><a href="#sampling">Sampling</a></li>
+      <li><a href="#trimming">Trimming</a></li>
+      <li><a href="#pulse-exceptions">Handling Pulse Exceptions</a></li>
+    </ul>
+  </li>
+  <li><a href="#custom-cards">Custom Cards</a>
+    <ul>
+      <li><a href="#custom-card-components">Card Components</a></li>
+      <li><a href="#custom-card-styling">Styling</a></li>
+      <li><a href="#custom-card-data">Data Capture and Aggregation</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://github.com/laravel/pulse">Laravel Pulse</a> delivers at-a-glance insights into your application’s performance and usage. With Pulse, you can track down bottlenecks like slow jobs and endpoints, find your most active users, and more.</p>
+
+<p>For in-depth debugging of individual events, check out <a href="/docs/{{version}}/telescope">Laravel Telescope</a>.</p>
+
+<p><a name="installation"></a></p>
+<h2 id="installation">Installation</h2>
+
+<blockquote>
+  <p>[!WARNING]
+Pulse’s first-party storage implementation currently requires a MySQL, MariaDB, or PostgreSQL database. If you are using a different database engine, you will need a separate MySQL, MariaDB, or PostgreSQL database for your Pulse data.</p>
+</blockquote>
+
+<p>You may install Pulse using the Composer package manager:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require laravel/pulse
+</code></pre></div></div>
+
+<p>다음으로, <code class="language-plaintext highlighter-rouge">vendor:publish</code> Artisan 명령을 사용하여 Pulse 구성 및 마이그레이션 파일을 게시해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--provider</span><span class="o">=</span><span class="s2">"Laravel</span><span class="se">\P</span><span class="s2">ulse</span><span class="se">\P</span><span class="s2">ulseServiceProvider"</span>
+</code></pre></div></div>
+
+<p>마지막으로, Pulse의 데이터를 저장하는 데 필요한 테이블을 생성하기 위해 <code class="language-plaintext highlighter-rouge">migrate</code> 명령을 실행해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate
+</code></pre></div></div>
+
+<p>Pulse의 데이터베이스 마이그레이션이 완료되면 <code class="language-plaintext highlighter-rouge">/pulse</code> 경로를 통해 Pulse 대시보드에 접근할 수 있습니다.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Pulse 데이터를 애플리케이션의 기본 데이터베이스에 저장하고 싶지 않은 경우, <a href="#using-a-different-database">전용 데이터베이스 연결을 지정</a>할 수 있습니다.</p>
+</blockquote>
+
+<p><a name="configuration"></a></p>
+<h3 id="구성">구성</h3>
+
+<p>Pulse의 많은 구성 옵션은 환경 변수를 사용하여 제어할 수 있습니다. 사용 가능한 옵션을 확인하거나, 새로운 레코더를 등록하거나, 고급 옵션을 구성하려면 <code class="language-plaintext highlighter-rouge">config/pulse.php</code> 구성 파일을 발행할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--tag</span><span class="o">=</span>pulse-config
+</code></pre></div></div>
+
+<p><a name="dashboard"></a></p>
+<h2 id="대시보드">대시보드</h2>
+
+<p><a name="dashboard-authorization"></a></p>
+<h3 id="권한-부여">권한 부여</h3>
+
+<p>Pulse 대시보드는 <code class="language-plaintext highlighter-rouge">/pulse</code> 경로를 통해 접근할 수 있습니다. 기본적으로, 이 대시보드는 <code class="language-plaintext highlighter-rouge">local</code> 환경에서만 접근할 수 있으므로, <code class="language-plaintext highlighter-rouge">'viewPulse'</code> 권한 게이트를 사용자 정의하여 프로덕션 환경에 대한 권한을 구성해야 합니다. 이는 애플리케이션의 <code class="language-plaintext highlighter-rouge">app/Providers/AppServiceProvider.php</code> 파일 내에서 수행할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Gate</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'viewPulse'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isAdmin</span><span class="p">();</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="dashboard-customization"></a></p>
+<h3 id="맞춤-설정">맞춤 설정</h3>
+
+<p>Pulse 대시보드 카드와 레이아웃은 대시보드 보기를 게시하여 구성할 수 있습니다. 대시보드 보기는 <code class="language-plaintext highlighter-rouge">resources/views/vendor/pulse/dashboard.blade.php</code>에 게시됩니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--tag</span><span class="o">=</span>pulse-dashboard
+</code></pre></div></div>
+
+<p>대시보드는 <a href="https://livewire.laravel.com/">Livewire</a>로 구동되며, JavaScript 자산을 다시 빌드할 필요 없이 카드와 레이아웃을 사용자 정의할 수 있습니다.</p>
+
+<p>이 파일 내에서 <code class="language-plaintext highlighter-rouge">&lt;x-pulse&gt;</code> 컴포넌트는 대시보드를 렌더링하는 역할을 하며, 카드에 대한 그리드 레이아웃을 제공합니다. 대시보드를 화면 전체 너비로 표시하고 싶다면, 컴포넌트에 <code class="language-plaintext highlighter-rouge">full-width</code> 속성을 제공할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-pulse full-width&gt;
+    ...
+&lt;/x-pulse&gt;
+</code></pre>
+
+<p>기본적으로 <code class="language-plaintext highlighter-rouge">&lt;x-pulse&gt;</code> 구성 요소는 12열 그리드를 생성하지만, <code class="language-plaintext highlighter-rouge">cols</code> 속성을 사용하여 이를 사용자 정의할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-pulse cols="16"&gt;
+    ...
+&lt;/x-pulse&gt;
+</code></pre>
+
+<p>각 카드에서는 공간과 위치를 제어하기 위해 <code class="language-plaintext highlighter-rouge">cols</code> 및 <code class="language-plaintext highlighter-rouge">rows</code> 속성을 사용할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;livewire:pulse.usage cols="4" rows="2" /&gt;
+</code></pre>
+
+<p>대부분의 카드도 스크롤 대신 전체 카드를 표시하기 위해 <code class="language-plaintext highlighter-rouge">expand</code> 속성을 허용합니다:</p>
+
+<pre><code class="language-blade">&lt;livewire:pulse.slow-queries expand /&gt;
+</code></pre>
+
+<p><a name="dashboard-resolving-users"></a></p>
+<h3 id="사용자-해결">사용자 해결</h3>
+
+<p>사용자에 대한 정보를 표시하는 카드(예: 애플리케이션 사용 카드)의 경우, Pulse는 사용자의 ID만 기록합니다. 대시보드를 렌더링할 때, Pulse는 기본 <code class="language-plaintext highlighter-rouge">Authenticatable</code> 모델에서 <code class="language-plaintext highlighter-rouge">name</code> 및 <code class="language-plaintext highlighter-rouge">email</code> 필드를 해결하고 Gravatar 웹 서비스를 사용하여 아바타를 표시합니다.</p>
+
+<p>애플리케이션 <code class="language-plaintext highlighter-rouge">App\Providers\AppServiceProvider</code> 클래스 내에서 <code class="language-plaintext highlighter-rouge">Pulse::user</code> 메서드를 호출하여 필드와 아바타를 사용자 정의할 수 있습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">user</code> 메서드는 표시할 <code class="language-plaintext highlighter-rouge">Authenticatable</code> 모델을 받는 클로저를 허용하며, 사용자에 대한 <code class="language-plaintext highlighter-rouge">name</code>, <code class="language-plaintext highlighter-rouge">extra</code> 및 <code class="language-plaintext highlighter-rouge">avatar</code> 정보를 포함하는 배열을 반환해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Pulse\Facades\Pulse</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Pulse</span><span class="o">::</span><span class="nf">user</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="nv">$user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'extra'</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+        <span class="s1">'avatar'</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">avatar_url</span><span class="p">,</span>
+    <span class="p">]);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+인증된 사용자가 캡처되고 검색되는 방식을 완전히 사용자 정의하려면 <code class="language-plaintext highlighter-rouge">Laravel\Pulse\Contracts\ResolvesUsers</code> 계약을 구현하고 Laravel의 <a href="/docs/{{version}}/container#binding-a-singleton">서비스 컨테이너</a>에 바인딩하면 됩니다.</p>
+</blockquote>
+
+<p><a name="dashboard-cards"></a></p>
+<h3 id="카드">카드</h3>
+
+<p><a name="servers-card"></a></p>
+<h4 id="서버">서버</h4>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.servers /&gt;</code> 카드는 <code class="language-plaintext highlighter-rouge">pulse:check</code> 명령을 실행하는 모든 서버의 시스템 리소스 사용량을 표시합니다. 시스템 리소스 보고에 대한 자세한 정보는 <a href="#servers-recorder">서버 기록기</a> 문서를 참조하십시오.</p>
+
+<p>인프라에서 서버를 교체하는 경우, 일정 기간 이후에는 비활성 서버를 Pulse 대시보드에서 표시하지 않도록 하고 싶을 수 있습니다. 이는 <code class="language-plaintext highlighter-rouge">ignore-after</code> 속성을 사용하여 수행할 수 있으며, 비활성 서버를 Pulse 대시보드에서 제거할 때까지의 시간을 초 단위로 지정할 수 있습니다. 또는 <code class="language-plaintext highlighter-rouge">1 hour</code> 또는 <code class="language-plaintext highlighter-rouge">3 days and 1 hour</code>와 같은 상대 시간 형식 문자열을 제공할 수도 있습니다.</p>
+
+<pre><code class="language-blade">&lt;livewire:pulse.servers ignore-after="3 hours" /&gt;
+</code></pre>
+
+<p><a name="application-usage-card"></a></p>
+<h4 id="애플리케이션-사용">애플리케이션 사용</h4>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.usage /&gt;</code> 카드에는 귀하의 애플리케이션에 요청을 보내고 작업을 배치하며 느린 요청을 경험하는 상위 10명의 사용자가 표시됩니다.</p>
+
+<p>모든 사용 지표를 화면에서 동시에 보고 싶다면, 카드를 여러 번 포함하고 <code class="language-plaintext highlighter-rouge">type</code> 속성을 지정할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;livewire:pulse.usage type="requests" /&gt;
+&lt;livewire:pulse.usage type="slow_requests" /&gt;
+&lt;livewire:pulse.usage type="jobs" /&gt;
+</code></pre>
+
+<p>To learn how to customize how Pulse retrieves and displays user information, consult our documentation on <a href="#dashboard-resolving-users">resolving users</a>.</p>
+
+<blockquote>
+  <p>[!NOTE]
+If your application receives a lot of requests or dispatches a lot of jobs, you may wish to enable <a href="#sampling">sampling</a>. See the <a href="#user-requests-recorder">user requests recorder</a>, <a href="#user-jobs-recorder">user jobs recorder</a>, and <a href="#slow-jobs-recorder">slow jobs recorder</a> documentation for more information.</p>
+</blockquote>
+
+<p><a name="exceptions-card"></a></p>
+<h4 id="exceptions">Exceptions</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.exceptions /&gt;</code> card shows the frequency and recency of exceptions occurring in your application. By default, exceptions are grouped based on the exception class and location where it occurred. See the <a href="#exceptions-recorder">exceptions recorder</a> documentation for more information.</p>
+
+<p><a name="queues-card"></a></p>
+<h4 id="queues">Queues</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.queues /&gt;</code> card shows the throughput of the queues in your application, including the number of jobs queued, processing, processed, released, and failed. See the <a href="#queues-recorder">queues recorder</a> documentation for more information.</p>
+
+<p><a name="slow-requests-card"></a></p>
+<h4 id="slow-requests">Slow Requests</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.slow-requests /&gt;</code> card shows incoming requests to your application that exceed the configured threshold, which is 1,000ms by default. See the <a href="#slow-requests-recorder">slow requests recorder</a> documentation for more information.</p>
+
+<p><a name="slow-jobs-card"></a></p>
+<h4 id="slow-jobs">Slow Jobs</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.slow-jobs /&gt;</code> card shows the queued jobs in your application that exceed the configured threshold, which is 1,000ms by default. See the <a href="#slow-jobs-recorder">slow jobs recorder</a> documentation for more information.</p>
+
+<p><a name="slow-queries-card"></a></p>
+<h4 id="slow-queries">Slow Queries</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.slow-queries /&gt;</code> card shows the database queries in your application that exceed the configured threshold, which is 1,000ms by default.</p>
+
+<p>By default, slow queries are grouped based on the SQL query (without bindings) and the location where it occurred, but you may choose to not capture the location if you wish to group solely on the SQL query.</p>
+
+<p>If you encounter rendering performance issues due to extremely large SQL queries receiving syntax highlighting, you may disable highlighting by adding the <code class="language-plaintext highlighter-rouge">without-highlighting</code> prop:</p>
+
+<pre><code class="language-blade">&lt;livewire:pulse.slow-queries without-highlighting /&gt;
+</code></pre>
+
+<p>See the <a href="#slow-queries-recorder">slow queries recorder</a> documentation for more information.</p>
+
+<p><a name="slow-outgoing-requests-card"></a></p>
+<h4 id="slow-outgoing-requests">Slow Outgoing Requests</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.slow-outgoing-requests /&gt;</code> card shows outgoing requests made using Laravel’s <a href="/docs/{{version}}/http-client">HTTP client</a> that exceed the configured threshold, which is 1,000ms by default.</p>
+
+<p>By default, entries will be grouped by the full URL. However, you may wish to normalize or group similar outgoing requests using regular expressions. See the <a href="#slow-outgoing-requests-recorder">slow outgoing requests recorder</a> documentation for more information.</p>
+
+<p><a name="cache-card"></a></p>
+<h4 id="cache">Cache</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;livewire:pulse.cache /&gt;</code> card shows the cache hit and miss statistics for your application, both globally and for individual keys.</p>
+
+<p>By default, entries will be grouped by key. However, you may wish to normalize or group similar keys using regular expressions. See the <a href="#cache-interactions-recorder">cache interactions recorder</a> documentation for more information.</p>
+
+<p><a name="capturing-entries"></a></p>
+<h2 id="capturing-entries">Capturing Entries</h2>
+
+<p>Most Pulse recorders will automatically capture entries based on framework events dispatched by Laravel. However, the <a href="#servers-recorder">servers recorder</a> and some third-party cards must poll for information regularly. To use these cards, you must run the <code class="language-plaintext highlighter-rouge">pulse:check</code> daemon on all of your individual application servers:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pulse:check
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+<code class="language-plaintext highlighter-rouge">pulse:check</code> 프로세스를 백그라운드에서 영구적으로 실행하려면, 명령어가 중단되지 않도록 Supervisor와 같은 프로세스 모니터를 사용해야 합니다.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">pulse:check</code> 명령어는 오래 실행되는 프로세스이므로, 재시작하지 않으면 코드베이스 변경 사항을 반영하지 못합니다. 애플리케이션 배포 과정에서 <code class="language-plaintext highlighter-rouge">pulse:restart</code> 명령어를 호출하여 명령어를 정상적으로 재시작해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pulse:restart
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Pulse uses the <a href="/docs/{{version}}/cache">cache</a> to store restart signals, so you should verify that a cache driver is properly configured for your application before using this feature.</p>
+</blockquote>
+
+<p><a name="recorders"></a></p>
+<h3 id="recorders">Recorders</h3>
+
+<p>Recorders are responsible for capturing entries from your application to be recorded in the Pulse database. Recorders are registered and configured in the <code class="language-plaintext highlighter-rouge">recorders</code> section of the <a href="#configuration">Pulse configuration file</a>.</p>
+
+<p><a name="cache-interactions-recorder"></a></p>
+<h4 id="cache-interactions">Cache Interactions</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">CacheInteractions</code> recorder captures information about the <a href="/docs/{{version}}/cache">cache</a> hits and misses occurring in your application for display on the <a href="#cache-card">Cache</a> card.</p>
+
+<p>You may optionally adjust the <a href="#sampling">sample rate</a> and ignored key patterns.</p>
+
+<p>You may also configure key grouping so that similar keys are grouped as a single entry. For example, you may wish to remove unique IDs from keys caching the same type of information. Groups are configured using a regular expression to “find and replace” parts of the key. An example is included in the configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Recorders\CacheInteractions</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'groups'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="c1">// '/:\d+/' =&gt; ':*',</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>The first pattern that matches will be used. If no patterns match, then the key will be captured as-is.</p>
+
+<p><a name="exceptions-recorder"></a></p>
+<h4 id="exceptions-1">Exceptions</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">Exceptions</code> recorder captures information about reportable exceptions occurring in your application for display on the <a href="#exceptions-card">Exceptions</a> card.</p>
+
+<p>You may optionally adjust the <a href="#sampling">sample rate</a> and ignored exception patterns. You may also configure whether to capture the location that the exception originated from. The captured location will be displayed on the Pulse dashboard which can help to track down the exception origin; however, if the same exception occurs in multiple locations then it will appear multiple times for each unique location.</p>
+
+<p><a name="queues-recorder"></a></p>
+<h4 id="queues-1">Queues</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">Queues</code> recorder captures information about your application’s queues for display on the <a href="#queues-card">Queues</a>.</p>
+
+<p>You may optionally adjust the <a href="#sampling">sample rate</a> and ignored jobs patterns.</p>
+
+<p><a name="slow-jobs-recorder"></a></p>
+<h4 id="slow-jobs-1">Slow Jobs</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">SlowJobs</code> recorder captures information about slow jobs occurring in your application for display on the <a href="#slow-jobs-recorder">Slow Jobs</a> card.</p>
+
+<p>You may optionally adjust the slow job threshold, <a href="#sampling">sample rate</a>, and ignored job patterns.</p>
+
+<p>You may have some jobs that you expect to take longer than others. In those cases, you may configure per-job thresholds:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Recorders\SlowJobs</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'threshold'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'#^App\\Jobs\\GenerateYearlyReports$#'</span> <span class="o">=&gt;</span> <span class="mi">5000</span><span class="p">,</span>
+        <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'PULSE_SLOW_JOBS_THRESHOLD'</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>만약 어떤 정규식 패턴도 작업의 클래스 이름과 일치하지 않으면, <code class="language-plaintext highlighter-rouge">'default'</code> 값이 사용됩니다.</p>
+
+<p><a name="slow-outgoing-requests-recorder"></a></p>
+<h4 id="느린-발신-요청">느린 발신 요청</h4>
+
+<p><code class="language-plaintext highlighter-rouge">SlowOutgoingRequests</code> 기록기는 Laravel의 <a href="/docs/{{version}}/http-client">HTTP 클라이언트</a>를 사용하여 수행된 외부 HTTP 요청 중 구성된 임계값을 초과하는 요청에 대한 정보를 <a href="#slow-outgoing-requests-card">느린 발신 요청</a> 카드에 표시하기 위해 캡처합니다.</p>
+
+<p>선택적으로 느린 발신 요청 임계값, <a href="#sampling">샘플링 비율</a>, 및 무시할 URL 패턴을 조정할 수 있습니다.</p>
+
+<p>일부 발신 요청은 다른 요청보다 더 오래 걸릴 것으로 예상될 수 있습니다. 이러한 경우, 요청별 임계값을 구성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Recorders\SlowOutgoingRequests</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'threshold'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'#backup.zip$#'</span> <span class="o">=&gt;</span> <span class="mi">5000</span><span class="p">,</span>
+        <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'PULSE_SLOW_OUTGOING_REQUESTS_THRESHOLD'</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>요청의 URL과 일치하는 정규 표현식 패턴이 없으면 <code class="language-plaintext highlighter-rouge">'default'</code> 값이 사용됩니다.</p>
+
+<p>유사한 URL을 단일 항목으로 그룹화하도록 URL 그룹화를 구성할 수도 있습니다. 예를 들어, URL 경로에서 고유 ID를 제거하거나 도메인 기준으로 그룹화할 수 있습니다. 그룹은 URL의 일부를 “찾아서 교체”하는 정규 표현식을 사용하여 구성됩니다. 몇 가지 예제는 구성 파일에 포함되어 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Recorders\SlowOutgoingRequests</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'groups'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="c1">// '#^https://api\.github\.com/repos/.*$#' =&gt; 'api.github.com/repos/*',</span>
+        <span class="c1">// '#^https?://([^/]*).*$#' =&gt; '\1',</span>
+        <span class="c1">// '#/\d+#' =&gt; '/*',</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>일치하는 첫 번째 패턴이 사용됩니다. 패턴이 일치하지 않으면 URL이 있는 그대로 캡처됩니다.</p>
+
+<p><a name="slow-queries-recorder"></a></p>
+<h4 id="느린-쿼리">느린 쿼리</h4>
+
+<p><code class="language-plaintext highlighter-rouge">SlowQueries</code> 레코더는 애플리케이션에서 구성된 임계값을 초과하는 모든 데이터베이스 쿼리를 캡처하여 <a href="#slow-queries-card">느린 쿼리</a> 카드에 표시합니다.</p>
+
+<p>선택적으로 느린 쿼리 임계값, <a href="#sampling">샘플 비율</a> 및 무시할 쿼리 패턴을 조정할 수 있습니다. 쿼리 위치를 캡처할지 여부 또한 구성할 수 있습니다. 캡처된 위치는 Pulse 대시보드에 표시되어 쿼리 출처를 추적하는 데 도움이 됩니다; 그러나 동일한 쿼리가 여러 위치에서 수행되면 고유 위치별로 여러 번 표시됩니다.</p>
+
+<p>일부 쿼리는 다른 쿼리보다 더 오래 걸릴 것으로 예상될 수 있습니다. 그런 경우 개별 쿼리별 임계값을 구성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Recorders\SlowQueries</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'threshold'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'#^insert into `yearly_reports`#'</span> <span class="o">=&gt;</span> <span class="mi">5000</span><span class="p">,</span>
+        <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'PULSE_SLOW_QUERIES_THRESHOLD'</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>쿼리의 SQL과 일치하는 정규식 패턴이 없으면 <code class="language-plaintext highlighter-rouge">'default'</code> 값이 사용됩니다.</p>
+
+<p><a name="slow-requests-recorder"></a></p>
+<h4 id="느린-요청">느린 요청</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Requests</code> 레코더는 애플리케이션에 대한 요청 정보를 캡처하여 <a href="#slow-requests-card">느린 요청</a> 및 <a href="#application-usage-card">애플리케이션 사용</a> 카드에 표시합니다.</p>
+
+<p>느린 경로 임계값, <a href="#sampling">샘플 비율</a>, 무시된 경로를 선택적으로 조정할 수 있습니다.</p>
+
+<p>일부 요청은 다른 요청보다 시간이 더 걸릴 것으로 예상될 수 있습니다. 이러한 경우, 요청별 임계값을 구성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Recorders\SlowRequests</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'threshold'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'#^/admin/#'</span> <span class="o">=&gt;</span> <span class="mi">5000</span><span class="p">,</span>
+        <span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'PULSE_SLOW_REQUESTS_THRESHOLD'</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>요청의 URL과 일치하는 정규 표현식 패턴이 없으면 <code class="language-plaintext highlighter-rouge">'default'</code> 값이 사용됩니다.</p>
+
+<p><a name="servers-recorder"></a></p>
+<h4 id="서버-1">서버</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Servers</code> 레코더는 애플리케이션을 지원하는 서버의 CPU, 메모리 및 저장소 사용량을 <a href="#servers-card">서버</a> 카드에 표시하기 위해 캡처합니다. 이 레코더는 모니터링하려는 각 서버에서 <a href="#capturing-entries">pulse:check 명령</a>이 실행 중이어야 합니다.</p>
+
+<p>각 보고 서버는 고유한 이름을 가져야 합니다. 기본적으로 Pulse는 PHP의 <code class="language-plaintext highlighter-rouge">gethostname</code> 함수가 반환하는 값을 사용합니다. 이를 맞춤 설정하려면 <code class="language-plaintext highlighter-rouge">PULSE_SERVER_NAME</code> 환경 변수를 설정할 수 있습니다:</p>
+
+<pre><code class="language-env">PULSE_SERVER_NAME=load-balancer
+</code></pre>
+
+<p>The Pulse configuration file also allows you to customize the directories that are monitored.</p>
+
+<p><a name="user-jobs-recorder"></a></p>
+<h4 id="user-jobs">User Jobs</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">UserJobs</code> recorder captures information about the users dispatching jobs in your application for display on the <a href="#application-usage-card">Application Usage</a> card.</p>
+
+<p>You may optionally adjust the <a href="#sampling">sample rate</a> and ignored job patterns.</p>
+
+<p><a name="user-requests-recorder"></a></p>
+<h4 id="user-requests">User Requests</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">UserRequests</code> recorder captures information about the users making requests to your application for display on the <a href="#application-usage-card">Application Usage</a> card.</p>
+
+<p>You may optionally adjust the <a href="#sampling">sample rate</a> and ignored URL patterns.</p>
+
+<p><a name="filtering"></a></p>
+<h3 id="filtering">Filtering</h3>
+
+<p>As we have seen, many <a href="#recorders">recorders</a> offer the ability to, via configuration, “ignore” incoming entries based on their value, such as a request’s URL. But, sometimes it may be useful to filter out records based on other factors, such as the currently authenticated user. To filter out these records, you may pass a closure to Pulse’s <code class="language-plaintext highlighter-rouge">filter</code> method. Typically, the <code class="language-plaintext highlighter-rouge">filter</code> method should be invoked within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pulse\Entry</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pulse\Facades\Pulse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pulse\Value</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Pulse</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Entry</span><span class="o">|</span><span class="nc">Value</span> <span class="nv">$entry</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Auth</span><span class="o">::</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">isNotAdmin</span><span class="p">();</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="performance"></a></p>
+<h2 id="성능">성능</h2>
+
+<p>Pulse는 추가 인프라 없이 기존 애플리케이션에 바로 통합되도록 설계되었습니다. 그러나 트래픽이 많은 애플리케이션의 경우, Pulse가 애플리케이션 성능에 미치는 영향을 최소화하는 여러 방법이 있습니다.</p>
+
+<p><a name="using-a-different-database"></a></p>
+<h3 id="다른-데이터베이스-사용하기">다른 데이터베이스 사용하기</h3>
+
+<p>트래픽이 많은 애플리케이션의 경우, 애플리케이션 데이터베이스에 영향을 주지 않도록 Pulse 전용 데이터베이스 연결을 사용하는 것이 좋습니다.</p>
+
+<p>Pulse에서 사용하는 <a href="/docs/{{version}}/database#configuration">데이터베이스 연결</a>을 <code class="language-plaintext highlighter-rouge">PULSE_DB_CONNECTION</code> 환경 변수를 설정하여 맞춤 설정할 수 있습니다.</p>
+
+<pre><code class="language-env">PULSE_DB_CONNECTION=pulse
+</code></pre>
+
+<p><a name="ingest"></a></p>
+<h3 id="redis-수집">Redis 수집</h3>
+
+<blockquote>
+  <p>[!WARNING]
+Redis 수집은 Redis 6.2 이상과 애플리케이션이 구성한 Redis 클라이언트 드라이버로 <code class="language-plaintext highlighter-rouge">phpredis</code> 또는 <code class="language-plaintext highlighter-rouge">predis</code>가 필요합니다.</p>
+</blockquote>
+
+<p>기본적으로, Pulse는 HTTP 응답이 클라이언트에게 전송되거나 작업이 처리된 후 <a href="#using-a-different-database">구성된 데이터베이스 연결</a>에 항목을 직접 저장합니다. 그러나 Pulse의 Redis 수집 드라이버를 사용하여 항목을 Redis 스트림으로 보낼 수도 있습니다. 이것은 <code class="language-plaintext highlighter-rouge">PULSE_INGEST_DRIVER</code> 환경 변수를 구성하여 활성화할 수 있습니다:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">PULSE_INGEST_DRIVER</span><span class="p">=</span><span class="s">redis</span>
+</code></pre></div></div>
+
+<p>Pulse는 기본적으로 기본 <a href="/docs/{{version}}/redis#configuration">Redis 연결</a>을 사용하지만, <code class="language-plaintext highlighter-rouge">PULSE_REDIS_CONNECTION</code> 환경 변수를 통해 이를 사용자 지정할 수 있습니다:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">PULSE_REDIS_CONNECTION</span><span class="p">=</span><span class="s">pulse</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+Redis 수집 드라이버를 사용할 때, Pulse 설치는 해당되는 경우 Redis 기반 큐와 다른 Redis 연결을 항상 사용해야 합니다.</p>
+</blockquote>
+
+<p>Redis 수집을 사용할 때, <code class="language-plaintext highlighter-rouge">pulse:work</code> 명령을 실행하여 스트림을 모니터링하고 Redis에서 Pulse의 데이터베이스 테이블로 항목을 이동해야 합니다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pulse:work
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+<code class="language-plaintext highlighter-rouge">pulse:work</code> 프로세스를 백그라운드에서 항상 실행 상태로 유지하려면, Supervisor와 같은 프로세스 모니터를 사용하여 Pulse 워커가 실행을 멈추지 않도록 해야 합니다.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">pulse:work</code> 명령은 장기 실행 프로세스이므로, 재시작하지 않으면 코드베이스의 변경 사항을 감지하지 못합니다. 애플리케이션 배포 과정에서 <code class="language-plaintext highlighter-rouge">pulse:restart</code> 명령을 호출하여 명령을 정상적으로 재시작해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pulse:restart
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Pulse uses the <a href="/docs/{{version}}/cache">cache</a> to store restart signals, so you should verify that a cache driver is properly configured for your application before using this feature.</p>
+</blockquote>
+
+<p><a name="sampling"></a></p>
+<h3 id="sampling">Sampling</h3>
+
+<p>By default, Pulse will capture every relevant event that occurs in your application. For high-traffic applications, this can result in needing to aggregate millions of database rows in the dashboard, especially for longer time periods.</p>
+
+<p>You may instead choose to enable “sampling” on certain Pulse data recorders. For example, setting the sample rate to <code class="language-plaintext highlighter-rouge">0.1</code> on the <a href="#user-requests-recorder">User Requests</a> recorder will mean that you only record approximately 10% of the requests to your application. In the dashboard, the values will be scaled up and prefixed with a <code class="language-plaintext highlighter-rouge">~</code> to indicate that they are an approximation.</p>
+
+<p>In general, the more entries you have for a particular metric, the lower you can safely set the sample rate without sacrificing too much accuracy.</p>
+
+<p><a name="trimming"></a></p>
+<h3 id="trimming">Trimming</h3>
+
+<p>Pulse will automatically trim its stored entries once they are outside of the dashboard window. Trimming occurs when ingesting data using a lottery system which may be customized in the Pulse <a href="#configuration">configuration file</a>.</p>
+
+<p><a name="pulse-exceptions"></a></p>
+<h3 id="handling-pulse-exceptions">Handling Pulse Exceptions</h3>
+
+<p>If an exception occurs while capturing Pulse data, such as being unable to connect to the storage database, Pulse will silently fail to avoid impacting your application.</p>
+
+<p>If you wish to customize how these exceptions are handled, you may provide a closure to the <code class="language-plaintext highlighter-rouge">handleExceptionsUsing</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Pulse\Facades\Pulse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Log</span><span class="p">;</span>
+
+<span class="nc">Pulse</span><span class="o">::</span><span class="nf">handleExceptionsUsing</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nc">Log</span><span class="o">::</span><span class="nf">debug</span><span class="p">(</span><span class="s1">'An exception happened in Pulse'</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span><span class="p">(),</span>
+        <span class="s1">'stack'</span> <span class="o">=&gt;</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getTraceAsString</span><span class="p">(),</span>
+    <span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="custom-cards"></a></p>
+<h2 id="커스텀-카드">커스텀 카드</h2>
+
+<p>Pulse를 사용하면 애플리케이션의 특정 요구 사항과 관련된 데이터를 표시하기 위해 커스텀 카드를 만들 수 있습니다. Pulse는 <a href="https://livewire.laravel.com">Livewire</a>를 사용하므로, 첫 번째 커스텀 카드를 만들기 전에 <a href="https://livewire.laravel.com/docs">문서를 검토</a>하는 것이 좋습니다.</p>
+
+<p><a name="custom-card-components"></a></p>
+<h3 id="카드-구성-요소">카드 구성 요소</h3>
+
+<p>Laravel Pulse에서 커스텀 카드를 만들려면 기본 <code class="language-plaintext highlighter-rouge">Card</code> Livewire 구성 요소를 확장하고 해당 뷰를 정의하는 것으로 시작합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">App\Livewire\Pulse</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Laravel\Pulse\Livewire\Card</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Livewire\Attributes\Lazy</span><span class="p">;</span>
+
+<span class="na">#[Lazy]</span>
+<span class="kd">class</span> <span class="nc">TopSellers</span> <span class="kd">extends</span> <span class="nc">Card</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">render</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'livewire.pulse.top-sellers'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Livewire의 <a href="https://livewire.laravel.com/docs/lazy">지연 로딩</a> 기능을 사용할 때, <code class="language-plaintext highlighter-rouge">Card</code> 컴포넌트는 컴포넌트에 전달된 <code class="language-plaintext highlighter-rouge">cols</code> 및 <code class="language-plaintext highlighter-rouge">rows</code> 속성을 존중하는 자리 표시자를 자동으로 제공합니다.</p>
+
+<p>Pulse 카드의 해당 뷰를 작성할 때, 일관된 모양과 느낌을 위해 Pulse의 Blade 컴포넌트를 활용할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-pulse::card :cols="$cols" :rows="$rows" :class="$class" wire:poll.5s=""&gt;
+    &lt;x-pulse::card-header name="Top Sellers"&gt;
+        &lt;x-slot:icon&gt;
+            ...
+        &lt;/x-slot:icon&gt;
+    &lt;/x-pulse::card-header&gt;
+
+    &lt;x-pulse::scroll :expand="$expand"&gt;
+        ...
+    &lt;/x-pulse::scroll&gt;
+&lt;/x-pulse::card&gt;
+</code></pre>
+
+<p><code class="language-plaintext highlighter-rouge">$cols</code>, <code class="language-plaintext highlighter-rouge">$rows</code>, <code class="language-plaintext highlighter-rouge">$class</code> 및 <code class="language-plaintext highlighter-rouge">$expand</code> 변수는 각각의 Blade 컴포넌트에 전달되어 카드 레이아웃을 대시보드 뷰에서 맞춤 설정할 수 있어야 합니다. 또한 카드를 자동으로 업데이트하려면 <code class="language-plaintext highlighter-rouge">wire:poll.5s=""</code> 속성을 뷰에 포함시키는 것이 좋습니다.</p>
+
+<p>Livewire 컴포넌트와 템플릿을 정의한 후에는 카드가 <a href="#dashboard-customization">대시보드 뷰</a>에 포함될 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-pulse&gt;
+    ...
+
+    &lt;livewire:pulse.top-sellers cols="4" /&gt;
+&lt;/x-pulse&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]
+카드가 패키지에 포함된 경우, <code class="language-plaintext highlighter-rouge">Livewire::component</code> 방법을 사용하여 Livewire에 구성 요소를 등록해야 합니다.</p>
+</blockquote>
+
+<p><a name="custom-card-styling"></a></p>
+<h3 id="스타일링">스타일링</h3>
+
+<p>카드가 Pulse에 포함된 클래스 및 구성 요소를 넘어 추가 스타일링이 필요한 경우, 카드에 대한 사용자 정의 CSS를 포함할 수 있는 몇 가지 옵션이 있습니다.</p>
+
+<p><a name="custom-card-styling-vite"></a></p>
+<h4 id="laravel-vite-통합">Laravel Vite 통합</h4>
+
+<p>사용자 정의 카드가 애플리케이션 코드베이스 내에 있고 Laravel의 <a href="/docs/{{version}}/vite">Vite 통합</a>을 사용하는 경우, 카드에 전용 CSS 진입점을 포함하도록 <code class="language-plaintext highlighter-rouge">vite.config.js</code> 파일을 업데이트할 수 있습니다:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">laravel</span><span class="p">({</span>
+    <span class="na">input</span><span class="p">:</span> <span class="p">[</span>
+        <span class="dl">'</span><span class="s1">resources/css/pulse/top-sellers.css</span><span class="dl">'</span><span class="p">,</span>
+        <span class="c1">// ...</span>
+    <span class="p">],</span>
+<span class="p">}),</span>
+</code></pre></div></div>
+
+<p>그런 다음 <a href="#dashboard-customization">대시보드 보기</a>에서 <code class="language-plaintext highlighter-rouge">@vite</code> 블레이드 지시문을 사용하여 카드의 CSS 진입점을 지정할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-pulse&gt;
+    @vite('resources/css/pulse/top-sellers.css')
+
+    ...
+&lt;/x-pulse&gt;
+</code></pre>
+
+<p><a name="custom-card-styling-css"></a></p>
+<h4 id="css-파일">CSS 파일</h4>
+
+<p>패키지에 포함된 Pulse 카드를 포함한 다른 사용 사례의 경우, Livewire 컴포넌트에서 <code class="language-plaintext highlighter-rouge">css</code> 메서드를 정의하여 CSS 파일의 경로를 반환하도록 Pulse에 추가 스타일시트를 로드하도록 지시할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">TopSellers</span> <span class="kd">extends</span> <span class="nc">Card</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">css</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../../dist/top-sellers.css'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>이 카드를 대시보드에 포함하면, Pulse는 이 파일의 내용을 <code class="language-plaintext highlighter-rouge">&lt;style&gt;</code> 태그 안에 자동으로 포함하므로 <code class="language-plaintext highlighter-rouge">public</code> 디렉토리에 게시할 필요가 없습니다.</p>
+
+<p><a name="custom-card-styling-tailwind"></a></p>
+<h4 id="tailwind-css">Tailwind CSS</h4>
+
+<p>Tailwind CSS를 사용할 때는 전용 CSS 진입점을 만들어야 합니다. 다음 예제는 Pulse에 이미 포함되어 있는 Tailwind의 <a href="https://tailwindcss.com/docs/preflight">Preflight</a> 기본 스타일을 제외하고, CSS 선택자를 사용하여 Tailwind를 범위 지정하여 Pulse의 Tailwind 클래스와 충돌을 피하도록 합니다:</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@import</span> <span class="s1">"tailwindcss/theme.css"</span><span class="p">;</span>
+
+<span class="k">@custom-variant</span> <span class="n">dark</span> <span class="p">(</span><span class="err">&amp;</span><span class="p">:</span><span class="n">where</span><span class="p">(.</span><span class="n">dark</span><span class="p">,</span> <span class="p">.</span><span class="n">dark</span> <span class="o">*</span><span class="p">));</span>
+<span class="k">@source</span> <span class="s1">"./../../views/livewire/pulse/top-sellers.blade.php"</span><span class="p">;</span>
+
+<span class="k">@theme</span> <span class="p">{</span>
+  <span class="c">/* ... */</span>
+<span class="p">}</span>
+
+<span class="nf">#top-sellers</span> <span class="p">{</span>
+  <span class="err">@import</span> <span class="err">"tailwindcss/utilities.css"</span> <span class="err">source(none);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>또한 엔트리포인트의 CSS 선택자와 일치하는 <code class="language-plaintext highlighter-rouge">id</code> 또는 <code class="language-plaintext highlighter-rouge">class</code> 속성을 카드의 뷰에 포함해야 합니다:</p>
+
+<pre><code class="language-blade">&lt;x-pulse::card id="top-sellers" :cols="$cols" :rows="$rows" class="$class"&gt;
+    ...
+&lt;/x-pulse::card&gt;
+</code></pre>
+
+<p><a name="custom-card-data"></a></p>
+<h3 id="데이터-수집-및-집계">데이터 수집 및 집계</h3>
+
+<p>맞춤 카드에서는 어디서든 데이터를 가져와 표시할 수 있습니다. 그러나 Pulse의 강력하고 효율적인 데이터 기록 및 집계 시스템을 활용하고자 할 수 있습니다.</p>
+
+<p><a name="custom-card-data-capture"></a></p>
+<h4 id="항목-기록">항목 기록</h4>
+
+<p>Pulse에서는 <code class="language-plaintext highlighter-rouge">Pulse::record</code> 방식을 사용하여 ‘항목’을 기록할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Pulse\Facades\Pulse</span><span class="p">;</span>
+
+<span class="nc">Pulse</span><span class="o">::</span><span class="nf">record</span><span class="p">(</span><span class="s1">'user_sale'</span><span class="p">,</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span> <span class="nv">$sale</span><span class="o">-&gt;</span><span class="n">amount</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">sum</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nb">count</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>The first argument provided to the <code class="language-plaintext highlighter-rouge">record</code> method is the <code class="language-plaintext highlighter-rouge">type</code> for the entry you are recording, while the second argument is the <code class="language-plaintext highlighter-rouge">key</code> that determines how the aggregated data should be grouped. For most aggregation methods you will also need to specify a <code class="language-plaintext highlighter-rouge">value</code> to be aggregated. In the example above, the value being aggregated is <code class="language-plaintext highlighter-rouge">$sale-&gt;amount</code>. You may then invoke one or more aggregation methods (such as <code class="language-plaintext highlighter-rouge">sum</code>) so that Pulse may capture pre-aggregated values into “buckets” for efficient retrieval later.</p>
+
+<p>The available aggregation methods are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">avg</code></li>
+  <li><code class="language-plaintext highlighter-rouge">count</code></li>
+  <li><code class="language-plaintext highlighter-rouge">max</code></li>
+  <li><code class="language-plaintext highlighter-rouge">min</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sum</code></li>
+</ul>
+
+<blockquote>
+  <p>[!NOTE]
+When building a card package that captures the currently authenticated user ID, you should use the <code class="language-plaintext highlighter-rouge">Pulse::resolveAuthenticatedUserId()</code> method, which respects any <a href="#dashboard-resolving-users">user resolver customizations</a> made to the application.</p>
+</blockquote>
+
+<p><a name="custom-card-data-retrieval"></a></p>
+<h4 id="retrieving-aggregate-data">Retrieving Aggregate Data</h4>
+
+<p>When extending Pulse’s <code class="language-plaintext highlighter-rouge">Card</code> Livewire component, you may use the <code class="language-plaintext highlighter-rouge">aggregate</code> method to retrieve aggregated data for the period being viewed in the dashboard:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">TopSellers</span> <span class="kd">extends</span> <span class="nc">Card</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">render</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'livewire.pulse.top-sellers'</span><span class="p">,</span> <span class="p">[</span>
+            <span class="s1">'topSellers'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">aggregate</span><span class="p">(</span><span class="s1">'user_sale'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">])</span>
+        <span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">aggregate</code> 메서드는 PHP <code class="language-plaintext highlighter-rouge">stdClass</code> 객체 컬렉션을 반환합니다. 각 객체는 이전에 캡처된 <code class="language-plaintext highlighter-rouge">key</code> 속성과 요청된 각 집계에 대한 키를 포함하게 됩니다:</p>
+
+<pre><code class="language-blade">@foreach ($topSellers as $seller)
+    {{ $seller-&gt;key }}
+    {{ $seller-&gt;sum }}
+    {{ $seller-&gt;count }}
+@endforeach
+</code></pre>
+
+<p>Pulse는 주로 미리 집계된 버킷에서 데이터를 가져올 것입니다. 따라서 지정된 집계는 <code class="language-plaintext highlighter-rouge">Pulse::record</code> 방법을 사용하여 사전에 캡처되어야 합니다. 가장 오래된 버킷은 일반적으로 기간의 일부 밖에 걸쳐 있을 것이므로, Pulse는 전체 기간에 대한 정확한 값을 제공하고 격차를 메우기 위해 가장 오래된 항목을 집계할 것이며, 각 폴 요청마다 전체 기간을 집계할 필요는 없습니다.</p>
+
+<p>또한 <code class="language-plaintext highlighter-rouge">aggregateTotal</code> 방법을 사용하여 주어진 유형의 총값을 가져올 수도 있습니다. 예를 들어, 다음 방법은 사용자를 기준으로 그룹화하는 대신 모든 사용자 판매의 총합을 가져올 것입니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$total</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">aggregateTotal</span><span class="p">(</span><span class="s1">'user_sale'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="custom-card-displaying-users"></a></p>
+<h4 id="사용자-표시">사용자 표시</h4>
+
+<p>사용자 ID를 키로 기록하는 집계를 작업할 때, <code class="language-plaintext highlighter-rouge">Pulse::resolveUsers</code> 방법을 사용하여 키를 사용자 기록으로 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$aggregates</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">aggregate</span><span class="p">(</span><span class="s1">'user_sale'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">]);</span>
+
+<span class="nv">$users</span> <span class="o">=</span> <span class="nc">Pulse</span><span class="o">::</span><span class="nf">resolveUsers</span><span class="p">(</span><span class="nv">$aggregates</span><span class="o">-&gt;</span><span class="nf">pluck</span><span class="p">(</span><span class="s1">'key'</span><span class="p">));</span>
+
+<span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'livewire.pulse.top-sellers'</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s1">'sellers'</span> <span class="o">=&gt;</span> <span class="nv">$aggregates</span><span class="o">-&gt;</span><span class="nf">map</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="nv">$aggregate</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">object</span><span class="p">)</span> <span class="p">[</span>
+        <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="nv">$users</span><span class="o">-&gt;</span><span class="nf">find</span><span class="p">(</span><span class="nv">$aggregate</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">),</span>
+        <span class="s1">'sum'</span> <span class="o">=&gt;</span> <span class="nv">$aggregate</span><span class="o">-&gt;</span><span class="n">sum</span><span class="p">,</span>
+        <span class="s1">'count'</span> <span class="o">=&gt;</span> <span class="nv">$aggregate</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">,</span>
+    <span class="p">])</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">find</code> 메서드는 <code class="language-plaintext highlighter-rouge">name</code>, <code class="language-plaintext highlighter-rouge">extra</code> 및 <code class="language-plaintext highlighter-rouge">avatar</code> 키를 포함하는 객체를 반환하며, 이를 선택적으로 <code class="language-plaintext highlighter-rouge">&lt;x-pulse::user-card&gt;</code> Blade 컴포넌트에 직접 전달할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-pulse::user-card :user="{{ $seller-&gt;user }}" :stats="{{ $seller-&gt;sum }}" /&gt;
+</code></pre>
+
+<p><a name="custom-recorders"></a></p>
+<h4 id="맞춤-기록기">맞춤 기록기</h4>
+
+<p>패키지 작성자는 사용자가 데이터 캡처를 구성할 수 있도록 기록기 클래스를 제공하고 싶어할 수 있습니다.</p>
+
+<p>기록기는 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/pulse.php</code> 구성 파일의 <code class="language-plaintext highlighter-rouge">recorders</code> 섹션에 등록됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="s1">'recorders'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="nc">Acme\Recorders\Deployments</span><span class="o">::</span><span class="n">class</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="c1">// ...</span>
+        <span class="p">],</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">],</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>기록자는 <code class="language-plaintext highlighter-rouge">$listen</code> 속성을 지정하여 이벤트를 들을 수 있습니다. Pulse는 자동으로 리스너를 등록하고 기록자의 <code class="language-plaintext highlighter-rouge">record</code> 메서드를 호출합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">Acme\Recorders</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Acme\Events\Deployment</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Config</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pulse\Facades\Pulse</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Deployments</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * The events to listen for.
+     *
+     * @var array&lt;int, class-string&gt;
+     */</span>
+    <span class="k">public</span> <span class="kt">array</span> <span class="nv">$listen</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nc">Deployment</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">];</span>
+
+    <span class="cd">/**
+     * Record the deployment.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">record</span><span class="p">(</span><span class="kt">Deployment</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$config</span> <span class="o">=</span> <span class="nc">Config</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'pulse.recorders.'</span><span class="mf">.</span><span class="k">static</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+
+        <span class="nc">Pulse</span><span class="o">::</span><span class="nf">record</span><span class="p">(</span>
+            <span class="c1">// ...</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

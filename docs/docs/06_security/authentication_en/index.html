@@ -1,0 +1,2373 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Authentication | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Authentication" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/06_security/authentication_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/06_security/authentication_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Authentication" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Authentication","url":"http://localhost:4000/docs/06_security/authentication_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/06_security/">06 security</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Authentication</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="authentication">Authentication</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a>
+    <ul>
+      <li><a href="#starter-kits">Starter Kits</a></li>
+      <li><a href="#introduction-database-considerations">Database Considerations</a></li>
+      <li><a href="#ecosystem-overview">Ecosystem Overview</a></li>
+    </ul>
+  </li>
+  <li><a href="#authentication-quickstart">Authentication Quickstart</a>
+    <ul>
+      <li><a href="#install-a-starter-kit">Install a Starter Kit</a></li>
+      <li><a href="#retrieving-the-authenticated-user">Retrieving the Authenticated User</a></li>
+      <li><a href="#protecting-routes">Protecting Routes</a></li>
+      <li><a href="#login-throttling">Login Throttling</a></li>
+    </ul>
+  </li>
+  <li><a href="#authenticating-users">Manually Authenticating Users</a>
+    <ul>
+      <li><a href="#remembering-users">Remembering Users</a></li>
+      <li><a href="#other-authentication-methods">Other Authentication Methods</a></li>
+    </ul>
+  </li>
+  <li><a href="#http-basic-authentication">HTTP Basic Authentication</a>
+    <ul>
+      <li><a href="#stateless-http-basic-authentication">Stateless HTTP Basic Authentication</a></li>
+    </ul>
+  </li>
+  <li><a href="#logging-out">Logging Out</a>
+    <ul>
+      <li><a href="#invalidating-sessions-on-other-devices">Invalidating Sessions on Other Devices</a></li>
+    </ul>
+  </li>
+  <li><a href="#password-confirmation">Password Confirmation</a>
+    <ul>
+      <li><a href="#password-confirmation-configuration">Configuration</a></li>
+      <li><a href="#password-confirmation-routing">Routing</a></li>
+      <li><a href="#password-confirmation-protecting-routes">Protecting Routes</a></li>
+    </ul>
+  </li>
+  <li><a href="#adding-custom-guards">Adding Custom Guards</a>
+    <ul>
+      <li><a href="#closure-request-guards">Closure Request Guards</a></li>
+    </ul>
+  </li>
+  <li><a href="#adding-custom-user-providers">Adding Custom User Providers</a>
+    <ul>
+      <li><a href="#the-user-provider-contract">The User Provider Contract</a></li>
+      <li><a href="#the-authenticatable-contract">The Authenticatable Contract</a></li>
+    </ul>
+  </li>
+  <li><a href="#automatic-password-rehashing">Automatic Password Rehashing</a></li>
+  <li><a href="/docs/{{version}}/socialite">Social Authentication</a></li>
+  <li><a href="#events">Events</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Many web applications provide a way for their users to authenticate with the application and “login”. Implementing this feature in web applications can be a complex and potentially risky endeavor. For this reason, Laravel strives to give you the tools you need to implement authentication quickly, securely, and easily.</p>
+
+<p>At its core, Laravel’s authentication facilities are made up of “guards” and “providers”. Guards define how users are authenticated for each request. For example, Laravel ships with a <code class="language-plaintext highlighter-rouge">session</code> guard which maintains state using session storage and cookies.</p>
+
+<p>Providers define how users are retrieved from your persistent storage. Laravel ships with support for retrieving users using <a href="/docs/{{version}}/eloquent">Eloquent</a> and the database query builder. However, you are free to define additional providers as needed for your application.</p>
+
+<p>Your application’s authentication configuration file is located at <code class="language-plaintext highlighter-rouge">config/auth.php</code>. This file contains several well-documented options for tweaking the behavior of Laravel’s authentication services.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Guards and providers should not be confused with “roles” and “permissions”. To learn more about authorizing user actions via permissions, please refer to the <a href="/docs/{{version}}/authorization">authorization</a> documentation.</p>
+</blockquote>
+
+<p><a name="starter-kits"></a></p>
+<h3 id="starter-kits">Starter Kits</h3>
+
+<p>Want to get started fast? Install a <a href="/docs/{{version}}/starter-kits">Laravel application starter kit</a> in a fresh Laravel application. After migrating your database, navigate your browser to <code class="language-plaintext highlighter-rouge">/register</code> or any other URL that is assigned to your application. The starter kits will take care of scaffolding your entire authentication system!</p>
+
+<p><strong>Even if you choose not to use a starter kit in your final Laravel application, installing a <a href="/docs/{{version}}/starter-kits">starter kit</a> can be a wonderful opportunity to learn how to implement all of Laravel’s authentication functionality in an actual Laravel project.</strong> Since the Laravel starter kits contain authentication controllers, routes, and views for you, you can examine the code within these files to learn how Laravel’s authentication features may be implemented.</p>
+
+<p><a name="introduction-database-considerations"></a></p>
+<h3 id="database-considerations">Database Considerations</h3>
+
+<p>By default, Laravel includes an <code class="language-plaintext highlighter-rouge">App\Models\User</code> <a href="/docs/{{version}}/eloquent">Eloquent model</a> in your <code class="language-plaintext highlighter-rouge">app/Models</code> directory. This model may be used with the default Eloquent authentication driver.</p>
+
+<p>If your application is not using Eloquent, you may use the <code class="language-plaintext highlighter-rouge">database</code> authentication provider which uses the Laravel query builder. If your application is using MongoDB, check out MongoDB’s official <a href="https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/user-authentication/">Laravel user authentication documentation</a>.</p>
+
+<p>When building the database schema for the <code class="language-plaintext highlighter-rouge">App\Models\User</code> model, make sure the password column is at least 60 characters in length. Of course, the <code class="language-plaintext highlighter-rouge">users</code> table migration that is included in new Laravel applications already creates a column that exceeds this length.</p>
+
+<p>Also, you should verify that your <code class="language-plaintext highlighter-rouge">users</code> (or equivalent) table contains a nullable, string <code class="language-plaintext highlighter-rouge">remember_token</code> column of 100 characters. This column will be used to store a token for users that select the “remember me” option when logging into your application. Again, the default <code class="language-plaintext highlighter-rouge">users</code> table migration that is included in new Laravel applications already contains this column.</p>
+
+<p><a name="ecosystem-overview"></a></p>
+<h3 id="ecosystem-overview">Ecosystem Overview</h3>
+
+<p>Laravel offers several packages related to authentication. Before continuing, we’ll review the general authentication ecosystem in Laravel and discuss each package’s intended purpose.</p>
+
+<p>First, consider how authentication works. When using a web browser, a user will provide their username and password via a login form. If these credentials are correct, the application will store information about the authenticated user in the user’s <a href="/docs/{{version}}/session">session</a>. A cookie issued to the browser contains the session ID so that subsequent requests to the application can associate the user with the correct session. After the session cookie is received, the application will retrieve the session data based on the session ID, note that the authentication information has been stored in the session, and will consider the user as “authenticated”.</p>
+
+<p>When a remote service needs to authenticate to access an API, cookies are not typically used for authentication because there is no web browser. Instead, the remote service sends an API token to the API on each request. The application may validate the incoming token against a table of valid API tokens and “authenticate” the request as being performed by the user associated with that API token.</p>
+
+<p><a name="laravels-built-in-browser-authentication-services"></a></p>
+<h4 id="laravels-built-in-browser-authentication-services">Laravel’s Built-in Browser Authentication Services</h4>
+
+<p>Laravel includes built-in authentication and session services which are typically accessed via the <code class="language-plaintext highlighter-rouge">Auth</code> and <code class="language-plaintext highlighter-rouge">Session</code> facades. These features provide cookie-based authentication for requests that are initiated from web browsers. They provide methods that allow you to verify a user’s credentials and authenticate the user. In addition, these services will automatically store the proper authentication data in the user’s session and issue the user’s session cookie. A discussion of how to use these services is contained within this documentation.</p>
+
+<p><strong>Application Starter Kits</strong></p>
+
+<p>As discussed in this documentation, you can interact with these authentication services manually to build your application’s own authentication layer. However, to help you get started more quickly, we have released <a href="/docs/{{version}}/starter-kits">free starter kits</a> that provide robust, modern scaffolding of the entire authentication layer.</p>
+
+<p><a name="laravels-api-authentication-services"></a></p>
+<h4 id="laravels-api-authentication-services">Laravel’s API Authentication Services</h4>
+
+<p>Laravel provides two optional packages to assist you in managing API tokens and authenticating requests made with API tokens: <a href="/docs/{{version}}/passport">Passport</a> and <a href="/docs/{{version}}/sanctum">Sanctum</a>. Please note that these libraries and Laravel’s built-in cookie based authentication libraries are not mutually exclusive. These libraries primarily focus on API token authentication while the built-in authentication services focus on cookie based browser authentication. Many applications will use both Laravel’s built-in cookie based authentication services and one of Laravel’s API authentication packages.</p>
+
+<p><strong>Passport</strong></p>
+
+<p>Passport is an OAuth2 authentication provider, offering a variety of OAuth2 “grant types” which allow you to issue various types of tokens. In general, this is a robust and complex package for API authentication. However, most applications do not require the complex features offered by the OAuth2 spec, which can be confusing for both users and developers. In addition, developers have been historically confused about how to authenticate SPA applications or mobile applications using OAuth2 authentication providers like Passport.</p>
+
+<p><strong>Sanctum</strong></p>
+
+<p>In response to the complexity of OAuth2 and developer confusion, we set out to build a simpler, more streamlined authentication package that could handle both first-party web requests from a web browser and API requests via tokens. This goal was realized with the release of <a href="/docs/{{version}}/sanctum">Laravel Sanctum</a>, which should be considered the preferred and recommended authentication package for applications that will be offering a first-party web UI in addition to an API, or will be powered by a single-page application (SPA) that exists separately from the backend Laravel application, or applications that offer a mobile client.</p>
+
+<p>Laravel Sanctum is a hybrid web / API authentication package that can manage your application’s entire authentication process. This is possible because when Sanctum based applications receive a request, Sanctum will first determine if the request includes a session cookie that references an authenticated session. Sanctum accomplishes this by calling Laravel’s built-in authentication services which we discussed earlier. If the request is not being authenticated via a session cookie, Sanctum will inspect the request for an API token. If an API token is present, Sanctum will authenticate the request using that token. To learn more about this process, please consult Sanctum’s <a href="/docs/{{version}}/sanctum#how-it-works">“how it works”</a> documentation.</p>
+
+<p><a name="summary-choosing-your-stack"></a></p>
+<h4 id="summary-and-choosing-your-stack">Summary and Choosing Your Stack</h4>
+
+<p>In summary, if your application will be accessed using a browser and you are building a monolithic Laravel application, your application will use Laravel’s built-in authentication services.</p>
+
+<p>Next, if your application offers an API that will be consumed by third parties, you will choose between <a href="/docs/{{version}}/passport">Passport</a> or <a href="/docs/{{version}}/sanctum">Sanctum</a> to provide API token authentication for your application. In general, Sanctum should be preferred when possible since it is a simple, complete solution for API authentication, SPA authentication, and mobile authentication, including support for “scopes” or “abilities”.</p>
+
+<p>If you are building a single-page application (SPA) that will be powered by a Laravel backend, you should use <a href="/docs/{{version}}/sanctum">Laravel Sanctum</a>. When using Sanctum, you will either need to <a href="#authenticating-users">manually implement your own backend authentication routes</a> or utilize <a href="/docs/{{version}}/fortify">Laravel Fortify</a> as a headless authentication backend service that provides routes and controllers for features such as registration, password reset, email verification, and more.</p>
+
+<p>Passport may be chosen when your application absolutely needs all of the features provided by the OAuth2 specification. Additionally, if you are building an <a href="/docs/{{version}}/mcp">MCP server</a> that will be accessed by AI clients, you should use Passport, as MCP clients typically expect to <a href="/docs/{{version}}/mcp#oauth">authenticate using OAuth</a>.</p>
+
+<p>And, if you would like to get started quickly, we are pleased to recommend <a href="/docs/{{version}}/starter-kits">our application starter kits</a> as a quick way to start a new Laravel application that already uses our preferred authentication stack of Laravel’s built-in authentication services.</p>
+
+<p><a name="authentication-quickstart"></a></p>
+<h2 id="authentication-quickstart">Authentication Quickstart</h2>
+
+<blockquote>
+  <p>[!WARNING]
+This portion of the documentation discusses authenticating users via the <a href="/docs/{{version}}/starter-kits">Laravel application starter kits</a>, which includes UI scaffolding to help you get started quickly. If you would like to integrate with Laravel’s authentication systems directly, check out the documentation on <a href="#authenticating-users">manually authenticating users</a>.</p>
+</blockquote>
+
+<p><a name="install-a-starter-kit"></a></p>
+<h3 id="install-a-starter-kit">Install a Starter Kit</h3>
+
+<p>First, you should <a href="/docs/{{version}}/starter-kits">install a Laravel application starter kit</a>. Our starter kits offer beautifully designed starting points for incorporating authentication into your fresh Laravel application.</p>
+
+<p><a name="retrieving-the-authenticated-user"></a></p>
+<h3 id="retrieving-the-authenticated-user">Retrieving the Authenticated User</h3>
+
+<p>After creating an application from a starter kit and allowing users to register and authenticate with your application, you will often need to interact with the currently authenticated user. While handling an incoming request, you may access the authenticated user via the <code class="language-plaintext highlighter-rouge">Auth</code> facade’s <code class="language-plaintext highlighter-rouge">user</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="c1">// Retrieve the currently authenticated user...</span>
+<span class="nv">$user</span> <span class="o">=</span> <span class="nc">Auth</span><span class="o">::</span><span class="nf">user</span><span class="p">();</span>
+
+<span class="c1">// Retrieve the currently authenticated user's ID...</span>
+<span class="nv">$id</span> <span class="o">=</span> <span class="nc">Auth</span><span class="o">::</span><span class="nf">id</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Alternatively, once a user is authenticated, you may access the authenticated user via an <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> instance. Remember, type-hinted classes will automatically be injected into your controller methods. By type-hinting the <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> object, you may gain convenient access to the authenticated user from any controller method in your application via the request’s <code class="language-plaintext highlighter-rouge">user</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">FlightController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Update the flight information for an existing flight.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="nv">$user</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">();</span>
+
+        <span class="c1">// ...</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/flights'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="determining-if-the-current-user-is-authenticated"></a></p>
+<h4 id="determining-if-the-current-user-is-authenticated">Determining if the Current User is Authenticated</h4>
+
+<p>To determine if the user making the incoming HTTP request is authenticated, you may use the <code class="language-plaintext highlighter-rouge">check</code> method on the <code class="language-plaintext highlighter-rouge">Auth</code> facade. This method will return <code class="language-plaintext highlighter-rouge">true</code> if the user is authenticated:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">check</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// The user is logged in...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Even though it is possible to determine if a user is authenticated using the <code class="language-plaintext highlighter-rouge">check</code> method, you will typically use a middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on <a href="/docs/{{version}}/authentication#protecting-routes">protecting routes</a>.</p>
+</blockquote>
+
+<p><a name="protecting-routes"></a></p>
+<h3 id="protecting-routes">Protecting Routes</h3>
+
+<p><a href="/docs/{{version}}/middleware">Route middleware</a> can be used to only allow authenticated users to access a given route. Laravel ships with an <code class="language-plaintext highlighter-rouge">auth</code> middleware, which is a <a href="/docs/{{version}}/middleware#middleware-aliases">middleware alias</a> for the <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Middleware\Authenticate</code> class. Since this middleware is already aliased internally by Laravel, all you need to do is attach the middleware to a route definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/flights'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Only authenticated users may access this route...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'auth'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="redirecting-unauthenticated-users"></a></p>
+<h4 id="redirecting-unauthenticated-users">Redirecting Unauthenticated Users</h4>
+
+<p>When the <code class="language-plaintext highlighter-rouge">auth</code> middleware detects an unauthenticated user, it will redirect the user to the <code class="language-plaintext highlighter-rouge">login</code> <a href="/docs/{{version}}/routing#named-routes">named route</a>. You may modify this behavior using the <code class="language-plaintext highlighter-rouge">redirectGuestsTo</code> method within your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">redirectGuestsTo</span><span class="p">(</span><span class="s1">'/login'</span><span class="p">);</span>
+
+    <span class="c1">// Using a closure...</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">redirectGuestsTo</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'login'</span><span class="p">));</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p><a name="redirecting-authenticated-users"></a></p>
+<h4 id="redirecting-authenticated-users">Redirecting Authenticated Users</h4>
+
+<p>When the <code class="language-plaintext highlighter-rouge">guest</code> middleware detects an authenticated user, it will redirect the user to the <code class="language-plaintext highlighter-rouge">dashboard</code> or <code class="language-plaintext highlighter-rouge">home</code> named route. You may modify this behavior using the <code class="language-plaintext highlighter-rouge">redirectUsersTo</code> method within your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">redirectUsersTo</span><span class="p">(</span><span class="s1">'/panel'</span><span class="p">);</span>
+
+    <span class="c1">// Using a closure...</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">redirectUsersTo</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'panel'</span><span class="p">));</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p><a name="specifying-a-guard"></a></p>
+<h4 id="specifying-a-guard">Specifying a Guard</h4>
+
+<p>When attaching the <code class="language-plaintext highlighter-rouge">auth</code> middleware to a route, you may also specify which “guard” should be used to authenticate the user. The guard specified should correspond to one of the keys in the <code class="language-plaintext highlighter-rouge">guards</code> array of your <code class="language-plaintext highlighter-rouge">auth.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/flights'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Only authenticated users may access this route...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'auth:admin'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="login-throttling"></a></p>
+<h3 id="login-throttling">Login Throttling</h3>
+
+<p>If you are using one of our <a href="/docs/{{version}}/starter-kits">application starter kits</a>, rate limiting will automatically be applied to login attempts. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user’s username / email address and their IP address.</p>
+
+<blockquote>
+  <p>[!NOTE]
+If you would like to rate limit other routes in your application, check out the <a href="/docs/{{version}}/routing#rate-limiting">rate limiting documentation</a>.</p>
+</blockquote>
+
+<p><a name="authenticating-users"></a></p>
+<h2 id="manually-authenticating-users">Manually Authenticating Users</h2>
+
+<p>You are not required to use the authentication scaffolding included with Laravel’s <a href="/docs/{{version}}/starter-kits">application starter kits</a>. If you choose not to use this scaffolding, you will need to manage user authentication using the Laravel authentication classes directly. Don’t worry, it’s a cinch!</p>
+
+<p>We will access Laravel’s authentication services via the <code class="language-plaintext highlighter-rouge">Auth</code> <a href="/docs/{{version}}/facades">facade</a>, so we’ll need to make sure to import the <code class="language-plaintext highlighter-rouge">Auth</code> facade at the top of the class. Next, let’s check out the <code class="language-plaintext highlighter-rouge">attempt</code> method. The <code class="language-plaintext highlighter-rouge">attempt</code> method is normally used to handle authentication attempts from your application’s “login” form. If authentication is successful, you should regenerate the user’s <a href="/docs/{{version}}/session">session</a> to prevent <a href="https://en.wikipedia.org/wiki/Session_fixation">session fixation</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">LoginController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle an authentication attempt.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">authenticate</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="nv">$credentials</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">validate</span><span class="p">([</span>
+            <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'required'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">],</span>
+            <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'required'</span><span class="p">],</span>
+        <span class="p">]);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">attempt</span><span class="p">(</span><span class="nv">$credentials</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">regenerate</span><span class="p">();</span>
+
+            <span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">intended</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nf">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">withErrors</span><span class="p">([</span>
+            <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'The provided credentials do not match our records.'</span><span class="p">,</span>
+        <span class="p">])</span><span class="o">-&gt;</span><span class="nf">onlyInput</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">attempt</code> method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the <code class="language-plaintext highlighter-rouge">email</code> column. If the user is found, the hashed password stored in the database will be compared with the <code class="language-plaintext highlighter-rouge">password</code> value passed to the method via the array. You should not hash the incoming request’s <code class="language-plaintext highlighter-rouge">password</code> value, since the framework will automatically hash the value before comparing it to the hashed password in the database. An authenticated session will be started for the user if the two hashed passwords match.</p>
+
+<p>Remember, Laravel’s authentication services will retrieve users from your database based on your authentication guard’s “provider” configuration. In the default <code class="language-plaintext highlighter-rouge">config/auth.php</code> configuration file, the Eloquent user provider is specified and it is instructed to use the <code class="language-plaintext highlighter-rouge">App\Models\User</code> model when retrieving users. You may change these values within your configuration file based on the needs of your application.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">attempt</code> method will return <code class="language-plaintext highlighter-rouge">true</code> if authentication was successful. Otherwise, <code class="language-plaintext highlighter-rouge">false</code> will be returned.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">intended</code> method provided by Laravel’s redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.</p>
+
+<p><a name="specifying-additional-conditions"></a></p>
+<h4 id="specifying-additional-conditions">Specifying Additional Conditions</h4>
+
+<p>If you wish, you may also add extra query conditions to the authentication query in addition to the user’s email and password. To accomplish this, we may simply add the query conditions to the array passed to the <code class="language-plaintext highlighter-rouge">attempt</code> method. For example, we may verify that the user is marked as “active”:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">attempt</span><span class="p">([</span><span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span> <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nv">$password</span><span class="p">,</span> <span class="s1">'active'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// Authentication was successful...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For complex query conditions, you may provide a closure in your array of credentials. This closure will be invoked with the query instance, allowing you to customize the query based on your application’s needs:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Builder</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">attempt</span><span class="p">([</span>
+    <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span>
+    <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nv">$password</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">(</span><span class="kt">Builder</span> <span class="nv">$query</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$query</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'activeSubscription'</span><span class="p">),</span>
+<span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// Authentication was successful...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+In these examples, <code class="language-plaintext highlighter-rouge">email</code> is not a required option, it is merely used as an example. You should use whatever column name corresponds to a “username” in your database table.</p>
+</blockquote>
+
+<p>The <code class="language-plaintext highlighter-rouge">attemptWhen</code> method, which receives a closure as its second argument, may be used to perform more extensive inspection of the potential user before actually authenticating the user. The closure receives the potential user and should return <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code> to indicate if the user may be authenticated:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">attemptWhen</span><span class="p">([</span>
+    <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span>
+    <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nv">$password</span><span class="p">,</span>
+<span class="p">],</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isNotBanned</span><span class="p">();</span>
+<span class="p">}))</span> <span class="p">{</span>
+    <span class="c1">// Authentication was successful...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="accessing-specific-guard-instances"></a></p>
+<h4 id="accessing-specific-guard-instances">Accessing Specific Guard Instances</h4>
+
+<p>Via the <code class="language-plaintext highlighter-rouge">Auth</code> facade’s <code class="language-plaintext highlighter-rouge">guard</code> method, you may specify which guard instance you would like to utilize when authenticating the user. This allows you to manage authentication for separate parts of your application using entirely separate authenticatable models or user tables.</p>
+
+<p>The guard name passed to the <code class="language-plaintext highlighter-rouge">guard</code> method should correspond to one of the guards configured in your <code class="language-plaintext highlighter-rouge">auth.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">guard</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">attempt</span><span class="p">(</span><span class="nv">$credentials</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="remembering-users"></a></p>
+<h3 id="remembering-users">Remembering Users</h3>
+
+<p>Many web applications provide a “remember me” checkbox on their login form. If you would like to provide “remember me” functionality in your application, you may pass a boolean value as the second argument to the <code class="language-plaintext highlighter-rouge">attempt</code> method.</p>
+
+<p>When this value is <code class="language-plaintext highlighter-rouge">true</code>, Laravel will keep the user authenticated indefinitely or until they manually logout. Your <code class="language-plaintext highlighter-rouge">users</code> table must include the string <code class="language-plaintext highlighter-rouge">remember_token</code> column, which will be used to store the “remember me” token. The <code class="language-plaintext highlighter-rouge">users</code> table migration included with new Laravel applications already includes this column:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">attempt</span><span class="p">([</span><span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="p">,</span> <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="nv">$password</span><span class="p">],</span> <span class="nv">$remember</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The user is being remembered...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If your application offers “remember me” functionality, you may use the <code class="language-plaintext highlighter-rouge">viaRemember</code> method to determine if the currently authenticated user was authenticated using the “remember me” cookie:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">viaRemember</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="other-authentication-methods"></a></p>
+<h3 id="other-authentication-methods">Other Authentication Methods</h3>
+
+<p><a name="authenticate-a-user-instance"></a></p>
+<h4 id="authenticate-a-user-instance">Authenticate a User Instance</h4>
+
+<p>If you need to set an existing user instance as the currently authenticated user, you may pass the user instance to the <code class="language-plaintext highlighter-rouge">Auth</code> facade’s <code class="language-plaintext highlighter-rouge">login</code> method. The given user instance must be an implementation of the <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\Authenticatable</code> <a href="/docs/{{version}}/contracts">contract</a>. The <code class="language-plaintext highlighter-rouge">App\Models\User</code> model included with Laravel already implements this interface. This method of authentication is useful when you already have a valid user instance, such as directly after a user registers with your application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="nc">Auth</span><span class="o">::</span><span class="nf">login</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may pass a boolean value as the second argument to the <code class="language-plaintext highlighter-rouge">login</code> method. This value indicates if “remember me” functionality is desired for the authenticated session. Remember, this means that the session will be authenticated indefinitely or until the user manually logs out of the application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Auth</span><span class="o">::</span><span class="nf">login</span><span class="p">(</span><span class="nv">$user</span><span class="p">,</span> <span class="nv">$remember</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>If needed, you may specify an authentication guard before calling the <code class="language-plaintext highlighter-rouge">login</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Auth</span><span class="o">::</span><span class="nf">guard</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">login</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="authenticate-a-user-by-id"></a></p>
+<h4 id="authenticate-a-user-by-id">Authenticate a User by ID</h4>
+
+<p>To authenticate a user using their database record’s primary key, you may use the <code class="language-plaintext highlighter-rouge">loginUsingId</code> method. This method accepts the primary key of the user you wish to authenticate:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Auth</span><span class="o">::</span><span class="nf">loginUsingId</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may pass a boolean value to the <code class="language-plaintext highlighter-rouge">remember</code> argument of the <code class="language-plaintext highlighter-rouge">loginUsingId</code> method. This value indicates if “remember me” functionality is desired for the authenticated session. Remember, this means that the session will be authenticated indefinitely or until the user manually logs out of the application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Auth</span><span class="o">::</span><span class="nf">loginUsingId</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">remember</span><span class="o">:</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="authenticate-a-user-once"></a></p>
+<h4 id="authenticate-a-user-once">Authenticate a User Once</h4>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">once</code> method to authenticate a user with the application for a single request. No sessions or cookies will be utilized when calling this method, and the <code class="language-plaintext highlighter-rouge">Login</code> event will not be dispatched:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">once</span><span class="p">(</span><span class="nv">$credentials</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="http-basic-authentication"></a></p>
+<h2 id="http-basic-authentication">HTTP Basic Authentication</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Authentication</a> provides a quick way to authenticate users of your application without setting up a dedicated “login” page. To get started, attach the <code class="language-plaintext highlighter-rouge">auth.basic</code> <a href="/docs/{{version}}/middleware">middleware</a> to a route. The <code class="language-plaintext highlighter-rouge">auth.basic</code> middleware is included with the Laravel framework, so you do not need to define it:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/profile'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Only authenticated users may access this route...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'auth.basic'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Once the middleware has been attached to the route, you will automatically be prompted for credentials when accessing the route in your browser. By default, the <code class="language-plaintext highlighter-rouge">auth.basic</code> middleware will assume the <code class="language-plaintext highlighter-rouge">email</code> column on your <code class="language-plaintext highlighter-rouge">users</code> database table is the user’s “username”.</p>
+
+<p><a name="a-note-on-fastcgi"></a></p>
+<h4 id="a-note-on-fastcgi">A Note on FastCGI</h4>
+
+<p>If you are using <a href="https://www.php.net/manual/en/install.fpm.php">PHP FastCGI</a> and Apache to serve your Laravel application, HTTP Basic authentication may not work correctly. To correct these problems, the following lines may be added to your application’s <code class="language-plaintext highlighter-rouge">.htaccess</code> file:</p>
+
+<div class="language-apache highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RewriteCond</span> %{HTTP:Authorization} ^(.+)$
+<span class="nc">RewriteRule</span> .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</code></pre></div></div>
+
+<p><a name="stateless-http-basic-authentication"></a></p>
+<h3 id="stateless-http-basic-authentication">Stateless HTTP Basic Authentication</h3>
+
+<p>You may also use HTTP Basic Authentication without setting a user identifier cookie in the session. This is primarily helpful if you choose to use HTTP Authentication to authenticate requests to your application’s API. To accomplish this, <a href="/docs/{{version}}/middleware">define a middleware</a> that calls the <code class="language-plaintext highlighter-rouge">onceBasic</code> method. If no response is returned by the <code class="language-plaintext highlighter-rouge">onceBasic</code> method, the request may be passed further into the application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Middleware</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Closure</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AuthenticateOnceWithBasicAuth</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">Closure</span> <span class="nv">$next</span><span class="p">):</span> <span class="kt">Response</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Auth</span><span class="o">::</span><span class="nf">onceBasic</span><span class="p">()</span> <span class="o">?:</span> <span class="nv">$next</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Next, attach the middleware to a route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/api/user'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Only authenticated users may access this route...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="nc">AuthenticateOnceWithBasicAuth</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="logging-out"></a></p>
+<h2 id="logging-out">Logging Out</h2>
+
+<p>To manually log users out of your application, you may use the <code class="language-plaintext highlighter-rouge">logout</code> method provided by the <code class="language-plaintext highlighter-rouge">Auth</code> facade. This will remove the authentication information from the user’s session so that subsequent requests are not authenticated.</p>
+
+<p>In addition to calling the <code class="language-plaintext highlighter-rouge">logout</code> method, it is recommended that you invalidate the user’s session and regenerate their <a href="/docs/{{version}}/csrf">CSRF token</a>. After logging the user out, you would typically redirect the user to the root of your application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Log the user out of the application.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">logout</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+<span class="p">{</span>
+    <span class="nc">Auth</span><span class="o">::</span><span class="nf">logout</span><span class="p">();</span>
+
+    <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">invalidate</span><span class="p">();</span>
+
+    <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">regenerateToken</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="invalidating-sessions-on-other-devices"></a></p>
+<h3 id="invalidating-sessions-on-other-devices">Invalidating Sessions on Other Devices</h3>
+
+<p>Laravel also provides a mechanism for invalidating and “logging out” a user’s sessions that are active on other devices without invalidating the session on their current device. This feature is typically utilized when a user is changing or updating their password and you would like to invalidate sessions on other devices while keeping the current device authenticated.</p>
+
+<p>Before getting started, you should make sure that the <code class="language-plaintext highlighter-rouge">Illuminate\Session\Middleware\AuthenticateSession</code> middleware is included on the routes that should receive session authentication. Typically, you should place this middleware on a route group definition so that it can be applied to the majority of your application’s routes. By default, the <code class="language-plaintext highlighter-rouge">AuthenticateSession</code> middleware may be attached to a route using the <code class="language-plaintext highlighter-rouge">auth.session</code> <a href="/docs/{{version}}/middleware#middleware-aliases">middleware alias</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">([</span><span class="s1">'auth'</span><span class="p">,</span> <span class="s1">'auth.session'</span><span class="p">])</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Then, you may use the <code class="language-plaintext highlighter-rouge">logoutOtherDevices</code> method provided by the <code class="language-plaintext highlighter-rouge">Auth</code> facade. This method requires the user to confirm their current password, which your application should accept through an input form:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="nc">Auth</span><span class="o">::</span><span class="nf">logoutOtherDevices</span><span class="p">(</span><span class="nv">$currentPassword</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>When the <code class="language-plaintext highlighter-rouge">logoutOtherDevices</code> method is invoked, the user’s other sessions will be invalidated entirely, meaning they will be “logged out” of all guards they were previously authenticated by.</p>
+
+<p><a name="password-confirmation"></a></p>
+<h2 id="password-confirmation">Password Confirmation</h2>
+
+<p>While building your application, you may occasionally have actions that should require the user to confirm their password before the action is performed or before the user is redirected to a sensitive area of the application. Laravel includes built-in middleware to make this process a breeze. Implementing this feature will require you to define two routes: one route to display a view asking the user to confirm their password and another route to confirm that the password is valid and redirect the user to their intended destination.</p>
+
+<blockquote>
+  <p>[!NOTE]
+The following documentation discusses how to integrate with Laravel’s password confirmation features directly; however, if you would like to get started more quickly, the <a href="/docs/{{version}}/starter-kits">Laravel application starter kits</a> include support for this feature!</p>
+</blockquote>
+
+<p><a name="password-confirmation-configuration"></a></p>
+<h3 id="configuration">Configuration</h3>
+
+<p>After confirming their password, a user will not be asked to confirm their password again for three hours. However, you may configure the length of time before the user is re-prompted for their password by changing the value of the <code class="language-plaintext highlighter-rouge">password_timeout</code> configuration value within your application’s <code class="language-plaintext highlighter-rouge">config/auth.php</code> configuration file.</p>
+
+<p><a name="password-confirmation-routing"></a></p>
+<h3 id="routing">Routing</h3>
+
+<p><a name="the-password-confirmation-form"></a></p>
+<h4 id="the-password-confirmation-form">The Password Confirmation Form</h4>
+
+<p>First, we will define a route to display a view that requests the user to confirm their password:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/confirm-password'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.confirm-password'</span><span class="p">);</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'auth'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'password.confirm'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>As you might expect, the view that is returned by this route should have a form containing a <code class="language-plaintext highlighter-rouge">password</code> field. In addition, feel free to include text within the view that explains that the user is entering a protected area of the application and must confirm their password.</p>
+
+<p><a name="confirming-the-password"></a></p>
+<h4 id="confirming-the-password">Confirming the Password</h4>
+
+<p>Next, we will define a route that will handle the form request from the “confirm password” view. This route will be responsible for validating the password and redirecting the user to their intended destination:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Hash</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/confirm-password'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nc">Hash</span><span class="o">::</span><span class="nf">check</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="n">password</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">password</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">withErrors</span><span class="p">([</span>
+            <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'The provided password does not match our records.'</span><span class="p">]</span>
+        <span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">session</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">passwordConfirmed</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">intended</span><span class="p">();</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">([</span><span class="s1">'auth'</span><span class="p">,</span> <span class="s1">'throttle:6,1'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>Before moving on, let’s examine this route in more detail. First, the request’s <code class="language-plaintext highlighter-rouge">password</code> field is determined to actually match the authenticated user’s password. If the password is valid, we need to inform Laravel’s session that the user has confirmed their password. The <code class="language-plaintext highlighter-rouge">passwordConfirmed</code> method will set a timestamp in the user’s session that Laravel can use to determine when the user last confirmed their password. Finally, we can redirect the user to their intended destination.</p>
+
+<p><a name="password-confirmation-protecting-routes"></a></p>
+<h3 id="protecting-routes-1">Protecting Routes</h3>
+
+<p>You should ensure that any route that performs an action which requires recent password confirmation is assigned the <code class="language-plaintext highlighter-rouge">password.confirm</code> middleware. This middleware is included with the default installation of Laravel and will automatically store the user’s intended destination in the session so that the user may be redirected to that location after confirming their password. After storing the user’s intended destination in the session, the middleware will redirect the user to the <code class="language-plaintext highlighter-rouge">password.confirm</code> <a href="/docs/{{version}}/routing#named-routes">named route</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/settings'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">([</span><span class="s1">'password.confirm'</span><span class="p">]);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/settings'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">([</span><span class="s1">'password.confirm'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="adding-custom-guards"></a></p>
+<h2 id="adding-custom-guards">Adding Custom Guards</h2>
+
+<p>You may define your own authentication guards using the <code class="language-plaintext highlighter-rouge">extend</code> method on the <code class="language-plaintext highlighter-rouge">Auth</code> facade. You should place your call to the <code class="language-plaintext highlighter-rouge">extend</code> method within a <a href="/docs/{{version}}/providers">service provider</a>. Since Laravel already ships with an <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>, we can place the code in that provider:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Services\Auth\JwtGuard</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Foundation\Application</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Auth</span><span class="o">::</span><span class="nf">extend</span><span class="p">(</span><span class="s1">'jwt'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Application</span> <span class="nv">$app</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$name</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$config</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Return an instance of Illuminate\Contracts\Auth\Guard...</span>
+
+            <span class="k">return</span> <span class="k">new</span> <span class="nc">JwtGuard</span><span class="p">(</span><span class="nc">Auth</span><span class="o">::</span><span class="nf">createUserProvider</span><span class="p">(</span><span class="nv">$config</span><span class="p">[</span><span class="s1">'provider'</span><span class="p">]));</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see in the example above, the callback passed to the <code class="language-plaintext highlighter-rouge">extend</code> method should return an implementation of <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\Guard</code>. This interface contains a few methods you will need to implement to define a custom guard. Once your custom guard has been defined, you may reference the guard in the <code class="language-plaintext highlighter-rouge">guards</code> configuration of your <code class="language-plaintext highlighter-rouge">auth.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'guards'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'api'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'jwt'</span><span class="p">,</span>
+        <span class="s1">'provider'</span> <span class="o">=&gt;</span> <span class="s1">'users'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="closure-request-guards"></a></p>
+<h3 id="closure-request-guards">Closure Request Guards</h3>
+
+<p>The simplest way to implement a custom, HTTP request based authentication system is by using the <code class="language-plaintext highlighter-rouge">Auth::viaRequest</code> method. This method allows you to quickly define your authentication process using a single closure.</p>
+
+<p>To get started, call the <code class="language-plaintext highlighter-rouge">Auth::viaRequest</code> method within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>. The <code class="language-plaintext highlighter-rouge">viaRequest</code> method accepts an authentication driver name as its first argument. This name can be any string that describes your custom guard. The second argument passed to the method should be a closure that receives the incoming HTTP request and returns a user instance or, if authentication fails, <code class="language-plaintext highlighter-rouge">null</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Auth</span><span class="o">::</span><span class="nf">viaRequest</span><span class="p">(</span><span class="s1">'custom-token'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">where</span><span class="p">(</span><span class="s1">'token'</span><span class="p">,</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">token</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">first</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once your custom authentication driver has been defined, you may configure it as a driver within the <code class="language-plaintext highlighter-rouge">guards</code> configuration of your <code class="language-plaintext highlighter-rouge">auth.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'guards'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'api'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'custom-token'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>Finally, you may reference the guard when assigning the authentication middleware to a route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'auth:api'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="adding-custom-user-providers"></a></p>
+<h2 id="adding-custom-user-providers">Adding Custom User Providers</h2>
+
+<p>If you are not using a traditional relational database to store your users, you will need to extend Laravel with your own authentication user provider. We will use the <code class="language-plaintext highlighter-rouge">provider</code> method on the <code class="language-plaintext highlighter-rouge">Auth</code> facade to define a custom user provider. The user provider resolver should return an implementation of <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\UserProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Extensions\MongoUserProvider</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Foundation\Application</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Auth</span><span class="o">::</span><span class="nf">provider</span><span class="p">(</span><span class="s1">'mongo'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Application</span> <span class="nv">$app</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$config</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Return an instance of Illuminate\Contracts\Auth\UserProvider...</span>
+
+            <span class="k">return</span> <span class="k">new</span> <span class="nc">MongoUserProvider</span><span class="p">(</span><span class="nv">$app</span><span class="o">-&gt;</span><span class="nf">make</span><span class="p">(</span><span class="s1">'mongo.connection'</span><span class="p">));</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>After you have registered the provider using the <code class="language-plaintext highlighter-rouge">provider</code> method, you may switch to the new user provider in your <code class="language-plaintext highlighter-rouge">auth.php</code> configuration file. First, define a <code class="language-plaintext highlighter-rouge">provider</code> that uses your new driver:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'providers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'mongo'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>Finally, you may reference this provider in your <code class="language-plaintext highlighter-rouge">guards</code> configuration:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'guards'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'web'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'session'</span><span class="p">,</span>
+        <span class="s1">'provider'</span> <span class="o">=&gt;</span> <span class="s1">'users'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="the-user-provider-contract"></a></p>
+<h3 id="the-user-provider-contract">The User Provider Contract</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\UserProvider</code> implementations are responsible for fetching an <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\Authenticatable</code> implementation out of a persistent storage system, such as MySQL, MongoDB, etc. These two interfaces allow the Laravel authentication mechanisms to continue functioning regardless of how the user data is stored or what type of class is used to represent the authenticated user:</p>
+
+<p>Let’s take a look at the <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\UserProvider</code> contract:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">Illuminate\Contracts\Auth</span><span class="p">;</span>
+
+<span class="kd">interface</span> <span class="nc">UserProvider</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">retrieveById</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">retrieveByToken</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">,</span> <span class="nv">$token</span><span class="p">);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">updateRememberToken</span><span class="p">(</span><span class="kt">Authenticatable</span> <span class="nv">$user</span><span class="p">,</span> <span class="nv">$token</span><span class="p">);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">retrieveByCredentials</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$credentials</span><span class="p">);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">validateCredentials</span><span class="p">(</span><span class="kt">Authenticatable</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$credentials</span><span class="p">);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">rehashPasswordIfRequired</span><span class="p">(</span><span class="kt">Authenticatable</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$credentials</span><span class="p">,</span> <span class="kt">bool</span> <span class="nv">$force</span> <span class="o">=</span> <span class="kc">false</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">retrieveById</code> function typically receives a key representing the user, such as an auto-incrementing ID from a MySQL database. The <code class="language-plaintext highlighter-rouge">Authenticatable</code> implementation matching the ID should be retrieved and returned by the method.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">retrieveByToken</code> function retrieves a user by their unique <code class="language-plaintext highlighter-rouge">$identifier</code> and “remember me” <code class="language-plaintext highlighter-rouge">$token</code>, typically stored in a database column like <code class="language-plaintext highlighter-rouge">remember_token</code>. As with the previous method, the <code class="language-plaintext highlighter-rouge">Authenticatable</code> implementation with a matching token value should be returned by this method.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">updateRememberToken</code> method updates the <code class="language-plaintext highlighter-rouge">$user</code> instance’s <code class="language-plaintext highlighter-rouge">remember_token</code> with the new <code class="language-plaintext highlighter-rouge">$token</code>. A fresh token is assigned to users on a successful “remember me” authentication attempt or when the user is logging out.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">retrieveByCredentials</code> method receives the array of credentials passed to the <code class="language-plaintext highlighter-rouge">Auth::attempt</code> method when attempting to authenticate with an application. The method should then “query” the underlying persistent storage for the user matching those credentials. Typically, this method will run a query with a “where” condition that searches for a user record with a “username” matching the value of <code class="language-plaintext highlighter-rouge">$credentials['username']</code>. The method should return an implementation of <code class="language-plaintext highlighter-rouge">Authenticatable</code>. <strong>This method should not attempt to do any password validation or authentication.</strong></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">validateCredentials</code> method should compare the given <code class="language-plaintext highlighter-rouge">$user</code> with the <code class="language-plaintext highlighter-rouge">$credentials</code> to authenticate the user. For example, this method will typically use the <code class="language-plaintext highlighter-rouge">Hash::check</code> method to compare the value of <code class="language-plaintext highlighter-rouge">$user-&gt;getAuthPassword()</code> to the value of <code class="language-plaintext highlighter-rouge">$credentials['password']</code>. This method should return <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code> indicating whether the password is valid.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">rehashPasswordIfRequired</code> method should rehash the given <code class="language-plaintext highlighter-rouge">$user</code>’s password if required and supported. For example, this method will typically use the <code class="language-plaintext highlighter-rouge">Hash::needsRehash</code> method to determine if the <code class="language-plaintext highlighter-rouge">$credentials['password']</code> value needs to be rehashed. If the password needs to be rehashed, the method should use the <code class="language-plaintext highlighter-rouge">Hash::make</code> method to rehash the password and update the user’s record in the underlying persistent storage.</p>
+
+<p><a name="the-authenticatable-contract"></a></p>
+<h3 id="the-authenticatable-contract">The Authenticatable Contract</h3>
+
+<p>Now that we have explored each of the methods on the <code class="language-plaintext highlighter-rouge">UserProvider</code>, let’s take a look at the <code class="language-plaintext highlighter-rouge">Authenticatable</code> contract. Remember, user providers should return implementations of this interface from the <code class="language-plaintext highlighter-rouge">retrieveById</code>, <code class="language-plaintext highlighter-rouge">retrieveByToken</code>, and <code class="language-plaintext highlighter-rouge">retrieveByCredentials</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">Illuminate\Contracts\Auth</span><span class="p">;</span>
+
+<span class="kd">interface</span> <span class="nc">Authenticatable</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getAuthIdentifierName</span><span class="p">();</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getAuthIdentifier</span><span class="p">();</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getAuthPasswordName</span><span class="p">();</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getAuthPassword</span><span class="p">();</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getRememberToken</span><span class="p">();</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">setRememberToken</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getRememberTokenName</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This interface is simple. The <code class="language-plaintext highlighter-rouge">getAuthIdentifierName</code> method should return the name of the “primary key” column for the user and the <code class="language-plaintext highlighter-rouge">getAuthIdentifier</code> method should return the “primary key” of the user. When using a MySQL back-end, this would likely be the auto-incrementing primary key assigned to the user record. The <code class="language-plaintext highlighter-rouge">getAuthPasswordName</code> method should return the name of the user’s password column. The <code class="language-plaintext highlighter-rouge">getAuthPassword</code> method should return the user’s hashed password.</p>
+
+<p>This interface allows the authentication system to work with any “user” class, regardless of what ORM or storage abstraction layer you are using. By default, Laravel includes an <code class="language-plaintext highlighter-rouge">App\Models\User</code> class in the <code class="language-plaintext highlighter-rouge">app/Models</code> directory which implements this interface.</p>
+
+<p><a name="automatic-password-rehashing"></a></p>
+<h2 id="automatic-password-rehashing">Automatic Password Rehashing</h2>
+
+<p>Laravel’s default password hashing algorithm is bcrypt. The “work factor” for bcrypt hashes can be adjusted via your application’s <code class="language-plaintext highlighter-rouge">config/hashing.php</code> configuration file or the <code class="language-plaintext highlighter-rouge">BCRYPT_ROUNDS</code> environment variable.</p>
+
+<p>Typically, the bcrypt work factor should be increased over time as CPU / GPU processing power increases. If you increase the bcrypt work factor for your application, Laravel will gracefully and automatically rehash user passwords as users authenticate with your application via Laravel’s starter kits or when you <a href="#authenticating-users">manually authenticate users</a> via the <code class="language-plaintext highlighter-rouge">attempt</code> method.</p>
+
+<p>Typically, automatic password rehashing should not disrupt your application; however, you may disable this behavior by publishing the <code class="language-plaintext highlighter-rouge">hashing</code> configuration file:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan config:publish hashing
+</code></pre></div></div>
+
+<p>Once the configuration file has been published, you may set the <code class="language-plaintext highlighter-rouge">rehash_on_login</code> configuration value to <code class="language-plaintext highlighter-rouge">false</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'rehash_on_login'</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
+</code></pre></div></div>
+
+<p><a name="events"></a></p>
+<h2 id="events">Events</h2>
+
+<p>Laravel dispatches a variety of <a href="/docs/{{version}}/events">events</a> during the authentication process. You may <a href="/docs/{{version}}/events">define listeners</a> for any of the following events:</p>
+
+<div class="overflow-auto">
+
+| Event Name                                     |
+| ---------------------------------------------- |
+| `Illuminate\Auth\Events\Registered`            |
+| `Illuminate\Auth\Events\Attempting`            |
+| `Illuminate\Auth\Events\Authenticated`         |
+| `Illuminate\Auth\Events\Login`                 |
+| `Illuminate\Auth\Events\Failed`                |
+| `Illuminate\Auth\Events\Validated`             |
+| `Illuminate\Auth\Events\Verified`              |
+| `Illuminate\Auth\Events\Logout`                |
+| `Illuminate\Auth\Events\CurrentDeviceLogout`   |
+| `Illuminate\Auth\Events\OtherDeviceLogout`     |
+| `Illuminate\Auth\Events\Lockout`               |
+| `Illuminate\Auth\Events\PasswordReset`         |
+| `Illuminate\Auth\Events\PasswordResetLinkSent` |
+
+</div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

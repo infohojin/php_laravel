@@ -1,0 +1,3120 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Mail | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Mail" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/05_digging_deeper/mail_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/05_digging_deeper/mail_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Mail" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Mail","url":"http://localhost:4000/docs/05_digging_deeper/mail_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/05_digging_deeper/">05 digging deeper</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Mail</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="mail">Mail</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a>
+    <ul>
+      <li><a href="#configuration">Configuration</a></li>
+      <li><a href="#driver-prerequisites">Driver Prerequisites</a></li>
+      <li><a href="#failover-configuration">Failover Configuration</a></li>
+      <li><a href="#round-robin-configuration">Round Robin Configuration</a></li>
+    </ul>
+  </li>
+  <li><a href="#generating-mailables">Generating Mailables</a></li>
+  <li><a href="#writing-mailables">Writing Mailables</a>
+    <ul>
+      <li><a href="#configuring-the-sender">Configuring the Sender</a></li>
+      <li><a href="#configuring-the-view">Configuring the View</a></li>
+      <li><a href="#view-data">View Data</a></li>
+      <li><a href="#attachments">Attachments</a></li>
+      <li><a href="#inline-attachments">Inline Attachments</a></li>
+      <li><a href="#attachable-objects">Attachable Objects</a></li>
+      <li><a href="#headers">Headers</a></li>
+      <li><a href="#tags-and-metadata">Tags and Metadata</a></li>
+      <li><a href="#customizing-the-symfony-message">Customizing the Symfony Message</a></li>
+    </ul>
+  </li>
+  <li><a href="#markdown-mailables">Markdown Mailables</a>
+    <ul>
+      <li><a href="#generating-markdown-mailables">Generating Markdown Mailables</a></li>
+      <li><a href="#writing-markdown-messages">Writing Markdown Messages</a></li>
+      <li><a href="#customizing-the-components">Customizing the Components</a></li>
+    </ul>
+  </li>
+  <li><a href="#sending-mail">Sending Mail</a>
+    <ul>
+      <li><a href="#queueing-mail">Queueing Mail</a></li>
+    </ul>
+  </li>
+  <li><a href="#rendering-mailables">Rendering Mailables</a>
+    <ul>
+      <li><a href="#previewing-mailables-in-the-browser">Previewing Mailables in the Browser</a></li>
+    </ul>
+  </li>
+  <li><a href="#localizing-mailables">Localizing Mailables</a></li>
+  <li><a href="#testing-mailables">Testing</a>
+    <ul>
+      <li><a href="#testing-mailable-content">Testing Mailable Content</a></li>
+      <li><a href="#testing-mailable-sending">Testing Mailable Sending</a></li>
+    </ul>
+  </li>
+  <li><a href="#mail-and-local-development">Mail and Local Development</a></li>
+  <li><a href="#events">Events</a></li>
+  <li><a href="#custom-transports">Custom Transports</a>
+    <ul>
+      <li><a href="#additional-symfony-transports">Additional Symfony Transports</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Sending email doesn’t have to be complicated. Laravel provides a clean, simple email API powered by the popular <a href="https://symfony.com/doc/current/mailer.html">Symfony Mailer</a> component. Laravel and Symfony Mailer provide drivers for sending email via SMTP, Cloudflare, Mailgun, Postmark, Resend, Amazon SES, and <code class="language-plaintext highlighter-rouge">sendmail</code>, allowing you to quickly get started sending mail through a local or cloud-based service of your choice.</p>
+
+<p><a name="configuration"></a></p>
+<h3 id="configuration">Configuration</h3>
+
+<p>Laravel’s email services may be configured via your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file. Each mailer configured within this file may have its own unique configuration and even its own unique “transport”, allowing your application to use different email services to send certain email messages. For example, your application might use Postmark to send transactional emails while using Amazon SES to send bulk emails.</p>
+
+<p>Within your <code class="language-plaintext highlighter-rouge">mail</code> configuration file, you will find a <code class="language-plaintext highlighter-rouge">mailers</code> configuration array. This array contains a sample configuration entry for each of the major mail drivers / transports supported by Laravel, while the <code class="language-plaintext highlighter-rouge">default</code> configuration value determines which mailer will be used by default when your application needs to send an email message.</p>
+
+<p><a name="driver-prerequisites"></a></p>
+<h3 id="driver--transport-prerequisites">Driver / Transport Prerequisites</h3>
+
+<p>The API based drivers such as Mailgun, Postmark, and Resend are often simpler and faster than sending mail via SMTP servers. Whenever possible, we recommend that you use one of these drivers.</p>
+
+<p><a name="cloudflare-driver"></a></p>
+<h4 id="cloudflare-driver">Cloudflare Driver</h4>
+
+<p>To use the Cloudflare driver, install Symfony’s HTTP Client via Composer:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/http-client
+</code></pre></div></div>
+
+<p>Next, you will need to make two changes in your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file. First, set your default mailer to <code class="language-plaintext highlighter-rouge">cloudflare</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_MAILER'</span><span class="p">,</span> <span class="s1">'cloudflare'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p>Second, add the following configuration array to your array of <code class="language-plaintext highlighter-rouge">mailers</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'cloudflare'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'cloudflare'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>After configuring your application’s default mailer, add the following options to your <code class="language-plaintext highlighter-rouge">config/services.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'cloudflare'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'account_id'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'CLOUDFLARE_ACCOUNT_ID'</span><span class="p">),</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'CLOUDFLARE_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="mailgun-driver"></a></p>
+<h4 id="mailgun-driver">Mailgun Driver</h4>
+
+<p>To use the Mailgun driver, install Symfony’s Mailgun Mailer transport via Composer:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/mailgun-mailer symfony/http-client
+</code></pre></div></div>
+
+<p>Next, you will need to make two changes in your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file. First, set your default mailer to <code class="language-plaintext highlighter-rouge">mailgun</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_MAILER'</span><span class="p">,</span> <span class="s1">'mailgun'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p>Second, add the following configuration array to your array of <code class="language-plaintext highlighter-rouge">mailers</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailgun'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'mailgun'</span><span class="p">,</span>
+    <span class="c1">// 'client' =&gt; [</span>
+    <span class="c1">//     'timeout' =&gt; 5,</span>
+    <span class="c1">// ],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>After configuring your application’s default mailer, add the following options to your <code class="language-plaintext highlighter-rouge">config/services.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailgun'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'domain'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_DOMAIN'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_SECRET'</span><span class="p">),</span>
+    <span class="s1">'endpoint'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_ENDPOINT'</span><span class="p">,</span> <span class="s1">'api.mailgun.net'</span><span class="p">),</span>
+    <span class="s1">'scheme'</span> <span class="o">=&gt;</span> <span class="s1">'https'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>If you are not using the United States <a href="https://documentation.mailgun.com/docs/mailgun/api-reference/api-overview#mailgun-regions">Mailgun region</a>, you may define your region’s endpoint in the <code class="language-plaintext highlighter-rouge">services</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailgun'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'domain'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_DOMAIN'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_SECRET'</span><span class="p">),</span>
+    <span class="s1">'endpoint'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_ENDPOINT'</span><span class="p">,</span> <span class="s1">'api.eu.mailgun.net'</span><span class="p">),</span>
+    <span class="s1">'scheme'</span> <span class="o">=&gt;</span> <span class="s1">'https'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="postmark-driver"></a></p>
+<h4 id="postmark-driver">Postmark Driver</h4>
+
+<p>To use the <a href="https://postmarkapp.com/">Postmark</a> driver, install Symfony’s Postmark Mailer transport via Composer:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/postmark-mailer symfony/http-client
+</code></pre></div></div>
+
+<p>Next, set the <code class="language-plaintext highlighter-rouge">default</code> option in your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file to <code class="language-plaintext highlighter-rouge">postmark</code>. After configuring your application’s default mailer, ensure that your <code class="language-plaintext highlighter-rouge">config/services.php</code> configuration file contains the following options:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'postmark'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'POSTMARK_API_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>If you would like to specify the Postmark message stream that should be used by a given mailer, you may add the <code class="language-plaintext highlighter-rouge">message_stream_id</code> configuration option to the mailer’s configuration array. This configuration array can be found in your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'postmark'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'postmark'</span><span class="p">,</span>
+    <span class="s1">'message_stream_id'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'POSTMARK_MESSAGE_STREAM_ID'</span><span class="p">),</span>
+    <span class="c1">// 'client' =&gt; [</span>
+    <span class="c1">//     'timeout' =&gt; 5,</span>
+    <span class="c1">// ],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>This way you are also able to set up multiple Postmark mailers with different message streams.</p>
+
+<p><a name="resend-driver"></a></p>
+<h4 id="resend-driver">Resend Driver</h4>
+
+<p>To use the <a href="https://resend.com/">Resend</a> driver, install Resend’s PHP SDK via Composer:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require resend/resend-php
+</code></pre></div></div>
+
+<p>Next, set the <code class="language-plaintext highlighter-rouge">default</code> option in your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file to <code class="language-plaintext highlighter-rouge">resend</code>. After configuring your application’s default mailer, ensure that your <code class="language-plaintext highlighter-rouge">config/services.php</code> configuration file contains the following options:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'resend'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'RESEND_API_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="ses-driver"></a></p>
+<h4 id="ses-driver">SES Driver</h4>
+
+<p>To use the Amazon SES driver you must first install the Amazon AWS SDK for PHP. You may install this library via the Composer package manager:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require aws/aws-sdk-php
+</code></pre></div></div>
+
+<p>Next, set the <code class="language-plaintext highlighter-rouge">default</code> option in your <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file to <code class="language-plaintext highlighter-rouge">ses</code> and verify that your <code class="language-plaintext highlighter-rouge">config/services.php</code> configuration file contains the following options:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'ses'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_ACCESS_KEY_ID'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SECRET_ACCESS_KEY'</span><span class="p">),</span>
+    <span class="s1">'region'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_DEFAULT_REGION'</span><span class="p">,</span> <span class="s1">'us-east-1'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>To utilize AWS <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html">temporary credentials</a> via a session token, you may add a <code class="language-plaintext highlighter-rouge">token</code> key to your application’s SES configuration:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'ses'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_ACCESS_KEY_ID'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SECRET_ACCESS_KEY'</span><span class="p">),</span>
+    <span class="s1">'region'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_DEFAULT_REGION'</span><span class="p">,</span> <span class="s1">'us-east-1'</span><span class="p">),</span>
+    <span class="s1">'token'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SESSION_TOKEN'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>To interact with SES’s <a href="https://docs.aws.amazon.com/ses/latest/dg/sending-email-subscription-management.html">subscription management features</a>, you may return the <code class="language-plaintext highlighter-rouge">X-Ses-List-Management-Options</code> header in the array returned by the <a href="#headers">headers</a> method of a mail message:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the message headers.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">headers</span><span class="p">():</span> <span class="kt">Headers</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'X-Ses-List-Management-Options'</span> <span class="o">=&gt;</span> <span class="s1">'contactListName=MyContactList;topicName=MyTopic'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To send an email through an SES <a href="https://docs.aws.amazon.com/ses/latest/dg/tenants.html">tenant</a>, you may return the <code class="language-plaintext highlighter-rouge">X-Ses-Tenant-Name</code> header from the <code class="language-plaintext highlighter-rouge">headers</code> method. Laravel will pass the header value as the <code class="language-plaintext highlighter-rouge">TenantName</code> option to SES when sending the message:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">function</span> <span class="n">headers</span><span class="p">():</span> <span class="kt">Headers</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'X-Ses-Tenant-Name'</span> <span class="o">=&gt;</span> <span class="s1">'tenant-id'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you would like to define <a href="https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sesv2-2019-09-27.html#sendemail">additional options</a> that Laravel should pass to the AWS SDK’s <code class="language-plaintext highlighter-rouge">SendEmail</code> method when sending an email, you may define an <code class="language-plaintext highlighter-rouge">options</code> array within your <code class="language-plaintext highlighter-rouge">ses</code> configuration:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'ses'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_ACCESS_KEY_ID'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SECRET_ACCESS_KEY'</span><span class="p">),</span>
+    <span class="s1">'region'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_DEFAULT_REGION'</span><span class="p">,</span> <span class="s1">'us-east-1'</span><span class="p">),</span>
+    <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'ConfigurationSetName'</span> <span class="o">=&gt;</span> <span class="s1">'MyConfigurationSet'</span><span class="p">,</span>
+        <span class="s1">'EmailTags'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s1">'Name'</span> <span class="o">=&gt;</span> <span class="s1">'foo'</span><span class="p">,</span> <span class="s1">'Value'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="failover-configuration"></a></p>
+<h3 id="failover-configuration">Failover Configuration</h3>
+
+<p>Sometimes, an external service you have configured to send your application’s mail may be down. In these cases, it can be useful to define one or more backup mail delivery configurations that will be used in case your primary delivery driver is down.</p>
+
+<p>To accomplish this, you should define a mailer within your application’s <code class="language-plaintext highlighter-rouge">mail</code> configuration file that uses the <code class="language-plaintext highlighter-rouge">failover</code> transport. The configuration array for your application’s <code class="language-plaintext highlighter-rouge">failover</code> mailer should contain an array of <code class="language-plaintext highlighter-rouge">mailers</code> that reference the order in which configured mailers should be chosen for delivery:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'failover'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'failover'</span><span class="p">,</span>
+        <span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'postmark'</span><span class="p">,</span>
+            <span class="s1">'mailgun'</span><span class="p">,</span>
+            <span class="s1">'sendmail'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s1">'retry_after'</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="p">],</span>
+
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>Once you have configured a mailer that uses the <code class="language-plaintext highlighter-rouge">failover</code> transport, you will need to set the failover mailer as your default mailer in your application’s <code class="language-plaintext highlighter-rouge">.env</code> file to make use of the failover functionality:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">MAIL_MAILER</span><span class="p">=</span><span class="s">failover</span>
+</code></pre></div></div>
+
+<p><a name="round-robin-configuration"></a></p>
+<h3 id="round-robin-configuration">Round Robin Configuration</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">roundrobin</code> transport allows you to distribute your mailing workload across multiple mailers. To get started, define a mailer within your application’s <code class="language-plaintext highlighter-rouge">mail</code> configuration file that uses the <code class="language-plaintext highlighter-rouge">roundrobin</code> transport. The configuration array for your application’s <code class="language-plaintext highlighter-rouge">roundrobin</code> mailer should contain an array of <code class="language-plaintext highlighter-rouge">mailers</code> that reference which configured mailers should be used for delivery:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'roundrobin'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'roundrobin'</span><span class="p">,</span>
+        <span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'ses'</span><span class="p">,</span>
+            <span class="s1">'postmark'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s1">'retry_after'</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="p">],</span>
+
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>Once your round robin mailer has been defined, you should set this mailer as the default mailer used by your application by specifying its name as the value of the <code class="language-plaintext highlighter-rouge">default</code> configuration key within your application’s <code class="language-plaintext highlighter-rouge">mail</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_MAILER'</span><span class="p">,</span> <span class="s1">'roundrobin'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p>The round robin transport selects a random mailer from the list of configured mailers and then switches to the next available mailer for each subsequent email. In contrast to <code class="language-plaintext highlighter-rouge">failover</code> transport, which helps to achieve <em><a href="https://en.wikipedia.org/wiki/High_availability">high availability</a></em>, the <code class="language-plaintext highlighter-rouge">roundrobin</code> transport provides <em><a href="https://en.wikipedia.org/wiki/Load_balancing_(computing)">load balancing</a></em>.</p>
+
+<p><a name="generating-mailables"></a></p>
+<h2 id="generating-mailables">Generating Mailables</h2>
+
+<p>When building Laravel applications, each type of email sent by your application is represented as a “mailable” class. These classes are stored in the <code class="language-plaintext highlighter-rouge">app/Mail</code> directory. Don’t worry if you don’t see this directory in your application, since it will be generated for you when you create your first mailable class using the <code class="language-plaintext highlighter-rouge">make:mail</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:mail OrderShipped
+</code></pre></div></div>
+
+<p><a name="writing-mailables"></a></p>
+<h2 id="writing-mailables">Writing Mailables</h2>
+
+<p>Once you have generated a mailable class, open it up so we can explore its contents. Mailable class configuration is done in several methods, including the <code class="language-plaintext highlighter-rouge">envelope</code>, <code class="language-plaintext highlighter-rouge">content</code>, and <code class="language-plaintext highlighter-rouge">attachments</code> methods.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">envelope</code> method returns an <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Mailables\Envelope</code> object that defines the subject and, sometimes, the recipients of the message. The <code class="language-plaintext highlighter-rouge">content</code> method returns an <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Mailables\Content</code> object that defines the <a href="/docs/{{version}}/blade">Blade template</a> that will be used to generate the message content.</p>
+
+<p><a name="configuring-the-sender"></a></p>
+<h3 id="configuring-the-sender">Configuring the Sender</h3>
+
+<p><a name="using-the-envelope"></a></p>
+<h4 id="using-the-envelope">Using the Envelope</h4>
+
+<p>First, let’s explore configuring the sender of the email. Or, in other words, who the email is going to be “from”. There are two ways to configure the sender. First, you may specify the “from” address on your message’s envelope:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Address</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Envelope</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message envelope.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">envelope</span><span class="p">():</span> <span class="kt">Envelope</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+        <span class="n">from</span><span class="o">:</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span><span class="s1">'jeffrey@example.com'</span><span class="p">,</span> <span class="s1">'Jeffrey Way'</span><span class="p">),</span>
+        <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you would like, you may also specify a <code class="language-plaintext highlighter-rouge">replyTo</code> address:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+    <span class="n">from</span><span class="o">:</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span><span class="s1">'jeffrey@example.com'</span><span class="p">,</span> <span class="s1">'Jeffrey Way'</span><span class="p">),</span>
+    <span class="n">replyTo</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span><span class="s1">'taylor@example.com'</span><span class="p">,</span> <span class="s1">'Taylor Otwell'</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="using-a-global-from-address"></a></p>
+<h4 id="using-a-global-from-address">Using a Global <code class="language-plaintext highlighter-rouge">from</code> Address</h4>
+
+<p>However, if your application uses the same “from” address for all of its emails, it can become cumbersome to add it to each mailable class you generate. Instead, you may specify a global “from” address in your <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file. This address will be used if no other “from” address is specified within the mailable class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'from'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_FROM_ADDRESS'</span><span class="p">,</span> <span class="s1">'hello@example.com'</span><span class="p">),</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_FROM_NAME'</span><span class="p">,</span> <span class="s1">'Example'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>In addition, you may define a global “reply_to” address within your <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'reply_to'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="s1">'example@example.com'</span><span class="p">,</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'App Name'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="configuring-the-view"></a></p>
+<h3 id="configuring-the-view">Configuring the View</h3>
+
+<p>Within a mailable class’s <code class="language-plaintext highlighter-rouge">content</code> method, you may define the <code class="language-plaintext highlighter-rouge">view</code>, or which template should be used when rendering the email’s contents. Since each email typically uses a <a href="/docs/{{version}}/blade">Blade template</a> to render its contents, you have the full power and convenience of the Blade templating engine when building your email’s HTML:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the message content definition.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+        <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+You may wish to create a <code class="language-plaintext highlighter-rouge">resources/views/mail</code> directory to house all of your email templates; however, you are free to place them wherever you wish within your <code class="language-plaintext highlighter-rouge">resources/views</code> directory.</p>
+</blockquote>
+
+<p><a name="plain-text-emails"></a></p>
+<h4 id="plain-text-emails">Plain Text Emails</h4>
+
+<p>If you would like to define a plain-text version of your email, you may specify the plain-text template when creating the message’s <code class="language-plaintext highlighter-rouge">Content</code> definition. Like the <code class="language-plaintext highlighter-rouge">view</code> parameter, the <code class="language-plaintext highlighter-rouge">text</code> parameter should be a template name which will be used to render the contents of the email. You are free to define both an HTML and plain-text version of your message:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the message content definition.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+        <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+        <span class="n">text</span><span class="o">:</span> <span class="s1">'mail.orders.shipped-text'</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For clarity, the <code class="language-plaintext highlighter-rouge">html</code> parameter may be used as an alias of the <code class="language-plaintext highlighter-rouge">view</code> parameter:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+    <span class="n">html</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">:</span> <span class="s1">'mail.orders.shipped-text'</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="view-data"></a></p>
+<h3 id="view-data">View Data</h3>
+
+<p><a name="via-public-properties"></a></p>
+<h4 id="via-public-properties">Via Public Properties</h4>
+
+<p>Typically, you will want to pass some data to your view that you can utilize when rendering the email’s HTML. There are two ways you may make data available to your view. First, any public property defined on your mailable class will automatically be made available to the view. So, for example, you may pass data into your mailable class’s constructor and set that data to public properties defined on the class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Bus\Queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Content</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Queueable</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new message instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">public</span> <span class="kt">Order</span> <span class="nv">$order</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Get the message content definition.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+            <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once the data has been set to a public property, it will automatically be available in your view, so you may access it like you would access any other data in your Blade templates:</p>
+
+<pre><code class="language-blade">&lt;div&gt;
+    Price: {{ $order-&gt;price }}
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="via-the-with-parameter"></a></p>
+<h4 id="via-the-with-parameter">Via the <code class="language-plaintext highlighter-rouge">with</code> Parameter:</h4>
+
+<p>If you would like to customize the format of your email’s data before it is sent to the template, you may manually pass your data to the view via the <code class="language-plaintext highlighter-rouge">Content</code> definition’s <code class="language-plaintext highlighter-rouge">with</code> parameter. Typically, you will still pass data via the mailable class’s constructor; however, you should set this data to <code class="language-plaintext highlighter-rouge">protected</code> or <code class="language-plaintext highlighter-rouge">private</code> properties so the data is not automatically made available to the template:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Bus\Queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Content</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Queueable</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new message instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">protected</span> <span class="kt">Order</span> <span class="nv">$order</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Get the message content definition.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+            <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+            <span class="n">with</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s1">'orderName'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+                <span class="s1">'orderPrice'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">price</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once the data has been passed via the <code class="language-plaintext highlighter-rouge">with</code> parameter, it will automatically be available in your view, so you may access it like you would access any other data in your Blade templates:</p>
+
+<pre><code class="language-blade">&lt;div&gt;
+    Price: {{ $orderPrice }}
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="attachments"></a></p>
+<h3 id="attachments">Attachments</h3>
+
+<p>To add attachments to an email, you will add attachments to the array returned by the message’s <code class="language-plaintext highlighter-rouge">attachments</code> method. First, you may add an attachment by providing a file path to the <code class="language-plaintext highlighter-rouge">fromPath</code> method provided by the <code class="language-plaintext highlighter-rouge">Attachment</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Attachment</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When attaching files to a message, you may also specify the display name and / or MIME type for the attachment using the <code class="language-plaintext highlighter-rouge">as</code> and <code class="language-plaintext highlighter-rouge">withMime</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="attaching-files-from-disk"></a></p>
+<h4 id="attaching-files-from-disk">Attaching Files From Disk</h4>
+
+<p>If you have stored a file on one of your <a href="/docs/{{version}}/filesystem">filesystem disks</a>, you may attach it to the email using the <code class="language-plaintext highlighter-rouge">fromStorage</code> attachment method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorage</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Of course, you may also specify the attachment’s name and MIME type:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorage</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">fromStorageDisk</code> method may be used if you need to specify a storage disk other than your default disk:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorageDisk</span><span class="p">(</span><span class="s1">'s3'</span><span class="p">,</span> <span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="raw-data-attachments"></a></p>
+<h4 id="raw-data-attachments">Raw Data Attachments</h4>
+
+<p>The <code class="language-plaintext highlighter-rouge">fromData</code> attachment method may be used to attach a raw string of bytes as an attachment. For example, you might use this method if you have generated a PDF in memory and want to attach it to the email without writing it to disk. The <code class="language-plaintext highlighter-rouge">fromData</code> method accepts a closure which resolves the raw data bytes as well as the name that the attachment should be assigned:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromData</span><span class="p">(</span><span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">pdf</span><span class="p">,</span> <span class="s1">'Report.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="inline-attachments"></a></p>
+<h3 id="inline-attachments">Inline Attachments</h3>
+
+<p>Embedding inline images into your emails is typically cumbersome; however, Laravel provides a convenient way to attach images to your emails. To embed an inline image, use the <code class="language-plaintext highlighter-rouge">embed</code> method on the <code class="language-plaintext highlighter-rouge">$message</code> variable within your email template. Laravel automatically makes the <code class="language-plaintext highlighter-rouge">$message</code> variable available to all of your email templates, so you don’t need to worry about passing it in manually:</p>
+
+<pre><code class="language-blade">&lt;body&gt;
+    Here is an image:
+
+    &lt;img src="{{ $message-&gt;embed($pathToImage) }}"&gt;
+&lt;/body&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+The <code class="language-plaintext highlighter-rouge">$message</code> variable is not available in plain-text message templates since plain-text messages do not utilize inline attachments.</p>
+</blockquote>
+
+<p><a name="embedding-raw-data-attachments"></a></p>
+<h4 id="embedding-raw-data-attachments">Embedding Raw Data Attachments</h4>
+
+<p>If you already have a raw image data string you wish to embed into an email template, you may call the <code class="language-plaintext highlighter-rouge">embedData</code> method on the <code class="language-plaintext highlighter-rouge">$message</code> variable. When calling the <code class="language-plaintext highlighter-rouge">embedData</code> method, you will need to provide a filename that should be assigned to the embedded image:</p>
+
+<pre><code class="language-blade">&lt;body&gt;
+    Here is an image from raw data:
+
+    &lt;img src="{{ $message-&gt;embedData($data, 'example-image.jpg') }}"&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p><a name="attachable-objects"></a></p>
+<h3 id="attachable-objects">Attachable Objects</h3>
+
+<p>While attaching files to messages via simple string paths is often sufficient, in many cases the attachable entities within your application are represented by classes. For example, if your application is attaching a photo to a message, your application may also have a <code class="language-plaintext highlighter-rouge">Photo</code> model that represents that photo. When that is the case, wouldn’t it be convenient to simply pass the <code class="language-plaintext highlighter-rouge">Photo</code> model to the <code class="language-plaintext highlighter-rouge">attach</code> method? Attachable objects allow you to do just that.</p>
+
+<p>To get started, implement the <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Mail\Attachable</code> interface on the object that will be attachable to messages. This interface dictates that your class defines a <code class="language-plaintext highlighter-rouge">toMailAttachment</code> method that returns an <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Attachment</code> instance:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Mail\Attachable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Attachment</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Photo</span> <span class="kd">extends</span> <span class="nc">Model</span> <span class="kd">implements</span> <span class="nc">Attachable</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the attachable representation of the model.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toMailAttachment</span><span class="p">():</span> <span class="kt">Attachment</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once you have defined your attachable object, you may return an instance of that object from the <code class="language-plaintext highlighter-rouge">attachments</code> method when building an email message:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">photo</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Of course, attachment data may be stored on a remote file storage service such as Amazon S3. So, Laravel also allows you to generate attachment instances from data that is stored on one of your application’s <a href="/docs/{{version}}/filesystem">filesystem disks</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create an attachment from a file on your default disk...</span>
+<span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorage</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">path</span><span class="p">);</span>
+
+<span class="c1">// Create an attachment from a file on a specific disk...</span>
+<span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorageDisk</span><span class="p">(</span><span class="s1">'backblaze'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">path</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In addition, you may create attachment instances via data that you have in memory. To accomplish this, provide a closure to the <code class="language-plaintext highlighter-rouge">fromData</code> method. The closure should return the raw data that represents the attachment:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromData</span><span class="p">(</span><span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">,</span> <span class="s1">'Photo Name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Laravel also provides additional methods that you may use to customize your attachments. For example, you may use the <code class="language-plaintext highlighter-rouge">as</code> and <code class="language-plaintext highlighter-rouge">withMime</code> methods to customize the file’s name and MIME type:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'Photo Name'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'image/jpeg'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="headers"></a></p>
+<h3 id="headers">Headers</h3>
+
+<p>Sometimes you may need to attach additional headers to the outgoing message. For instance, you may need to set a custom <code class="language-plaintext highlighter-rouge">Message-Id</code> or other arbitrary text headers.</p>
+
+<p>To accomplish this, define a <code class="language-plaintext highlighter-rouge">headers</code> method on your mailable. The <code class="language-plaintext highlighter-rouge">headers</code> method should return an <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Mailables\Headers</code> instance. This class accepts <code class="language-plaintext highlighter-rouge">messageId</code>, <code class="language-plaintext highlighter-rouge">references</code>, and <code class="language-plaintext highlighter-rouge">text</code> parameters. Of course, you may provide only the parameters you need for your particular message:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Headers</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message headers.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">headers</span><span class="p">():</span> <span class="kt">Headers</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span>
+        <span class="n">messageId</span><span class="o">:</span> <span class="s1">'custom-message-id@example.com'</span><span class="p">,</span>
+        <span class="n">references</span><span class="o">:</span> <span class="p">[</span><span class="s1">'previous-message@example.com'</span><span class="p">],</span>
+        <span class="n">text</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'X-Custom-Header'</span> <span class="o">=&gt;</span> <span class="s1">'Custom Value'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="tags-and-metadata"></a></p>
+<h3 id="tags-and-metadata">Tags and Metadata</h3>
+
+<p>Some third-party email providers such as Mailgun and Postmark support message “tags” and “metadata”, which may be used to group and track emails sent by your application. You may add tags and metadata to an email message via your <code class="language-plaintext highlighter-rouge">Envelope</code> definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Envelope</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message envelope.
+ *
+ * @return \Illuminate\Mail\Mailables\Envelope
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">envelope</span><span class="p">():</span> <span class="kt">Envelope</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+        <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">'shipment'</span><span class="p">],</span>
+        <span class="n">metadata</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'order_id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If your application is using the Mailgun driver, you may consult Mailgun’s documentation for more information on <a href="https://documentation.mailgun.com/docs/mailgun/user-manual/tracking-messages/#tags">tags</a> and <a href="https://documentation.mailgun.com/docs/mailgun/user-manual/sending-messages/#attaching-metadata-to-messages">metadata</a>. Likewise, the Postmark documentation may also be consulted for more information on their support for <a href="https://postmarkapp.com/blog/tags-support-for-smtp">tags</a> and <a href="https://postmarkapp.com/support/article/1125-custom-metadata-faq">metadata</a>.</p>
+
+<p>If your application is using Amazon SES to send emails, you should use the <code class="language-plaintext highlighter-rouge">metadata</code> method to attach <a href="https://docs.aws.amazon.com/ses/latest/APIReference/API_MessageTag.html">SES “tags”</a> to the message.</p>
+
+<p><a name="customizing-the-symfony-message"></a></p>
+<h3 id="customizing-the-symfony-message">Customizing the Symfony Message</h3>
+
+<p>Laravel’s mail capabilities are powered by Symfony Mailer. Laravel allows you to register custom callbacks that will be invoked with the Symfony Message instance before sending the message. This gives you an opportunity to deeply customize the message before it is sent. To accomplish this, define a <code class="language-plaintext highlighter-rouge">using</code> parameter on your <code class="language-plaintext highlighter-rouge">Envelope</code> definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Envelope</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mime\Email</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message envelope.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">envelope</span><span class="p">():</span> <span class="kt">Envelope</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+        <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+        <span class="n">using</span><span class="o">:</span> <span class="p">[</span>
+            <span class="k">function</span> <span class="p">(</span><span class="kt">Email</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// ...</span>
+            <span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="markdown-mailables"></a></p>
+<h2 id="markdown-mailables">Markdown Mailables</h2>
+
+<p>Markdown mailable messages allow you to take advantage of the pre-built templates and components of <a href="/docs/{{version}}/notifications#mail-notifications">mail notifications</a> in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart.</p>
+
+<p><a name="generating-markdown-mailables"></a></p>
+<h3 id="generating-markdown-mailables">Generating Markdown Mailables</h3>
+
+<p>To generate a mailable with a corresponding Markdown template, you may use the <code class="language-plaintext highlighter-rouge">--markdown</code> option of the <code class="language-plaintext highlighter-rouge">make:mail</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:mail OrderShipped <span class="nt">--markdown</span><span class="o">=</span>mail.orders.shipped
+</code></pre></div></div>
+
+<p>Then, when configuring the mailable <code class="language-plaintext highlighter-rouge">Content</code> definition within its <code class="language-plaintext highlighter-rouge">content</code> method, use the <code class="language-plaintext highlighter-rouge">markdown</code> parameter instead of the <code class="language-plaintext highlighter-rouge">view</code> parameter:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Content</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message content definition.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+        <span class="n">markdown</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+        <span class="n">with</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">orderUrl</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="writing-markdown-messages"></a></p>
+<h3 id="writing-markdown-messages">Writing Markdown Messages</h3>
+
+<p>Markdown mailables use a combination of Blade components and Markdown syntax which allow you to easily construct mail messages while leveraging Laravel’s pre-built email UI components:</p>
+
+<pre><code class="language-blade">&lt;x-mail::message&gt;
+# Order Shipped
+
+Your order has been shipped!
+
+&lt;x-mail::button :url="$url"&gt;
+View Order
+&lt;/x-mail::button&gt;
+
+Thanks,&lt;br&gt;
+{{ config('app.name') }}
+&lt;/x-mail::message&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]
+Do not use excess indentation when writing Markdown emails. Per Markdown standards, Markdown parsers will render indented content as code blocks.</p>
+</blockquote>
+
+<p><a name="button-component"></a></p>
+<h4 id="button-component">Button Component</h4>
+
+<p>The button component renders a centered button link. The component accepts two arguments, a <code class="language-plaintext highlighter-rouge">url</code> and an optional <code class="language-plaintext highlighter-rouge">color</code>. Supported colors are <code class="language-plaintext highlighter-rouge">primary</code>, <code class="language-plaintext highlighter-rouge">success</code>, and <code class="language-plaintext highlighter-rouge">error</code>. You may add as many button components to a message as you wish:</p>
+
+<pre><code class="language-blade">&lt;x-mail::button :url="$url" color="success"&gt;
+View Order
+&lt;/x-mail::button&gt;
+</code></pre>
+
+<p><a name="panel-component"></a></p>
+<h4 id="panel-component">Panel Component</h4>
+
+<p>The panel component renders the given block of text in a panel that has a slightly different background color than the rest of the message. This allows you to draw attention to a given block of text:</p>
+
+<pre><code class="language-blade">&lt;x-mail::panel&gt;
+This is the panel content.
+&lt;/x-mail::panel&gt;
+</code></pre>
+
+<p><a name="table-component"></a></p>
+<h4 id="table-component">Table Component</h4>
+
+<p>The table component allows you to transform a Markdown table into an HTML table. The component accepts the Markdown table as its content. Table column alignment is supported using the default Markdown table alignment syntax:</p>
+
+<pre><code class="language-blade">&lt;x-mail::table&gt;
+| Laravel       | Table         | Example       |
+| ------------- | :-----------: | ------------: |
+| Col 2 is      | Centered      | $10           |
+| Col 3 is      | Right-Aligned | $20           |
+&lt;/x-mail::table&gt;
+</code></pre>
+
+<p><a name="customizing-the-components"></a></p>
+<h3 id="customizing-the-components">Customizing the Components</h3>
+
+<p>You may export all of the Markdown mail components to your own application for customization. To export the components, use the <code class="language-plaintext highlighter-rouge">vendor:publish</code> Artisan command to publish the <code class="language-plaintext highlighter-rouge">laravel-mail</code> asset tag:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--tag</span><span class="o">=</span>laravel-mail
+</code></pre></div></div>
+
+<p>This command will publish the Markdown mail components to the <code class="language-plaintext highlighter-rouge">resources/views/vendor/mail</code> directory. The <code class="language-plaintext highlighter-rouge">mail</code> directory will contain an <code class="language-plaintext highlighter-rouge">html</code> and a <code class="language-plaintext highlighter-rouge">text</code> directory, each containing their respective representations of every available component. You are free to customize these components however you like.</p>
+
+<p><a name="customizing-the-css"></a></p>
+<h4 id="customizing-the-css">Customizing the CSS</h4>
+
+<p>After exporting the components, the <code class="language-plaintext highlighter-rouge">resources/views/vendor/mail/html/themes</code> directory will contain a <code class="language-plaintext highlighter-rouge">default.css</code> file. You may customize the CSS in this file and your styles will automatically be converted to inline CSS styles within the HTML representations of your Markdown mail messages.</p>
+
+<p>If you would like to build an entirely new theme for Laravel’s Markdown components, you may place a CSS file within the <code class="language-plaintext highlighter-rouge">html/themes</code> directory. After naming and saving your CSS file, update the <code class="language-plaintext highlighter-rouge">theme</code> option of your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file to match the name of your new theme.</p>
+
+<p>To customize the theme for an individual mailable, you may set the <code class="language-plaintext highlighter-rouge">$theme</code> property of the mailable class to the name of the theme that should be used when sending that mailable.</p>
+
+<p><a name="sending-mail"></a></p>
+<h2 id="sending-mail">Sending Mail</h2>
+
+<p>To send a message, use the <code class="language-plaintext highlighter-rouge">to</code> method on the <code class="language-plaintext highlighter-rouge">Mail</code> <a href="/docs/{{version}}/facades">facade</a>. The <code class="language-plaintext highlighter-rouge">to</code> method accepts an email address, a user instance, or a collection of users. If you pass an object or collection of objects, the mailer will automatically use their <code class="language-plaintext highlighter-rouge">email</code> and <code class="language-plaintext highlighter-rouge">name</code> properties when determining the email’s recipients, so make sure these attributes are available on your objects. Once you have specified your recipients, you may pass an instance of your mailable class to the <code class="language-plaintext highlighter-rouge">send</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Mail\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipmentController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Ship the given order.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">store</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="nv">$order</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="n">order_id</span><span class="p">);</span>
+
+        <span class="c1">// Ship the order...</span>
+
+        <span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/orders'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You are not limited to just specifying the “to” recipients when sending a message. You are free to set “to”, “cc”, and “bcc” recipients by chaining their respective methods together:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="looping-over-recipients"></a></p>
+<h4 id="looping-over-recipients">Looping Over Recipients</h4>
+
+<p>Occasionally, you may need to send a mailable to a list of recipients by iterating over an array of recipients / email addresses. However, since the <code class="language-plaintext highlighter-rouge">to</code> method appends email addresses to the mailable’s list of recipients, each iteration through the loop will send another email to every previous recipient. Therefore, you should always re-create the mailable instance for each recipient:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">foreach</span> <span class="p">([</span><span class="s1">'taylor@example.com'</span><span class="p">,</span> <span class="s1">'dries@example.com'</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$recipient</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$recipient</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="sending-mail-via-a-specific-mailer"></a></p>
+<h4 id="sending-mail-via-a-specific-mailer">Sending Mail via a Specific Mailer</h4>
+
+<p>By default, Laravel will send email using the mailer configured as the <code class="language-plaintext highlighter-rouge">default</code> mailer in your application’s <code class="language-plaintext highlighter-rouge">mail</code> configuration file. However, you may use the <code class="language-plaintext highlighter-rouge">mailer</code> method to send a message using a specific mailer configuration:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">mailer</span><span class="p">(</span><span class="s1">'postmark'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="queueing-mail"></a></p>
+<h3 id="queueing-mail">Queueing Mail</h3>
+
+<p><a name="queueing-a-mail-message"></a></p>
+<h4 id="queueing-a-mail-message">Queueing a Mail Message</h4>
+
+<p>Since sending email messages can negatively impact the response time of your application, many developers choose to queue email messages for background sending. Laravel makes this easy using its built-in <a href="/docs/{{version}}/queues">unified queue API</a>. To queue a mail message, use the <code class="language-plaintext highlighter-rouge">queue</code> method on the <code class="language-plaintext highlighter-rouge">Mail</code> facade after specifying the message’s recipients:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">queue</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>This method will automatically take care of pushing a job onto the queue so the message is sent in the background. You will need to <a href="/docs/{{version}}/queues">configure your queues</a> before using this feature.</p>
+
+<p><a name="delayed-message-queueing"></a></p>
+<h4 id="delayed-message-queueing">Delayed Message Queueing</h4>
+
+<p>If you wish to delay the delivery of a queued email message, you may use the <code class="language-plaintext highlighter-rouge">later</code> method. As its first argument, the <code class="language-plaintext highlighter-rouge">later</code> method accepts a <code class="language-plaintext highlighter-rouge">DateTime</code> instance indicating when the message should be sent:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">later</span><span class="p">(</span><span class="nf">now</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">plus</span><span class="p">(</span><span class="n">minutes</span><span class="o">:</span> <span class="mi">10</span><span class="p">),</span> <span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="pushing-to-specific-queues"></a></p>
+<h4 id="pushing-to-specific-queues">Pushing to Specific Queues</h4>
+
+<p>Since all mailable classes generated using the <code class="language-plaintext highlighter-rouge">make:mail</code> command make use of the <code class="language-plaintext highlighter-rouge">Illuminate\Bus\Queueable</code> trait, you may call the <code class="language-plaintext highlighter-rouge">onQueue</code> and <code class="language-plaintext highlighter-rouge">onConnection</code> methods on any mailable class instance, allowing you to specify the connection and queue name for the message:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$message</span> <span class="o">=</span> <span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="nf">onConnection</span><span class="p">(</span><span class="s1">'sqs'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">onQueue</span><span class="p">(</span><span class="s1">'emails'</span><span class="p">);</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">queue</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may specify the connection and queue using the <code class="language-plaintext highlighter-rouge">Connection</code> and <code class="language-plaintext highlighter-rouge">Queue</code> attributes on the mailable class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Connection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Queue</span><span class="p">;</span>
+
+<span class="na">#[Connection('sqs')]</span>
+<span class="na">#[Queue('emails')]</span>
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="queueing-by-default"></a></p>
+<h4 id="queueing-by-default">Queueing by Default</h4>
+
+<p>If you have mailable classes that you want to always be queued, you may implement the <code class="language-plaintext highlighter-rouge">ShouldQueue</code> contract on the class. Now, even if you call the <code class="language-plaintext highlighter-rouge">send</code> method when mailing, the mailable will still be queued since it implements the contract:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="queued-mailables-and-database-transactions"></a></p>
+<h4 id="queued-mailables-and-database-transactions">Queued Mailables and Database Transactions</h4>
+
+<p>When queued mailables are dispatched within database transactions, they may be processed by the queue before the database transaction has committed. When this happens, any updates you have made to models or database records during the database transaction may not yet be reflected in the database. In addition, any models or database records created within the transaction may not exist in the database. If your mailable depends on these models, unexpected errors can occur when the job that sends the queued mailable is processed.</p>
+
+<p>If your queue connection’s <code class="language-plaintext highlighter-rouge">after_commit</code> configuration option is set to <code class="language-plaintext highlighter-rouge">false</code>, you may still indicate that a particular queued mailable should be dispatched after all open database transactions have been committed by calling the <code class="language-plaintext highlighter-rouge">afterCommit</code> method when sending the mail message:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span>
+    <span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">))</span><span class="o">-&gt;</span><span class="nf">afterCommit</span><span class="p">()</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may call the <code class="language-plaintext highlighter-rouge">afterCommit</code> method from your mailable’s constructor:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Bus\Queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Queueable</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new message instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">afterCommit</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+To learn more about working around these issues, please review the documentation regarding <a href="/docs/{{version}}/queues#jobs-and-database-transactions">queued jobs and database transactions</a>.</p>
+</blockquote>
+
+<p><a name="queued-email-failures"></a></p>
+<h4 id="queued-email-failures">Queued Email Failures</h4>
+
+<p>When a queued email fails, the <code class="language-plaintext highlighter-rouge">failed</code> method on the queued mailable class will be invoked if it has been defined. The <code class="language-plaintext highlighter-rouge">Throwable</code> instance that caused the queued email to fail will be passed to the <code class="language-plaintext highlighter-rouge">failed</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Throwable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderDelayed</span> <span class="kd">extends</span> <span class="nc">Mailable</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Handle a queued email's failure.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">failed</span><span class="p">(</span><span class="kt">Throwable</span> <span class="nv">$exception</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="rendering-mailables"></a></p>
+<h2 id="rendering-mailables">Rendering Mailables</h2>
+
+<p>Sometimes you may wish to capture the HTML content of a mailable without sending it. To accomplish this, you may call the <code class="language-plaintext highlighter-rouge">render</code> method of the mailable. This method will return the evaluated HTML content of the mailable as a string:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Mail\InvoicePaid</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Invoice</span><span class="p">;</span>
+
+<span class="nv">$invoice</span> <span class="o">=</span> <span class="nc">Invoice</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="p">(</span><span class="k">new</span> <span class="nc">InvoicePaid</span><span class="p">(</span><span class="nv">$invoice</span><span class="p">))</span><span class="o">-&gt;</span><span class="nf">render</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="previewing-mailables-in-the-browser"></a></p>
+<h3 id="previewing-mailables-in-the-browser">Previewing Mailables in the Browser</h3>
+
+<p>When designing a mailable’s template, it is convenient to quickly preview the rendered mailable in your browser like a typical Blade template. For this reason, Laravel allows you to return any mailable directly from a route closure or controller. When a mailable is returned, it will be rendered and displayed in the browser, allowing you to quickly preview its design without needing to send it to an actual email address:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/mailable'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$invoice</span> <span class="o">=</span> <span class="nc">App\Models\Invoice</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">App\Mail\InvoicePaid</span><span class="p">(</span><span class="nv">$invoice</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="localizing-mailables"></a></p>
+<h2 id="localizing-mailables">Localizing Mailables</h2>
+
+<p>Laravel allows you to send mailables in a locale other than the request’s current locale, and will even remember this locale if the mail is queued.</p>
+
+<p>To accomplish this, the <code class="language-plaintext highlighter-rouge">Mail</code> facade offers a <code class="language-plaintext highlighter-rouge">locale</code> method to set the desired language. The application will change into this locale when the mailable’s template is being evaluated and then revert back to the previous locale when evaluation is complete:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">locale</span><span class="p">(</span><span class="s1">'es'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="user-preferred-locales"></a></p>
+<h4 id="user-preferred-locales">User Preferred Locales</h4>
+
+<p>Sometimes, applications store each user’s preferred locale. By implementing the <code class="language-plaintext highlighter-rouge">HasLocalePreference</code> contract on one or more of your models, you may instruct Laravel to use this stored locale when sending mail:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Contracts\Translation\HasLocalePreference</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span> <span class="kd">implements</span> <span class="nc">HasLocalePreference</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the user's preferred locale.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">preferredLocale</span><span class="p">():</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">locale</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once you have implemented the interface, Laravel will automatically use the preferred locale when sending mailables and notifications to the model. Therefore, there is no need to call the <code class="language-plaintext highlighter-rouge">locale</code> method when using this interface:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="testing-mailables"></a></p>
+<h2 id="testing">Testing</h2>
+
+<p><a name="testing-mailable-content"></a></p>
+<h3 id="testing-mailable-content">Testing Mailable Content</h3>
+
+<p>Laravel provides a variety of methods for inspecting your mailable’s structure. In addition, Laravel provides several convenient methods for testing that your mailable contains the content that you expect:</p>
+
+<p>```php tab=Pest
+use App\Mail\InvoicePaid;
+use App\Models\User;</p>
+
+<p>test(‘mailable content’, function () {
+    $user = User::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$mailable = new InvoicePaid($user);
+
+$mailable-&gt;assertFrom('jeffrey@example.com');
+$mailable-&gt;assertTo('taylor@example.com');
+$mailable-&gt;assertHasCc('abigail@example.com');
+$mailable-&gt;assertHasBcc('victoria@example.com');
+$mailable-&gt;assertHasReplyTo('tyler@example.com');
+$mailable-&gt;assertHasSubject('Invoice Paid');
+$mailable-&gt;assertHasTag('example-tag');
+$mailable-&gt;assertHasMetadata('key', 'value');
+
+$mailable-&gt;assertSeeInHtml($user-&gt;email);
+$mailable-&gt;assertDontSeeInHtml('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertSeeInText($user-&gt;email);
+$mailable-&gt;assertDontSeeInText('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertHasAttachment('/path/to/file');
+$mailable-&gt;assertHasAttachment(Attachment::fromPath('/path/to/file'));
+$mailable-&gt;assertHasAttachedData($pdfData, 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+use App\Mail\InvoicePaid;
+use App\Models\User;</p>
+
+<p>public function test_mailable_content(): void
+{
+    $user = User::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$mailable = new InvoicePaid($user);
+
+$mailable-&gt;assertFrom('jeffrey@example.com');
+$mailable-&gt;assertTo('taylor@example.com');
+$mailable-&gt;assertHasCc('abigail@example.com');
+$mailable-&gt;assertHasBcc('victoria@example.com');
+$mailable-&gt;assertHasReplyTo('tyler@example.com');
+$mailable-&gt;assertHasSubject('Invoice Paid');
+$mailable-&gt;assertHasTag('example-tag');
+$mailable-&gt;assertHasMetadata('key', 'value');
+
+$mailable-&gt;assertSeeInHtml($user-&gt;email);
+$mailable-&gt;assertDontSeeInHtml('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertSeeInText($user-&gt;email);
+$mailable-&gt;assertDontSeeInText('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertHasAttachment('/path/to/file');
+$mailable-&gt;assertHasAttachment(Attachment::fromPath('/path/to/file'));
+$mailable-&gt;assertHasAttachedData($pdfData, 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']); } ```
+</code></pre></div></div>
+
+<p>As you might expect, the “HTML” assertions assert that the HTML version of your mailable contains a given string, while the “text” assertions assert that the plain-text version of your mailable contains a given string.</p>
+
+<p><a name="testing-mailable-sending"></a></p>
+<h3 id="testing-mailable-sending">Testing Mailable Sending</h3>
+
+<p>We suggest testing the content of your mailables separately from your tests that assert that a given mailable was “sent” to a specific user. Typically, the content of mailables is not relevant to the code you are testing, and it is sufficient to simply assert that Laravel was instructed to send a given mailable.</p>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">Mail</code> facade’s <code class="language-plaintext highlighter-rouge">fake</code> method to prevent mail from being sent. After calling the <code class="language-plaintext highlighter-rouge">Mail</code> facade’s <code class="language-plaintext highlighter-rouge">fake</code> method, you may then assert that mailables were instructed to be sent to users and even inspect the data the mailables received:</p>
+
+<p>```php tab=Pest
+&lt;?php</p>
+
+<p>use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;</p>
+
+<p>test(‘orders can be shipped’, function () {
+    Mail::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Perform order shipping...
+
+// Assert that no mailables were sent...
+Mail::assertNothingSent();
+
+// Assert that a mailable was sent...
+Mail::assertSent(OrderShipped::class);
+
+// Assert a mailable was sent twice...
+Mail::assertSent(OrderShipped::class, 2);
+
+// Assert a mailable was sent to an email address...
+Mail::assertSent(OrderShipped::class, 'example@laravel.com');
+
+// Assert a mailable was sent to multiple email addresses...
+Mail::assertSent(OrderShipped::class, ['example@laravel.com', '...']);
+
+// Assert a mailable was not sent...
+Mail::assertNotSent(AnotherMailable::class);
+
+// Assert a mailable was sent twice...
+Mail::assertSentTimes(OrderShipped::class, 2);
+
+// Assert that a mailable was sent exactly once...
+Mail::assertSentOnce(OrderShipped::class);
+
+// Assert 3 total mailables were sent...
+Mail::assertSentCount(3); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    public function test_orders_can_be_shipped(): void
+    {
+        Mail::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    // Perform order shipping...
+
+    // Assert that no mailables were sent...
+    Mail::assertNothingSent();
+
+    // Assert that a mailable was sent...
+    Mail::assertSent(OrderShipped::class);
+
+    // Assert a mailable was sent twice...
+    Mail::assertSent(OrderShipped::class, 2);
+
+    // Assert a mailable was sent to an email address...
+    Mail::assertSent(OrderShipped::class, 'example@laravel.com');
+
+    // Assert a mailable was sent to multiple email addresses...
+    Mail::assertSent(OrderShipped::class, ['example@laravel.com', '...']);
+
+    // Assert a mailable was not sent...
+    Mail::assertNotSent(AnotherMailable::class);
+
+    // Assert a mailable was sent twice...
+    Mail::assertSentTimes(OrderShipped::class, 2);
+
+    // Assert that a mailable was sent exactly once...
+    Mail::assertSentOnce(OrderShipped::class);
+
+    // Assert 3 total mailables were sent...
+    Mail::assertSentCount(3);
+} } ```
+</code></pre></div></div>
+
+<p>If you are queueing mailables for delivery in the background, you should use the <code class="language-plaintext highlighter-rouge">assertQueued</code> method instead of <code class="language-plaintext highlighter-rouge">assertSent</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertQueued</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertQueuedOnce</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNotQueued</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNothingQueued</span><span class="p">();</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertQueuedCount</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You can also assert the total number of mailables that have been sent or queued using the <code class="language-plaintext highlighter-rouge">assertOutgoingCount</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertOutgoingCount</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may pass a closure to the <code class="language-plaintext highlighter-rouge">assertSent</code>, <code class="language-plaintext highlighter-rouge">assertNotSent</code>, <code class="language-plaintext highlighter-rouge">assertQueued</code>, or <code class="language-plaintext highlighter-rouge">assertNotQueued</code> methods in order to assert that a mailable was sent that passes a given “truth test”. If at least one mailable was sent that passes the given truth test then the assertion will be successful:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$order</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>When calling the <code class="language-plaintext highlighter-rouge">Mail</code> facade’s assertion methods, the mailable instance accepted by the provided closure exposes helpful methods for examining the mailable:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasTo</span><span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasCc</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasBcc</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasReplyTo</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasFrom</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasSubject</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasMetadata</span><span class="p">(</span><span class="s1">'order_id'</span><span class="p">,</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">);</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">usesMailer</span><span class="p">(</span><span class="s1">'ses'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>The mailable instance also includes several helpful methods for examining the attachments on a mailable:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Attachment</span><span class="p">;</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasAttachment</span><span class="p">(</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasAttachment</span><span class="p">(</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorageDisk</span><span class="p">(</span><span class="s1">'s3'</span><span class="p">,</span> <span class="s1">'/path/to/file'</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$pdfData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasAttachment</span><span class="p">(</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromData</span><span class="p">(</span><span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$pdfData</span><span class="p">,</span> <span class="s1">'name.pdf'</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>You may have noticed that there are two methods for asserting that mail was not sent: <code class="language-plaintext highlighter-rouge">assertNotSent</code> and <code class="language-plaintext highlighter-rouge">assertNotQueued</code>. Sometimes you may wish to assert that no mail was sent <strong>or</strong> queued. To accomplish this, you may use the <code class="language-plaintext highlighter-rouge">assertNothingOutgoing</code> and <code class="language-plaintext highlighter-rouge">assertNotOutgoing</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNothingOutgoing</span><span class="p">();</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNotOutgoing</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$order</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="mail-and-local-development"></a></p>
+<h2 id="mail-and-local-development">Mail and Local Development</h2>
+
+<p>When developing an application that sends email, you probably don’t want to actually send emails to live email addresses. Laravel provides several ways to “disable” the actual sending of emails during local development.</p>
+
+<p><a name="log-driver"></a></p>
+<h4 id="log-driver">Log Driver</h4>
+
+<p>Instead of sending your emails, the <code class="language-plaintext highlighter-rouge">log</code> mail driver will write all email messages to your log files for inspection. Typically, this driver would only be used during local development. For more information on configuring your application per environment, check out the <a href="/docs/{{version}}/configuration#environment-configuration">configuration documentation</a>.</p>
+
+<p><a name="mailtrap"></a></p>
+<h4 id="helo--mailtrap--mailpit">HELO / Mailtrap / Mailpit</h4>
+
+<p>Alternatively, you may use a service like <a href="https://usehelo.com">HELO</a> or <a href="https://mailtrap.io">Mailtrap</a> and the <code class="language-plaintext highlighter-rouge">smtp</code> driver to send your email messages to a “dummy” mailbox where you may view them in a true email client. This approach has the benefit of allowing you to actually inspect the final emails in Mailtrap’s message viewer.</p>
+
+<p>If you are using <a href="/docs/{{version}}/sail">Laravel Sail</a>, you may preview your messages using <a href="https://github.com/axllent/mailpit">Mailpit</a>. When Sail is running, you may access the Mailpit interface at: <code class="language-plaintext highlighter-rouge">http://localhost:8025</code>.</p>
+
+<p><a name="using-a-global-to-address"></a></p>
+<h4 id="using-a-global-to-address">Using a Global <code class="language-plaintext highlighter-rouge">to</code> Address</h4>
+
+<p>Finally, you may specify a global “to” address by invoking the <code class="language-plaintext highlighter-rouge">alwaysTo</code> method offered by the <code class="language-plaintext highlighter-rouge">Mail</code> facade. Typically, this method should be called from the <code class="language-plaintext highlighter-rouge">boot</code> method of one of your application’s service providers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">app</span><span class="o">-&gt;</span><span class="nf">environment</span><span class="p">(</span><span class="s1">'local'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nc">Mail</span><span class="o">::</span><span class="nf">alwaysTo</span><span class="p">(</span><span class="s1">'taylor@example.com'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When using the <code class="language-plaintext highlighter-rouge">alwaysTo</code> method, any additional “cc” or “bcc” addresses on mail messages will be removed.</p>
+
+<p><a name="events"></a></p>
+<h2 id="events">Events</h2>
+
+<p>Laravel dispatches two events while sending mail messages. The <code class="language-plaintext highlighter-rouge">MessageSending</code> event is dispatched prior to a message being sent, while the <code class="language-plaintext highlighter-rouge">MessageSent</code> event is dispatched after a message has been sent. Remember, these events are dispatched when the mail is being <em>sent</em>, not when it is queued. You may create <a href="/docs/{{version}}/events">event listeners</a> for these events within your application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Events\MessageSending</span><span class="p">;</span>
+<span class="c1">// use Illuminate\Mail\Events\MessageSent;</span>
+
+<span class="kd">class</span> <span class="nc">LogMessage</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">MessageSending</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="custom-transports"></a></p>
+<h2 id="custom-transports">Custom Transports</h2>
+
+<p>Laravel includes a variety of mail transports; however, you may wish to write your own transports to deliver email via other services that Laravel does not support out of the box. To get started, define a class that extends the <code class="language-plaintext highlighter-rouge">Symfony\Component\Mailer\Transport\AbstractTransport</code> class. Then, implement the <code class="language-plaintext highlighter-rouge">doSend</code> and <code class="language-plaintext highlighter-rouge">__toString</code> methods on your transport:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">MailchimpTransactional\ApiClient</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\SentMessage</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\Transport\AbstractTransport</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mime\Address</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mime\MessageConverter</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">MailchimpTransport</span> <span class="kd">extends</span> <span class="nc">AbstractTransport</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Create a new Mailchimp transport instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">protected</span> <span class="kt">ApiClient</span> <span class="nv">$client</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{</span>
+        <span class="k">parent</span><span class="o">::</span><span class="nf">__construct</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * {@inheritDoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">doSend</span><span class="p">(</span><span class="kt">SentMessage</span> <span class="nv">$message</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$email</span> <span class="o">=</span> <span class="nc">MessageConverter</span><span class="o">::</span><span class="nf">toEmail</span><span class="p">(</span><span class="nv">$message</span><span class="o">-&gt;</span><span class="nf">getOriginalMessage</span><span class="p">());</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">client</span><span class="o">-&gt;</span><span class="n">messages</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">([</span><span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'from_email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getFrom</span><span class="p">(),</span>
+            <span class="s1">'to'</span> <span class="o">=&gt;</span> <span class="nf">collect</span><span class="p">(</span><span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getTo</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">map</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Address</span> <span class="nv">$email</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="p">[</span><span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getAddress</span><span class="p">(),</span> <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'to'</span><span class="p">];</span>
+            <span class="p">})</span><span class="o">-&gt;</span><span class="nf">all</span><span class="p">(),</span>
+            <span class="s1">'subject'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getSubject</span><span class="p">(),</span>
+            <span class="s1">'text'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getTextBody</span><span class="p">(),</span>
+        <span class="p">]]);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get the string representation of the transport.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__toString</span><span class="p">():</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">'mailchimp'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once you’ve defined your custom transport, you may register it via the <code class="language-plaintext highlighter-rouge">extend</code> method provided by the <code class="language-plaintext highlighter-rouge">Mail</code> facade. Typically, this should be done within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>. A <code class="language-plaintext highlighter-rouge">$config</code> argument will be passed to the closure provided to the <code class="language-plaintext highlighter-rouge">extend</code> method. This argument will contain the configuration array defined for the mailer in the application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Mail\MailchimpTransport</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">MailchimpTransactional\ApiClient</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Mail</span><span class="o">::</span><span class="nf">extend</span><span class="p">(</span><span class="s1">'mailchimp'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">array</span> <span class="nv">$config</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
+        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ApiClient</span><span class="p">;</span>
+
+        <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">setApiKey</span><span class="p">(</span><span class="nv">$config</span><span class="p">[</span><span class="s1">'key'</span><span class="p">]);</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">MailchimpTransport</span><span class="p">(</span><span class="nv">$client</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once your custom transport has been defined and registered, you may create a mailer definition within your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file that utilizes the new transport:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailchimp'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'mailchimp'</span><span class="p">,</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILCHIMP_API_KEY'</span><span class="p">),</span>
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="additional-symfony-transports"></a></p>
+<h3 id="additional-symfony-transports">Additional Symfony Transports</h3>
+
+<p>Laravel includes support for some existing Symfony maintained mail transports like Mailgun and Postmark. However, you may wish to extend Laravel with support for additional Symfony maintained transports. You can do so by requiring the necessary Symfony mailer via Composer and registering the transport with Laravel. For example, you may install and register the “Brevo” (formerly “Sendinblue”) Symfony mailer:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/brevo-mailer symfony/http-client
+</code></pre></div></div>
+
+<p>Once the Brevo mailer package has been installed, you may add an entry for your Brevo API credentials to your application’s <code class="language-plaintext highlighter-rouge">services</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'brevo'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'BREVO_API_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>Next, you may use the <code class="language-plaintext highlighter-rouge">Mail</code> facade’s <code class="language-plaintext highlighter-rouge">extend</code> method to register the transport with Laravel. Typically, this should be done within the <code class="language-plaintext highlighter-rouge">boot</code> method of a service provider:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\Transport\Dsn</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Mail</span><span class="o">::</span><span class="nf">extend</span><span class="p">(</span><span class="s1">'brevo'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">new</span> <span class="nc">BrevoTransportFactory</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">(</span>
+            <span class="k">new</span> <span class="nc">Dsn</span><span class="p">(</span>
+                <span class="s1">'brevo+api'</span><span class="p">,</span>
+                <span class="s1">'default'</span><span class="p">,</span>
+                <span class="nf">config</span><span class="p">(</span><span class="s1">'services.brevo.key'</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once your transport has been registered, you may create a mailer definition within your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file that utilizes the new transport:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'brevo'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'brevo'</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

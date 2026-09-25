@@ -1,0 +1,133 @@
+<!-- 캐릭터 소개 섹션 -->
+<div class="card border-0 rounded-4 p-4 p-md-5 mb-5 shadow-sm" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0 !important;">
+    <div class="row align-items-center mb-4">
+        <div class="col-lg-8">
+            <span class="badge rounded-pill px-3 py-2 fw-bold mb-2" style="background-color: #f3e8ff; color: #7e22ce;">Development Characters</span>
+            <h3 class="fw-bold mb-2" style="color: #1e293b;">👥 함께하는 지니샵 개발 주역들을 소개합니다</h3>
+            <p class="text-secondary mb-0">
+                복잡하고 어려운 라라벨 아키텍처를 시니어 멘토 <strong>지니</strong>, 주니어 개발자 <strong>도로시</strong>, 트러블슈터 <strong>토토</strong>의 친근한 실무 협업 대화로 풀어냅니다.
+            </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+            <a href="{{ '/character/' | relative_url }}" class="btn btn-hero-primary rounded-pill px-4 py-2 fw-bold">
+                캐릭터 가이드 보기 ➔
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- 지니 (Jiny) -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 rounded-4 p-3 text-center bg-white shadow-sm transition-hover">
+                <div class="d-flex justify-content-center my-3">
+                    <div class="rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 110px; height: 110px; background-color: #fae8ff;">
+                        <img src="{{ '/img/jiny.png' | relative_url }}" alt="지니" style="max-height: 95px; width: auto; object-fit: contain;">
+                    </div>
+                </div>
+                <h5 class="fw-bold mb-1" style="color: #1e293b;">🐱 지니 (Jiny)</h5>
+                <p class="small text-muted mb-2"><span class="badge rounded-pill px-2 py-1" style="background-color: #fae8ff; color: #86198f;">시니어 시스템 아키텍트</span></p>
+                <p class="card-text text-secondary small mb-0">
+                    보랏빛 마법사 고양이! 라라벨의 보이지 않는 내부 원리(서비스 컨테이너, 파사드, 생명주기)와 베스트 프랙티스를 짚어줍니다.
+                </p>
+            </div>
+        </div>
+
+        <!-- 도로시 (Dorothy) -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 rounded-4 p-3 text-center bg-white shadow-sm transition-hover">
+                <div class="d-flex justify-content-center my-3">
+                    <div class="rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 110px; height: 110px; background-color: #e0f2fe;">
+                        <img src="{{ '/img/dorothy.png' | relative_url }}" alt="도로시" style="max-height: 95px; width: auto; object-fit: contain;">
+                    </div>
+                </div>
+                <h5 class="fw-bold mb-1" style="color: #1e293b;">👧 도로시 (Dorothy)</h5>
+                <p class="small text-muted mb-2"><span class="badge rounded-pill px-2 py-1" style="background-color: #e0f2fe; color: #0369a1;">주니어 풀스택 개발자</span></p>
+                <p class="card-text text-secondary small mb-0">
+                    성장형 주인공! 초보자의 눈높이에서 날카로운 질문을 던지고, 직접 터미널에 명령어를 치며 지니샵의 기능을 하나씩 구현해 나갑니다.
+                </p>
+            </div>
+        </div>
+
+        <!-- 토토 (Toto) -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 rounded-4 p-3 text-center bg-white shadow-sm transition-hover">
+                <div class="d-flex justify-content-center my-3">
+                    <div class="rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 110px; height: 110px; background-color: #dcfce7;">
+                        <img src="{{ '/img/toto.png' | relative_url }}" alt="토토" style="max-height: 95px; width: auto; object-fit: contain;">
+                    </div>
+                </div>
+                <h5 class="fw-bold mb-1" style="color: #1e293b;">🐶 토토 (Toto)</h5>
+                <p class="small text-muted mb-2"><span class="badge rounded-pill px-2 py-1" style="background-color: #dcfce7; color: #15803d;">실무 트러블슈터 & 가이드</span></p>
+                <p class="card-text text-secondary small mb-0">
+                    도로시의 충직한 개발 보조견! 초보자가 범하기 쉬운 실수, 에러 해결 팁, 유용한 CLI 단축키를 꼬리를 흔들며 멍멍 짚어줍니다.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 캐릭터 스토리 개발 씬 갤러리 -->
+    <div class="mt-5 pt-3">
+        <h4 class="fw-bold text-center mb-2" style="color: #1e293b;">🎨 지니와 도로시, 토토의 실전 개발 씬</h4>
+        <p class="text-secondary text-center small mb-4">
+            14주 동안 쇼핑몰을 직접 만들어가는 세 주인공의 티키타카 개발 현장 스냅샷입니다.
+        </p>
+
+        <div class="row g-4">
+            <!-- Scene 1 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 rounded-4 bg-white shadow-sm overflow-hidden transition-hover">
+                    <img src="{{ '/img/scene_schema_design.png' | relative_url }}" alt="서점 DB 스키마 설계" class="w-100" style="height: 160px; object-fit: cover;">
+                    <div class="p-3">
+                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background-color: #dbeafe; color: #1e40af; font-size: 0.75rem;">1단계: 코어 기초</span>
+                        <h6 class="fw-bold mb-1" style="color: #1e293b;">DB 스키마 & 1,000권 시딩</h6>
+                        <p class="text-muted small mb-0">
+                            "외래키로 도서와 회원을 엮고 팩토리로 데이터를 채우자멍!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 2 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 rounded-4 bg-white shadow-sm overflow-hidden transition-hover">
+                    <img src="{{ '/img/scene_troubleshooting.png' | relative_url }}" alt="실시간 트러블슈팅" class="w-100" style="height: 160px; object-fit: cover;">
+                    <div class="p-3">
+                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background-color: #fef3c7; color: #92400e; font-size: 0.75rem;">2단계: ORM & 인증</span>
+                        <h6 class="fw-bold mb-1" style="color: #1e293b;">버그 발견 & 트러블슈팅</h6>
+                        <p class="text-muted small mb-0">
+                            "화면이 멈추면 `php artisan optimize:clear`를 외치라멍!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 3 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 rounded-4 bg-white shadow-sm overflow-hidden transition-hover">
+                    <img src="{{ '/img/scene_payment_success.png' | relative_url }}" alt="PG 결제 승인 성공" class="w-100" style="height: 160px; object-fit: cover;">
+                    <div class="p-3">
+                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background-color: #dcfce7; color: #166534; font-size: 0.75rem;">3단계: 아키텍처 & 결제</span>
+                        <h6 class="fw-bold mb-1" style="color: #1e293b;">PG 결제 승인 & 큐 발송</h6>
+                        <p class="text-muted small mb-0">
+                            "Order Complete! DB 트랜잭션과 비동기 메일 발송 완료!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 4 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 rounded-4 bg-white shadow-sm overflow-hidden transition-hover">
+                    <img src="{{ '/img/scene_store_launch.png' | relative_url }}" alt="지니샵 오픈 런칭 파티" class="w-100" style="height: 160px; object-fit: cover;">
+                    <div class="p-3">
+                        <span class="badge rounded-pill px-2 py-1 mb-2" style="background-color: #fce7f3; color: #9d174d; font-size: 0.75rem;">4단계: 배포 & 오픈</span>
+                        <h6 class="fw-bold mb-1" style="color: #1e293b;">지니샵 서점 정식 오픈</h6>
+                        <p class="text-muted small mb-0">
+                            "14주 완성! 무중단 배포와 실시간 주문 관제소 오픈 축하!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

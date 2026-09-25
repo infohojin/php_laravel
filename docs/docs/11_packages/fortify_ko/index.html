@@ -1,0 +1,2295 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Laravel Fortify | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Laravel Fortify" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/11_packages/fortify_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/11_packages/fortify_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Laravel Fortify" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Laravel Fortify","url":"http://localhost:4000/docs/11_packages/fortify_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="true">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/11_packages/">11 packages</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Laravel Fortify</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="laravel-fortify">Laravel Fortify</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a>
+    <ul>
+      <li><a href="#what-is-fortify">What is Fortify?</a></li>
+      <li><a href="#when-should-i-use-fortify">When Should I Use Fortify?</a></li>
+    </ul>
+  </li>
+  <li><a href="#installation">Installation</a>
+    <ul>
+      <li><a href="#fortify-features">Fortify Features</a></li>
+      <li><a href="#disabling-views">Disabling Views</a></li>
+    </ul>
+  </li>
+  <li><a href="#authentication">Authentication</a>
+    <ul>
+      <li><a href="#customizing-user-authentication">Customizing User Authentication</a></li>
+      <li><a href="#customizing-the-authentication-pipeline">Customizing the Authentication Pipeline</a></li>
+      <li><a href="#customizing-authentication-redirects">Customizing Redirects</a></li>
+    </ul>
+  </li>
+  <li><a href="#two-factor-authentication">Two-Factor Authentication</a>
+    <ul>
+      <li><a href="#enabling-two-factor-authentication">Enabling Two-Factor Authentication</a></li>
+      <li><a href="#authenticating-with-two-factor-authentication">Authenticating With Two-Factor Authentication</a></li>
+      <li><a href="#disabling-two-factor-authentication">Disabling Two-Factor Authentication</a></li>
+    </ul>
+  </li>
+  <li><a href="#passkeys">Passkeys</a>
+    <ul>
+      <li><a href="#enabling-passkeys">Enabling Passkeys</a></li>
+      <li><a href="#passkeys-javascript-client">JavaScript Client</a></li>
+      <li><a href="#authenticating-with-passkeys">Authenticating With Passkeys</a></li>
+      <li><a href="#confirming-password-with-passkeys">Confirming Password With Passkeys</a></li>
+      <li><a href="#registering-passkeys">Registering Passkeys</a></li>
+      <li><a href="#deleting-passkeys">Deleting Passkeys</a></li>
+    </ul>
+  </li>
+  <li><a href="#registration">Registration</a>
+    <ul>
+      <li><a href="#customizing-registration">Customizing Registration</a></li>
+    </ul>
+  </li>
+  <li><a href="#password-reset">Password Reset</a>
+    <ul>
+      <li><a href="#requesting-a-password-reset-link">Requesting a Password Reset Link</a></li>
+      <li><a href="#resetting-the-password">Resetting the Password</a></li>
+      <li><a href="#customizing-password-resets">Customizing Password Resets</a></li>
+    </ul>
+  </li>
+  <li><a href="#email-verification">Email Verification</a>
+    <ul>
+      <li><a href="#protecting-routes">Protecting Routes</a></li>
+    </ul>
+  </li>
+  <li><a href="#password-confirmation">Password Confirmation</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://github.com/laravel/fortify">Laravel Fortify</a> is a frontend agnostic authentication backend implementation for Laravel. Fortify registers the routes and controllers needed to implement all of Laravel’s authentication features, including login, registration, password reset, email verification, and more. After installing Fortify, you may run the <code class="language-plaintext highlighter-rouge">route:list</code> Artisan command to see the routes that Fortify has registered.</p>
+
+<p>Since Fortify does not provide its own user interface, it is meant to be paired with your own user interface which makes requests to the routes it registers. We will discuss exactly how to make requests to these routes in the remainder of this documentation.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Remember, Fortify is a package that is meant to give you a head start implementing Laravel’s authentication features. <strong>You are not required to use it.</strong> You are always free to manually interact with Laravel’s authentication services by following the documentation available in the <a href="/docs/{{version}}/authentication">authentication</a>, <a href="/docs/{{version}}/passwords">password reset</a>, and <a href="/docs/{{version}}/verification">email verification</a> documentation.</p>
+</blockquote>
+
+<p><a name="what-is-fortify"></a></p>
+<h3 id="what-is-fortify">What is Fortify?</h3>
+
+<p>As mentioned previously, Laravel Fortify is a frontend agnostic authentication backend implementation for Laravel. Fortify registers the routes and controllers needed to implement all of Laravel’s authentication features, including login, registration, password reset, email verification, and more.</p>
+
+<p><strong>You are not required to use Fortify in order to use Laravel’s authentication features.</strong> You are always free to manually interact with Laravel’s authentication services by following the documentation available in the <a href="/docs/{{version}}/authentication">authentication</a>, <a href="/docs/{{version}}/passwords">password reset</a>, and <a href="/docs/{{version}}/verification">email verification</a> documentation.</p>
+
+<p>If you are new to Laravel, you may wish to explore <a href="/docs/{{version}}/starter-kits">our application starter kits</a>. Laravel’s application starter kits use Fortify internally to provide authentication scaffolding for your application that includes a user interface built with <a href="https://tailwindcss.com">Tailwind CSS</a>. This allows you to study and get comfortable with Laravel’s authentication features.</p>
+
+<p>Laravel Fortify essentially takes the routes and controllers of our application starter kits and offers them as a package that does not include a user interface. This allows you to still quickly scaffold the backend implementation of your application’s authentication layer without being tied to any particular frontend opinions.</p>
+
+<p><a name="when-should-i-use-fortify"></a></p>
+<h3 id="when-should-i-use-fortify">When Should I Use Fortify?</h3>
+
+<p>You may be wondering when it is appropriate to use Laravel Fortify. First, if you are using one of Laravel’s <a href="/docs/{{version}}/starter-kits">application starter kits</a>, you do not need to install Laravel Fortify since all of Laravel’s application starter kits use Fortify and already provide a full authentication implementation.</p>
+
+<p>If you are not using an application starter kit and your application needs authentication features, you have two options: manually implement your application’s authentication features or use Laravel Fortify to provide the backend implementation of these features.</p>
+
+<p>If you choose to install Fortify, your user interface will make requests to Fortify’s authentication routes that are detailed in this documentation in order to authenticate and register users.</p>
+
+<p>If you choose to manually interact with Laravel’s authentication services instead of using Fortify, you may do so by following the documentation available in the <a href="/docs/{{version}}/authentication">authentication</a>, <a href="/docs/{{version}}/passwords">password reset</a>, and <a href="/docs/{{version}}/verification">email verification</a> documentation.</p>
+
+<p><a name="laravel-fortify-and-laravel-sanctum"></a></p>
+<h4 id="laravel-fortify-and-laravel-sanctum">Laravel Fortify and Laravel Sanctum</h4>
+
+<p>Some developers become confused regarding the difference between <a href="/docs/{{version}}/sanctum">Laravel Sanctum</a> and Laravel Fortify. Because the two packages solve two different but related problems, Laravel Fortify and Laravel Sanctum are not mutually exclusive or competing packages.</p>
+
+<p>Laravel Sanctum is only concerned with managing API tokens and authenticating existing users using session cookies or tokens. Sanctum does not provide any routes that handle user registration, password reset, etc.</p>
+
+<p>If you are attempting to manually build the authentication layer for an application that offers an API or serves as the backend for a single-page application, it is entirely possible that you will utilize both Laravel Fortify (for user registration, password reset, etc.) and Laravel Sanctum (API token management, session authentication).</p>
+
+<p><a name="installation"></a></p>
+<h2 id="installation">Installation</h2>
+
+<p>To get started, install Fortify using the Composer package manager:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require laravel/fortify
+</code></pre></div></div>
+
+<p>다음으로, <code class="language-plaintext highlighter-rouge">fortify:install</code> Artisan 명령을 사용하여 Fortify의 리소스를 게시하세요:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan fortify:install
+</code></pre></div></div>
+
+<p>이 명령은 Fortify의 작업을 <code class="language-plaintext highlighter-rouge">app/Actions</code> 디렉토리에 게시합니다. 해당 디렉토리가 존재하지 않으면 생성됩니다. 또한 <code class="language-plaintext highlighter-rouge">FortifyServiceProvider</code> 구성 파일과 모든 필요한 데이터베이스 마이그레이션이 게시됩니다.</p>
+
+<p>다음으로, 데이터베이스를 마이그레이션해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate
+</code></pre></div></div>
+
+<p><a name="fortify-features"></a></p>
+<h3 id="fortify-기능">Fortify 기능</h3>
+
+<p><code class="language-plaintext highlighter-rouge">fortify</code> 구성 파일에는 <code class="language-plaintext highlighter-rouge">features</code> 구성 배열이 포함되어 있습니다. 이 배열은 Fortify가 기본적으로 노출할 백엔드 경로/기능을 정의합니다. 대부분의 Laravel 애플리케이션에서 제공하는 기본 인증 기능인 다음 기능만 활성화하는 것을 권장합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'features'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="nc">Features</span><span class="o">::</span><span class="nf">registration</span><span class="p">(),</span>
+    <span class="nc">Features</span><span class="o">::</span><span class="nf">resetPasswords</span><span class="p">(),</span>
+    <span class="nc">Features</span><span class="o">::</span><span class="nf">emailVerification</span><span class="p">(),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="disabling-views"></a></p>
+<h3 id="뷰-비활성화">뷰 비활성화</h3>
+
+<p>기본적으로 Fortify는 로그인 화면이나 등록 화면과 같이 뷰를 반환하도록 의도된 라우트를 정의합니다. 그러나 JavaScript 기반 싱글 페이지 애플리케이션을 구축하는 경우 이러한 라우트가 필요하지 않을 수 있습니다. 이러한 이유로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/fortify.php</code> 설정 파일 내에서 <code class="language-plaintext highlighter-rouge">views</code> 구성 값을 <code class="language-plaintext highlighter-rouge">false</code>로 설정하여 이러한 라우트를 완전히 비활성화할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'views'</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
+</code></pre></div></div>
+
+<p><a name="disabling-views-and-password-reset"></a></p>
+<h4 id="disabling-views-and-password-reset">Disabling Views and Password Reset</h4>
+
+<p>If you choose to disable Fortify’s views and you will be implementing password reset features for your application, you should still define a route named <code class="language-plaintext highlighter-rouge">password.reset</code> that is responsible for displaying your application’s “reset password” view. This is necessary because Laravel’s <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Notifications\ResetPassword</code> notification will generate the password reset URL via the <code class="language-plaintext highlighter-rouge">password.reset</code> named route.</p>
+
+<p><a name="authentication"></a></p>
+<h2 id="authentication">Authentication</h2>
+
+<p>To get started, we need to instruct Fortify how to return our “login” view. Remember, Fortify is a headless authentication library. If you would like a frontend implementation of Laravel’s authentication features that are already completed for you, you should use an <a href="/docs/{{version}}/starter-kits">application starter kit</a>.</p>
+
+<p>All of the authentication view’s rendering logic may be customized using the appropriate methods available via the <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Fortify</code> class. Typically, you should call this method from the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> class. Fortify will take care of defining the <code class="language-plaintext highlighter-rouge">/login</code> route that returns this view:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">loginView</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.login'</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Your login template should include a form that makes a POST request to <code class="language-plaintext highlighter-rouge">/login</code>. The <code class="language-plaintext highlighter-rouge">/login</code> endpoint expects a string <code class="language-plaintext highlighter-rouge">email</code> / <code class="language-plaintext highlighter-rouge">username</code> and a <code class="language-plaintext highlighter-rouge">password</code>. The name of the email / username field should match the <code class="language-plaintext highlighter-rouge">username</code> value within the <code class="language-plaintext highlighter-rouge">config/fortify.php</code> configuration file. In addition, a boolean <code class="language-plaintext highlighter-rouge">remember</code> field may be provided to indicate that the user would like to use the “remember me” functionality provided by Laravel.</p>
+
+<p>If the login attempt is successful, Fortify will redirect you to the URI configured via the <code class="language-plaintext highlighter-rouge">home</code> configuration option within your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file. If the login request was an XHR request, a 200 HTTP response will be returned.</p>
+
+<p>If the request was not successful, the user will be redirected back to the login screen and the validation errors will be available to you via the shared <code class="language-plaintext highlighter-rouge">$errors</code> <a href="/docs/{{version}}/validation#quick-displaying-the-validation-errors">Blade template variable</a>. Or, in the case of an XHR request, the validation errors will be returned with the 422 HTTP response.</p>
+
+<p><a name="customizing-user-authentication"></a></p>
+<h3 id="customizing-user-authentication">Customizing User Authentication</h3>
+
+<p>Fortify will automatically retrieve and authenticate the user based on the provided credentials and the authentication guard that is configured for your application. However, you may sometimes wish to have full customization over how login credentials are authenticated and users are retrieved. Thankfully, Fortify allows you to easily accomplish this using the <code class="language-plaintext highlighter-rouge">Fortify::authenticateUsing</code> method.</p>
+
+<p>This method accepts a closure which receives the incoming HTTP request. The closure is responsible for validating the login credentials attached to the request and returning the associated user instance. If the credentials are invalid or no user can be found, <code class="language-plaintext highlighter-rouge">null</code> or <code class="language-plaintext highlighter-rouge">false</code> should be returned by the closure. Typically, this method should be called from the <code class="language-plaintext highlighter-rouge">boot</code> method of your <code class="language-plaintext highlighter-rouge">FortifyServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Hash</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">authenticateUsing</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$user</span> <span class="o">=</span> <span class="nc">User</span><span class="o">::</span><span class="nf">where</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">first</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$user</span> <span class="o">&amp;&amp;</span>
+            <span class="nc">Hash</span><span class="o">::</span><span class="nf">check</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="n">password</span><span class="p">,</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">password</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$user</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="authentication-guard"></a></p>
+<h4 id="authentication-guard">Authentication Guard</h4>
+
+<p>You may customize the authentication guard used by Fortify within your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file. However, you should ensure that the configured guard is an implementation of <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\StatefulGuard</code>. If you are attempting to use Laravel Fortify to authenticate an SPA, you should use Laravel’s default <code class="language-plaintext highlighter-rouge">web</code> guard in combination with <a href="https://laravel.com/docs/sanctum">Laravel Sanctum</a>.</p>
+
+<p><a name="customizing-the-authentication-pipeline"></a></p>
+<h3 id="customizing-the-authentication-pipeline">Customizing the Authentication Pipeline</h3>
+
+<p>Laravel Fortify authenticates login requests through a pipeline of invokable classes. If you would like, you may define a custom pipeline of classes that login requests should be piped through. Each class should have an <code class="language-plaintext highlighter-rouge">__invoke</code> method which receives the incoming <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> instance and, like <a href="/docs/{{version}}/middleware">middleware</a>, a <code class="language-plaintext highlighter-rouge">$next</code> variable that is invoked in order to pass the request to the next class in the pipeline.</p>
+
+<p>To define your custom pipeline, you may use the <code class="language-plaintext highlighter-rouge">Fortify::authenticateThrough</code> method. This method accepts a closure which should return the array of classes to pipe the login request through. Typically, this method should be called from the <code class="language-plaintext highlighter-rouge">boot</code> method of your <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> class.</p>
+
+<p>The example below contains the default pipeline definition that you may use as a starting point when making your own modifications:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Actions\AttemptToAuthenticate</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Actions\CanonicalizeUsername</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Actions\EnsureLoginIsNotThrottled</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Actions\PrepareAuthenticatedSession</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Features</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="nc">Fortify</span><span class="o">::</span><span class="nf">authenticateThrough</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">array_filter</span><span class="p">([</span>
+            <span class="nf">config</span><span class="p">(</span><span class="s1">'fortify.limiters.login'</span><span class="p">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nc">EnsureLoginIsNotThrottled</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+            <span class="nf">config</span><span class="p">(</span><span class="s1">'fortify.lowercase_usernames'</span><span class="p">)</span> <span class="o">?</span> <span class="nc">CanonicalizeUsername</span><span class="o">::</span><span class="n">class</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nc">Features</span><span class="o">::</span><span class="nf">enabled</span><span class="p">(</span><span class="nc">Features</span><span class="o">::</span><span class="nf">twoFactorAuthentication</span><span class="p">())</span> <span class="o">?</span> <span class="nc">RedirectIfTwoFactorAuthenticatable</span><span class="o">::</span><span class="n">class</span> <span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+            <span class="nc">AttemptToAuthenticate</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+            <span class="nc">PrepareAuthenticatedSession</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h4 id="authentication-throttling">Authentication Throttling</h4>
+
+<p>By default, Fortify will throttle authentication attempts using the <code class="language-plaintext highlighter-rouge">EnsureLoginIsNotThrottled</code> middleware. This middleware throttles attempts that are unique to a username and IP address combination.</p>
+
+<p>Some applications may require a different approach to throttling authentication attempts, such as throttling by IP address alone. Therefore, Fortify allows you to specify your own <a href="/docs/{{version}}/routing#rate-limiting">rate limiter</a> via the <code class="language-plaintext highlighter-rouge">fortify.limiters.login</code> configuration option. Of course, this configuration option is located in your application’s <code class="language-plaintext highlighter-rouge">config/fortify.php</code> configuration file.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Utilizing a mixture of throttling, <a href="/docs/{{version}}/fortify#two-factor-authentication">two-factor authentication</a>, and an external web application firewall (WAF) will provide the most robust defense for your legitimate application users.</p>
+</blockquote>
+
+<p><a name="customizing-authentication-redirects"></a></p>
+<h3 id="customizing-redirects">Customizing Redirects</h3>
+
+<p>If the login attempt is successful, Fortify will redirect you to the URI configured via the <code class="language-plaintext highlighter-rouge">home</code> configuration option within your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file. If the login request was an XHR request, a 200 HTTP response will be returned. After a user logs out of the application, the user will be redirected to the <code class="language-plaintext highlighter-rouge">/</code> URI.</p>
+
+<p>If you need advanced customization of this behavior, you may bind implementations of the <code class="language-plaintext highlighter-rouge">LoginResponse</code> and <code class="language-plaintext highlighter-rouge">LogoutResponse</code> contracts into the Laravel <a href="/docs/{{version}}/container">service container</a>. Typically, this should be done within the <code class="language-plaintext highlighter-rouge">register</code> method of your application’s <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Contracts\LogoutResponse</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Register any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">register</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">app</span><span class="o">-&gt;</span><span class="nf">instance</span><span class="p">(</span><span class="nc">LogoutResponse</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">new</span> <span class="kd">class</span> <span class="kd">implements</span> <span class="nc">LogoutResponse</span> <span class="p">{</span>
+        <span class="k">public</span> <span class="k">function</span> <span class="n">toResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="two-factor-authentication"></a></p>
+<h2 id="2단계-인증">2단계 인증</h2>
+
+<p>Fortify의 2단계 인증 기능이 활성화되면, 사용자는 인증 과정에서 6자리 숫자 토큰을 입력해야 합니다. 이 토큰은 시간 기반 일회용 비밀번호(TOTP)를 사용하여 생성되며, Google Authenticator와 같은 TOTP 호환 모바일 인증 애플리케이션에서 확인할 수 있습니다.</p>
+
+<p>시작하기 전에, 먼저 애플리케이션의 <code class="language-plaintext highlighter-rouge">App\Models\User</code> 모델이 <code class="language-plaintext highlighter-rouge">Laravel\Fortify\TwoFactorAuthenticatable</code> 트레이트를 사용하는지 확인해야 합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Auth\User</span> <span class="k">as</span> <span class="nc">Authenticatable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Notifications\Notifiable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\TwoFactorAuthenticatable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Authenticatable</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Notifiable</span><span class="p">,</span> <span class="nc">TwoFactorAuthenticatable</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Next, you should build a screen within your application where users can manage their two-factor authentication settings. This screen should allow the user to enable and disable two-factor authentication, as well as regenerate their two-factor authentication recovery codes.</p>
+
+<blockquote>
+  <p>By default, the <code class="language-plaintext highlighter-rouge">features</code> array of the <code class="language-plaintext highlighter-rouge">fortify</code> configuration file instructs Fortify’s two-factor authentication settings to require password confirmation before modification. Therefore, your application should implement Fortify’s <a href="#password-confirmation">password confirmation</a> feature before continuing.</p>
+</blockquote>
+
+<p><a name="enabling-two-factor-authentication"></a></p>
+<h3 id="enabling-two-factor-authentication">Enabling Two-Factor Authentication</h3>
+
+<p>To begin enabling two-factor authentication, your application should make a POST request to the <code class="language-plaintext highlighter-rouge">/user/two-factor-authentication</code> endpoint defined by Fortify. If the request is successful, the user will be redirected back to the previous URL and the <code class="language-plaintext highlighter-rouge">status</code> session variable will be set to <code class="language-plaintext highlighter-rouge">two-factor-authentication-enabled</code>. You may detect this <code class="language-plaintext highlighter-rouge">status</code> session variable within your templates to display the appropriate success message. If the request was an XHR request, <code class="language-plaintext highlighter-rouge">200</code> HTTP response will be returned.</p>
+
+<p>After choosing to enable two-factor authentication, the user must still “confirm” their two-factor authentication configuration by providing a valid two-factor authentication code. So, your “success” message should instruct the user that two-factor authentication confirmation is still required:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@if (session('status') == 'two-factor-authentication-enabled')
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"mb-4 font-medium text-sm"</span><span class="nt">&gt;</span>
+        Please finish configuring two-factor authentication below.
+    <span class="nt">&lt;/div&gt;</span>
+@endif
+</code></pre></div></div>
+
+<p>다음으로, 사용자가 인증기 애플리케이션에 스캔할 수 있도록 이중 인증 QR 코드를 표시해야 합니다. 애플리케이션의 프런트엔드를 Blade를 사용하여 렌더링하는 경우, 사용자 인스턴스에서 사용할 수 있는 <code class="language-plaintext highlighter-rouge">twoFactorQrCodeSvg</code> 메서드를 사용하여 QR 코드 SVG를 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">twoFactorQrCodeSvg</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>만약 자바스크립트 기반 프런트엔드를 구축하고 있다면, 사용자의 이중 인증 QR 코드를 가져오기 위해 <code class="language-plaintext highlighter-rouge">/user/two-factor-qr-code</code> 엔드포인트에 XHR GET 요청을 할 수 있습니다. 이 엔드포인트는 <code class="language-plaintext highlighter-rouge">svg</code> 키를 포함한 JSON 객체를 반환합니다.</p>
+
+<p><a name="confirming-two-factor-authentication"></a></p>
+<h4 id="이중-인증-확인">이중 인증 확인</h4>
+
+<p>사용자의 이중 인증 QR 코드를 표시하는 것 외에도, 사용자가 유효한 인증 코드를 입력하여 이중 인증 구성을 “확인”할 수 있는 텍스트 입력란을 제공해야 합니다. 이 코드는 Fortify에서 정의한 <code class="language-plaintext highlighter-rouge">/user/confirmed-two-factor-authentication</code> 엔드포인트로 POST 요청을 통해 라라벨(Laravel) 애플리케이션에 전달되어야 합니다.</p>
+
+<p>요청이 성공하면, 사용자는 이전 URL로 리디렉션되며 <code class="language-plaintext highlighter-rouge">status</code> 세션 변수는 <code class="language-plaintext highlighter-rouge">two-factor-authentication-confirmed</code>로 설정됩니다:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@if (session('status') == 'two-factor-authentication-confirmed')
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"mb-4 font-medium text-sm"</span><span class="nt">&gt;</span>
+        Two-factor authentication confirmed and enabled successfully.
+    <span class="nt">&lt;/div&gt;</span>
+@endif
+</code></pre></div></div>
+
+<p>두 요소 인증 확인 엔드포인트에 대한 요청이 XHR 요청을 통해 이루어진 경우, <code class="language-plaintext highlighter-rouge">200</code> HTTP 응답이 반환됩니다.</p>
+
+<p><a name="displaying-the-recovery-codes"></a></p>
+<h4 id="복구-코드-표시">복구 코드 표시</h4>
+
+<p>사용자의 두 요소 복구 코드도 표시해야 합니다. 이 복구 코드를 통해 사용자는 모바일 기기에 접근할 수 없는 경우에도 인증할 수 있습니다. 애플리케이션의 프론트엔드를 Blade로 렌더링하는 경우, 인증된 사용자 인스턴스를 통해 복구 코드에 접근할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">recoveryCodes</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>If you are building a JavaScript powered frontend, you may make an XHR GET request to the <code class="language-plaintext highlighter-rouge">/user/two-factor-recovery-codes</code> endpoint. This endpoint will return a JSON array containing the user’s recovery codes.</p>
+
+<p>To regenerate the user’s recovery codes, your application should make a POST request to the <code class="language-plaintext highlighter-rouge">/user/two-factor-recovery-codes</code> endpoint.</p>
+
+<p><a name="authenticating-with-two-factor-authentication"></a></p>
+<h3 id="authenticating-with-two-factor-authentication">Authenticating With Two-Factor Authentication</h3>
+
+<p>During the authentication process, Fortify will automatically redirect the user to your application’s two-factor authentication challenge screen. However, if your application is making an XHR login request, the JSON response returned after a successful authentication attempt will contain a JSON object that has a <code class="language-plaintext highlighter-rouge">two_factor</code> boolean property. You should inspect this value to know whether you should redirect to your application’s two-factor authentication challenge screen.</p>
+
+<p>To begin implementing two-factor authentication functionality, we need to instruct Fortify how to return our two-factor authentication challenge view. All of Fortify’s authentication view rendering logic may be customized using the appropriate methods available via the <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Fortify</code> class. Typically, you should call this method from the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">twoFactorChallengeView</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.two-factor-challenge'</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fortify will take care of defining the <code class="language-plaintext highlighter-rouge">/two-factor-challenge</code> route that returns this view. Your <code class="language-plaintext highlighter-rouge">two-factor-challenge</code> template should include a form that makes a POST request to the <code class="language-plaintext highlighter-rouge">/two-factor-challenge</code> endpoint. The <code class="language-plaintext highlighter-rouge">/two-factor-challenge</code> action expects a <code class="language-plaintext highlighter-rouge">code</code> field that contains a valid TOTP token or a <code class="language-plaintext highlighter-rouge">recovery_code</code> field that contains one of the user’s recovery codes.</p>
+
+<p>If the login attempt is successful, Fortify will redirect the user to the URI configured via the <code class="language-plaintext highlighter-rouge">home</code> configuration option within your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file. If the login request was an XHR request, a 204 HTTP response will be returned.</p>
+
+<p>If the request was not successful, the user will be redirected back to the two-factor challenge screen and the validation errors will be available to you via the shared <code class="language-plaintext highlighter-rouge">$errors</code> <a href="/docs/{{version}}/validation#quick-displaying-the-validation-errors">Blade template variable</a>. Or, in the case of an XHR request, the validation errors will be returned with a 422 HTTP response.</p>
+
+<p><a name="disabling-two-factor-authentication"></a></p>
+<h3 id="disabling-two-factor-authentication">Disabling Two-Factor Authentication</h3>
+
+<p>To disable two-factor authentication, your application should make a DELETE request to the <code class="language-plaintext highlighter-rouge">/user/two-factor-authentication</code> endpoint. Remember, Fortify’s two-factor authentication endpoints require <a href="#password-confirmation">password confirmation</a> prior to being called.</p>
+
+<p><a name="passkeys"></a></p>
+<h2 id="passkeys">Passkeys</h2>
+
+<p>Fortify supports passkey authentication using WebAuthn. Passkeys allow users to authenticate without passwords using platform authenticators such as Face ID, Touch ID, Windows Hello, or hardware security keys.</p>
+
+<p><a name="enabling-passkeys"></a></p>
+<h3 id="enabling-passkeys">Enabling Passkeys</h3>
+
+<p>To get started, ensure the <code class="language-plaintext highlighter-rouge">passkeys</code> feature is enabled in your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Features</span><span class="p">;</span>
+
+<span class="s1">'features'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="c1">// ...</span>
+    <span class="nc">Features</span><span class="o">::</span><span class="nf">passkeys</span><span class="p">([</span>
+        <span class="s1">'confirmPassword'</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">]),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">confirmPassword</code> 옵션은 Fortify가 패스키를 등록하거나 삭제하기 전에 <a href="#password-confirmation">비밀번호 확인</a>을 요구할지 여부를 결정합니다.</p>
+
+<p>다음으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">App\Models\User</code> 모델이 <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Contracts\PasskeyUser</code>를 구현하고 <code class="language-plaintext highlighter-rouge">Laravel\Fortify\PasskeyAuthenticatable</code> 트레이트를 사용하는지 확인하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Auth\User</span> <span class="k">as</span> <span class="nc">Authenticatable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Notifications\Notifiable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\Contracts\PasskeyUser</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Fortify\PasskeyAuthenticatable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Authenticatable</span> <span class="kd">implements</span> <span class="nc">PasskeyUser</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Notifiable</span><span class="p">,</span> <span class="nc">PasskeyAuthenticatable</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fortify의 패스키 구성 옵션은 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/fortify.php</code> 파일에 있는 <code class="language-plaintext highlighter-rouge">passkeys</code> 구성 배열을 사용하여 사용자 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'passkeys'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'relying_party_id'</span> <span class="o">=&gt;</span> <span class="nb">parse_url</span><span class="p">(</span><span class="nf">config</span><span class="p">(</span><span class="s1">'app.url'</span><span class="p">),</span> <span class="kc">PHP_URL_HOST</span><span class="p">),</span>
+    <span class="s1">'allowed_origins'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nf">config</span><span class="p">(</span><span class="s1">'app.url'</span><span class="p">)],</span>
+    <span class="s1">'user_handle_secret'</span> <span class="o">=&gt;</span> <span class="nf">config</span><span class="p">(</span><span class="s1">'app.key'</span><span class="p">),</span>
+    <span class="s1">'timeout'</span> <span class="o">=&gt;</span> <span class="mi">60000</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Fortify wraps the <code class="language-plaintext highlighter-rouge">laravel/passkeys</code> Composer package and configures it for you. If you are using Fortify’s passkeys feature, you should configure passkeys using your application’s <code class="language-plaintext highlighter-rouge">config/fortify.php</code> file. You do not need to publish the <code class="language-plaintext highlighter-rouge">laravel/passkeys</code> configuration file, and any values defined there will be overridden by Fortify.</p>
+</blockquote>
+
+<p>The <code class="language-plaintext highlighter-rouge">relying_party_id</code> should match your application’s domain. The <code class="language-plaintext highlighter-rouge">allowed_origins</code> array lists the browser origins that may complete passkey registration and authentication. The <code class="language-plaintext highlighter-rouge">user_handle_secret</code> is used to derive opaque user identifiers, ensuring the same user is recognized across passkey registrations. The <code class="language-plaintext highlighter-rouge">timeout</code> option controls how long passkey registration and authentication operations may remain active.</p>
+
+<p>Fortify applies a dedicated passkeys rate limiter to its passkey login, confirmation, and registration routes. If needed, you may customize it using the <code class="language-plaintext highlighter-rouge">fortify.limiters.passkeys</code> configuration option and a corresponding <code class="language-plaintext highlighter-rouge">RateLimiter::for(...)</code> definition.</p>
+
+<p><a name="passkeys-javascript-client"></a></p>
+<h3 id="javascript-client">JavaScript Client</h3>
+
+<p>If you are building a custom frontend, including a Blade application with browser-side scripts, you may use the official <a href="https://www.npmjs.com/package/@laravel/passkeys"><code class="language-plaintext highlighter-rouge">@laravel/passkeys</code></a> package. This package handles browser WebAuthn ceremonies and sends requests to Fortify’s passkey endpoints.</p>
+
+<p>Install the package via npm:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> @laravel/passkeys
+</code></pre></div></div>
+
+<p>그런 다음, 프론트엔드에서 패스키 등록 및 인증을 시작할 수 있습니다:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Passkeys</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@laravel/passkeys</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">Passkeys</span><span class="p">.</span><span class="nf">register</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">MacBook Pro</span><span class="dl">"</span> <span class="p">});</span>
+<span class="k">await</span> <span class="nx">Passkeys</span><span class="p">.</span><span class="nf">verify</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>애플리케이션이 사용자 정의 패스키 엔드포인트 URI를 사용하는 경우, 호출별로 라우트를 재정의할 수 있습니다:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">await</span> <span class="nx">Passkeys</span><span class="p">.</span><span class="nf">verify</span><span class="p">({</span>
+    <span class="na">routes</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">options</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/passkeys/confirm/options</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">submit</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/passkeys/confirm</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">});</span>
+
+<span class="k">await</span> <span class="nx">Passkeys</span><span class="p">.</span><span class="nf">register</span><span class="p">({</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">"</span><span class="s2">MacBook Pro</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">routes</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">options</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/user/passkeys/options</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">submit</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/user/passkeys</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>The package also provides React, Vue, and Svelte helpers via <code class="language-plaintext highlighter-rouge">@laravel/passkeys/react</code>, <code class="language-plaintext highlighter-rouge">@laravel/passkeys/vue</code>, and <code class="language-plaintext highlighter-rouge">@laravel/passkeys/svelte</code>.</p>
+
+<p><a name="authenticating-with-passkeys"></a></p>
+<h3 id="authenticating-with-passkeys">Authenticating With Passkeys</h3>
+
+<p>To authenticate a user with a passkey, your application should first make a GET request to the <code class="language-plaintext highlighter-rouge">/passkeys/login/options</code> endpoint. This endpoint returns the WebAuthn challenge options that your frontend should pass to <code class="language-plaintext highlighter-rouge">navigator.credentials.get(...)</code>.</p>
+
+<p>After the browser returns a credential, your application should make a POST request to <code class="language-plaintext highlighter-rouge">/passkeys/login</code> with the credential payload. You may also include a boolean <code class="language-plaintext highlighter-rouge">remember</code> field.</p>
+
+<p>If the request is successful, Fortify will log the user into the configured guard and return either:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li>A redirect response to your intended destination for standard requests.</li>
+    <li>A <code class="language-plaintext highlighter-rouge">200</code> HTTP response containing a JSON payload with a <code class="language-plaintext highlighter-rouge">redirect</code> key for XHR requests.</li>
+  </ul>
+
+</div>
+
+<p><a name="confirming-password-with-passkeys"></a></p>
+<h3 id="confirming-password-with-passkeys">Confirming Password With Passkeys</h3>
+
+<p>For authenticated sessions, Fortify provides passkey confirmation endpoints that satisfy Laravel’s password confirmation requirement for the current session.</p>
+
+<p>To confirm with a passkey, your application should first make a GET request to <code class="language-plaintext highlighter-rouge">/passkeys/confirm/options</code>. This endpoint returns the WebAuthn challenge options that your frontend should pass to <code class="language-plaintext highlighter-rouge">navigator.credentials.get(...)</code>.</p>
+
+<p>After the browser returns a credential, your application should make a POST request to <code class="language-plaintext highlighter-rouge">/passkeys/confirm</code> with the credential payload.</p>
+
+<p>If the request is successful, Fortify marks the current session as password confirmed and returns either:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li>A redirect response to your intended destination for standard requests.</li>
+    <li>A <code class="language-plaintext highlighter-rouge">200</code> HTTP response containing a JSON payload with a <code class="language-plaintext highlighter-rouge">redirect</code> key for XHR requests.</li>
+  </ul>
+
+</div>
+
+<p><a name="registering-passkeys"></a></p>
+<h3 id="registering-passkeys">Registering Passkeys</h3>
+
+<p>To register a passkey for an authenticated user, your application should first make a GET request to <code class="language-plaintext highlighter-rouge">/user/passkeys/options</code>. This endpoint returns the WebAuthn creation options that your frontend should pass to <code class="language-plaintext highlighter-rouge">navigator.credentials.create(...)</code>.</p>
+
+<p>After the browser returns a credential, your application should make a POST request to <code class="language-plaintext highlighter-rouge">/user/passkeys</code> with a <code class="language-plaintext highlighter-rouge">name</code> field and a <code class="language-plaintext highlighter-rouge">credential</code> field containing the serialized <a href="https://developer.mozilla.org/en-US/docs/Web/API/PublicKeyCredential"><code class="language-plaintext highlighter-rouge">PublicKeyCredential</code></a> object returned by <code class="language-plaintext highlighter-rouge">navigator.credentials.create(...)</code>.</p>
+
+<p>If the request is successful, Fortify will return either:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li>A redirect back response with a <code class="language-plaintext highlighter-rouge">passkey-registered</code> status in the session for standard requests.</li>
+    <li>A <code class="language-plaintext highlighter-rouge">200</code> HTTP response with a JSON payload containing a <code class="language-plaintext highlighter-rouge">status</code> key, along with the newly registered passkey’s <code class="language-plaintext highlighter-rouge">id</code> and <code class="language-plaintext highlighter-rouge">name</code>.</li>
+  </ul>
+
+</div>
+
+<p><a name="deleting-passkeys"></a></p>
+<h3 id="deleting-passkeys">Deleting Passkeys</h3>
+
+<p>To delete a passkey, your application should make a DELETE request to <code class="language-plaintext highlighter-rouge">/user/passkeys/{passkey}</code>.</p>
+
+<p>If the request is successful, Fortify will return either:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li>A redirect back response with a <code class="language-plaintext highlighter-rouge">passkey-deleted</code> status in the session for standard requests.</li>
+    <li>A <code class="language-plaintext highlighter-rouge">200</code> HTTP response with a JSON payload containing a <code class="language-plaintext highlighter-rouge">status</code> key for XHR requests.</li>
+  </ul>
+
+</div>
+
+<p><a name="registration"></a></p>
+<h2 id="registration">Registration</h2>
+
+<p>To begin implementing our application’s registration functionality, we need to instruct Fortify how to return our “register” view. Remember, Fortify is a headless authentication library. If you would like a frontend implementation of Laravel’s authentication features that are already completed for you, you should use an <a href="/docs/{{version}}/starter-kits">application starter kit</a>.</p>
+
+<p>All of Fortify’s view rendering logic may be customized using the appropriate methods available via the <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Fortify</code> class. Typically, you should call this method from the <code class="language-plaintext highlighter-rouge">boot</code> method of your <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">registerView</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.register'</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fortify will take care of defining the <code class="language-plaintext highlighter-rouge">/register</code> route that returns this view. Your <code class="language-plaintext highlighter-rouge">register</code> template should include a form that makes a POST request to the <code class="language-plaintext highlighter-rouge">/register</code> endpoint defined by Fortify.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">/register</code> endpoint expects a string <code class="language-plaintext highlighter-rouge">name</code>, string email address / username, <code class="language-plaintext highlighter-rouge">password</code>, and <code class="language-plaintext highlighter-rouge">password_confirmation</code> fields. The name of the email / username field should match the <code class="language-plaintext highlighter-rouge">username</code> configuration value defined within your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file.</p>
+
+<p>If the registration attempt is successful, Fortify will redirect the user to the URI configured via the <code class="language-plaintext highlighter-rouge">home</code> configuration option within your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file. If the request was an XHR request, a 201 HTTP response will be returned.</p>
+
+<p>If the request was not successful, the user will be redirected back to the registration screen and the validation errors will be available to you via the shared <code class="language-plaintext highlighter-rouge">$errors</code> <a href="/docs/{{version}}/validation#quick-displaying-the-validation-errors">Blade template variable</a>. Or, in the case of an XHR request, the validation errors will be returned with a 422 HTTP response.</p>
+
+<p><a name="customizing-registration"></a></p>
+<h3 id="customizing-registration">Customizing Registration</h3>
+
+<p>The user validation and creation process may be customized by modifying the <code class="language-plaintext highlighter-rouge">App\Actions\Fortify\CreateNewUser</code> action that was generated when you installed Laravel Fortify.</p>
+
+<p><a name="password-reset"></a></p>
+<h2 id="password-reset">Password Reset</h2>
+
+<p><a name="requesting-a-password-reset-link"></a></p>
+<h3 id="requesting-a-password-reset-link">Requesting a Password Reset Link</h3>
+
+<p>To begin implementing our application’s password reset functionality, we need to instruct Fortify how to return our “forgot password” view. Remember, Fortify is a headless authentication library. If you would like a frontend implementation of Laravel’s authentication features that are already completed for you, you should use an <a href="/docs/{{version}}/starter-kits">application starter kit</a>.</p>
+
+<p>All of Fortify’s view rendering logic may be customized using the appropriate methods available via the <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Fortify</code> class. Typically, you should call this method from the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">requestPasswordResetLinkView</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.forgot-password'</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fortify will take care of defining the <code class="language-plaintext highlighter-rouge">/forgot-password</code> endpoint that returns this view. Your <code class="language-plaintext highlighter-rouge">forgot-password</code> template should include a form that makes a POST request to the <code class="language-plaintext highlighter-rouge">/forgot-password</code> endpoint.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">/forgot-password</code> endpoint expects a string <code class="language-plaintext highlighter-rouge">email</code> field. The name of this field / database column should match the <code class="language-plaintext highlighter-rouge">email</code> configuration value within your application’s <code class="language-plaintext highlighter-rouge">fortify</code> configuration file.</p>
+
+<p><a name="handling-the-password-reset-link-request-response"></a></p>
+<h4 id="handling-the-password-reset-link-request-response">Handling the Password Reset Link Request Response</h4>
+
+<p>If the password reset link request was successful, Fortify will redirect the user back to the <code class="language-plaintext highlighter-rouge">/forgot-password</code> endpoint and send an email to the user with a secure link they can use to reset their password. If the request was an XHR request, a 200 HTTP response will be returned.</p>
+
+<p>After being redirected back to the <code class="language-plaintext highlighter-rouge">/forgot-password</code> endpoint after a successful request, the <code class="language-plaintext highlighter-rouge">status</code> session variable may be used to display the status of the password reset link request attempt.</p>
+
+<p>The value of the <code class="language-plaintext highlighter-rouge">$status</code> session variable will match one of the translation strings defined within your application’s <code class="language-plaintext highlighter-rouge">passwords</code> <a href="/docs/{{version}}/localization">language file</a>. If you would like to customize this value and have not published Laravel’s language files, you may do so via the <code class="language-plaintext highlighter-rouge">lang:publish</code> Artisan command:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@if (session('status'))
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"mb-4 font-medium text-sm text-green-600"</span><span class="nt">&gt;</span>
+        {{ session('status') }}
+    <span class="nt">&lt;/div&gt;</span>
+@endif
+</code></pre></div></div>
+
+<p>요청이 성공하지 못한 경우, 사용자는 요청 비밀번호 재설정 링크 화면으로 다시 리다이렉트되며, 검증 오류는 공유된 <code class="language-plaintext highlighter-rouge">$errors</code> <a href="/docs/{{version}}/validation#quick-displaying-the-validation-errors">Blade 템플릿 변수</a>를 통해 확인할 수 있습니다. 또는 XHR 요청의 경우, 검증 오류는 422 HTTP 응답과 함께 반환됩니다.</p>
+
+<p><a name="resetting-the-password"></a></p>
+<h3 id="비밀번호-재설정">비밀번호 재설정</h3>
+
+<p>애플리케이션의 비밀번호 재설정 기능을 구현을 완료하기 위해, Fortify에게 “비밀번호 재설정” 뷰를 반환하는 방법을 알려줄 필요가 있습니다.</p>
+
+<p>Fortify의 모든 뷰 렌더링 로직은 <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Fortify</code> 클래스에서 제공하는 적절한 메서드를 사용하여 커스터마이즈할 수 있습니다. 일반적으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> 클래스의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 이 메서드를 호출해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">resetPasswordView</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.reset-password'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'request'</span> <span class="o">=&gt;</span> <span class="nv">$request</span><span class="p">]);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fortify는 이 뷰를 표시할 경로를 정의하는 작업을 처리합니다. 귀하의 <code class="language-plaintext highlighter-rouge">reset-password</code> 템플릿에는 <code class="language-plaintext highlighter-rouge">/reset-password</code>로 POST 요청을 보내는 폼이 포함되어야 합니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">/reset-password</code> 엔드포인트는 문자열 <code class="language-plaintext highlighter-rouge">email</code> 필드, <code class="language-plaintext highlighter-rouge">password</code> 필드, <code class="language-plaintext highlighter-rouge">password_confirmation</code> 필드와 <code class="language-plaintext highlighter-rouge">request()-&gt;route('token')</code> 값을 포함한 <code class="language-plaintext highlighter-rouge">token</code>라는 이름의 숨겨진 필드를 기대합니다. “email” 필드/데이터베이스 열의 이름은 애플리케이션의 <code class="language-plaintext highlighter-rouge">fortify</code> 구성 파일 내에 정의된 <code class="language-plaintext highlighter-rouge">email</code> 구성 값과 일치해야 합니다.</p>
+
+<p><a name="handling-the-password-reset-response"></a></p>
+<h4 id="비밀번호-재설정-응답-처리">비밀번호 재설정 응답 처리</h4>
+
+<p>비밀번호 재설정 요청이 성공하면 Fortify는 사용자가 새 비밀번호로 로그인할 수 있도록 <code class="language-plaintext highlighter-rouge">/login</code> 경로로 다시 리디렉션합니다. 또한 <code class="language-plaintext highlighter-rouge">status</code> 세션 변수가 설정되어 로그인 화면에서 재설정 성공 상태를 표시할 수 있습니다.</p>
+
+<pre><code class="language-blade">@if (session('status'))
+    &lt;div class="mb-4 font-medium text-sm text-green-600"&gt;
+        {{ session('status') }}
+    &lt;/div&gt;
+@endif
+</code></pre>
+
+<p>If the request was an XHR request, a 200 HTTP response will be returned.</p>
+
+<p>If the request was not successful, the user will be redirected back to the reset password screen and the validation errors will be available to you via the shared <code class="language-plaintext highlighter-rouge">$errors</code> <a href="/docs/{{version}}/validation#quick-displaying-the-validation-errors">Blade template variable</a>. Or, in the case of an XHR request, the validation errors will be returned with a 422 HTTP response.</p>
+
+<p><a name="customizing-password-resets"></a></p>
+<h3 id="customizing-password-resets">Customizing Password Resets</h3>
+
+<p>The password reset process may be customized by modifying the <code class="language-plaintext highlighter-rouge">App\Actions\ResetUserPassword</code> action that was generated when you installed Laravel Fortify.</p>
+
+<p><a name="email-verification"></a></p>
+<h2 id="email-verification">Email Verification</h2>
+
+<p>After registration, you may wish for users to verify their email address before they continue accessing your application. To get started, ensure the <code class="language-plaintext highlighter-rouge">emailVerification</code> feature is enabled in your <code class="language-plaintext highlighter-rouge">fortify</code> configuration file’s <code class="language-plaintext highlighter-rouge">features</code> array. Next, you should ensure that your <code class="language-plaintext highlighter-rouge">App\Models\User</code> class implements the <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Auth\MustVerifyEmail</code> interface.</p>
+
+<p>Once these two setup steps have been completed, newly registered users will receive an email prompting them to verify their email address ownership. However, we need to inform Fortify how to display the email verification screen which informs the user that they need to go click the verification link in the email.</p>
+
+<p>All of Fortify’s view’s rendering logic may be customized using the appropriate methods available via the <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Fortify</code> class. Typically, you should call this method from the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">verifyEmailView</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.verify-email'</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fortify will take care of defining the route that displays this view when a user is redirected to the <code class="language-plaintext highlighter-rouge">/email/verify</code> endpoint by Laravel’s built-in <code class="language-plaintext highlighter-rouge">verified</code> middleware.</p>
+
+<p>Your <code class="language-plaintext highlighter-rouge">verify-email</code> template should include an informational message instructing the user to click the email verification link that was sent to their email address.</p>
+
+<p><a name="resending-email-verification-links"></a></p>
+<h4 id="resending-email-verification-links">Resending Email Verification Links</h4>
+
+<p>If you wish, you may add a button to your application’s <code class="language-plaintext highlighter-rouge">verify-email</code> template that triggers a POST request to the <code class="language-plaintext highlighter-rouge">/email/verification-notification</code> endpoint. When this endpoint receives a request, a new verification email link will be emailed to the user, allowing the user to get a new verification link if the previous one was accidentally deleted or lost.</p>
+
+<p>If the request to resend the verification link email was successful, Fortify will redirect the user back to the <code class="language-plaintext highlighter-rouge">/email/verify</code> endpoint with a <code class="language-plaintext highlighter-rouge">status</code> session variable, allowing you to display an informational message to the user informing them the operation was successful. If the request was an XHR request, a 202 HTTP response will be returned:</p>
+
+<pre><code class="language-blade">@if (session('status') == 'verification-link-sent')
+    &lt;div class="mb-4 font-medium text-sm text-green-600"&gt;
+        A new email verification link has been emailed to you!
+    &lt;/div&gt;
+@endif
+</code></pre>
+
+<p><a name="protecting-routes"></a></p>
+<h3 id="라우트-보호">라우트 보호</h3>
+
+<p>라우트나 라우트 그룹이 사용자가 이메일 주소를 확인했는지 요구하도록 지정하려면, Laravel의 내장 <code class="language-plaintext highlighter-rouge">verified</code> 미들웨어를 라우트에 연결해야 합니다. <code class="language-plaintext highlighter-rouge">verified</code> 미들웨어 별칭은 Laravel에 의해 자동으로 등록되며, <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Middleware\EnsureEmailIsVerified</code> 미들웨어의 별칭으로 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">([</span><span class="s1">'verified'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="password-confirmation"></a></p>
+<h2 id="비밀번호-확인">비밀번호 확인</h2>
+
+<p>애플리케이션을 개발하는 동안, 특정 작업을 수행하기 전에 사용자가 비밀번호를 확인하도록 요구해야 하는 경우가 있습니다. 일반적으로 이러한 경로는 Laravel의 내장 <code class="language-plaintext highlighter-rouge">password.confirm</code> 미들웨어로 보호됩니다.</p>
+
+<p>비밀번호 확인 기능을 구현하려면, Fortify에게 애플리케이션의 ‘비밀번호 확인’ 뷰를 반환하는 방법을 알려야 합니다. Fortify는 헤드리스 인증 라이브러리라는 점을 기억하세요. 이미 완성된 Laravel 인증 기능의 프런트엔드 구현을 원하신다면 <a href="/docs/{{version}}/starter-kits">애플리케이션 스타터 키트</a>를 사용하셔야 합니다.</p>
+
+<p>Fortify의 모든 뷰 렌더링 로직은 <code class="language-plaintext highlighter-rouge">Laravel\Fortify\Fortify</code> 클래스를 통해 제공되는 적절한 메서드를 사용하여 사용자 정의할 수 있습니다. 일반적으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">App\Providers\FortifyServiceProvider</code> 클래스의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 이 메서드를 호출해야 합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Fortify\Fortify</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Fortify</span><span class="o">::</span><span class="nf">confirmPasswordView</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'auth.confirm-password'</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fortify는 이 뷰를 반환하는 <code class="language-plaintext highlighter-rouge">/user/confirm-password</code> 엔드포인트를 정의하는 작업을 처리합니다. 귀하의 <code class="language-plaintext highlighter-rouge">confirm-password</code> 템플릿에는 <code class="language-plaintext highlighter-rouge">/user/confirm-password</code> 엔드포인트로 POST 요청을 보내는 폼이 포함되어야 합니다. <code class="language-plaintext highlighter-rouge">/user/confirm-password</code> 엔드포인트는 사용자의 현재 비밀번호를 포함하는 <code class="language-plaintext highlighter-rouge">password</code> 필드를 기대합니다.</p>
+
+<p>비밀번호가 사용자의 현재 비밀번호와 일치하면, Fortify는 사용자를 접근하려던 경로로 리디렉션합니다. 요청이 XHR 요청인 경우, 201 HTTP 응답이 반환됩니다.</p>
+
+<p>요청이 성공하지 못하면, 사용자는 비밀번호 확인 화면으로 다시 리디렉션되며 검증 오류는 공유된 <code class="language-plaintext highlighter-rouge">$errors</code> Blade 템플릿 변수에서 확인할 수 있습니다. 또는 XHR 요청의 경우, 검증 오류가 422 HTTP 응답과 함께 반환됩니다.</p>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

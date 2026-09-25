@@ -1,0 +1,2573 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>HTTP Responses | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="HTTP Responses" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/04_the_basics/responses_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/04_the_basics/responses_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="HTTP Responses" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"HTTP Responses","url":"http://localhost:4000/docs/04_the_basics/responses_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="true">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/04_the_basics/">04 the basics</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">HTTP Responses</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="http-responses">HTTP Responses</h1>
+
+<ul>
+  <li><a href="#creating-responses">Creating Responses</a>
+    <ul>
+      <li><a href="#attaching-headers-to-responses">Attaching Headers to Responses</a></li>
+      <li><a href="#attaching-cookies-to-responses">Attaching Cookies to Responses</a></li>
+      <li><a href="#cookies-and-encryption">Cookies and Encryption</a></li>
+    </ul>
+  </li>
+  <li><a href="#redirects">Redirects</a>
+    <ul>
+      <li><a href="#redirecting-named-routes">Redirecting to Named Routes</a></li>
+      <li><a href="#redirecting-controller-actions">Redirecting to Controller Actions</a></li>
+      <li><a href="#redirecting-external-domains">Redirecting to External Domains</a></li>
+      <li><a href="#redirecting-with-flashed-session-data">Redirecting With Flashed Session Data</a></li>
+    </ul>
+  </li>
+  <li><a href="#other-response-types">Other Response Types</a>
+    <ul>
+      <li><a href="#view-responses">View Responses</a></li>
+      <li><a href="#json-responses">JSON Responses</a></li>
+      <li><a href="#file-downloads">File Downloads</a></li>
+      <li><a href="#file-responses">File Responses</a></li>
+    </ul>
+  </li>
+  <li><a href="#streamed-responses">Streamed Responses</a>
+    <ul>
+      <li><a href="#consuming-streamed-responses">Consuming Streamed Responses</a></li>
+      <li><a href="#streamed-json-responses">Streamed JSON Responses</a></li>
+      <li><a href="#event-streams">Event Streams (SSE)</a></li>
+      <li><a href="#streamed-downloads">Streamed Downloads</a></li>
+    </ul>
+  </li>
+  <li><a href="#response-macros">Response Macros</a></li>
+</ul>
+
+<p><a name="creating-responses"></a></p>
+<h2 id="creating-responses">Creating Responses</h2>
+
+<p><a name="strings-arrays"></a></p>
+<h4 id="strings-and-arrays">Strings and Arrays</h4>
+
+<p>All routes and controllers should return a response to be sent back to the user’s browser. Laravel provides several different ways to return responses. The most basic response is returning a string from a route or controller. The framework will automatically convert the string into a full HTTP response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Hello World'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>라우트와 컨트롤러에서 문자열을 반환하는 것 외에도 배열을 반환할 수도 있습니다. 프레임워크는 자동으로 배열을 JSON 응답으로 변환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+라우트나 컨트롤러에서 <a href="/docs/{{version}}/eloquent-collections">Eloquent 컬렉션</a>을 반환할 수도 있다는 것을 알고 계셨나요? 이들은 자동으로 JSON으로 변환됩니다. 한번 시도해보세요!</p>
+</blockquote>
+
+<p><a name="response-objects"></a></p>
+<h4 id="응답-객체">응답 객체</h4>
+
+<p>일반적으로, 라우트 액션에서 단순 문자열이나 배열만 반환하지는 않습니다. 대신, 전체 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Response</code> 인스턴스나 <a href="/docs/{{version}}/views">뷰</a>를 반환하게 됩니다.</p>
+
+<p>전체 <code class="language-plaintext highlighter-rouge">Response</code> 인스턴스를 반환하면, 응답의 HTTP 상태 코드와 헤더를 사용자 정의할 수 있습니다. <code class="language-plaintext highlighter-rouge">Response</code> 인스턴스는 <code class="language-plaintext highlighter-rouge">Symfony\Component\HttpFoundation\Response</code> 클래스로부터 상속되며, HTTP 응답을 구성하기 위한 다양한 메서드를 제공합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/home'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'Content-Type'</span><span class="p">,</span> <span class="s1">'text/plain'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="eloquent-models-and-collections"></a></p>
+<h4 id="엘로퀀트-모델과-컬렉션">엘로퀀트 모델과 컬렉션</h4>
+
+<p>라우트와 컨트롤러에서 <a href="/docs/{{version}}/eloquent">Eloquent ORM</a> 모델과 컬렉션을 직접 반환할 수도 있습니다. 이렇게 하면, 라라벨은 모델의 <a href="/docs/{{version}}/eloquent-serialization#hiding-attributes-from-json">숨겨진 속성</a>을 존중하면서 모델과 컬렉션을 자동으로 JSON 응답으로 변환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{user}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="attaching-headers-to-responses"></a></p>
+<h3 id="응답에-헤더-첨부하기">응답에 헤더 첨부하기</h3>
+
+<p>대부분의 응답 메서드는 체이닝이 가능하여, 응답 인스턴스를 유창하게 구성할 수 있다는 점을 기억하세요. 예를 들어, 사용자에게 다시 보내기 전에 일련의 헤더를 응답에 추가하기 위해 <code class="language-plaintext highlighter-rouge">header</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="nv">$content</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'Content-Type'</span><span class="p">,</span> <span class="nv">$type</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'X-Header-One'</span><span class="p">,</span> <span class="s1">'Header Value'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'X-Header-Two'</span><span class="p">,</span> <span class="s1">'Header Value'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>또는 <code class="language-plaintext highlighter-rouge">withHeaders</code> 방법을 사용하여 응답에 추가할 헤더 배열을 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="nv">$content</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">withHeaders</span><span class="p">([</span>
+        <span class="s1">'Content-Type'</span> <span class="o">=&gt;</span> <span class="nv">$type</span><span class="p">,</span>
+        <span class="s1">'X-Header-One'</span> <span class="o">=&gt;</span> <span class="s1">'Header Value'</span><span class="p">,</span>
+        <span class="s1">'X-Header-Two'</span> <span class="o">=&gt;</span> <span class="s1">'Header Value'</span><span class="p">,</span>
+    <span class="p">]);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">withoutHeader</code> 메서드를 사용하여 나가는 응답에서 특정 헤더를 제거할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="nv">$content</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withoutHeader</span><span class="p">(</span><span class="s1">'X-Debug'</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="nv">$content</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withoutHeader</span><span class="p">([</span><span class="s1">'X-Debug'</span><span class="p">,</span> <span class="s1">'X-Powered-By'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="cache-control-middleware"></a></p>
+<h4 id="캐시-제어-미들웨어">캐시 제어 미들웨어</h4>
+
+<p>Laravel에는 <code class="language-plaintext highlighter-rouge">cache.headers</code> 미들웨어가 포함되어 있으며, 이것을 사용하여 그룹 라우트에 대해 <code class="language-plaintext highlighter-rouge">Cache-Control</code> 헤더를 빠르게 설정할 수 있습니다. 지침은 해당 캐시 제어 지침의 “스네이크 케이스”에 해당하는 형식으로 제공되어야 하며, 세미콜론으로 구분해야 합니다. 목록에 <code class="language-plaintext highlighter-rouge">etag</code>가 지정되면, 응답 콘텐츠의 MD5 해시가 자동으로 ETag 식별자로 설정됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'cache.headers:public;max_age=30;s_maxage=300;stale_while_revalidate=600;etag'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/privacy'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/terms'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="attaching-cookies-to-responses"></a></p>
+<h3 id="응답에-쿠키-첨부하기">응답에 쿠키 첨부하기</h3>
+
+<p><code class="language-plaintext highlighter-rouge">cookie</code> 메서드를 사용하여 나가는 <code class="language-plaintext highlighter-rouge">Illuminate\Http\Response</code> 인스턴스에 쿠키를 첨부할 수 있습니다. 이 메서드에는 쿠키의 이름, 값, 그리고 쿠키가 유효하다고 간주될 시간을 분 단위로 전달해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">cookie</span><span class="p">(</span>
+    <span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="nv">$minutes</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">cookie</code> 메서드는 사용 빈도가 낮은 몇 가지 추가 인수도 받습니다. 일반적으로 이러한 인수는 PHP의 기본 <a href="https://secure.php.net/manual/en/function.setcookie.php">setcookie</a> 메서드에 제공되는 인수와 동일한 목적과 의미를 갖습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">cookie</span><span class="p">(</span>
+    <span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="nv">$minutes</span><span class="p">,</span> <span class="nv">$path</span><span class="p">,</span> <span class="nv">$domain</span><span class="p">,</span> <span class="nv">$secure</span><span class="p">,</span> <span class="nv">$httpOnly</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>응답과 함께 쿠키가 전송되도록 보장하고 싶지만 아직 해당 응답의 인스턴스를 가지고 있지 않은 경우, <code class="language-plaintext highlighter-rouge">Cookie</code> 퍼사드를 사용하여 전송될 때 응답에 첨부될 쿠키를 ‘대기열’에 추가할 수 있습니다. <code class="language-plaintext highlighter-rouge">queue</code> 메서드는 쿠키 인스턴스를 생성하는 데 필요한 인수를 받습니다. 이러한 쿠키는 브라우저로 전송되기 전에 나가는 응답에 첨부됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Cookie</span><span class="p">;</span>
+
+<span class="nc">Cookie</span><span class="o">::</span><span class="nf">queue</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="nv">$minutes</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="generating-cookie-instances"></a></p>
+<h4 id="쿠키-인스턴스-생성">쿠키 인스턴스 생성</h4>
+
+<p>나중에 응답 인스턴스에 첨부할 수 있는 <code class="language-plaintext highlighter-rouge">Symfony\Component\HttpFoundation\Cookie</code> 인스턴스를 생성하려면 글로벌 <code class="language-plaintext highlighter-rouge">cookie</code> 도우미를 사용할 수 있습니다. 이 쿠키는 응답 인스턴스에 첨부되지 않으면 클라이언트로 반환되지 않습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$cookie</span> <span class="o">=</span> <span class="nf">cookie</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="nv">$minutes</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">cookie</span><span class="p">(</span><span class="nv">$cookie</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="expiring-cookies-early"></a></p>
+<h4 id="쿠키를-조기-만료시키기">쿠키를 조기 만료시키기</h4>
+
+<p>나가는 응답의 <code class="language-plaintext highlighter-rouge">withoutCookie</code> 또는 <code class="language-plaintext highlighter-rouge">withoutCookies</code> 메서드를 통해 쿠키를 만료시켜 제거할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withoutCookie</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">withoutCookies</span><span class="p">([</span>
+    <span class="s1">'name'</span><span class="p">,</span>
+    <span class="s1">'email'</span><span class="p">,</span>
+    <span class="s1">'preferences'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>아직 발신 응답 인스턴스가 없다면, <code class="language-plaintext highlighter-rouge">Cookie</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">expire</code> 메서드를 사용하여 쿠키를 만료시킬 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Cookie</span><span class="o">::</span><span class="nf">expire</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="cookies-and-encryption"></a></p>
+<h3 id="쿠키와-암호화">쿠키와 암호화</h3>
+
+<p>기본적으로 <code class="language-plaintext highlighter-rouge">Illuminate\Cookie\Middleware\EncryptCookies</code> 미들웨어 덕분에, Laravel에서 생성된 모든 쿠키는 암호화되고 서명되어 클라이언트가 수정하거나 읽을 수 없습니다. 애플리케이션에서 생성된 일부 쿠키에 대한 암호화를 비활성화하고 싶다면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> 파일에서 <code class="language-plaintext highlighter-rouge">encryptCookies</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">encryptCookies</span><span class="p">(</span><span class="n">except</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s1">'cookie_name'</span><span class="p">,</span>
+    <span class="p">]);</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+일반적으로 쿠키 암호화는 절대 비활성화해서는 안 되며, 이는 쿠키가 잠재적인 클라이언트 측 데이터 노출 및 변조에 노출될 수 있습니다.</p>
+</blockquote>
+
+<p><a name="redirects"></a></p>
+<h2 id="리디렉션">리디렉션</h2>
+
+<p>리디렉션 응답은 <code class="language-plaintext highlighter-rouge">Illuminate\Http\RedirectResponse</code> 클래스의 인스턴스이며, 사용자를 다른 URL로 리디렉션하는 데 필요한 적절한 헤더를 포함합니다. <code class="language-plaintext highlighter-rouge">RedirectResponse</code> 인스턴스를 생성하는 방법에는 여러 가지가 있습니다. 가장 간단한 방법은 전역 <code class="language-plaintext highlighter-rouge">redirect</code> 헬퍼를 사용하는 것입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/home/dashboard'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>때때로 사용자가 제출한 양식이 유효하지 않은 경우와 같이 이전 위치로 사용자를 다시 보내고 싶을 수 있습니다. 전역 <code class="language-plaintext highlighter-rouge">back</code> 헬퍼 함수를 사용하여 이를 수행할 수 있습니다. 이 기능은 <a href="/docs/{{version}}/session">세션</a>을 사용하므로, <code class="language-plaintext highlighter-rouge">back</code> 함수를 호출하는 경로가 <code class="language-plaintext highlighter-rouge">web</code> 미들웨어 그룹을 사용하고 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/user/profile'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Validate the request...</span>
+
+    <span class="k">return</span> <span class="nf">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">withInput</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="redirecting-named-routes"></a></p>
+<h3 id="명명된-경로로-리디렉션">명명된 경로로 리디렉션</h3>
+
+<p><code class="language-plaintext highlighter-rouge">redirect</code> 헬퍼를 매개변수 없이 호출하면 <code class="language-plaintext highlighter-rouge">Illuminate\Routing\Redirector</code> 인스턴스가 반환되어 <code class="language-plaintext highlighter-rouge">Redirector</code> 인스턴스의 모든 메서드를 호출할 수 있습니다. 예를 들어, 명명된 경로로 <code class="language-plaintext highlighter-rouge">RedirectResponse</code>를 생성하려면 <code class="language-plaintext highlighter-rouge">route</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">route</span><span class="p">(</span><span class="s1">'login'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>라우트에 매개변수가 있는 경우 <code class="language-plaintext highlighter-rouge">route</code> 메서드의 두 번째 인수로 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// For a route with the following URI: /profile/{id}</span>
+
+<span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">route</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="populating-parameters-via-eloquent-models"></a></p>
+<h4 id="엘로퀀트-모델을-통해-매개변수-채우기">엘로퀀트 모델을 통해 매개변수 채우기</h4>
+
+<p>엘로퀀트 모델에서 채워지는 “ID” 매개변수가 있는 경로로 리디렉션하는 경우, 모델 자체를 전달할 수 있습니다. ID는 자동으로 추출됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// For a route with the following URI: /profile/{id}</span>
+
+<span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">route</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">,</span> <span class="p">[</span><span class="nv">$user</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>라우트 매개변수에 배치되는 값을 사용자 지정하려면 라우트 매개변수 정의(<code class="language-plaintext highlighter-rouge">/profile/{id:slug}</code>)에서 열을 지정하거나 Eloquent 모델에서 <code class="language-plaintext highlighter-rouge">getRouteKey</code> 메서드를 재정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the value of the model's route key.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">getRouteKey</span><span class="p">():</span> <span class="kt">mixed</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">slug</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="redirecting-controller-actions"></a></p>
+<h3 id="컨트롤러-액션으로-리디렉션">컨트롤러 액션으로 리디렉션</h3>
+
+<p><a href="/docs/{{version}}/controllers">컨트롤러 액션</a>으로 리디렉션을 생성할 수도 있습니다. 그렇게 하려면 컨트롤러와 액션 이름을 <code class="language-plaintext highlighter-rouge">action</code> 메서드에 전달하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Controllers\UserController</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">action</span><span class="p">([</span><span class="nc">UserController</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'index'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>컨트롤러 경로에 매개변수가 필요한 경우, <code class="language-plaintext highlighter-rouge">action</code> 메서드의 두 번째 인수로 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">action</span><span class="p">(</span>
+    <span class="p">[</span><span class="nc">UserController</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'profile'</span><span class="p">],</span> <span class="p">[</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="redirecting-external-domains"></a></p>
+<h3 id="외부-도메인으로-리디렉션">외부 도메인으로 리디렉션</h3>
+
+<p>가끔 애플리케이션 외부의 도메인으로 리디렉션해야 할 때가 있습니다. 추가적인 URL 인코딩, 검증 또는 확인 없이 <code class="language-plaintext highlighter-rouge">RedirectResponse</code>를 생성하는 <code class="language-plaintext highlighter-rouge">away</code> 메서드를 호출하여 이를 수행할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">away</span><span class="p">(</span><span class="s1">'https://www.google.com'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="redirecting-with-flashed-session-data"></a></p>
+<h3 id="플래시된-세션-데이터를-사용하여-리디렉션하기">플래시된 세션 데이터를 사용하여 리디렉션하기</h3>
+
+<p>새 URL로 리디렉션하고 <a href="/docs/{{version}}/session#flash-data">세션에 데이터를 플래시</a>하는 것은 일반적으로 동시에 수행됩니다. 일반적으로 이는 성공 메시지를 세션에 플래시할 때, 어떤 작업을 성공적으로 수행한 후에 이루어집니다. 편의를 위해, <code class="language-plaintext highlighter-rouge">RedirectResponse</code> 인스턴스를 생성하고 단일 유창한 메서드 체인에서 데이터를 세션에 플래시할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/user/profile'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">with</span><span class="p">(</span><span class="s1">'status'</span><span class="p">,</span> <span class="s1">'Profile updated!'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>사용자가 리디렉션된 후에는 <a href="/docs/{{version}}/session">session</a>에서 플래시된 메시지를 표시할 수 있습니다. 예를 들어, <a href="/docs/{{version}}/blade">Blade 구문</a>을 사용하여:</p>
+
+<pre><code class="language-blade">@if (session('status'))
+    &lt;div class="alert alert-success"&gt;
+        {{ session('status') }}
+    &lt;/div&gt;
+@endif
+</code></pre>
+
+<p><a name="redirecting-with-input"></a></p>
+<h4 id="입력과-함께-리디렉션">입력과 함께 리디렉션</h4>
+
+<p>사용자는 <code class="language-plaintext highlighter-rouge">RedirectResponse</code> 인스턴스에서 제공하는 <code class="language-plaintext highlighter-rouge">withInput</code> 메서드를 사용하여 사용자를 새로운 위치로 리디렉션하기 전에 현재 요청의 입력 데이터를 세션에 플래시할 수 있습니다. 이는 일반적으로 사용자가 유효성 검사 오류를 만난 경우에 수행됩니다. 입력 데이터가 세션에 플래시된 후, 다음 요청에서 쉽게 <a href="/docs/{{version}}/requests#retrieving-old-input">검색</a>하여 폼을 다시 채울 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">back</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">withInput</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="other-response-types"></a></p>
+<h2 id="다른-응답-유형">다른 응답 유형</h2>
+
+<p><code class="language-plaintext highlighter-rouge">response</code> 도우미는 다른 유형의 응답 인스턴스를 생성하는 데 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">response</code> 도우미가 인수 없이 호출되면 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Routing\ResponseFactory</code> <a href="/docs/{{version}}/contracts">계약</a>의 구현이 반환됩니다. 이 계약은 응답을 생성하는 데 유용한 여러 메서드를 제공합니다.</p>
+
+<p><a name="view-responses"></a></p>
+<h3 id="뷰-응답">뷰 응답</h3>
+
+<p>응답의 상태와 헤더를 제어해야 하지만 응답의 내용으로 <a href="/docs/{{version}}/views">뷰</a>를 반환해야 하는 경우, <code class="language-plaintext highlighter-rouge">view</code> 메서드를 사용해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">view</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'Content-Type'</span><span class="p">,</span> <span class="nv">$type</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>물론, 커스텀 HTTP 상태 코드나 커스텀 헤더를 전달할 필요가 없다면, 전역 <code class="language-plaintext highlighter-rouge">view</code> 헬퍼 함수를 사용할 수 있습니다.</p>
+
+<p><a name="json-responses"></a></p>
+<h3 id="json-응답">JSON 응답</h3>
+
+<p><code class="language-plaintext highlighter-rouge">json</code> 메서드는 <code class="language-plaintext highlighter-rouge">Content-Type</code> 헤더를 <code class="language-plaintext highlighter-rouge">application/json</code>로 자동 설정하고, 주어진 배열을 <code class="language-plaintext highlighter-rouge">json_encode</code> PHP 함수를 사용하여 JSON으로 변환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">json</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Abigail'</span><span class="p">,</span>
+    <span class="s1">'state'</span> <span class="o">=&gt;</span> <span class="s1">'CA'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>JSONP 응답을 생성하고 싶다면, <code class="language-plaintext highlighter-rouge">withCallback</code> 메서드와 함께 <code class="language-plaintext highlighter-rouge">json</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">json</span><span class="p">([</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Abigail'</span><span class="p">,</span> <span class="s1">'state'</span> <span class="o">=&gt;</span> <span class="s1">'CA'</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="nf">withCallback</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'callback'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="file-downloads"></a></p>
+<h3 id="파일-다운로드">파일 다운로드</h3>
+
+<p><code class="language-plaintext highlighter-rouge">download</code> 메서드는 사용자의 브라우저가 지정된 경로에 있는 파일을 다운로드하도록 강제하는 응답을 생성하는 데 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">download</code> 메서드는 메서드의 두 번째 인수로 파일 이름을 받아, 사용자가 파일을 다운로드할 때 볼 수 있는 파일 이름을 결정합니다. 마지막으로, 세 번째 인수로 HTTP 헤더 배열을 메서드에 전달할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">download</span><span class="p">(</span><span class="nv">$pathToFile</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">download</span><span class="p">(</span><span class="nv">$pathToFile</span><span class="p">,</span> <span class="nv">$name</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+파일 다운로드를 관리하는 Symfony HttpFoundation은 다운로드되는 파일이 ASCII 파일 이름을 가져야 합니다.</p>
+</blockquote>
+
+<p><a name="file-responses"></a></p>
+<h3 id="파일-응답">파일 응답</h3>
+
+<p><code class="language-plaintext highlighter-rouge">file</code> 메서드는 다운로드를 시작하는 대신 이미지나 PDF와 같은 파일을 사용자의 브라우저에서 직접 표시하는 데 사용할 수 있습니다. 이 메서드는 파일의 절대 경로를 첫 번째 인수로, 헤더 배열을 두 번째 인수로 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nb">file</span><span class="p">(</span><span class="nv">$pathToFile</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nb">file</span><span class="p">(</span><span class="nv">$pathToFile</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="streamed-responses"></a></p>
+<h2 id="스트리밍-응답">스트리밍 응답</h2>
+
+<p>데이터를 생성되는 즉시 클라이언트로 스트리밍하면, 특히 매우 큰 응답의 경우 메모리 사용량을 크게 줄이고 성능을 향상시킬 수 있습니다. 스트리밍된 응답을 사용하면 클라이언트가 서버에서 데이터를 모두 전송하기 전에 데이터를 처리하기 시작할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/stream'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">stream</span><span class="p">(</span><span class="k">function</span> <span class="p">():</span> <span class="kt">void</span> <span class="p">{</span>
+        <span class="k">foreach</span> <span class="p">([</span><span class="s1">'developer'</span><span class="p">,</span> <span class="s1">'admin'</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$string</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">echo</span> <span class="nv">$string</span><span class="p">;</span>
+            <span class="nb">ob_flush</span><span class="p">();</span>
+            <span class="nb">flush</span><span class="p">();</span>
+            <span class="nb">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// Simulate delay between chunks...</span>
+        <span class="p">}</span>
+    <span class="p">},</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="s1">'X-Accel-Buffering'</span> <span class="o">=&gt;</span> <span class="s1">'no'</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>편의를 위해, <code class="language-plaintext highlighter-rouge">stream</code> 메서드에 제공한 클로저가 <a href="https://www.php.net/manual/en/language.generators.overview.php">Generator</a>를 반환하면, Laravel은 생성기가 반환하는 문자열 사이에서 자동으로 출력 버퍼를 플러시하고, Nginx 출력 버퍼링을 비활성화합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/chat'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">stream</span><span class="p">(</span><span class="k">function</span> <span class="p">():</span> <span class="kt">Generator</span> <span class="p">{</span>
+        <span class="nv">$stream</span> <span class="o">=</span> <span class="nc">OpenAI</span><span class="o">::</span><span class="nf">client</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">chat</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">createStreamed</span><span class="p">(</span><span class="mf">...</span><span class="p">);</span>
+
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$stream</span> <span class="k">as</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">yield</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="consuming-streamed-responses"></a></p>
+<h3 id="스트리밍된-응답-사용하기">스트리밍된 응답 사용하기</h3>
+
+<p>스트리밍된 응답은 Laravel의 <code class="language-plaintext highlighter-rouge">stream</code> npm 패키지를 사용하여 소비할 수 있으며, 이 패키지는 Laravel 응답 및 이벤트 스트림과 상호작용할 수 있는 편리한 API를 제공합니다. 시작하려면 <code class="language-plaintext highlighter-rouge">@laravel/stream-react</code>, <code class="language-plaintext highlighter-rouge">@laravel/stream-vue</code>, 또는 <code class="language-plaintext highlighter-rouge">@laravel/stream-svelte</code> 패키지를 설치하세요:```shell tab=React
+npm install @laravel/stream-react</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```shell tab=Vue
+npm install @laravel/stream-vue
+</code></pre></div></div>
+
+<p>```shell tab=Svelte
+npm install @laravel/stream-svelte</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
+그런 다음, `useStream`를 사용하여 이벤트 스트림을 소비할 수 있습니다. 스트림 URL을 제공하면, 후크가 Laravel 애플리케이션에서 콘텐츠가 반환될 때 결합된 응답으로 `data`를 자동으로 업데이트합니다:```tsx tab=React
+import { useStream } from "@laravel/stream-react";
+
+function App() {
+    const { data, isFetching, isStreaming, send } = useStream("chat");
+
+    const sendMessage = () =&gt; {
+        send({
+            message: `Current timestamp: ${Date.now()}`,
+        });
+    };
+
+    return (
+        &lt;div&gt;
+            &lt;div&gt;{data}&lt;/div&gt;
+            {isFetching &amp;&amp; &lt;div&gt;Connecting...&lt;/div&gt;}
+            {isStreaming &amp;&amp; &lt;div&gt;Generating...&lt;/div&gt;}
+            &lt;button onClick={sendMessage}&gt;Send Message&lt;/button&gt;
+        &lt;/div&gt;
+    );
+}
+</code></pre></div></div>
+
+<p>```vue tab=Vue
+<script setup="" lang="ts">
+import { useStream } from "@laravel/stream-vue";</script></p>
+
+<p>const { data, isFetching, isStreaming, send } = useStream(“chat”);</p>
+
+<p>const sendMessage = () =&gt; {
+    send({
+        message: <code class="language-plaintext highlighter-rouge">Current timestamp: ${Date.now()}</code>,
+    });
+};
+&lt;/script&gt;</p>
+
+<template>
+    <div>
+        <div>{{ data }}</div>
+        <div v-if="isFetching">Connecting...</div>
+        <div v-if="isStreaming">Generating...</div>
+        &lt;button @click="sendMessage"&gt;Send Message&lt;/button&gt;
+    </div>
+</template>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```svelte tab=Svelte
+&lt;script&gt;
+import { useStream } from "@laravel/stream-svelte";
+
+const stream = useStream("chat");
+
+const sendMessage = () =&gt; {
+    stream.send({
+        message: `Current timestamp: ${Date.now()}`,
+    });
+};
+&lt;/script&gt;
+
+&lt;div&gt;
+    &lt;div&gt;{$stream.data}&lt;/div&gt;
+    {#if $stream.isFetching}
+        &lt;div&gt;Connecting...&lt;/div&gt;
+    {/if}
+    {#if $stream.isStreaming}
+        &lt;div&gt;Generating...&lt;/div&gt;
+    {/if}
+    &lt;button onclick={sendMessage}&gt;Send Message&lt;/button&gt;
+&lt;/div&gt;
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">send</code>를 통해 데이터를 스트림에 다시 보낼 때, 새 데이터를 보내기 전에 스트림에 대한 활성 연결이 취소됩니다. 모든 요청은 JSON <code class="language-plaintext highlighter-rouge">POST</code> 요청으로 전송됩니다.</p>
+
+<blockquote>
+  <p>[!WARNING]
+<code class="language-plaintext highlighter-rouge">useStream</code> 후크가 애플리케이션에 <code class="language-plaintext highlighter-rouge">POST</code> 요청을 보내므로, 유효한 CSRF 토큰이 필요합니다. CSRF 토큰을 제공하는 가장 쉬운 방법은 <a href="/docs/{{version}}/csrf#csrf-x-csrf-token">애플리케이션 레이아웃의 head에 메타 태그로 포함시키는 것</a>입니다.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">useStream</code>에 제공된 두 번째 인수는 스트림 사용 동작을 사용자 정의하는 데 사용할 수 있는 옵션 객체입니다. 이 객체의 기본 값은 아래와 같이 표시됩니다:```tsx tab=React
+import { useStream } from “@laravel/stream-react”;</p>
+
+<p>function App() {
+    const { data } = useStream(“chat”, {
+        id: undefined,
+        initialInput: undefined,
+        headers: undefined,
+        csrfToken: undefined,
+        onResponse: (response: Response) =&gt; void,
+        onData: (data: string) =&gt; void,
+        onCancel: () =&gt; void,
+        onFinish: () =&gt; void,
+        onError: (error: Error) =&gt; void,
+    });</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return &lt;div&gt;{data}&lt;/div&gt;; } ```
+</code></pre></div></div>
+
+<p>```vue tab=Vue
+<script setup="" lang="ts">
+import { useStream } from "@laravel/stream-vue";</script></p>
+
+<p>const { data } = useStream(“chat”, {
+    id: undefined,
+    initialInput: undefined,
+    headers: undefined,
+    csrfToken: undefined,
+    onResponse: (response: Response) =&gt; void,
+    onData: (data: string) =&gt; void,
+    onCancel: () =&gt; void,
+    onFinish: () =&gt; void,
+    onError: (error: Error) =&gt; void,
+});
+&lt;/script&gt;</p>
+
+<template>
+    <div>{{ data }}</div>
+</template>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```svelte tab=Svelte
+&lt;script&gt;
+import { useStream } from "@laravel/stream-svelte";
+
+const stream = useStream("chat", {
+    id: undefined,
+    initialInput: undefined,
+    headers: undefined,
+    csrfToken: undefined,
+    onResponse: (response) =&gt; {},
+    onData: (data) =&gt; {},
+    onCancel: () =&gt; {},
+    onFinish: () =&gt; {},
+    onError: (error) =&gt; {},
+});
+&lt;/script&gt;
+
+&lt;div&gt;{$stream.data}&lt;/div&gt;
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">onResponse</code>은 스트림에서 초기 응답이 성공적으로 완료된 후 트리거되며, 원시 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response">Response</a>가 콜백으로 전달됩니다. <code class="language-plaintext highlighter-rouge">onData</code>은 각 청크가 수신될 때 호출되며, 현재 청크가 콜백으로 전달됩니다. <code class="language-plaintext highlighter-rouge">onFinish</code>는 스트림이 완료되거나 fetch / read 과정에서 오류가 발생할 때 호출됩니다.</p>
+
+<p>기본적으로 초기화 시 스트림에 요청이 이루어지지 않습니다. <code class="language-plaintext highlighter-rouge">initialInput</code> 옵션을 사용하여 초기 페이로드를 스트림에 전달할 수 있습니다:```tsx tab=React
+import { useStream } from “@laravel/stream-react”;</p>
+
+<p>function App() {
+    const { data } = useStream(“chat”, {
+        initialInput: {
+            message: “Introduce yourself.”,
+        },
+    });</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return &lt;div&gt;{data}&lt;/div&gt;; } ```
+</code></pre></div></div>
+
+<p>```vue tab=Vue
+<script setup="" lang="ts">
+import { useStream } from "@laravel/stream-vue";</script></p>
+
+<p>const { data } = useStream(“chat”, {
+    initialInput: {
+        message: “Introduce yourself.”,
+    },
+});
+&lt;/script&gt;</p>
+
+<template>
+    <div>{{ data }}</div>
+</template>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```svelte tab=Svelte
+&lt;script&gt;
+import { useStream } from "@laravel/stream-svelte";
+
+const stream = useStream("chat", {
+    initialInput: {
+        message: "Introduce yourself.",
+    },
+});
+&lt;/script&gt;
+
+&lt;div&gt;{$stream.data}&lt;/div&gt;
+</code></pre></div></div>
+
+<p>스트림을 수동으로 취소하려면, 훅에서 반환된 <code class="language-plaintext highlighter-rouge">cancel</code> 방법을 사용할 수 있습니다:```tsx tab=React
+import { useStream } from “@laravel/stream-react”;</p>
+
+<p>function App() {
+    const { data, cancel } = useStream(“chat”);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return (
+    &lt;div&gt;
+        &lt;div&gt;{data}&lt;/div&gt;
+        &lt;button onClick={cancel}&gt;Cancel&lt;/button&gt;
+    &lt;/div&gt;
+); } ```
+</code></pre></div></div>
+
+<p>```vue tab=Vue
+<script setup="" lang="ts">
+import { useStream } from "@laravel/stream-vue";</script></p>
+
+<p>const { data, cancel } = useStream(“chat”);
+&lt;/script&gt;</p>
+
+<template>
+    <div>
+        <div>{{ data }}</div>
+        &lt;button @click="cancel"&gt;Cancel&lt;/button&gt;
+    </div>
+</template>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```svelte tab=Svelte
+&lt;script&gt;
+import { useStream } from "@laravel/stream-svelte";
+
+const stream = useStream("chat");
+&lt;/script&gt;
+
+&lt;div&gt;
+    &lt;div&gt;{$stream.data}&lt;/div&gt;
+    &lt;button onclick={() =&gt; stream.cancel()}&gt;Cancel&lt;/button&gt;
+&lt;/div&gt;
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">useStream</code> 훅을 사용할 때마다 스트림을 식별하기 위해 무작위 <code class="language-plaintext highlighter-rouge">id</code>가 생성됩니다. 이것은 각 요청과 함께 <code class="language-plaintext highlighter-rouge">X-STREAM-ID</code> 헤더를 통해 서버로 전송됩니다. 여러 구성 요소에서 동일한 스트림을 사용하는 경우, 자신의 <code class="language-plaintext highlighter-rouge">id</code>를 제공하여 스트림을 읽고 쓸 수 있습니다:```tsx tab=React
+// App.tsx
+import { useStream } from “@laravel/stream-react”;</p>
+
+<p>function App() {
+    const { data, id } = useStream(“chat”);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return (
+    &lt;div&gt;
+        &lt;div&gt;{data}&lt;/div&gt;
+        &lt;StreamStatus id={id} /&gt;
+    &lt;/div&gt;
+); }
+</code></pre></div></div>
+
+<p>// StreamStatus.tsx
+import { useStream } from “@laravel/stream-react”;</p>
+
+<p>function StreamStatus({ id }) {
+    const { isFetching, isStreaming } = useStream(“chat”, { id });</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return (
+    &lt;div&gt;
+        {isFetching &amp;&amp; &lt;div&gt;Connecting...&lt;/div&gt;}
+        {isStreaming &amp;&amp; &lt;div&gt;Generating...&lt;/div&gt;}
+    &lt;/div&gt;
+); } ```
+</code></pre></div></div>
+
+<p>```vue tab=Vue
+<!-- App.vue -->
+<script setup="" lang="ts">
+import { useStream } from "@laravel/stream-vue";
+import StreamStatus from "./StreamStatus.vue";</script></p>
+
+<p>const { data, id } = useStream(“chat”);
+&lt;/script&gt;</p>
+
+<template>
+    <div>
+        <div>{{ data }}</div>
+        &lt;StreamStatus :id="id" /&gt;
+    </div>
+</template>
+
+<!-- StreamStatus.vue -->
+<script setup="" lang="ts">
+import { useStream } from "@laravel/stream-vue";
+
+const props = defineProps<{
+    id: string;
+}>();
+
+const { isFetching, isStreaming } = useStream("chat", { id: props.id });
+</script>
+
+<template>
+    <div>
+        <div v-if="isFetching">Connecting...</div>
+        <div v-if="isStreaming">Generating...</div>
+    </div>
+</template>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```svelte tab=Svelte
+&lt;!-- App.svelte --&gt;
+&lt;script&gt;
+import { useStream } from "@laravel/stream-svelte";
+import StreamStatus from "./StreamStatus.svelte";
+
+const stream = useStream("chat");
+&lt;/script&gt;
+
+&lt;div&gt;
+    &lt;div&gt;{$stream.data}&lt;/div&gt;
+    &lt;StreamStatus id={stream.id} /&gt;
+&lt;/div&gt;
+
+&lt;!-- StreamStatus.svelte --&gt;
+&lt;script&gt;
+import { useStream } from "@laravel/stream-svelte";
+
+let { id } = $props();
+
+const stream = useStream("chat", { id });
+&lt;/script&gt;
+
+&lt;div&gt;
+    {#if $stream.isFetching}
+        &lt;div&gt;Connecting...&lt;/div&gt;
+    {/if}
+    {#if $stream.isStreaming}
+        &lt;div&gt;Generating...&lt;/div&gt;
+    {/if}
+&lt;/div&gt;
+</code></pre></div></div>
+
+<p><a name="streamed-json-responses"></a></p>
+<h3 id="스트리밍된-json-응답">스트리밍된 JSON 응답</h3>
+
+<p>JSON 데이터를 점진적으로 스트리밍해야 하는 경우, <code class="language-plaintext highlighter-rouge">streamJson</code> 방법을 사용할 수 있습니다. 이 방법은 브라우저로 점진적으로 전송해야 하며 JavaScript에서 쉽게 파싱할 수 있는 형식의 대규모 데이터셋에 특히 유용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users.json'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">streamJson</span><span class="p">([</span>
+        <span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="nc">User</span><span class="o">::</span><span class="nf">cursor</span><span class="p">(),</span>
+    <span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">useJsonStream</code> 훅은 <a href="#consuming-streamed-responses">useStream 훅</a>과 동일하지만, 스트리밍이 완료되면 데이터를 JSON으로 파싱하려고 시도합니다:```tsx tab=React
+import { useJsonStream } from “@laravel/stream-react”;</p>
+
+<p>type User = {
+    id: number;
+    name: string;
+    email: string;
+};</p>
+
+<p>function App() {
+    const { data, send } = useJsonStream&lt;{ users: User[] }&gt;(“users”);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const loadUsers = () =&gt; {
+    send({
+        query: "taylor",
+    });
+};
+
+return (
+    &lt;div&gt;
+        &lt;ul&gt;
+            {data?.users.map((user) =&gt; (
+                &lt;li&gt;
+                    {user.id}: {user.name}
+                &lt;/li&gt;
+            ))}
+        &lt;/ul&gt;
+        &lt;button onClick={loadUsers}&gt;Load Users&lt;/button&gt;
+    &lt;/div&gt;
+); } ```
+</code></pre></div></div>
+
+<p>```vue tab=Vue
+<script setup="" lang="ts">
+import { useJsonStream } from "@laravel/stream-vue";</script></p>
+
+<p>type User = {
+    id: number;
+    name: string;
+    email: string;
+};</p>
+
+<p>const { data, send } = useJsonStream&lt;{ users: User[] }&gt;(“users”);</p>
+
+<p>const loadUsers = () =&gt; {
+    send({
+        query: “taylor”,
+    });
+};
+&lt;/script&gt;</p>
+
+<template>
+    <div>
+        <ul>
+            &lt;li v-for="user in data?.users" :key="user.id"&gt;
+                {{ user.id }}: {{ user.name }}
+            &lt;/li&gt;
+        </ul>
+        &lt;button @click="loadUsers"&gt;Load Users&lt;/button&gt;
+    </div>
+</template>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```svelte tab=Svelte
+&lt;script&gt;
+import { useJsonStream } from "@laravel/stream-svelte";
+
+const stream = useJsonStream("users");
+
+const loadUsers = () =&gt; {
+    stream.send({
+        query: "taylor",
+    });
+};
+&lt;/script&gt;
+
+&lt;div&gt;
+    &lt;ul&gt;
+        {#if $stream.data?.users}
+            {#each $stream.data.users as user (user.id)}
+                &lt;li&gt;{user.id}: {user.name}&lt;/li&gt;
+            {/each}
+        {/if}
+    &lt;/ul&gt;
+    &lt;button onclick={loadUsers}&gt;Load Users&lt;/button&gt;
+&lt;/div&gt;
+</code></pre></div></div>
+
+<p><a name="event-streams"></a></p>
+<h3 id="이벤트-스트림sse">이벤트 스트림(SSE)</h3>
+
+<p><code class="language-plaintext highlighter-rouge">eventStream</code> 메서드는 <code class="language-plaintext highlighter-rouge">text/event-stream</code> 콘텐츠 타입을 사용하여 서버 전송 이벤트(SSE) 스트리밍 응답을 반환하는 데 사용될 수 있습니다. <code class="language-plaintext highlighter-rouge">eventStream</code> 메서드는 클로저를 받아야 하며, 응답이 사용 가능해지는 대로 스트림에 응답을 <a href="https://www.php.net/manual/en/language.generators.overview.php">생산</a>해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/chat'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">eventStream</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$stream</span> <span class="o">=</span> <span class="nc">OpenAI</span><span class="o">::</span><span class="nf">client</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">chat</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">createStreamed</span><span class="p">(</span><span class="mf">...</span><span class="p">);</span>
+
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$stream</span> <span class="k">as</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">yield</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>이벤트의 이름을 사용자 지정하고 싶다면, <code class="language-plaintext highlighter-rouge">StreamedEvent</code> 클래스의 인스턴스를 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\StreamedEvent</span><span class="p">;</span>
+
+<span class="k">yield</span> <span class="k">new</span> <span class="nc">StreamedEvent</span><span class="p">(</span>
+    <span class="n">event</span><span class="o">:</span> <span class="s1">'update'</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">:</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="consuming-event-streams"></a></p>
+<h4 id="이벤트-스트림-소비">이벤트 스트림 소비</h4>
+
+<p>Laravel의 <code class="language-plaintext highlighter-rouge">stream</code> npm 패키지를 사용하여 이벤트 스트림을 소비할 수 있으며, 이 패키지는 Laravel 이벤트 스트림과 상호작용할 수 있는 편리한 API를 제공합니다. 시작하려면 <code class="language-plaintext highlighter-rouge">@laravel/stream-react</code>, <code class="language-plaintext highlighter-rouge">@laravel/stream-vue</code> 또는 <code class="language-plaintext highlighter-rouge">@laravel/stream-svelte</code> 패키지를 설치하십시오:```shell tab=React
+npm install @laravel/stream-react</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```shell tab=Vue
+npm install @laravel/stream-vue
+</code></pre></div></div>
+
+<p>```shell tab=Svelte
+npm install @laravel/stream-svelte</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
+그런 다음, `useEventStream`를 사용하여 이벤트 스트림을 소비할 수 있습니다. 스트림 URL을 제공하면, 후크가 Laravel 애플리케이션에서 메시지가 반환될 때 결합된 응답으로 `message`를 자동으로 업데이트합니다:```jsx tab=React
+import { useEventStream } from "@laravel/stream-react";
+
+function App() {
+  const { message } = useEventStream("/chat");
+
+  return &lt;div&gt;{message}&lt;/div&gt;;
+}
+</code></pre></div></div>
+
+<p>```vue tab=Vue
+<script setup="" lang="ts">
+import { useEventStream } from "@laravel/stream-vue";</script></p>
+
+<p>const { message } = useEventStream(“/chat”);
+&lt;/script&gt;</p>
+
+<template>
+  <div>{{ message }}</div>
+</template>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```svelte tab=Svelte
+&lt;script&gt;
+import { useEventStream } from "@laravel/stream-svelte";
+
+const eventStream = useEventStream("/chat");
+&lt;/script&gt;
+
+&lt;div&gt;{$eventStream.message}&lt;/div&gt;
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">useEventStream</code>에 제공되는 두 번째 인수는 스트림 소비 동작을 사용자 지정하는 데 사용할 수 있는 옵션 객체입니다. 이 객체의 기본값은 아래에 나와 있습니다:```jsx tab=React
+import { useEventStream } from “@laravel/stream-react”;</p>
+
+<p>function App() {
+  const { message } = useEventStream(“/stream”, {
+    eventName: “update”,
+    onMessage: (message) =&gt; {
+      //
+    },
+    onError: (error) =&gt; {
+      //
+    },
+    onComplete: () =&gt; {
+      //
+    },
+    endSignal: “&lt;/stream&gt;”,
+    glue: “ “,
+  });</p>
+
+<p>return &lt;div&gt;{message}&lt;/div&gt;;
+}</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```vue tab=Vue
+&lt;script setup lang="ts"&gt;
+import { useEventStream } from "@laravel/stream-vue";
+
+const { message } = useEventStream("/chat", {
+  eventName: "update",
+  onMessage: (message) =&gt; {
+    // ...
+  },
+  onError: (error) =&gt; {
+    // ...
+  },
+  onComplete: () =&gt; {
+    // ...
+  },
+  endSignal: "&lt;/stream&gt;",
+  glue: " ",
+});
+&lt;/script&gt;
+</code></pre></div></div>
+
+<p>```svelte tab=Svelte
+<script>
+import { useEventStream } from "@laravel/stream-svelte";</script></p>
+
+<p>const eventStream = useEventStream(“/chat”, {
+    eventName: “update”,
+    onMessage: (event) =&gt; {
+        //
+    },
+    onError: (error) =&gt; {
+        //
+    },
+    onComplete: () =&gt; {
+        //
+    },
+    endSignal: “&lt;/stream&gt;”,
+    glue: “ “,
+    replace: false,
+});
+&lt;/script&gt;</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
+이벤트 스트림은 또한 애플리케이션의 프론트엔드에서 [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) 객체를 통해 수동으로 소비될 수 있습니다. 스트림이 완료되면 `eventStream` 메서드는 이벤트 스트림에 `&lt;/stream&gt;` 업데이트를 자동으로 전송합니다:
+
+```js
+const source = new EventSource('/chat');
+
+source.addEventListener('update', (event) =&gt; {
+    if (event.data === '&lt;/stream&gt;') {
+        source.close();
+
+        return;
+    }
+
+    console.log(event.data);
+});
+</code></pre></div></div>
+
+<p>이벤트 스트림으로 전송되는 최종 이벤트를 사용자 지정하려면 <code class="language-plaintext highlighter-rouge">eventStream</code> 메서드의 <code class="language-plaintext highlighter-rouge">endStreamWith</code> 인수에 <code class="language-plaintext highlighter-rouge">StreamedEvent</code> 인스턴스를 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">eventStream</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">},</span> <span class="n">endStreamWith</span><span class="o">:</span> <span class="k">new</span> <span class="nc">StreamedEvent</span><span class="p">(</span><span class="n">event</span><span class="o">:</span> <span class="s1">'update'</span><span class="p">,</span> <span class="n">data</span><span class="o">:</span> <span class="s1">'&lt;/stream&gt;'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="streamed-downloads"></a></p>
+<h3 id="스트리밍-다운로드">스트리밍 다운로드</h3>
+
+<p>때때로 특정 작업의 문자열 응답을 디스크에 내용을 기록하지 않고도 다운로드 가능한 응답으로 만들고 싶을 수 있습니다. 이러한 경우 <code class="language-plaintext highlighter-rouge">streamDownload</code> 메서드를 사용할 수 있습니다. 이 메서드는 콜백, 파일 이름, 그리고 선택적인 헤더 배열을 인수로 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Services\GitHub</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">streamDownload</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nc">GitHub</span><span class="o">::</span><span class="nf">api</span><span class="p">(</span><span class="s1">'repo'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">contents</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">readme</span><span class="p">(</span><span class="s1">'laravel'</span><span class="p">,</span> <span class="s1">'laravel'</span><span class="p">)[</span><span class="s1">'contents'</span><span class="p">];</span>
+<span class="p">},</span> <span class="s1">'laravel-readme.md'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="response-macros"></a></p>
+<h2 id="응답-매크로">응답 매크로</h2>
+
+<p>여러 경로와 컨트롤러에서 재사용할 수 있는 사용자 정의 응답을 정의하고 싶다면, <code class="language-plaintext highlighter-rouge">Response</code> 파사드의 <code class="language-plaintext highlighter-rouge">macro</code> 메서드를 사용할 수 있습니다. 일반적으로 이 메서드는 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 호출해야 하며, 예를 들어 <code class="language-plaintext highlighter-rouge">App\Providers\AppServiceProvider</code> 서비스 제공자와 같은 애플리케이션의 <a href="/docs/{{version}}/providers">서비스 제공자</a> 중 하나에서 호출합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Response</span><span class="o">::</span><span class="nf">macro</span><span class="p">(</span><span class="s1">'caps'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">make</span><span class="p">(</span><span class="nb">strtoupper</span><span class="p">(</span><span class="nv">$value</span><span class="p">));</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">macro</code> 함수는 첫 번째 인수로 이름을 받고 두 번째 인수로 클로저를 받습니다. 매크로의 클로저는 <code class="language-plaintext highlighter-rouge">ResponseFactory</code> 구현에서 매크로 이름을 호출하거나 <code class="language-plaintext highlighter-rouge">response</code> 도우미를 호출할 때 실행됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nf">response</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">caps</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">);</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,2389 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Laravel Homestead | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Laravel Homestead" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/11_packages/homestead_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/11_packages/homestead_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Laravel Homestead" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Laravel Homestead","url":"http://localhost:4000/docs/11_packages/homestead_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="true">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/11_packages/">11 packages</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Laravel Homestead</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="laravel-homestead">Laravel Homestead</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#installation-and-setup">Installation and Setup</a>
+    <ul>
+      <li><a href="#first-steps">First Steps</a></li>
+      <li><a href="#configuring-homestead">Configuring Homestead</a></li>
+      <li><a href="#configuring-nginx-sites">Configuring Nginx Sites</a></li>
+      <li><a href="#configuring-services">Configuring Services</a></li>
+      <li><a href="#launching-the-vagrant-box">Launching the Vagrant Box</a></li>
+      <li><a href="#per-project-installation">Per Project Installation</a></li>
+      <li><a href="#installing-optional-features">Installing Optional Features</a></li>
+      <li><a href="#aliases">Aliases</a></li>
+    </ul>
+  </li>
+  <li><a href="#updating-homestead">Updating Homestead</a></li>
+  <li><a href="#daily-usage">Daily Usage</a>
+    <ul>
+      <li><a href="#connecting-via-ssh">Connecting via SSH</a></li>
+      <li><a href="#adding-additional-sites">Adding Additional Sites</a></li>
+      <li><a href="#environment-variables">Environment Variables</a></li>
+      <li><a href="#ports">Ports</a></li>
+      <li><a href="#php-versions">PHP Versions</a></li>
+      <li><a href="#connecting-to-databases">Connecting to Databases</a></li>
+      <li><a href="#database-backups">Database Backups</a></li>
+      <li><a href="#configuring-cron-schedules">Configuring Cron Schedules</a></li>
+      <li><a href="#configuring-mailpit">Configuring Mailpit</a></li>
+      <li><a href="#configuring-minio">Configuring Minio</a></li>
+      <li><a href="#laravel-dusk">Laravel Dusk</a></li>
+      <li><a href="#sharing-your-environment">Sharing Your Environment</a></li>
+    </ul>
+  </li>
+  <li><a href="#debugging-and-profiling">Debugging and Profiling</a>
+    <ul>
+      <li><a href="#debugging-web-requests">Debugging Web Requests With Xdebug</a></li>
+      <li><a href="#debugging-cli-applications">Debugging CLI Applications</a></li>
+      <li><a href="#profiling-applications-with-blackfire">Profiling Applications With Blackfire</a></li>
+    </ul>
+  </li>
+  <li><a href="#network-interfaces">Network Interfaces</a></li>
+  <li><a href="#extending-homestead">Extending Homestead</a></li>
+  <li><a href="#provider-specific-settings">Provider Specific Settings</a>
+    <ul>
+      <li><a href="#provider-specific-virtualbox">VirtualBox</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<blockquote>
+  <p>[!WARNING]
+Laravel Homestead is a legacy package that is no longer actively maintained. <a href="/docs/{{version}}/sail">Laravel Sail</a> may be used as a modern alternative.</p>
+</blockquote>
+
+<p>Laravel strives to make the entire PHP development experience delightful, including your local development environment. <a href="https://github.com/laravel/homestead">Laravel Homestead</a> is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, a web server, or any other server software on your local machine.</p>
+
+<p><a href="https://www.vagrantup.com">Vagrant</a> provides a simple, elegant way to manage and provision Virtual Machines. Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!</p>
+
+<p>Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other software you need to develop amazing Laravel applications.</p>
+
+<blockquote>
+  <p>[!WARNING]
+If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.</p>
+</blockquote>
+
+<p><a name="included-software"></a></p>
+<h3 id="included-software">Included Software</h3>
+
+<style>
+    #software-list > ul {
+        column-count: 2; -moz-column-count: 2; -webkit-column-count: 2;
+        column-gap: 5em; -moz-column-gap: 5em; -webkit-column-gap: 5em;
+        line-height: 1.9;
+    }
+</style>
+
+<div id="software-list">
+
+  <ul>
+    <li>Ubuntu 22.04</li>
+    <li>Git</li>
+    <li>PHP 8.3</li>
+    <li>PHP 8.2</li>
+    <li>PHP 8.1</li>
+    <li>PHP 8.0</li>
+    <li>PHP 7.4</li>
+    <li>PHP 7.3</li>
+    <li>PHP 7.2</li>
+    <li>PHP 7.1</li>
+    <li>PHP 7.0</li>
+    <li>PHP 5.6</li>
+    <li>Nginx</li>
+    <li>MySQL 8.0</li>
+    <li>lmm</li>
+    <li>Sqlite3</li>
+    <li>PostgreSQL 15</li>
+    <li>Composer</li>
+    <li>Docker</li>
+    <li>Node (With Yarn, Bower, Grunt, and Gulp)</li>
+    <li>Redis</li>
+    <li>Memcached</li>
+    <li>Beanstalkd</li>
+    <li>Mailpit</li>
+    <li>avahi</li>
+    <li>ngrok</li>
+    <li>Xdebug</li>
+    <li>XHProf / Tideways / XHGui</li>
+    <li>wp-cli</li>
+  </ul>
+
+</div>
+
+<p><a name="optional-software"></a></p>
+<h3 id="optional-software">Optional Software</h3>
+
+<style>
+    #software-list > ul {
+        column-count: 2; -moz-column-count: 2; -webkit-column-count: 2;
+        column-gap: 5em; -moz-column-gap: 5em; -webkit-column-gap: 5em;
+        line-height: 1.9;
+    }
+</style>
+
+<div id="software-list">
+
+  <ul>
+    <li>Apache</li>
+    <li>Blackfire</li>
+    <li>Cassandra</li>
+    <li>Chronograf</li>
+    <li>CouchDB</li>
+    <li>Crystal &amp; Lucky Framework</li>
+    <li>Elasticsearch</li>
+    <li>EventStoreDB</li>
+    <li>Flyway</li>
+    <li>Gearman</li>
+    <li>Go</li>
+    <li>Grafana</li>
+    <li>InfluxDB</li>
+    <li>Logstash</li>
+    <li>MariaDB</li>
+    <li>Meilisearch</li>
+    <li>MinIO</li>
+    <li>MongoDB</li>
+    <li>Neo4j</li>
+    <li>Oh My Zsh</li>
+    <li>Open Resty</li>
+    <li>PM2</li>
+    <li>Python</li>
+    <li>R</li>
+    <li>RabbitMQ</li>
+    <li>Rust</li>
+    <li>RVM (Ruby Version Manager)</li>
+    <li>Solr</li>
+    <li>TimescaleDB</li>
+    <li>Trader <small>(PHP extension)</small></li>
+    <li>Webdriver &amp; Laravel Dusk Utilities</li>
+  </ul>
+
+</div>
+
+<p><a name="installation-and-setup"></a></p>
+<h2 id="installation-and-setup">Installation and Setup</h2>
+
+<p><a name="first-steps"></a></p>
+<h3 id="first-steps">First Steps</h3>
+
+<p>Before launching your Homestead environment, you must install <a href="https://developer.hashicorp.com/vagrant/downloads">Vagrant</a> as well as one of the following supported providers:</p>
+
+<ul>
+  <li><a href="https://www.virtualbox.org/wiki/Download_Old_Builds_6_1">VirtualBox 6.1.x</a></li>
+  <li><a href="https://www.parallels.com/products/desktop/">Parallels</a></li>
+</ul>
+
+<p>이 모든 소프트웨어 패키지는 모든 인기 운영체제에 사용하기 쉬운 시각적 설치 프로그램을 제공합니다.</p>
+
+<p>Parallels 제공자를 사용하려면 <a href="https://github.com/Parallels/vagrant-parallels">Parallels Vagrant 플러그인</a>을 설치해야 합니다. 무료입니다.</p>
+
+<p><a name="installing-homestead"></a></p>
+<h4 id="홈스테드-설치">홈스테드 설치</h4>
+
+<p>Homestead 저장소를 호스트 컴퓨터에 복제하여 Homestead를 설치할 수 있습니다. 저장소를 “home” 디렉터리 내 <code class="language-plaintext highlighter-rouge">Homestead</code> 폴더에 복제하는 것을 고려하세요. Homestead 가상 머신은 모든 Laravel 애플리케이션의 호스트 역할을 합니다. 이 문서에서는 이 디렉터리를 “Homestead 디렉터리”라고 부릅니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/laravel/homestead.git ~/Homestead
+</code></pre></div></div>
+
+<p>Laravel Homestead 저장소를 클론한 후에는 <code class="language-plaintext highlighter-rouge">release</code> 브랜치를 체크아웃해야 합니다. 이 브랜치는 항상 Homestead의 최신 안정 버전을 포함하고 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Homestead
+
+git checkout release
+</code></pre></div></div>
+
+<p>다음으로, Homestead 디렉토리에서 <code class="language-plaintext highlighter-rouge">bash init.sh</code> 명령을 실행하여 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 구성 파일을 생성합니다. <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일은 Homestead 설치를 위한 모든 설정을 구성하는 곳입니다. 이 파일은 Homestead 디렉토리에 배치됩니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># macOS / Linux...</span>
+bash init.sh
+
+<span class="c"># Windows...</span>
+init.bat
+</code></pre></div></div>
+
+<p><a name="configuring-homestead"></a></p>
+<h3 id="홈스테드-구성">홈스테드 구성</h3>
+
+<p><a name="setting-your-provider"></a></p>
+<h4 id="공급자-설정">공급자 설정</h4>
+
+<p><code class="language-plaintext highlighter-rouge">provider</code> 키는 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에서 사용할 Vagrant 공급자를 나타냅니다: <code class="language-plaintext highlighter-rouge">virtualbox</code> 또는 <code class="language-plaintext highlighter-rouge">parallels</code>:</p>
+
+<p>provider: virtualbox</p>
+
+<blockquote>
+  <p>[!WARNING]
+Apple Silicon을 사용하는 경우 Parallels 공급자가 필요합니다.</p>
+</blockquote>
+
+<p><a name="configuring-shared-folders"></a></p>
+<h4 id="공유-폴더-구성">공유 폴더 구성</h4>
+
+<p><code class="language-plaintext highlighter-rouge">folders</code> 속성은 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에서 홈스테드 환경과 공유하려는 모든 폴더를 나열합니다. 이러한 폴더 내의 파일이 변경되면 로컬 머신과 홈스테드 가상 환경 간에 동기화됩니다. 필요한 만큼 많은 공유 폴더를 구성할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">folders</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">~/code/project1</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+Windows 사용자는 <code class="language-plaintext highlighter-rouge">~/</code> 경로 구문을 사용하지 말고 대신 프로젝트에 대한 전체 경로를 사용해야 합니다. 예: <code class="language-plaintext highlighter-rouge">C:\Users\user\Code\project1</code>.</p>
+</blockquote>
+
+<p>개별 애플리케이션을 단일 큰 디렉터리에 매핑하는 대신 각 애플리케이션을 자체 폴더 매핑에 항상 매핑해야 합니다. 폴더를 매핑하면 가상 머신이 해당 폴더에 있는 <em>모든</em> 파일의 디스크 입출력을 추적해야 합니다. 폴더에 파일이 많으면 성능이 저하될 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">folders</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">~/code/project1</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">~/code/project2</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project2</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+Homestead를 사용할 때 <code class="language-plaintext highlighter-rouge">.</code>(현재 디렉토리)을 마운트해서는 안 됩니다. 이렇게 하면 Vagrant가 현재 폴더를 <code class="language-plaintext highlighter-rouge">/vagrant</code>에 매핑하지 않아 선택적 기능이 작동하지 않거나 프로비저닝 중 예상치 못한 결과가 발생할 수 있습니다.</p>
+</blockquote>
+
+<p><a href="https://developer.hashicorp.com/vagrant/docs/synced-folders/nfs">NFS</a>를 사용하려면 폴더 매핑에 <code class="language-plaintext highlighter-rouge">type</code> 옵션을 추가할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">folders</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">~/code/project1</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">nfs"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+Windows에서 NFS를 사용할 때는 <a href="https://github.com/winnfsd/vagrant-winnfsd">vagrant-winnfsd</a> 플러그인을 설치하는 것을 고려해야 합니다. 이 플러그인은 Homestead 가상 머신 내 파일과 디렉터리에 대한 올바른 사용자/그룹 권한을 유지합니다.</p>
+</blockquote>
+
+<p>Vagrant의 <a href="https://developer.hashicorp.com/vagrant/docs/synced-folders/basic_usage">동기화 폴더</a>에서 지원하는 모든 옵션도 <code class="language-plaintext highlighter-rouge">options</code> 키 아래에 나열하여 전달할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">folders</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">~/code/project1</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">rsync"</span>
+      <span class="na">options</span><span class="pi">:</span>
+          <span class="na">rsync__args</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">--verbose"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">--archive"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">--delete"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">-zz"</span><span class="pi">]</span>
+          <span class="na">rsync__exclude</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">node_modules"</span><span class="pi">]</span>
+</code></pre></div></div>
+
+<p><a name="configuring-nginx-sites"></a></p>
+<h3 id="nginx-사이트-구성">Nginx 사이트 구성</h3>
+
+<p>Nginx에 익숙하지 않으신가요? 문제 없습니다. <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일의 <code class="language-plaintext highlighter-rouge">sites</code> 속성을 사용하면 Homestead 환경에서 폴더에 ‘도메인’을 쉽게 매핑할 수 있습니다. 샘플 사이트 구성은 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에 포함되어 있습니다. 다시 말하지만, 필요에 따라 Homestead 환경에 원하는 만큼의 사이트를 추가할 수 있습니다. Homestead는 작업 중인 모든 Laravel 애플리케이션에 대해 편리한 가상화 환경으로 사용할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">sites</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">homestead.test</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1/public</span>
+</code></pre></div></div>
+
+<p>If you change the <code class="language-plaintext highlighter-rouge">sites</code> property after provisioning the Homestead virtual machine, you should execute the <code class="language-plaintext highlighter-rouge">vagrant reload --provision</code> command in your terminal to update the Nginx configuration on the virtual machine.</p>
+
+<blockquote>
+  <p>[!WARNING]
+Homestead scripts are built to be as idempotent as possible. However, if you are experiencing issues while provisioning you should destroy and rebuild the machine by executing the <code class="language-plaintext highlighter-rouge">vagrant destroy &amp;&amp; vagrant up</code> command.</p>
+</blockquote>
+
+<p><a name="hostname-resolution"></a></p>
+<h4 id="hostname-resolution">Hostname Resolution</h4>
+
+<p>Homestead publishes hostnames using <code class="language-plaintext highlighter-rouge">mDNS</code> for automatic host resolution. If you set <code class="language-plaintext highlighter-rouge">hostname: homestead</code> in your <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> file, the host will be available at <code class="language-plaintext highlighter-rouge">homestead.local</code>. macOS, iOS, and Linux desktop distributions include <code class="language-plaintext highlighter-rouge">mDNS</code> support by default. If you are using Windows, you must install <a href="https://support.apple.com/kb/DL999?viewlocale=en_US&amp;locale=en_US">Bonjour Print Services for Windows</a>.</p>
+
+<p>Using automatic hostnames works best for <a href="#per-project-installation">per project installations</a> of Homestead. If you host multiple sites on a single Homestead instance, you may add the “domains” for your web sites to the <code class="language-plaintext highlighter-rouge">hosts</code> file on your machine. The <code class="language-plaintext highlighter-rouge">hosts</code> file will redirect requests for your Homestead sites into your Homestead virtual machine. On macOS and Linux, this file is located at <code class="language-plaintext highlighter-rouge">/etc/hosts</code>. On Windows, it is located at <code class="language-plaintext highlighter-rouge">C:\Windows\System32\drivers\etc\hosts</code>. The lines you add to this file will look like the following:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>192.168.56.56  homestead.test
+</code></pre></div></div>
+
+<p>나열된 IP 주소가 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에 설정된 것인지 확인하십시오. <code class="language-plaintext highlighter-rouge">hosts</code> 파일에 도메인을 추가하고 Vagrant 박스를 실행하면 웹 브라우저를 통해 사이트에 접근할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://homestead.test
+</code></pre></div></div>
+
+<p><a name="configuring-services"></a></p>
+<h3 id="서비스-구성">서비스 구성</h3>
+
+<p>Homestead는 기본적으로 여러 서비스를 시작합니다. 그러나 프로비저닝 중에 어떤 서비스를 활성화하거나 비활성화할지 사용자 정의할 수 있습니다. 예를 들어, <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일 내 <code class="language-plaintext highlighter-rouge">services</code> 옵션을 수정하여 PostgreSQL을 활성화하고 MySQL을 비활성화할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">enabled</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s2">"</span><span class="s">postgresql"</span>
+    <span class="pi">-</span> <span class="na">disabled</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s2">"</span><span class="s">mysql"</span>
+</code></pre></div></div>
+
+<p>지정된 서비스는 <code class="language-plaintext highlighter-rouge">enabled</code> 및 <code class="language-plaintext highlighter-rouge">disabled</code> 지시문에 있는 순서에 따라 시작되거나 중지됩니다.</p>
+
+<p><a name="launching-the-vagrant-box"></a></p>
+<h3 id="vagrant-박스-시작하기">Vagrant 박스 시작하기</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Homestead.yaml</code>를 원하는 대로 편집한 후, Homestead 디렉토리에서 <code class="language-plaintext highlighter-rouge">vagrant up</code> 명령을 실행하세요. Vagrant는 가상 머신을 부팅하고 공유 폴더와 Nginx 사이트를 자동으로 구성합니다.</p>
+
+<p>머신을 제거하려면 <code class="language-plaintext highlighter-rouge">vagrant destroy</code> 명령을 사용할 수 있습니다.</p>
+
+<p><a name="per-project-installation"></a></p>
+<h3 id="프로젝트별-설치">프로젝트별 설치</h3>
+
+<p>Homestead를 전역적으로 설치하고 모든 프로젝트에서 동일한 Homestead 가상 머신을 공유하는 대신, 관리하는 각 프로젝트에 대해 Homestead 인스턴스를 구성할 수 있습니다. 프로젝트별로 Homestead를 설치하는 것은 프로젝트와 함께 <code class="language-plaintext highlighter-rouge">Vagrantfile</code>를 전송하고, 프로젝트의 저장소를 복제한 후 바로 <code class="language-plaintext highlighter-rouge">vagrant up</code>할 수 있도록 하려는 경우 유용할 수 있습니다.</p>
+
+<p>Composer 패키지 관리자를 사용하여 프로젝트에 Homestead를 설치할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require laravel/homestead <span class="nt">--dev</span>
+</code></pre></div></div>
+
+<p>Homestead가 설치되면 Homestead의 <code class="language-plaintext highlighter-rouge">make</code> 명령어를 실행하여 프로젝트용 <code class="language-plaintext highlighter-rouge">Vagrantfile</code> 및 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일을 생성합니다. 이 파일들은 프로젝트의 루트에 배치됩니다. <code class="language-plaintext highlighter-rouge">make</code> 명령어는 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일 내에서 <code class="language-plaintext highlighter-rouge">sites</code> 및 <code class="language-plaintext highlighter-rouge">folders</code> 지시어를 자동으로 구성합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># macOS / Linux...</span>
+php vendor/bin/homestead make
+
+<span class="c"># Windows...</span>
+vendor<span class="se">\\</span>bin<span class="se">\\</span>homestead make
+</code></pre></div></div>
+
+<p>다음으로, 터미널에서 <code class="language-plaintext highlighter-rouge">vagrant up</code> 명령을 실행하고 브라우저에서 <code class="language-plaintext highlighter-rouge">http://homestead.test</code>에서 프로젝트에 접근하세요. 자동 <a href="#hostname-resolution">호스트명 해결</a>을 사용하지 않는 경우, <code class="language-plaintext highlighter-rouge">homestead.test</code> 또는 원하는 도메인에 대한 <code class="language-plaintext highlighter-rouge">/etc/hosts</code> 파일 항목을 여전히 추가해야 한다는 점을 기억하세요.</p>
+
+<p><a name="installing-optional-features"></a></p>
+<h3 id="선택적-기능-설치">선택적 기능 설치</h3>
+
+<p>선택적 소프트웨어는 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일 내의 <code class="language-plaintext highlighter-rouge">features</code> 옵션을 사용하여 설치됩니다. 대부분의 기능은 불리언 값으로 활성화 또는 비활성화할 수 있으며, 일부 기능은 여러 구성 옵션을 허용합니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">features</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">blackfire</span><span class="pi">:</span>
+        <span class="na">server_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">server_id"</span>
+        <span class="na">server_token</span><span class="pi">:</span> <span class="s2">"</span><span class="s">server_value"</span>
+        <span class="na">client_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">client_id"</span>
+        <span class="na">client_token</span><span class="pi">:</span> <span class="s2">"</span><span class="s">client_value"</span>
+    <span class="pi">-</span> <span class="na">cassandra</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">chronograf</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">couchdb</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">crystal</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">dragonflydb</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">elasticsearch</span><span class="pi">:</span>
+        <span class="na">version</span><span class="pi">:</span> <span class="s">7.9.0</span>
+    <span class="pi">-</span> <span class="na">eventstore</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="s">version</span><span class="err">:</span> <span class="s">21.2.0</span>
+    <span class="pi">-</span> <span class="na">flyway</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">gearman</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">golang</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">grafana</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">influxdb</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">logstash</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">mariadb</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">meilisearch</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">minio</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">mongodb</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">neo4j</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">ohmyzsh</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">openresty</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">pm2</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">python</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">r-base</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">rabbitmq</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">rustc</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">rvm</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">solr</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">timescaledb</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">trader</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="pi">-</span> <span class="na">webdriver</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p><a name="elasticsearch"></a></p>
+<h4 id="elasticsearch">Elasticsearch</h4>
+
+<p>You may specify a supported version of Elasticsearch, which must be an exact version number (major.minor.patch). The default installation will create a cluster named ‘homestead’. You should never give Elasticsearch more than half of the operating system’s memory, so make sure your Homestead virtual machine has at least twice the Elasticsearch allocation.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Check out the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current">Elasticsearch documentation</a> to learn how to customize your configuration.</p>
+</blockquote>
+
+<p><a name="mariadb"></a></p>
+<h4 id="mariadb">MariaDB</h4>
+
+<p>Enabling MariaDB will remove MySQL and install MariaDB. MariaDB typically serves as a drop-in replacement for MySQL, so you should still use the <code class="language-plaintext highlighter-rouge">mysql</code> database driver in your application’s database configuration.</p>
+
+<p><a name="mongodb"></a></p>
+<h4 id="mongodb">MongoDB</h4>
+
+<p>The default MongoDB installation will set the database username to <code class="language-plaintext highlighter-rouge">homestead</code> and the corresponding password to <code class="language-plaintext highlighter-rouge">secret</code>.</p>
+
+<p><a name="neo4j"></a></p>
+<h4 id="neo4j">Neo4j</h4>
+
+<p>The default Neo4j installation will set the database username to <code class="language-plaintext highlighter-rouge">homestead</code> and the corresponding password to <code class="language-plaintext highlighter-rouge">secret</code>. To access the Neo4j browser, visit <code class="language-plaintext highlighter-rouge">http://homestead.test:7474</code> via your web browser. The ports <code class="language-plaintext highlighter-rouge">7687</code> (Bolt), <code class="language-plaintext highlighter-rouge">7474</code> (HTTP), and <code class="language-plaintext highlighter-rouge">7473</code> (HTTPS) are ready to serve requests from the Neo4j client.</p>
+
+<p><a name="aliases"></a></p>
+<h3 id="aliases">Aliases</h3>
+
+<p>You may add Bash aliases to your Homestead virtual machine by modifying the <code class="language-plaintext highlighter-rouge">aliases</code> file within your Homestead directory:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">alias </span><span class="nv">c</span><span class="o">=</span><span class="s1">'clear'</span>
+<span class="nb">alias</span> ..<span class="o">=</span><span class="s1">'cd ..'</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">aliases</code> 파일을 업데이트한 후에는 <code class="language-plaintext highlighter-rouge">vagrant reload --provision</code> 명령을 사용하여 Homestead 가상 머신을 다시 프로비저닝해야 합니다. 이렇게 하면 새 별칭이 머신에서 사용 가능하도록 보장됩니다.</p>
+
+<p><a name="updating-homestead"></a></p>
+<h2 id="homestead-업데이트">Homestead 업데이트</h2>
+
+<p>Homestead 업데이트를 시작하기 전에, Homestead 디렉토리에서 다음 명령을 실행하여 현재 가상 머신을 제거했는지 확인해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vagrant destroy
+</code></pre></div></div>
+
+<p>다음으로, Homestead 소스 코드를 업데이트해야 합니다. 저장소를 클론했다면, 원래 저장소를 클론한 위치에서 다음 명령어를 실행할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch
+
+git pull origin release
+</code></pre></div></div>
+
+<p>이 명령어들은 GitHub 저장소에서 최신 Homestead 코드를 가져오고, 최신 태그를 가져온 다음, 최신 태그된 릴리스를 체크아웃합니다. 최신 안정 릴리스 버전은 Homestead의 <a href="https://github.com/laravel/homestead/releases">GitHub 릴리스 페이지</a>에서 확인할 수 있습니다.</p>
+
+<p>프로젝트의 <code class="language-plaintext highlighter-rouge">composer.json</code> 파일을 통해 Homestead를 설치한 경우, <code class="language-plaintext highlighter-rouge">composer.json</code> 파일에 <code class="language-plaintext highlighter-rouge">"laravel/homestead": "^12"</code>가 포함되어 있는지 확인하고 종속성을 업데이트해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer update
+</code></pre></div></div>
+
+<p>다음으로, <code class="language-plaintext highlighter-rouge">vagrant box update</code> 명령어를 사용하여 Vagrant 박스를 업데이트해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vagrant box update
+</code></pre></div></div>
+
+<p>Vagrant 박스를 업데이트한 후에는 Homestead 디렉토리에서 <code class="language-plaintext highlighter-rouge">bash init.sh</code> 명령을 실행하여 Homestead의 추가 구성 파일을 업데이트해야 합니다. 기존 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code>, <code class="language-plaintext highlighter-rouge">after.sh</code> 및 <code class="language-plaintext highlighter-rouge">aliases</code> 파일을 덮어쓸지 여부를 묻는 메시지가 표시됩니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># macOS / Linux...</span>
+bash init.sh
+
+<span class="c"># Windows...</span>
+init.bat
+</code></pre></div></div>
+
+<p>마지막으로, 최신 Vagrant 설치를 활용하기 위해 Homestead 가상 머신을 재생성해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vagrant up
+</code></pre></div></div>
+
+<p><a name="daily-usage"></a></p>
+<h2 id="일일-사용">일일 사용</h2>
+
+<p><a name="connecting-via-ssh"></a></p>
+<h3 id="ssh를-통한-연결">SSH를 통한 연결</h3>
+
+<p>Homestead 디렉토리에서 <code class="language-plaintext highlighter-rouge">vagrant ssh</code> 터미널 명령어를 실행하여 가상 머신에 SSH로 접속할 수 있습니다.</p>
+
+<p><a name="adding-additional-sites"></a></p>
+<h3 id="추가-사이트-추가">추가 사이트 추가</h3>
+
+<p>Homestead 환경이 프로비저닝되고 실행되면, 다른 Laravel 프로젝트를 위해 추가 Nginx 사이트를 추가할 수 있습니다. 단일 Homestead 환경에서 원하는 만큼 많은 Laravel 프로젝트를 실행할 수 있습니다. 추가 사이트를 추가하려면, 사이트를 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에 추가하십시오.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">sites</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">homestead.test</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1/public</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">another.test</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project2/public</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+사이트를 추가하기 전에 프로젝트 디렉토리에 대한 <a href="#configuring-shared-folders">폴더 매핑</a>이 구성되어 있는지 확인해야 합니다.</p>
+</blockquote>
+
+<p>Vagrant가 자동으로 “hosts” 파일을 관리하지 않는 경우, 새 사이트를 해당 파일에 추가해야 할 수도 있습니다. macOS 및 Linux에서는 이 파일이 <code class="language-plaintext highlighter-rouge">/etc/hosts</code>에 위치해 있습니다. Windows에서는 <code class="language-plaintext highlighter-rouge">C:\Windows\System32\drivers\etc\hosts</code>에 위치해 있습니다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>192.168.56.56  homestead.test
+192.168.56.56  another.test
+</code></pre></div></div>
+
+<p>사이트가 추가되면 Homestead 디렉토리에서 <code class="language-plaintext highlighter-rouge">vagrant reload --provision</code> 터미널 명령을 실행하세요.</p>
+
+<p><a name="site-types"></a></p>
+<h4 id="사이트-유형">사이트 유형</h4>
+
+<p>Homestead는 Laravel 기반이 아닌 프로젝트도 쉽게 실행할 수 있는 여러 “유형”의 사이트를 지원합니다. 예를 들어, <code class="language-plaintext highlighter-rouge">statamic</code> 사이트 유형을 사용하여 Statamic 애플리케이션을 Homestead에 쉽게 추가할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">sites</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">statamic.test</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/my-symfony-project/web</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">statamic"</span>
+</code></pre></div></div>
+
+<p>사용 가능한 사이트 유형은 다음과 같습니다: <code class="language-plaintext highlighter-rouge">apache</code>, <code class="language-plaintext highlighter-rouge">apache-proxy</code>, <code class="language-plaintext highlighter-rouge">apigility</code>, <code class="language-plaintext highlighter-rouge">expressive</code>, <code class="language-plaintext highlighter-rouge">laravel</code>(기본값), <code class="language-plaintext highlighter-rouge">proxy</code>(nginx용), <code class="language-plaintext highlighter-rouge">silverstripe</code>, <code class="language-plaintext highlighter-rouge">statamic</code>, <code class="language-plaintext highlighter-rouge">symfony2</code>, <code class="language-plaintext highlighter-rouge">symfony4</code>, <code class="language-plaintext highlighter-rouge">zf</code>입니다.</p>
+
+<p><a name="site-parameters"></a></p>
+<h4 id="사이트-매개변수">사이트 매개변수</h4>
+
+<p><code class="language-plaintext highlighter-rouge">params</code> 사이트 지시문을 통해 사이트에 추가 Nginx <code class="language-plaintext highlighter-rouge">fastcgi_param</code> 값을 추가할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">sites</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">homestead.test</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1/public</span>
+      <span class="na">params</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">FOO</span>
+            <span class="na">value</span><span class="pi">:</span> <span class="s">BAR</span>
+</code></pre></div></div>
+
+<p><a name="environment-variables"></a></p>
+<h3 id="환경-변수">환경 변수</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에 추가하여 전역 환경 변수를 정의할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">variables</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">APP_ENV</span>
+      <span class="na">value</span><span class="pi">:</span> <span class="s">local</span>
+    <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">FOO</span>
+      <span class="na">value</span><span class="pi">:</span> <span class="s">bar</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일을 업데이트한 후에는 반드시 <code class="language-plaintext highlighter-rouge">vagrant reload --provision</code> 명령을 실행하여 머신을 다시 프로비저닝하십시오. 이렇게 하면 설치된 모든 PHP 버전에 대한 PHP-FPM 구성이 업데이트되고 <code class="language-plaintext highlighter-rouge">vagrant</code> 사용자 환경도 업데이트됩니다.</p>
+
+<p><a name="ports"></a></p>
+<h3 id="포트">포트</h3>
+
+<p>기본적으로 다음 포트가 Homestead 환경으로 전달됩니다:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li><strong>HTTP:</strong> 8000 → 80으로 전달</li>
+    <li><strong>HTTPS:</strong> 44300 → 443으로 전달</li>
+  </ul>
+
+</div>
+
+<p><a name="forwarding-additional-ports"></a></p>
+<h4 id="추가-포트-전달">추가 포트 전달</h4>
+
+<p>원하는 경우 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일 내에서 <code class="language-plaintext highlighter-rouge">ports</code> 구성 항목을 정의하여 Vagrant 박스로 추가 포트를 전달할 수 있습니다. <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일을 업데이트한 후에는 반드시 <code class="language-plaintext highlighter-rouge">vagrant reload --provision</code> 명령을 실행하여 머신을 다시 프로비저닝하십시오:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">send</span><span class="pi">:</span> <span class="m">50000</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="m">5000</span>
+    <span class="pi">-</span> <span class="na">send</span><span class="pi">:</span> <span class="m">7777</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="m">777</span>
+      <span class="na">protocol</span><span class="pi">:</span> <span class="s">udp</span>
+</code></pre></div></div>
+
+<p>아래는 호스트 머신에서 Vagrant 박스로 매핑할 수 있는 추가 Homestead 서비스 포트 목록입니다:</p>
+
+<div class="content-list">
+
+  <ul>
+    <li><strong>SSH:</strong> 2222 → 22로</li>
+    <li><strong>ngrok UI:</strong> 4040 → 4040으로</li>
+    <li><strong>MySQL:</strong> 33060 → 3306으로</li>
+    <li><strong>PostgreSQL:</strong> 54320 → 5432로</li>
+    <li><strong>MongoDB:</strong> 27017 → 27017로</li>
+    <li><strong>Mailpit:</strong> 8025 → 8025로</li>
+    <li><strong>Minio:</strong> 9600 → 9600으로</li>
+  </ul>
+
+</div>
+
+<p><a name="php-versions"></a></p>
+<h3 id="php-버전">PHP 버전</h3>
+
+<p>Homestead는 동일한 가상 머신에서 여러 버전의 PHP를 실행하는 것을 지원합니다. 특정 사이트에서 사용할 PHP 버전을 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일 내에서 지정할 수 있습니다. 사용 가능한 PHP 버전은 다음과 같습니다: “5.6”, “7.0”, “7.1”, “7.2”, “7.3”, “7.4”, “8.0”, “8.1”, “8.2”, “8.3” (기본값):</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">sites</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">homestead.test</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1/public</span>
+      <span class="na">php</span><span class="pi">:</span> <span class="s2">"</span><span class="s">7.1"</span>
+</code></pre></div></div>
+
+<p><a href="#connecting-via-ssh">Homestead 가상 머신 내에서</a>, CLI를 통해 지원되는 모든 PHP 버전을 사용할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php5.6 artisan list
+php7.0 artisan list
+php7.1 artisan list
+php7.2 artisan list
+php7.3 artisan list
+php7.4 artisan list
+php8.0 artisan list
+php8.1 artisan list
+php8.2 artisan list
+php8.3 artisan list
+</code></pre></div></div>
+
+<p>Homestead 가상 머신 내에서 다음 명령을 실행하여 CLI에서 사용되는 PHP의 기본 버전을 변경할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php56
+php70
+php71
+php72
+php73
+php74
+php80
+php81
+php82
+php83
+</code></pre></div></div>
+
+<p><a name="connecting-to-databases"></a></p>
+<h3 id="connecting-to-databases">Connecting to Databases</h3>
+
+<p>A <code class="language-plaintext highlighter-rouge">homestead</code> database is configured for both MySQL and PostgreSQL out of the box. To connect to your MySQL or PostgreSQL database from your host machine’s database client, you should connect to <code class="language-plaintext highlighter-rouge">127.0.0.1</code> on port <code class="language-plaintext highlighter-rouge">33060</code> (MySQL) or <code class="language-plaintext highlighter-rouge">54320</code> (PostgreSQL). The username and password for both databases is <code class="language-plaintext highlighter-rouge">homestead</code> / <code class="language-plaintext highlighter-rouge">secret</code>.</p>
+
+<blockquote>
+  <p>[!WARNING]
+You should only use these non-standard ports when connecting to the databases from your host machine. You will use the default 3306 and 5432 ports in your Laravel application’s <code class="language-plaintext highlighter-rouge">database</code> configuration file since Laravel is running <em>within</em> the virtual machine.</p>
+</blockquote>
+
+<p><a name="database-backups"></a></p>
+<h3 id="database-backups">Database Backups</h3>
+
+<p>Homestead can automatically backup your database when your Homestead virtual machine is destroyed. To utilize this feature, you must be using Vagrant 2.1.0 or greater. Or, if you are using an older version of Vagrant, you must install the <code class="language-plaintext highlighter-rouge">vagrant-triggers</code> plug-in. To enable automatic database backups, add the following line to your <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">backup</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p>한 번 구성되면, Homestead는 <code class="language-plaintext highlighter-rouge">vagrant destroy</code> 명령이 실행될 때 데이터베이스를 <code class="language-plaintext highlighter-rouge">.backup/mysql_backup</code> 및 <code class="language-plaintext highlighter-rouge">.backup/postgres_backup</code> 디렉토리로 내보냅니다. 이 디렉토리는 Homestead를 설치한 폴더나 <a href="#per-project-installation">프로젝트별 설치</a> 방법을 사용하는 경우 프로젝트 루트에서 찾을 수 있습니다.</p>
+
+<p><a name="configuring-cron-schedules"></a></p>
+<h3 id="크론-일정-구성">크론 일정 구성</h3>
+
+<p>Laravel은 단일 <code class="language-plaintext highlighter-rouge">schedule:run</code> Artisan 명령을 매 분 실행하도록 스케줄링하여 <a href="/docs/{{version}}/scheduling">크론 작업을 예약</a>하는 편리한 방법을 제공합니다. <code class="language-plaintext highlighter-rouge">schedule:run</code> 명령은 <code class="language-plaintext highlighter-rouge">routes/console.php</code> 파일에 정의된 작업 일정을 확인하여 실행할 예정인 스케줄된 작업을 결정합니다.</p>
+
+<p>Homestead 사이트에서 <code class="language-plaintext highlighter-rouge">schedule:run</code> 명령을 실행하려면, 사이트를 정의할 때 <code class="language-plaintext highlighter-rouge">schedule</code> 옵션을 <code class="language-plaintext highlighter-rouge">true</code>로 설정할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">sites</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">map</span><span class="pi">:</span> <span class="s">homestead.test</span>
+      <span class="na">to</span><span class="pi">:</span> <span class="s">/home/vagrant/project1/public</span>
+      <span class="na">schedule</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p>사이트용 크론 작업은 Homestead 가상 머신의 <code class="language-plaintext highlighter-rouge">/etc/cron.d</code> 디렉토리에 정의됩니다.</p>
+
+<p><a name="configuring-mailpit"></a></p>
+<h3 id="mailpit-구성하기">Mailpit 구성하기</h3>
+
+<p><a href="https://github.com/axllent/mailpit">Mailpit</a>은 발신 이메일을 가로채 수신자에게 실제로 보내지 않고도 검토할 수 있게 해줍니다. 시작하려면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">.env</code> 파일을 다음 메일 설정으로 업데이트하십시오:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">MAIL_MAILER</span><span class="p">=</span><span class="s">smtp</span>
+<span class="py">MAIL_HOST</span><span class="p">=</span><span class="s">localhost</span>
+<span class="py">MAIL_PORT</span><span class="p">=</span><span class="s">1025</span>
+<span class="py">MAIL_USERNAME</span><span class="p">=</span><span class="s">null</span>
+<span class="py">MAIL_PASSWORD</span><span class="p">=</span><span class="s">null</span>
+<span class="py">MAIL_ENCRYPTION</span><span class="p">=</span><span class="s">null</span>
+</code></pre></div></div>
+
+<p>Mailpit이 구성되면 <code class="language-plaintext highlighter-rouge">http://localhost:8025</code>에서 Mailpit 대시보드에 접근할 수 있습니다.</p>
+
+<p><a name="configuring-minio"></a></p>
+<h3 id="minio-구성">Minio 구성</h3>
+
+<p><a href="https://github.com/minio/minio">Minio</a>는 Amazon S3 호환 API를 가진 오픈 소스 객체 저장 서버입니다. Minio를 설치하려면 <a href="#installing-optional-features">features</a> 섹션에서 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일을 다음 구성 옵션으로 업데이트하십시오:</p>
+
+<p>minio: true</p>
+
+<p>기본적으로 Minio는 포트 9600에서 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">http://localhost:9600</code> 방문을 통해 Minio 제어판에 접근할 수 있습니다. 기본 액세스 키는 <code class="language-plaintext highlighter-rouge">homestead</code>이고, 기본 비밀 키는 <code class="language-plaintext highlighter-rouge">secretkey</code>입니다. Minio에 접근할 때는 항상 <code class="language-plaintext highlighter-rouge">us-east-1</code> 지역을 사용해야 합니다.</p>
+
+<p>Minio를 사용하려면 <code class="language-plaintext highlighter-rouge">.env</code> 파일에 다음 옵션이 있는지 확인하십시오:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">AWS_USE_PATH_STYLE_ENDPOINT</span><span class="p">=</span><span class="s">true</span>
+<span class="py">AWS_ENDPOINT</span><span class="p">=</span><span class="s">http://localhost:9600</span>
+<span class="py">AWS_ACCESS_KEY_ID</span><span class="p">=</span><span class="s">homestead</span>
+<span class="py">AWS_SECRET_ACCESS_KEY</span><span class="p">=</span><span class="s">secretkey</span>
+<span class="py">AWS_DEFAULT_REGION</span><span class="p">=</span><span class="s">us-east-1</span>
+</code></pre></div></div>
+
+<p>Minio 기반 ‘S3’ 버킷을 프로비저닝하려면 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에 <code class="language-plaintext highlighter-rouge">buckets</code> 지시문을 추가하십시오. 버킷을 정의한 후에는 터미널에서 <code class="language-plaintext highlighter-rouge">vagrant reload --provision</code> 명령을 실행해야 합니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">buckets</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">your-bucket</span>
+      <span class="na">policy</span><span class="pi">:</span> <span class="s">public</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">your-private-bucket</span>
+      <span class="na">policy</span><span class="pi">:</span> <span class="s">none</span>
+</code></pre></div></div>
+
+<p>지원되는 <code class="language-plaintext highlighter-rouge">policy</code> 값에는 <code class="language-plaintext highlighter-rouge">none</code>, <code class="language-plaintext highlighter-rouge">download</code>, <code class="language-plaintext highlighter-rouge">upload</code> 및 <code class="language-plaintext highlighter-rouge">public</code>가 포함됩니다.</p>
+
+<p><a name="laravel-dusk"></a></p>
+<h3 id="라라벨-더스크laravel-dusk">라라벨 더스크(Laravel Dusk)</h3>
+
+<p>Homestead 내에서 <a href="/docs/{{version}}/dusk">라라벨 더스크</a> 테스트를 실행하려면 Homestead 구성에서 <a href="#installing-optional-features">웹드라이버 기능</a>을 활성화해야 합니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">features</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">webdriver</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">webdriver</code> 기능을 활성화한 후에는 터미널에서 <code class="language-plaintext highlighter-rouge">vagrant reload --provision</code> 명령을 실행해야 합니다.</p>
+
+<p><a name="sharing-your-environment"></a></p>
+<h3 id="환경-공유하기">환경 공유하기</h3>
+
+<p>때때로 현재 작업 중인 내용을 동료나 고객과 공유하고 싶을 수 있습니다. Vagrant는 <code class="language-plaintext highlighter-rouge">vagrant share</code> 명령을 통해 이를 내장 지원하지만, <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에 여러 사이트가 구성되어 있으면 작동하지 않습니다.</p>
+
+<p>이 문제를 해결하기 위해, Homestead는 자체 <code class="language-plaintext highlighter-rouge">share</code> 명령을 포함합니다. 시작하려면, <a href="#connecting-via-ssh">SSH를 통해 Homestead 가상 머신에 접속</a>한 후 <code class="language-plaintext highlighter-rouge">vagrant ssh</code>를 사용하여 <code class="language-plaintext highlighter-rouge">share homestead.test</code> 명령을 실행하십시오. 이 명령은 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 구성 파일에서 <code class="language-plaintext highlighter-rouge">homestead.test</code> 사이트를 공유합니다. 다른 구성된 사이트 중 어느 것이든 <code class="language-plaintext highlighter-rouge">homestead.test</code> 대신 사용할 수 있습니다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>share homestead.test
+</code></pre></div></div>
+
+<p>명령을 실행한 후에는 활동 로그와 공유된 사이트에 대한 공개적으로 접근 가능한 URL이 포함된 Ngrok 화면이 나타납니다. 사용자 지정 지역, 하위 도메인 또는 기타 Ngrok 실행 옵션을 지정하려면 <code class="language-plaintext highlighter-rouge">share</code> 명령어에 추가할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>share homestead.test <span class="nt">-region</span><span class="o">=</span>eu <span class="nt">-subdomain</span><span class="o">=</span>laravel
+</code></pre></div></div>
+
+<p>If you need to share content over HTTPS rather than HTTP, using the <code class="language-plaintext highlighter-rouge">sshare</code> command instead of <code class="language-plaintext highlighter-rouge">share</code> will enable you to do so.</p>
+
+<blockquote>
+  <p>[!WARNING]
+Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the <code class="language-plaintext highlighter-rouge">share</code> command.</p>
+</blockquote>
+
+<p><a name="debugging-and-profiling"></a></p>
+<h2 id="debugging-and-profiling">Debugging and Profiling</h2>
+
+<p><a name="debugging-web-requests"></a></p>
+<h3 id="debugging-web-requests-with-xdebug">Debugging Web Requests With Xdebug</h3>
+
+<p>Homestead includes support for step debugging using <a href="https://xdebug.org">Xdebug</a>. For example, you can access a page in your browser and PHP will connect to your IDE to allow inspection and modification of the running code.</p>
+
+<p>By default, Xdebug is already running and ready to accept connections. If you need to enable Xdebug on the CLI, execute the <code class="language-plaintext highlighter-rouge">sudo phpenmod xdebug</code> command within your Homestead virtual machine. Next, follow your IDE’s instructions to enable debugging. Finally, configure your browser to trigger Xdebug with an extension or <a href="https://www.jetbrains.com/phpstorm/marklets/">bookmarklet</a>.</p>
+
+<blockquote>
+  <p>[!WARNING]
+Xdebug causes PHP to run significantly slower. To disable Xdebug, run <code class="language-plaintext highlighter-rouge">sudo phpdismod xdebug</code> within your Homestead virtual machine and restart the FPM service.</p>
+</blockquote>
+
+<p><a name="autostarting-xdebug"></a></p>
+<h4 id="autostarting-xdebug">Autostarting Xdebug</h4>
+
+<p>When debugging functional tests that make requests to the web server, it is easier to autostart debugging rather than modifying tests to pass through a custom header or cookie to trigger debugging. To force Xdebug to start automatically, modify the <code class="language-plaintext highlighter-rouge">/etc/php/7.x/fpm/conf.d/20-xdebug.ini</code> file inside your Homestead virtual machine and add the following configuration:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">; If Homestead.yaml contains a different subnet for the IP address, this address may be different...
+</span><span class="py">xdebug.client_host</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">192.168.10.1</span>
+<span class="py">xdebug.mode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">debug</span>
+<span class="py">xdebug.start_with_request</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">yes</span>
+</code></pre></div></div>
+
+<p><a name="debugging-cli-applications"></a></p>
+<h3 id="cli-애플리케이션-디버깅">CLI 애플리케이션 디버깅</h3>
+
+<p>PHP CLI 애플리케이션을 디버깅하려면 Homestead 가상 머신 안에서 <code class="language-plaintext highlighter-rouge">xphp</code> 셸 별칭을 사용하세요:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xphp /path/to/script
+</code></pre></div></div>
+
+<p><a name="profiling-applications-with-blackfire"></a></p>
+<h3 id="blackfire로-애플리케이션-프로파일링하기">Blackfire로 애플리케이션 프로파일링하기</h3>
+
+<p><a href="https://blackfire.io/docs/introduction">Blackfire</a>는 웹 요청과 CLI 애플리케이션을 프로파일링하기 위한 서비스입니다. 이 서비스는 콜 그래프와 타임라인에서 프로파일 데이터를 보여주는 대화형 사용자 인터페이스를 제공합니다. 개발, 스테이징, 프로덕션 환경에서 사용할 수 있도록 설계되었으며 최종 사용자에게는 오버헤드가 없습니다. 또한 Blackfire는 코드와 <code class="language-plaintext highlighter-rouge">php.ini</code> 설정에 대해 성능, 품질, 보안 검사를 제공합니다.</p>
+
+<p><a href="https://blackfire.io/docs/player/index">Blackfire Player</a>는 Blackfire와 함께 사용하여 프로파일링 시나리오를 스크립트화할 수 있는 오픈 소스 웹 크롤링, 웹 테스트 및 웹 스크래핑 애플리케이션입니다.</p>
+
+<p>Blackfire를 활성화하려면 Homestead 구성 파일에서 “features” 설정을 사용하십시오:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">features</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">blackfire</span><span class="pi">:</span>
+        <span class="na">server_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">server_id"</span>
+        <span class="na">server_token</span><span class="pi">:</span> <span class="s2">"</span><span class="s">server_value"</span>
+        <span class="na">client_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">client_id"</span>
+        <span class="na">client_token</span><span class="pi">:</span> <span class="s2">"</span><span class="s">client_value"</span>
+</code></pre></div></div>
+
+<p>Blackfire 서버 자격 증명과 클라이언트 자격 증명은 <a href="https://blackfire.io/signup">Blackfire 계정이 필요합니다</a>. Blackfire는 CLI 도구와 브라우저 확장을 포함하여 애플리케이션을 프로파일링할 수 있는 다양한 옵션을 제공합니다. 자세한 내용은 <a href="https://blackfire.io/docs/php/integrations/laravel/index">Blackfire 문서를 확인하세요</a>.</p>
+
+<p><a name="network-interfaces"></a></p>
+<h2 id="네트워크-인터페이스">네트워크 인터페이스</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일의 <code class="language-plaintext highlighter-rouge">networks</code> 속성은 Homestead 가상 머신의 네트워크 인터페이스를 구성합니다. 필요한 만큼 인터페이스를 구성할 수 있습니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">networks</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">private_network"</span>
+      <span class="na">ip</span><span class="pi">:</span> <span class="s2">"</span><span class="s">192.168.10.20"</span>
+</code></pre></div></div>
+
+<p><a href="https://developer.hashicorp.com/vagrant/docs/networking/public_network">브리지</a> 인터페이스를 활성화하려면, 네트워크에 대해 <code class="language-plaintext highlighter-rouge">bridge</code> 설정을 구성하고 네트워크 유형을 <code class="language-plaintext highlighter-rouge">public_network</code>로 변경하십시오:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">networks</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">public_network"</span>
+      <span class="na">ip</span><span class="pi">:</span> <span class="s2">"</span><span class="s">192.168.10.20"</span>
+      <span class="na">bridge</span><span class="pi">:</span> <span class="s2">"</span><span class="s">en1:</span><span class="nv"> </span><span class="s">Wi-Fi</span><span class="nv"> </span><span class="s">(AirPort)"</span>
+</code></pre></div></div>
+
+<p>DHCP을 사용하려면, 구성에서 <code class="language-plaintext highlighter-rouge">ip</code> 옵션을 제거하면 됩니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">networks</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">public_network"</span>
+      <span class="na">bridge</span><span class="pi">:</span> <span class="s2">"</span><span class="s">en1:</span><span class="nv"> </span><span class="s">Wi-Fi</span><span class="nv"> </span><span class="s">(AirPort)"</span>
+</code></pre></div></div>
+
+<p>네트워크가 사용하는 장치를 업데이트하려면 네트워크 구성에 <code class="language-plaintext highlighter-rouge">dev</code> 옵션을 추가할 수 있습니다. 기본 <code class="language-plaintext highlighter-rouge">dev</code> 값은 <code class="language-plaintext highlighter-rouge">eth0</code>입니다:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">networks</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">public_network"</span>
+      <span class="na">ip</span><span class="pi">:</span> <span class="s2">"</span><span class="s">192.168.10.20"</span>
+      <span class="na">bridge</span><span class="pi">:</span> <span class="s2">"</span><span class="s">en1:</span><span class="nv"> </span><span class="s">Wi-Fi</span><span class="nv"> </span><span class="s">(AirPort)"</span>
+      <span class="na">dev</span><span class="pi">:</span> <span class="s2">"</span><span class="s">enp2s0"</span>
+</code></pre></div></div>
+
+<p><a name="extending-homestead"></a></p>
+<h2 id="홈스테드-확장">홈스테드 확장</h2>
+
+<p>홈스테드 디렉토리 루트에 있는 <code class="language-plaintext highlighter-rouge">after.sh</code> 스크립트를 사용하여 홈스테드를 확장할 수 있습니다. 이 파일 내에서 가상 머신을 적절히 구성하고 사용자화하는 데 필요한 모든 셸 명령을 추가할 수 있습니다.</p>
+
+<p>홈스테드를 사용자화할 때, 우분투는 패키지의 원래 구성 파일을 유지할지 아니면 새 구성 파일로 덮어쓸지 물어볼 수 있습니다. 이를 피하려면 패키지를 설치할 때 다음 명령을 사용하여 홈스테드가 이전에 작성한 구성을 덮어쓰지 않도록 해야 합니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nt">-y</span> <span class="se">\</span>
+    <span class="nt">-o</span> Dpkg::Options::<span class="o">=</span><span class="s2">"--force-confdef"</span> <span class="se">\</span>
+    <span class="nt">-o</span> Dpkg::Options::<span class="o">=</span><span class="s2">"--force-confold"</span> <span class="se">\</span>
+    <span class="nb">install </span>package-name
+</code></pre></div></div>
+
+<p><a name="user-customizations"></a></p>
+<h3 id="사용자-맞춤-설정">사용자 맞춤 설정</h3>
+
+<p>팀과 함께 Homestead를 사용할 때, 개인 개발 스타일에 맞게 Homestead를 조정하고 싶을 수 있습니다. 이를 위해 Homestead 디렉토리의 루트(같은 디렉토리에 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일이 있는 위치)에 <code class="language-plaintext highlighter-rouge">user-customizations.sh</code> 파일을 생성할 수 있습니다. 이 파일 내에서 원하는 모든 맞춤 설정을 할 수 있지만, <code class="language-plaintext highlighter-rouge">user-customizations.sh</code>는 버전 관리에 포함되지 않아야 합니다.</p>
+
+<p><a name="provider-specific-settings"></a></p>
+<h2 id="공급자-특정-설정">공급자 특정 설정</h2>
+
+<p><a name="provider-specific-virtualbox"></a></p>
+<h3 id="virtualbox">VirtualBox</h3>
+
+<p><a name="natdnshostresolver"></a></p>
+<h4 id="natdnshostresolver"><code class="language-plaintext highlighter-rouge">natdnshostresolver</code></h4>
+
+<p>기본적으로 Homestead는 <code class="language-plaintext highlighter-rouge">natdnshostresolver</code> 설정을 <code class="language-plaintext highlighter-rouge">on</code>로 구성합니다. 이렇게 하면 Homestead가 호스트 운영 체제의 DNS 설정을 사용할 수 있습니다. 이 동작을 변경하고 싶다면 <code class="language-plaintext highlighter-rouge">Homestead.yaml</code> 파일에 다음 구성 옵션을 추가하십시오:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">provider</span><span class="pi">:</span> <span class="s">virtualbox</span>
+<span class="na">natdnshostresolver</span><span class="pi">:</span> <span class="s1">'</span><span class="s">off'</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

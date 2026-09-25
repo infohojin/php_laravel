@@ -1,0 +1,2793 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Eloquent: API Resources | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Eloquent: API Resources" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/08_eloquent_orm/eloquent-resources_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/08_eloquent_orm/eloquent-resources_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Eloquent: API Resources" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Eloquent: API Resources","url":"http://localhost:4000/docs/08_eloquent_orm/eloquent-resources_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/08_eloquent_orm/">08 eloquent orm</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Eloquent: API Resources</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="eloquent-api-resources">Eloquent: API Resources</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#generating-resources">Generating Resources</a></li>
+  <li><a href="#concept-overview">Concept Overview</a>
+    <ul>
+      <li><a href="#resource-collections">Resource Collections</a></li>
+    </ul>
+  </li>
+  <li><a href="#writing-resources">Writing Resources</a>
+    <ul>
+      <li><a href="#data-wrapping">Data Wrapping</a></li>
+      <li><a href="#pagination">Pagination</a></li>
+      <li><a href="#conditional-attributes">Conditional Attributes</a></li>
+      <li><a href="#conditional-relationships">Conditional Relationships</a></li>
+      <li><a href="#adding-meta-data">Adding Meta Data</a></li>
+    </ul>
+  </li>
+  <li><a href="#jsonapi-resources">JSON:API Resources</a>
+    <ul>
+      <li><a href="#generating-jsonapi-resources">Generating JSON:API Resources</a></li>
+      <li><a href="#defining-jsonapi-attributes">Defining Attributes</a></li>
+      <li><a href="#defining-jsonapi-relationships">Defining Relationships</a></li>
+      <li><a href="#jsonapi-resource-type-and-id">Resource Type and ID</a></li>
+      <li><a href="#jsonapi-sparse-fieldsets-and-includes">Sparse Fieldsets and Includes</a></li>
+      <li><a href="#jsonapi-links-and-meta">Links and Meta</a></li>
+    </ul>
+  </li>
+  <li><a href="#resource-responses">Resource Responses</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>When building an API, you may need a transformation layer that sits between your Eloquent models and the JSON responses that are actually returned to your application’s users. For example, you may wish to display certain attributes for a subset of users and not others, or you may wish to always include certain relationships in the JSON representation of your models. Eloquent’s resource classes allow you to expressively and easily transform your models and model collections into JSON.</p>
+
+<p>Of course, you may always convert Eloquent models or collections to JSON using their <code class="language-plaintext highlighter-rouge">toJson</code> methods; however, Eloquent resources provide more granular and robust control over the JSON serialization of your models and their relationships.</p>
+
+<p><a name="generating-resources"></a></p>
+<h2 id="generating-resources">Generating Resources</h2>
+
+<p>To generate a resource class, you may use the <code class="language-plaintext highlighter-rouge">make:resource</code> Artisan command. By default, resources will be placed in the <code class="language-plaintext highlighter-rouge">app/Http/Resources</code> directory of your application. Resources extend the <code class="language-plaintext highlighter-rouge">Illuminate\Http\Resources\Json\JsonResource</code> class:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:resource UserResource
+</code></pre></div></div>
+
+<p><a name="generating-resource-collections"></a></p>
+<h4 id="resource-collections">Resource Collections</h4>
+
+<p>In addition to generating resources that transform individual models, you may generate resources that are responsible for transforming collections of models. This allows your JSON responses to include links and other meta information that is relevant to an entire collection of a given resource.</p>
+
+<p>To create a resource collection, you should use the <code class="language-plaintext highlighter-rouge">--collection</code> flag when creating the resource. Or, including the word <code class="language-plaintext highlighter-rouge">Collection</code> in the resource name will indicate to Laravel that it should create a collection resource. Collection resources extend the <code class="language-plaintext highlighter-rouge">Illuminate\Http\Resources\Json\ResourceCollection</code> class:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:resource User <span class="nt">--collection</span>
+
+php artisan make:resource UserCollection
+</code></pre></div></div>
+
+<p><a name="concept-overview"></a></p>
+<h2 id="concept-overview">Concept Overview</h2>
+
+<blockquote>
+  <p>[!NOTE]
+This is a high-level overview of resources and resource collections. You are highly encouraged to read the other sections of this documentation to gain a deeper understanding of the customization and power offered to you by resources.</p>
+</blockquote>
+
+<p>Before diving into all of the options available to you when writing resources, let’s first take a high-level look at how resources are used within Laravel. A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple <code class="language-plaintext highlighter-rouge">UserResource</code> resource class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\JsonResource</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserResource</span> <span class="kd">extends</span> <span class="nc">JsonResource</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Transform the resource into an array.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+            <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+            <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+            <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Every resource class defines a <code class="language-plaintext highlighter-rouge">toArray</code> method which returns the array of attributes that should be converted to JSON when the resource is returned as a response from a route or controller method.</p>
+
+<p>Note that we can access model properties directly from the <code class="language-plaintext highlighter-rouge">$this</code> variable. This is because a resource class will automatically proxy property and method access down to the underlying model for convenient access. Once the resource is defined, it may be returned from a route or controller. The resource accepts the underlying model instance via its constructor:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">UserResource</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$id</span><span class="p">));</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>For convenience, you may use the model’s <code class="language-plaintext highlighter-rouge">toResource</code> method, which will use framework conventions to automatically discover the model’s underlying resource:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">toResource</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>When invoking the <code class="language-plaintext highlighter-rouge">toResource</code> method, Laravel will attempt to locate a resource that matches the model’s name and is optionally suffixed with <code class="language-plaintext highlighter-rouge">Resource</code> within the <code class="language-plaintext highlighter-rouge">Http\Resources</code> namespace closest to the model’s namespace.</p>
+
+<p>If your resource class doesn’t follow this naming convention or is located in a different namespace, you may specify the default resource for the model using the <code class="language-plaintext highlighter-rouge">UseResource</code> attribute:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Http\Resources\CustomUserResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Attributes\UseResource</span><span class="p">;</span>
+
+<span class="na">#[UseResource(CustomUserResource::class)]</span>
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may specify resource class by passing it to the <code class="language-plaintext highlighter-rouge">toResource</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">toResource</span><span class="p">(</span><span class="nc">CustomUserResource</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="resource-collections"></a></p>
+<h3 id="resource-collections-1">Resource Collections</h3>
+
+<p>If you are returning a collection of resources or a paginated response, you should use the <code class="language-plaintext highlighter-rouge">collection</code> method provided by your resource class when creating the resource instance in your route or controller:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">UserResource</span><span class="o">::</span><span class="nf">collection</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Or, for convenience, you may use the Eloquent collection’s <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method, which will use framework conventions to automatically discover the model’s underlying resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>When invoking the <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method, Laravel will attempt to locate a resource collection that matches the model’s name and is suffixed with <code class="language-plaintext highlighter-rouge">Collection</code> within the <code class="language-plaintext highlighter-rouge">Http\Resources</code> namespace closest to the model’s namespace.</p>
+
+<p>If your resource collection class doesn’t follow this naming convention or is located in a different namespace, you may specify the default resource collection for the model using the <code class="language-plaintext highlighter-rouge">UseResourceCollection</code> attribute:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Http\Resources\CustomUserCollection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Attributes\UseResourceCollection</span><span class="p">;</span>
+
+<span class="na">#[UseResourceCollection(CustomUserCollection::class)]</span>
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may specify the resource collection class by passing it to the <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">(</span><span class="nc">CustomUserCollection</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="custom-resource-collections"></a></p>
+<h4 id="custom-resource-collections">Custom Resource Collections</h4>
+
+<p>By default, resource collections do not allow any addition of custom meta data that may need to be returned with your collection. If you would like to customize the resource collection response, you may create a dedicated resource to represent the collection:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:resource UserCollection
+</code></pre></div></div>
+
+<p>Once the resource collection class has been generated, you may easily define any meta data that should be included with the response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\ResourceCollection</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserCollection</span> <span class="kd">extends</span> <span class="nc">ResourceCollection</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Transform the resource collection into an array.
+     *
+     * @return array&lt;int|string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">collection</span><span class="p">,</span>
+            <span class="s1">'links'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'self'</span> <span class="o">=&gt;</span> <span class="s1">'link-value'</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>After defining your resource collection, it may be returned from a route or controller:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserCollection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">UserCollection</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Or, for convenience, you may use the Eloquent collection’s <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method, which will use framework conventions to automatically discover the model’s underlying resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>When invoking the <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method, Laravel will attempt to locate a resource collection that matches the model’s name and is suffixed with <code class="language-plaintext highlighter-rouge">Collection</code> within the <code class="language-plaintext highlighter-rouge">Http\Resources</code> namespace closest to the model’s namespace.</p>
+
+<p><a name="preserving-collection-keys"></a></p>
+<h4 id="preserving-collection-keys">Preserving Collection Keys</h4>
+
+<p>When returning a resource collection from a route, Laravel resets the collection’s keys so that they are in numerical order. However, you may use the <code class="language-plaintext highlighter-rouge">PreserveKeys</code> attribute on your resource class indicating whether a collection’s original keys should be preserved:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Attributes\PreserveKeys</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\JsonResource</span><span class="p">;</span>
+
+<span class="na">#[PreserveKeys]</span>
+<span class="kd">class</span> <span class="nc">UserResource</span> <span class="kd">extends</span> <span class="nc">JsonResource</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When the <code class="language-plaintext highlighter-rouge">preserveKeys</code> property is set to <code class="language-plaintext highlighter-rouge">true</code>, collection keys will be preserved when the collection is returned from a route or controller:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">UserResource</span><span class="o">::</span><span class="nf">collection</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">keyBy</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="customizing-the-underlying-resource-class"></a></p>
+<h4 id="customizing-the-underlying-resource-class">Customizing the Underlying Resource Class</h4>
+
+<p>Typically, the <code class="language-plaintext highlighter-rouge">$this-&gt;collection</code> property of a resource collection is automatically populated with the result of mapping each item of the collection to its singular resource class. The singular resource class is assumed to be the collection’s class name without the trailing <code class="language-plaintext highlighter-rouge">Collection</code> portion of the class name. In addition, depending on your personal preference, the singular resource class may or may not be suffixed with <code class="language-plaintext highlighter-rouge">Resource</code>.</p>
+
+<p>For example, <code class="language-plaintext highlighter-rouge">UserCollection</code> will attempt to map the given user instances into the <code class="language-plaintext highlighter-rouge">UserResource</code> resource. To customize this behavior, you may use the <code class="language-plaintext highlighter-rouge">Collects</code> attribute on your resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Attributes\Collects</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\ResourceCollection</span><span class="p">;</span>
+
+<span class="na">#[Collects(Member::class)]</span>
+<span class="kd">class</span> <span class="nc">UserCollection</span> <span class="kd">extends</span> <span class="nc">ResourceCollection</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="writing-resources"></a></p>
+<h2 id="writing-resources">Writing Resources</h2>
+
+<blockquote>
+  <p>[!NOTE]
+If you have not read the <a href="#concept-overview">concept overview</a>, you are highly encouraged to do so before proceeding with this documentation.</p>
+</blockquote>
+
+<p>Resources only need to transform a given model into an array. So, each resource contains a <code class="language-plaintext highlighter-rouge">toArray</code> method which translates your model’s attributes into an API friendly array that can be returned from your application’s routes or controllers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\JsonResource</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserResource</span> <span class="kd">extends</span> <span class="nc">JsonResource</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Transform the resource into an array.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+            <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+            <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+            <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once a resource has been defined, it may be returned directly from a route or controller:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">toUserResource</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="relationships"></a></p>
+<h4 id="relationships">Relationships</h4>
+
+<p>If you would like to include related resources in your response, you may add them to the array returned by your resource’s <code class="language-plaintext highlighter-rouge">toArray</code> method. In this example, we will use the <code class="language-plaintext highlighter-rouge">PostResource</code> resource’s <code class="language-plaintext highlighter-rouge">collection</code> method to add the user’s blog posts to the resource response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\PostResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+        <span class="s1">'posts'</span> <span class="o">=&gt;</span> <span class="nc">PostResource</span><span class="o">::</span><span class="nf">collection</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">posts</span><span class="p">),</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+If you would like to include relationships only when they have already been loaded, check out the documentation on <a href="#conditional-relationships">conditional relationships</a>.</p>
+</blockquote>
+
+<p><a name="writing-resource-collections"></a></p>
+<h4 id="resource-collections-2">Resource Collections</h4>
+
+<p>While resources transform a single model into an array, resource collections transform a collection of models into an array. However, it is not absolutely necessary to define a resource collection class for each one of your models since all Eloquent model collections provide a <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method to generate an “ad-hoc” resource collection on the fly:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>However, if you need to customize the meta data returned with the collection, it is necessary to define your own resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\ResourceCollection</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserCollection</span> <span class="kd">extends</span> <span class="nc">ResourceCollection</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Transform the resource collection into an array.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">collection</span><span class="p">,</span>
+            <span class="s1">'links'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'self'</span> <span class="o">=&gt;</span> <span class="s1">'link-value'</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Like singular resources, resource collections may be returned directly from routes or controllers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserCollection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">UserCollection</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Or, for convenience, you may use the Eloquent collection’s <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method, which will use framework conventions to automatically discover the model’s underlying resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>When invoking the <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method, Laravel will attempt to locate a resource collection that matches the model’s name and is suffixed with <code class="language-plaintext highlighter-rouge">Collection</code> within the <code class="language-plaintext highlighter-rouge">Http\Resources</code> namespace closest to the model’s namespace.</p>
+
+<p><a name="data-wrapping"></a></p>
+<h3 id="data-wrapping">Data Wrapping</h3>
+
+<p>By default, your outermost resource is wrapped in a <code class="language-plaintext highlighter-rouge">data</code> key when the resource response is converted to JSON. So, for example, a typical resource collection response looks like the following:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Eladio Schroeder Sr."</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"therese28@example.com"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Liliana Mayert"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"evandervort@example.com"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If you would like to disable the wrapping of the outermost resource, you should invoke the <code class="language-plaintext highlighter-rouge">withoutWrapping</code> method on the base <code class="language-plaintext highlighter-rouge">Illuminate\Http\Resources\Json\JsonResource</code> class. Typically, you should call this method from your <code class="language-plaintext highlighter-rouge">AppServiceProvider</code> or another <a href="/docs/{{version}}/providers">service provider</a> that is loaded on every request to your application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\JsonResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Register any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">register</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">JsonResource</span><span class="o">::</span><span class="nf">withoutWrapping</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+The <code class="language-plaintext highlighter-rouge">withoutWrapping</code> method only affects the outermost response and will not remove <code class="language-plaintext highlighter-rouge">data</code> keys that you manually add to your own resource collections.</p>
+</blockquote>
+
+<p><a name="wrapping-nested-resources"></a></p>
+<h4 id="wrapping-nested-resources">Wrapping Nested Resources</h4>
+
+<p>You have total freedom to determine how your resource’s relationships are wrapped. If you would like all resource collections to be wrapped in a <code class="language-plaintext highlighter-rouge">data</code> key, regardless of their nesting, you should define a resource collection class for each resource and return the collection within a <code class="language-plaintext highlighter-rouge">data</code> key.</p>
+
+<p>You may be wondering if this will cause your outermost resource to be wrapped in two <code class="language-plaintext highlighter-rouge">data</code> keys. Don’t worry, Laravel will never let your resources be accidentally double-wrapped, so you don’t have to be concerned about the nesting level of the resource collection you are transforming:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\ResourceCollection</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">CommentsCollection</span> <span class="kd">extends</span> <span class="nc">ResourceCollection</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Transform the resource collection into an array.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">collection</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="data-wrapping-and-pagination"></a></p>
+<h4 id="data-wrapping-and-pagination">Data Wrapping and Pagination</h4>
+
+<p>When returning paginated collections via a resource response, Laravel will wrap your resource data in a <code class="language-plaintext highlighter-rouge">data</code> key even if the <code class="language-plaintext highlighter-rouge">withoutWrapping</code> method has been called. This is because paginated responses always contain <code class="language-plaintext highlighter-rouge">meta</code> and <code class="language-plaintext highlighter-rouge">links</code> keys with information about the paginator’s state:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Eladio Schroeder Sr."</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"therese28@example.com"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Liliana Mayert"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"evandervort@example.com"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"links"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"first"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/users?page=1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"last"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/users?page=1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"prev"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"meta"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"current_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"from"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/users"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"to"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><a name="pagination"></a></p>
+<h3 id="pagination">Pagination</h3>
+
+<p>You may pass a Laravel paginator instance to the <code class="language-plaintext highlighter-rouge">collection</code> method of a resource or to a custom resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserCollection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">UserCollection</span><span class="p">(</span><span class="nc">User</span><span class="o">::</span><span class="nf">paginate</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Or, for convenience, you may use the paginator’s <code class="language-plaintext highlighter-rouge">toResourceCollection</code> method, which will use framework conventions to automatically discover the paginated model’s underlying resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">paginate</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Paginated responses always contain <code class="language-plaintext highlighter-rouge">meta</code> and <code class="language-plaintext highlighter-rouge">links</code> keys with information about the paginator’s state:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Eladio Schroeder Sr."</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"therese28@example.com"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Liliana Mayert"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"evandervort@example.com"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"links"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"first"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/users?page=1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"last"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/users?page=1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"prev"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"next"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"meta"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"current_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"from"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"last_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/users"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"to"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><a name="customizing-the-pagination-information"></a></p>
+<h4 id="customizing-the-pagination-information">Customizing the Pagination Information</h4>
+
+<p>If you would like to customize the information included in the <code class="language-plaintext highlighter-rouge">links</code> or <code class="language-plaintext highlighter-rouge">meta</code> keys of the pagination response, you may define a <code class="language-plaintext highlighter-rouge">paginationInformation</code> method on the resource. This method will receive the <code class="language-plaintext highlighter-rouge">$paginated</code> data and the array of <code class="language-plaintext highlighter-rouge">$default</code> information, which is an array containing the <code class="language-plaintext highlighter-rouge">links</code> and <code class="language-plaintext highlighter-rouge">meta</code> keys:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Customize the pagination information for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  array  $paginated
+ * @param  array  $default
+ * @return array
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">paginationInformation</span><span class="p">(</span><span class="nv">$request</span><span class="p">,</span> <span class="nv">$paginated</span><span class="p">,</span> <span class="nv">$default</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$default</span><span class="p">[</span><span class="s1">'links'</span><span class="p">][</span><span class="s1">'custom'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'https://example.com'</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nv">$default</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="conditional-attributes"></a></p>
+<h3 id="conditional-attributes">Conditional Attributes</h3>
+
+<p>Sometimes you may wish to only include an attribute in a resource response if a given condition is met. For example, you may wish to only include a value if the current user is an “administrator”. Laravel provides a variety of helper methods to assist you in this situation. The <code class="language-plaintext highlighter-rouge">when</code> method may be used to conditionally add an attribute to a resource response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+        <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">when</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">isAdmin</span><span class="p">(),</span> <span class="s1">'secret-value'</span><span class="p">),</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this example, the <code class="language-plaintext highlighter-rouge">secret</code> key will only be returned in the final resource response if the authenticated user’s <code class="language-plaintext highlighter-rouge">isAdmin</code> method returns <code class="language-plaintext highlighter-rouge">true</code>. If the method returns <code class="language-plaintext highlighter-rouge">false</code>, the <code class="language-plaintext highlighter-rouge">secret</code> key will be removed from the resource response before it is sent to the client. The <code class="language-plaintext highlighter-rouge">when</code> method allows you to expressively define your resources without resorting to conditional statements when building the array.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">when</code> method also accepts a closure as its second argument, allowing you to calculate the resulting value only if the given condition is <code class="language-plaintext highlighter-rouge">true</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">when</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">isAdmin</span><span class="p">(),</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'secret-value'</span><span class="p">;</span>
+<span class="p">}),</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">whenHas</code> method may be used to include an attribute if it is actually present on the underlying model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenHas</span><span class="p">(</span><span class="s1">'name'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p>Additionally, the <code class="language-plaintext highlighter-rouge">whenNotNull</code> method may be used to include an attribute in the resource response if the attribute is not null:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenNotNull</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p><a name="merging-conditional-attributes"></a></p>
+<h4 id="merging-conditional-attributes">Merging Conditional Attributes</h4>
+
+<p>Sometimes you may have several attributes that should only be included in the resource response based on the same condition. In this case, you may use the <code class="language-plaintext highlighter-rouge">mergeWhen</code> method to include the attributes in the response only when the given condition is <code class="language-plaintext highlighter-rouge">true</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">mergeWhen</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">isAdmin</span><span class="p">(),</span> <span class="p">[</span>
+            <span class="s1">'first-secret'</span> <span class="o">=&gt;</span> <span class="s1">'value'</span><span class="p">,</span>
+            <span class="s1">'second-secret'</span> <span class="o">=&gt;</span> <span class="s1">'value'</span><span class="p">,</span>
+        <span class="p">]),</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Again, if the given condition is <code class="language-plaintext highlighter-rouge">false</code>, these attributes will be removed from the resource response before it is sent to the client.</p>
+
+<blockquote>
+  <p>[!WARNING]
+The <code class="language-plaintext highlighter-rouge">mergeWhen</code> method should not be used within arrays that mix string and numeric keys. Furthermore, it should not be used within arrays with numeric keys that are not ordered sequentially.</p>
+</blockquote>
+
+<p><a name="conditional-relationships"></a></p>
+<h3 id="conditional-relationships">Conditional Relationships</h3>
+
+<p>In addition to conditionally loading attributes, you may conditionally include relationships on your resource responses based on if the relationship has already been loaded on the model. This allows your controller to decide which relationships should be loaded on the model and your resource can easily include them only when they have actually been loaded. Ultimately, this makes it easier to avoid “N+1” query problems within your resources.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">whenLoaded</code> method may be used to conditionally load a relationship. In order to avoid unnecessarily loading relationships, this method accepts the name of the relationship instead of the relationship itself:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\PostResource</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+        <span class="s1">'posts'</span> <span class="o">=&gt;</span> <span class="nc">PostResource</span><span class="o">::</span><span class="nf">collection</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenLoaded</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">)),</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this example, if the relationship has not been loaded, the <code class="language-plaintext highlighter-rouge">posts</code> key will be removed from the resource response before it is sent to the client.</p>
+
+<p><a name="conditional-relationship-counts"></a></p>
+<h4 id="conditional-relationship-counts">Conditional Relationship Counts</h4>
+
+<p>In addition to conditionally including relationships, you may conditionally include relationship “counts” on your resource responses based on if the relationship’s count has been loaded on the model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">UserResource</span><span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">loadCount</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">whenCounted</code> method may be used to conditionally include a relationship’s count in your resource response. This method avoids unnecessarily including the attribute if the relationships’ count is not present:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">,</span>
+        <span class="s1">'posts_count'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenCounted</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">),</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this example, if the <code class="language-plaintext highlighter-rouge">posts</code> relationship’s count has not been loaded, the <code class="language-plaintext highlighter-rouge">posts_count</code> key will be removed from the resource response before it is sent to the client.</p>
+
+<p>Other types of aggregates, such as <code class="language-plaintext highlighter-rouge">avg</code>, <code class="language-plaintext highlighter-rouge">sum</code>, <code class="language-plaintext highlighter-rouge">min</code>, and <code class="language-plaintext highlighter-rouge">max</code> may also be conditionally loaded using the <code class="language-plaintext highlighter-rouge">whenAggregated</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'words_avg'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenAggregated</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="s1">'avg'</span><span class="p">),</span>
+<span class="s1">'words_sum'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenAggregated</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">),</span>
+<span class="s1">'words_min'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenAggregated</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="s1">'min'</span><span class="p">),</span>
+<span class="s1">'words_max'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenAggregated</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="s1">'words'</span><span class="p">,</span> <span class="s1">'max'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p><a name="conditional-pivot-information"></a></p>
+<h4 id="conditional-pivot-information">Conditional Pivot Information</h4>
+
+<p>In addition to conditionally including relationship information in your resource responses, you may conditionally include data from the intermediate tables of many-to-many relationships using the <code class="language-plaintext highlighter-rouge">whenPivotLoaded</code> method. The <code class="language-plaintext highlighter-rouge">whenPivotLoaded</code> method accepts the name of the pivot table as its first argument. The second argument should be a closure that returns the value to be returned if the pivot information is available on the model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'expires_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenPivotLoaded</span><span class="p">(</span><span class="s1">'role_user'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">pivot</span><span class="o">-&gt;</span><span class="n">expires_at</span><span class="p">;</span>
+        <span class="p">}),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If your relationship is using a <a href="/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models">custom intermediate table model</a>, you may pass an instance of the intermediate table model as the first argument to the <code class="language-plaintext highlighter-rouge">whenPivotLoaded</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'expires_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenPivotLoaded</span><span class="p">(</span><span class="k">new</span> <span class="nc">Membership</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">pivot</span><span class="o">-&gt;</span><span class="n">expires_at</span><span class="p">;</span>
+<span class="p">}),</span>
+</code></pre></div></div>
+
+<p>If your intermediate table is using an accessor other than <code class="language-plaintext highlighter-rouge">pivot</code>, you may use the <code class="language-plaintext highlighter-rouge">whenPivotLoadedAs</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+        <span class="s1">'expires_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">whenPivotLoadedAs</span><span class="p">(</span><span class="s1">'subscription'</span><span class="p">,</span> <span class="s1">'role_user'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">subscription</span><span class="o">-&gt;</span><span class="n">expires_at</span><span class="p">;</span>
+        <span class="p">}),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="adding-meta-data"></a></p>
+<h3 id="adding-meta-data">Adding Meta Data</h3>
+
+<p>Some JSON API standards require the addition of meta data to your resource and resource collections responses. This often includes things like <code class="language-plaintext highlighter-rouge">links</code> to the resource or related resources, or meta data about the resource itself. If you need to return additional meta data about a resource, include it in your <code class="language-plaintext highlighter-rouge">toArray</code> method. For example, you might include <code class="language-plaintext highlighter-rouge">links</code> information when transforming a resource collection:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Transform the resource into an array.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'data'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">collection</span><span class="p">,</span>
+        <span class="s1">'links'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'self'</span> <span class="o">=&gt;</span> <span class="s1">'link-value'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When returning additional meta data from your resources, you never have to worry about accidentally overriding the <code class="language-plaintext highlighter-rouge">links</code> or <code class="language-plaintext highlighter-rouge">meta</code> keys that are automatically added by Laravel when returning paginated responses. Any additional <code class="language-plaintext highlighter-rouge">links</code> you define will be merged with the links provided by the paginator.</p>
+
+<p><a name="top-level-meta-data"></a></p>
+<h4 id="top-level-meta-data">Top Level Meta Data</h4>
+
+<p>Sometimes you may wish to only include certain meta data with a resource response if the resource is the outermost resource being returned. Typically, this includes meta information about the response as a whole. To define this meta data, add a <code class="language-plaintext highlighter-rouge">with</code> method to your resource class. This method should return an array of meta data to be included with the resource response only when the resource is the outermost resource being transformed:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\ResourceCollection</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserCollection</span> <span class="kd">extends</span> <span class="nc">ResourceCollection</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Transform the resource collection into an array.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">parent</span><span class="o">::</span><span class="nf">toArray</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get additional data that should be returned with the resource array.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">with</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'meta'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="s1">'value'</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="adding-meta-data-when-constructing-resources"></a></p>
+<h4 id="adding-meta-data-when-constructing-resources">Adding Meta Data When Constructing Resources</h4>
+
+<p>You may also add top-level data when constructing resource instances in your route or controller. The <code class="language-plaintext highlighter-rouge">additional</code> method, which is available on all resources, accepts an array of data that should be added to the resource response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">load</span><span class="p">(</span><span class="s1">'roles'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">additional</span><span class="p">([</span><span class="s1">'meta'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="s1">'value'</span><span class="p">,</span>
+    <span class="p">]]);</span>
+</code></pre></div></div>
+
+<p><a name="jsonapi-resources"></a></p>
+<h2 id="jsonapi-resources">JSON:API Resources</h2>
+
+<p>Laravel ships with <code class="language-plaintext highlighter-rouge">JsonApiResource</code>, a resource class that produces responses compliant with the <a href="https://jsonapi.org/">JSON:API specification</a>. It extends the standard <code class="language-plaintext highlighter-rouge">JsonResource</code> class and automatically handles resource object structure, relationships, sparse fieldsets, includes, lazy attribute evaluation, and sets the <code class="language-plaintext highlighter-rouge">Content-Type</code> header to <code class="language-plaintext highlighter-rouge">application/vnd.api+json</code>.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Laravel’s JSON:API resources handle the serialization of your responses. If you also need to parse incoming JSON:API query parameters such as filters and sorts, <a href="https://spatie.be/docs/laravel-query-builder">Spatie’s Laravel Query Builder</a> is a great companion package.</p>
+</blockquote>
+
+<p><a name="generating-jsonapi-resources"></a></p>
+<h3 id="generating-jsonapi-resources">Generating JSON:API Resources</h3>
+
+<p>To generate a JSON:API resource, use the <code class="language-plaintext highlighter-rouge">make:resource</code> Artisan command with the <code class="language-plaintext highlighter-rouge">--json-api</code> flag:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:resource PostResource <span class="nt">--json-api</span>
+</code></pre></div></div>
+
+<p>The generated class will extend <code class="language-plaintext highlighter-rouge">Illuminate\Http\Resources\JsonApi\JsonApiResource</code> and include <code class="language-plaintext highlighter-rouge">$attributes</code> and <code class="language-plaintext highlighter-rouge">$relationships</code> properties for you to define:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\JsonApi\JsonApiResource</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostResource</span> <span class="kd">extends</span> <span class="nc">JsonApiResource</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * The resource's attributes.
+     */</span>
+    <span class="k">public</span> <span class="nv">$attributes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="c1">// ...</span>
+    <span class="p">];</span>
+
+    <span class="cd">/**
+     * The resource's relationships.
+     */</span>
+    <span class="k">public</span> <span class="nv">$relationships</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="c1">// ...</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>JSON:API resources may be returned from routes and controllers just like standard resources:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\PostResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/api/posts/{post}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">PostResource</span><span class="p">(</span><span class="nv">$post</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Or, for convenience, you may use the model’s <code class="language-plaintext highlighter-rouge">toResource</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/api/posts/{post}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="nf">toResource</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>This will produce a JSON:API compliant response:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"posts"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hello World"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is my first post."</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>To return a collection of JSON:API resources, use the <code class="language-plaintext highlighter-rouge">collection</code> method or the <code class="language-plaintext highlighter-rouge">toResourceCollection</code> convenience method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">PostResource</span><span class="o">::</span><span class="nf">collection</span><span class="p">(</span><span class="nc">Post</span><span class="o">::</span><span class="nf">all</span><span class="p">());</span>
+
+<span class="k">return</span> <span class="nc">Post</span><span class="o">::</span><span class="nf">all</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">toResourceCollection</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="defining-jsonapi-attributes"></a></p>
+<h3 id="defining-attributes">Defining Attributes</h3>
+
+<p>There are two ways to define which attributes are included in your JSON:API resource.</p>
+
+<p>The simplest approach is to define an <code class="language-plaintext highlighter-rouge">$attributes</code> property on your resource. You may list attribute names as values, which will be read directly from the underlying model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="nv">$attributes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'title'</span><span class="p">,</span>
+    <span class="s1">'body'</span><span class="p">,</span>
+    <span class="s1">'created_at'</span><span class="p">,</span>
+<span class="p">];</span>
+</code></pre></div></div>
+
+<p>If an attribute is expensive to calculate, you may return it from <code class="language-plaintext highlighter-rouge">toAttributes</code> as a closure so it is only evaluated when the attribute is actually needed in the response.</p>
+
+<p>Or, for full control over the resource’s attributes, you may override the <code class="language-plaintext highlighter-rouge">toAttributes</code> method on the resource:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the resource's attributes.
+ *
+ * @return array&lt;string, mixed&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toAttributes</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">title</span><span class="p">,</span>
+        <span class="s1">'body'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">body</span><span class="p">,</span>
+        <span class="s1">'is_published'</span> <span class="o">=&gt;</span> <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">published_at</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s1">'created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="s1">'updated_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">updated_at</span><span class="p">,</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="defining-jsonapi-relationships"></a></p>
+<h3 id="defining-relationships">Defining Relationships</h3>
+
+<p>JSON:API resources support defining relationships that follow the JSON:API specification. Relationships are only serialized when requested by the client via the <code class="language-plaintext highlighter-rouge">include</code> query parameter.</p>
+
+<h4 id="the-relationships-property">The <code class="language-plaintext highlighter-rouge">$relationships</code> Property</h4>
+
+<p>You may define your resource’s includable relationships via the <code class="language-plaintext highlighter-rouge">$relationships</code> property on your resource:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="nv">$relationships</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'author'</span><span class="p">,</span>
+    <span class="s1">'comments'</span><span class="p">,</span>
+<span class="p">];</span>
+</code></pre></div></div>
+
+<p>When listing a relationship name as a value, Laravel will resolve the corresponding Eloquent relationship and automatically discover the appropriate resource class. If you need to specify the resource class explicitly, you may define the relationship as a key / class pair:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserResource</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="nv">$relationships</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'author'</span> <span class="o">=&gt;</span> <span class="nc">UserResource</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="s1">'comments'</span><span class="p">,</span>
+<span class="p">];</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may override the <code class="language-plaintext highlighter-rouge">toRelationships</code> method on the resource:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the resource's relationships.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toRelationships</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'author'</span> <span class="o">=&gt;</span> <span class="nc">UserResource</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+        <span class="s1">'comments'</span> <span class="o">=&gt;</span> <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nc">CommentResource</span><span class="o">::</span><span class="nf">collection</span><span class="p">(</span>
+            <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">resource</span><span class="p">)</span>
+                <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">comments</span>
+                <span class="o">:</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">comments</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'is_public'</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Using closures gives you more control over the relationship payload, while still only resolving the relationship when the client requests it.</p>
+
+<h4 id="including-relationships">Including Relationships</h4>
+
+<p>Clients may request related resources using the <code class="language-plaintext highlighter-rouge">include</code> query parameter:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/posts/1?include=author,comments
+</code></pre></div></div>
+
+<p>This produces a response with resource identifier objects in the <code class="language-plaintext highlighter-rouge">relationships</code> key and full resource objects in the top-level <code class="language-plaintext highlighter-rouge">included</code> array:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"posts"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hello World"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"relationships"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"users"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"comments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comments"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">]</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"included"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"users"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Taylor Otwell"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comments"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Great post!"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Nested relationships may be included using dot notation:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/posts/1?include=comments.author
+</code></pre></div></div>
+
+<p><a name="jsonapi-relationship-depth"></a></p>
+<h4 id="relationship-depth">Relationship Depth</h4>
+
+<p>By default, nested relationship includes are limited to a maximum depth. You may customize this limit using the <code class="language-plaintext highlighter-rouge">maxRelationshipDepth</code> method, typically in one of you application’s service provider:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\JsonApi\JsonApiResource</span><span class="p">;</span>
+
+<span class="nc">JsonApiResource</span><span class="o">::</span><span class="nf">maxRelationshipDepth</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="jsonapi-resource-type-and-id"></a></p>
+<h3 id="resource-type-and-id">Resource Type and ID</h3>
+
+<p>By default, the resource’s <code class="language-plaintext highlighter-rouge">type</code> is derived from the resource class name. For example, <code class="language-plaintext highlighter-rouge">PostResource</code> produces the type <code class="language-plaintext highlighter-rouge">posts</code> and <code class="language-plaintext highlighter-rouge">BlogPostResource</code> produces <code class="language-plaintext highlighter-rouge">blog-posts</code>. The resource’s <code class="language-plaintext highlighter-rouge">id</code> is resolved from the model’s primary key.</p>
+
+<p>If you need to customize these values, you may override the <code class="language-plaintext highlighter-rouge">toType</code> and <code class="language-plaintext highlighter-rouge">toId</code> methods on your resource:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the resource's type.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toType</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'articles'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cd">/**
+ * Get the resource's ID.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toId</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">uuid</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is particularly useful when a resource’s type should differ from its class name, such as when an <code class="language-plaintext highlighter-rouge">AuthorResource</code> wraps a <code class="language-plaintext highlighter-rouge">User</code> model and should output the type <code class="language-plaintext highlighter-rouge">authors</code>.</p>
+
+<p><a name="jsonapi-sparse-fieldsets-and-includes"></a></p>
+<h3 id="sparse-fieldsets-and-includes">Sparse Fieldsets and Includes</h3>
+
+<p>JSON:API resources support <a href="https://jsonapi.org/format/#fetching-sparse-fieldsets">sparse fieldsets</a>, allowing clients to request only specific attributes for each resource type using the <code class="language-plaintext highlighter-rouge">fields</code> query parameter:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/posts?fields[posts]=title,created_at&amp;fields[users]=name
+</code></pre></div></div>
+
+<p>This will only include the <code class="language-plaintext highlighter-rouge">title</code> and <code class="language-plaintext highlighter-rouge">created_at</code> attributes for <code class="language-plaintext highlighter-rouge">posts</code> resources, and the <code class="language-plaintext highlighter-rouge">name</code> attribute for <code class="language-plaintext highlighter-rouge">users</code> resources.</p>
+
+<p><a name="jsonapi-ignoring-query-string"></a></p>
+<h4 id="ignoring-the-query-string">Ignoring the Query String</h4>
+
+<p>If you would like to disable sparse fieldset filtering for a given resource response, you may call the <code class="language-plaintext highlighter-rouge">ignoreFieldsAndIncludesInQueryString</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="nf">toResource</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">ignoreFieldsAndIncludesInQueryString</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="jsonapi-including-previously-loaded-relationships"></a></p>
+<h4 id="including-previously-loaded-relationships">Including Previously Loaded Relationships</h4>
+
+<p>By default, relationships are only included in the response when requested via the <code class="language-plaintext highlighter-rouge">include</code> query parameter. If you would like to include all previously eager-loaded relationships regardless of the query string, you may call the <code class="language-plaintext highlighter-rouge">includePreviouslyLoadedRelationships</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="nf">load</span><span class="p">(</span><span class="s1">'author'</span><span class="p">,</span> <span class="s1">'comments'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">toResource</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="nf">includePreviouslyLoadedRelationships</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="jsonapi-links-and-meta"></a></p>
+<h3 id="links-and-meta">Links and Meta</h3>
+
+<p>You may add links and meta information to your JSON:API resource objects by overriding the <code class="language-plaintext highlighter-rouge">toLinks</code> and <code class="language-plaintext highlighter-rouge">toMeta</code> methods on the resource:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the resource's links.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toLinks</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'self'</span> <span class="o">=&gt;</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'api.posts.show'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">resource</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+
+<span class="cd">/**
+ * Get the resource's meta information.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">toMeta</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'readable_created_at'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="o">-&gt;</span><span class="nf">diffForHumans</span><span class="p">(),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This will add <code class="language-plaintext highlighter-rouge">links</code> and <code class="language-plaintext highlighter-rouge">meta</code> keys to the resource object in the response:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"posts"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hello World"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/api/posts/1"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"readable_created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2 hours ago"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><a name="resource-responses"></a></p>
+<h2 id="resource-responses">Resource Responses</h2>
+
+<p>As you have already read, resources may be returned directly from routes and controllers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">toResource</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>However, sometimes you may need to customize the outgoing HTTP response before it is sent to the client. There are two ways to accomplish this. First, you may chain the <code class="language-plaintext highlighter-rouge">response</code> method onto the resource. This method will return an <code class="language-plaintext highlighter-rouge">Illuminate\Http\JsonResponse</code> instance, giving you full control over the response’s headers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Resources\UserResource</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">toResource</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nf">response</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'X-Value'</span><span class="p">,</span> <span class="s1">'True'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may define a <code class="language-plaintext highlighter-rouge">withResponse</code> method within the resource itself. This method will be called when the resource is returned as the outermost resource in a response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Resources</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\JsonResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Resources\Json\JsonResource</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">UserResource</span> <span class="kd">extends</span> <span class="nc">JsonResource</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Transform the resource into an array.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toArray</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Customize the outgoing response for the resource.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">withResponse</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">JsonResponse</span> <span class="nv">$response</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$response</span><span class="o">-&gt;</span><span class="nb">header</span><span class="p">(</span><span class="s1">'X-Value'</span><span class="p">,</span> <span class="s1">'True'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

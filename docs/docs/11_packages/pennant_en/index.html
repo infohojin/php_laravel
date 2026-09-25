@@ -1,0 +1,2707 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Laravel Pennant | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Laravel Pennant" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/11_packages/pennant_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/11_packages/pennant_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Laravel Pennant" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Laravel Pennant","url":"http://localhost:4000/docs/11_packages/pennant_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/11_packages/">11 packages</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Laravel Pennant</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="laravel-pennant">Laravel Pennant</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#configuration">Configuration</a></li>
+  <li><a href="#defining-features">Defining Features</a>
+    <ul>
+      <li><a href="#class-based-features">Class Based Features</a></li>
+    </ul>
+  </li>
+  <li><a href="#checking-features">Checking Features</a>
+    <ul>
+      <li><a href="#conditional-execution">Conditional Execution</a></li>
+      <li><a href="#the-has-features-trait">The <code class="language-plaintext highlighter-rouge">HasFeatures</code> Trait</a></li>
+      <li><a href="#blade-directive">Blade Directive</a></li>
+      <li><a href="#middleware">Middleware</a></li>
+      <li><a href="#intercepting-feature-checks">Intercepting Feature Checks</a></li>
+      <li><a href="#in-memory-cache">In-Memory Cache</a></li>
+    </ul>
+  </li>
+  <li><a href="#scope">Scope</a>
+    <ul>
+      <li><a href="#specifying-the-scope">Specifying the Scope</a></li>
+      <li><a href="#global-scope">Global Scope</a></li>
+      <li><a href="#default-scope">Default Scope</a></li>
+      <li><a href="#nullable-scope">Nullable Scope</a></li>
+      <li><a href="#identifying-scope">Identifying Scope</a></li>
+      <li><a href="#serializing-scope">Serializing Scope</a></li>
+    </ul>
+  </li>
+  <li><a href="#rich-feature-values">Rich Feature Values</a></li>
+  <li><a href="#retrieving-multiple-features">Retrieving Multiple Features</a></li>
+  <li><a href="#eager-loading">Eager Loading</a></li>
+  <li><a href="#updating-values">Updating Values</a>
+    <ul>
+      <li><a href="#bulk-updates">Bulk Updates</a></li>
+      <li><a href="#purging-features">Purging Features</a></li>
+    </ul>
+  </li>
+  <li><a href="#testing">Testing</a></li>
+  <li><a href="#adding-custom-pennant-drivers">Adding Custom Pennant Drivers</a>
+    <ul>
+      <li><a href="#implementing-the-driver">Implementing the Driver</a></li>
+      <li><a href="#registering-the-driver">Registering the Driver</a></li>
+      <li><a href="#defining-features-externally">Defining Features Externally</a></li>
+    </ul>
+  </li>
+  <li><a href="#events">Events</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://github.com/laravel/pennant">Laravel Pennant</a> is a simple and light-weight feature flag package - without the cruft. Feature flags enable you to incrementally roll out new application features with confidence, A/B test new interface designs, complement a trunk-based development strategy, and much more.</p>
+
+<p><a name="installation"></a></p>
+<h2 id="installation">Installation</h2>
+
+<p>First, install Pennant into your project using the Composer package manager:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require laravel/pennant
+</code></pre></div></div>
+
+<p>Next, you should publish the Pennant configuration and migration files using the <code class="language-plaintext highlighter-rouge">vendor:publish</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--provider</span><span class="o">=</span><span class="s2">"Laravel</span><span class="se">\P</span><span class="s2">ennant</span><span class="se">\P</span><span class="s2">ennantServiceProvider"</span>
+</code></pre></div></div>
+
+<p>Finally, you should run your application’s database migrations. This will create a <code class="language-plaintext highlighter-rouge">features</code> table that Pennant uses to power its <code class="language-plaintext highlighter-rouge">database</code> driver:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan migrate
+</code></pre></div></div>
+
+<p><a name="configuration"></a></p>
+<h2 id="configuration">Configuration</h2>
+
+<p>After publishing Pennant’s assets, its configuration file will be located at <code class="language-plaintext highlighter-rouge">config/pennant.php</code>. This configuration file allows you to specify the default storage mechanism that will be used by Pennant to store resolved feature flag values.</p>
+
+<p>Pennant includes support for storing resolved feature flag values in an in-memory array via the <code class="language-plaintext highlighter-rouge">array</code> driver. Or, Pennant can store resolved feature flag values persistently in a relational database via the <code class="language-plaintext highlighter-rouge">database</code> driver, which is the default storage mechanism used by Pennant.</p>
+
+<p><a name="defining-features"></a></p>
+<h2 id="defining-features">Defining Features</h2>
+
+<p>To define a feature, you may use the <code class="language-plaintext highlighter-rouge">define</code> method offered by the <code class="language-plaintext highlighter-rouge">Feature</code> facade. You will need to provide a name for the feature, as well as a closure that will be invoked to resolve the feature’s initial value.</p>
+
+<p>Typically, features are defined in a service provider using the <code class="language-plaintext highlighter-rouge">Feature</code> facade. The closure will receive the “scope” for the feature check. Most commonly, the scope is the currently authenticated user. In this example, we will define a feature for incrementally rolling out a new API to our application’s users:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Lottery</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Feature</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">match</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isInternalTeamMember</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isHighTrafficCustomer</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="k">default</span> <span class="o">=&gt;</span> <span class="nc">Lottery</span><span class="o">::</span><span class="nf">odds</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, we have the following rules for our feature:</p>
+
+<ul>
+  <li>All internal team members should be using the new API.</li>
+  <li>Any high traffic customers should not be using the new API.</li>
+  <li>Otherwise, the feature should be randomly assigned to users with a 1 in 100 chance of being active.</li>
+</ul>
+
+<p>The first time the <code class="language-plaintext highlighter-rouge">new-api</code> feature is checked for a given user, the result of the closure will be stored by the storage driver. The next time the feature is checked against the same user, the value will be retrieved from storage and the closure will not be invoked.</p>
+
+<p>For convenience, if a feature definition only returns a lottery, you may omit the closure completely:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Feature::define('site-redesign', Lottery::odds(1, 1000));
+</code></pre></div></div>
+
+<p><a name="class-based-features"></a></p>
+<h3 id="class-based-features">Class Based Features</h3>
+
+<p>Pennant also allows you to define class-based features. Unlike closure-based feature definitions, there is no need to register a class-based feature in a service provider. To create a class-based feature, you may invoke the <code class="language-plaintext highlighter-rouge">pennant:feature</code> Artisan command. By default, the feature class will be placed in your application’s <code class="language-plaintext highlighter-rouge">app/Features</code> directory:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pennant:feature NewApi
+</code></pre></div></div>
+
+<p>When writing a feature class, you only need to define a <code class="language-plaintext highlighter-rouge">resolve</code> method, which will be invoked to resolve the feature’s initial value for a given scope. Again, the scope will typically be the currently authenticated user:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Features</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Lottery</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">NewApi</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Resolve the feature's initial value.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">resolve</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">):</span> <span class="kt">mixed</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">match</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isInternalTeamMember</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isHighTrafficCustomer</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="k">default</span> <span class="o">=&gt;</span> <span class="nc">Lottery</span><span class="o">::</span><span class="nf">odds</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you would like to manually resolve an instance of a class-based feature, you may invoke the <code class="language-plaintext highlighter-rouge">instance</code> method on the <code class="language-plaintext highlighter-rouge">Feature</code> facade:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Features\NewApi</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="nv">$instance</span> <span class="o">=</span> <span class="nc">Feature</span><span class="o">::</span><span class="nf">instance</span><span class="p">(</span><span class="nc">NewApi</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Feature classes are resolved via the <a href="/docs/{{version}}/container">container</a>, so you may inject dependencies into the feature class’s constructor when needed.</p>
+</blockquote>
+
+<h4 id="customizing-the-stored-feature-name">Customizing the Stored Feature Name</h4>
+
+<p>By default, Pennant will store the feature class’s fully qualified class name. If you would like to decouple the stored feature name from the application’s internal structure, you may add the <code class="language-plaintext highlighter-rouge">Name</code> attribute on the feature class. The value of this attribute will be stored in place of the class name:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Features</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Attributes\Name</span><span class="p">;</span>
+
+<span class="na">#[Name('new-api')]</span>
+<span class="kd">class</span> <span class="nc">NewApi</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="checking-features"></a></p>
+<h2 id="checking-features">Checking Features</h2>
+
+<p>To determine if a feature is active, you may use the <code class="language-plaintext highlighter-rouge">active</code> method on the <code class="language-plaintext highlighter-rouge">Feature</code> facade. By default, features are checked against the currently authenticated user:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PodcastController</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Display a listing of the resource.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">index</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">Response</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Feature</span><span class="o">::</span><span class="nf">active</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">)</span>
+            <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveNewApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span>
+            <span class="o">:</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveLegacyApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Although features are checked against the currently authenticated user by default, you may easily check the feature against another user or <a href="#scope">scope</a>. To accomplish this, use the <code class="language-plaintext highlighter-rouge">for</code> method offered by the <code class="language-plaintext highlighter-rouge">Feature</code> facade:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">)</span>
+    <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveNewApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span>
+    <span class="o">:</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveLegacyApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Pennant also offers some additional convenience methods that may prove useful when determining if a feature is active or not:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Determine if all of the given features are active...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">allAreActive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'site-redesign'</span><span class="p">]);</span>
+
+<span class="c1">// Determine if any of the given features are active...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">someAreActive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'site-redesign'</span><span class="p">]);</span>
+
+<span class="c1">// Determine if a feature is inactive...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">inactive</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+
+<span class="c1">// Determine if all of the given features are inactive...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">allAreInactive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'site-redesign'</span><span class="p">]);</span>
+
+<span class="c1">// Determine if any of the given features are inactive...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">someAreInactive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'site-redesign'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+When using Pennant outside of an HTTP context, such as in an Artisan command or a queued job, you should typically <a href="#specifying-the-scope">explicitly specify the feature’s scope</a>. Alternatively, you may define a <a href="#default-scope">default scope</a> that accounts for both authenticated HTTP contexts and unauthenticated contexts.</p>
+</blockquote>
+
+<p><a name="checking-class-based-features"></a></p>
+<h4 id="checking-class-based-features">Checking Class Based Features</h4>
+
+<p>For class-based features, you should provide the class name when checking the feature:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Features\NewApi</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PodcastController</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Display a listing of the resource.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">index</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">Response</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Feature</span><span class="o">::</span><span class="nf">active</span><span class="p">(</span><span class="nc">NewApi</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+            <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveNewApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span>
+            <span class="o">:</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveLegacyApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="conditional-execution"></a></p>
+<h3 id="conditional-execution">Conditional Execution</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">when</code> method may be used to fluently execute a given closure if a feature is active. Additionally, a second closure may be provided and will be executed if the feature is inactive:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Features\NewApi</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PodcastController</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Display a listing of the resource.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">index</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">Response</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Feature</span><span class="o">::</span><span class="nf">when</span><span class="p">(</span><span class="nc">NewApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+            <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveNewApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">),</span>
+            <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveLegacyApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">),</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">unless</code> method serves as the inverse of the <code class="language-plaintext highlighter-rouge">when</code> method, executing the first closure if the feature is inactive:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Feature</span><span class="o">::</span><span class="nf">unless</span><span class="p">(</span><span class="nc">NewApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveLegacyApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">),</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveNewApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">),</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="the-has-features-trait"></a></p>
+<h3 id="the-hasfeatures-trait">The <code class="language-plaintext highlighter-rouge">HasFeatures</code> Trait</h3>
+
+<p>Pennant’s <code class="language-plaintext highlighter-rouge">HasFeatures</code> trait may be added to your application’s <code class="language-plaintext highlighter-rouge">User</code> model (or any other model that has features) to provide a fluent, convenient way to check features directly from the model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Auth\User</span> <span class="k">as</span> <span class="nc">Authenticatable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Concerns\HasFeatures</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Authenticatable</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">HasFeatures</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once the trait has been added to your model, you may easily check features by invoking the <code class="language-plaintext highlighter-rouge">features</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Of course, the <code class="language-plaintext highlighter-rouge">features</code> method provides access to many other convenient methods for interacting with features:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Values...</span>
+<span class="nv">$value</span> <span class="o">=</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">value</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">)</span>
+<span class="nv">$values</span> <span class="o">=</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">values</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'purchase-button'</span><span class="p">]);</span>
+
+<span class="c1">// State...</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">allAreActive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'server-api'</span><span class="p">]);</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">someAreActive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'server-api'</span><span class="p">]);</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">inactive</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">allAreInactive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'server-api'</span><span class="p">]);</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">someAreInactive</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'server-api'</span><span class="p">]);</span>
+
+<span class="c1">// Conditional execution...</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">when</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">features</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">unless</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="blade-directive"></a></p>
+<h3 id="blade-directive">Blade Directive</h3>
+
+<p>To make checking features in Blade a seamless experience, Pennant offers the <code class="language-plaintext highlighter-rouge">@feature</code> and <code class="language-plaintext highlighter-rouge">@featureany</code> directive:</p>
+
+<pre><code class="language-blade">@feature('site-redesign')
+    &lt;!-- 'site-redesign' is active --&gt;
+@else
+    &lt;!-- 'site-redesign' is inactive --&gt;
+@endfeature
+
+@featureany(['site-redesign', 'beta'])
+    &lt;!-- 'site-redesign' or `beta` is active --&gt;
+@endfeatureany
+</code></pre>
+
+<p><a name="middleware"></a></p>
+<h3 id="middleware">Middleware</h3>
+
+<p>Pennant also includes a <a href="/docs/{{version}}/middleware">middleware</a> that may be used to verify the currently authenticated user has access to a feature before a route is even invoked. You may assign the middleware to a route and specify the features that are required to access the route. If any of the specified features are inactive for the currently authenticated user, a <code class="language-plaintext highlighter-rouge">400 Bad Request</code> HTTP response will be returned by the route. Multiple features may be passed to the static <code class="language-plaintext highlighter-rouge">using</code> method.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Middleware\EnsureFeaturesAreActive</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/api/servers'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="nc">EnsureFeaturesAreActive</span><span class="o">::</span><span class="nf">using</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'servers-api'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="customizing-the-response"></a></p>
+<h4 id="customizing-the-response">Customizing the Response</h4>
+
+<p>If you would like to customize the response that is returned by the middleware when one of the listed features is inactive, you may use the <code class="language-plaintext highlighter-rouge">whenInactive</code> method provided by the <code class="language-plaintext highlighter-rouge">EnsureFeaturesAreActive</code> middleware. Typically, this method should be invoked within the <code class="language-plaintext highlighter-rouge">boot</code> method of one of your application’s service providers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Middleware\EnsureFeaturesAreActive</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">EnsureFeaturesAreActive</span><span class="o">::</span><span class="nf">whenInactive</span><span class="p">(</span>
+        <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$features</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nc">Response</span><span class="p">(</span><span class="n">status</span><span class="o">:</span> <span class="mi">403</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="intercepting-feature-checks"></a></p>
+<h3 id="intercepting-feature-checks">Intercepting Feature Checks</h3>
+
+<p>Sometimes it can be useful to perform some in-memory checks before retrieving the stored value of a given feature. Imagine you are developing a new API behind a feature flag and want the ability to disable the new API without losing any of the resolved feature values in storage. If you notice a bug in the new API, you could easily disable it for everyone except internal team members, fix the bug, and then re-enable the new API for the users that previously had access to the feature.</p>
+
+<p>You can achieve this with a <a href="#class-based-features">class-based feature’s</a> <code class="language-plaintext highlighter-rouge">before</code> method. When present, the <code class="language-plaintext highlighter-rouge">before</code> method is always run in-memory before retrieving the value from storage. If a non-<code class="language-plaintext highlighter-rouge">null</code> value is returned from the method, it will be used in place of the feature’s stored value for the duration of the request:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Features</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Config</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Lottery</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">NewApi</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Run an always-in-memory check before the stored value is retrieved.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">before</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">):</span> <span class="kt">mixed</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nc">Config</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'features.new-api.disabled'</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isInternalTeamMember</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Resolve the feature's initial value.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">resolve</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">):</span> <span class="kt">mixed</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">match</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isInternalTeamMember</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isHighTrafficCustomer</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="k">default</span> <span class="o">=&gt;</span> <span class="nc">Lottery</span><span class="o">::</span><span class="nf">odds</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You could also use this feature to schedule the global rollout of a feature that was previously behind a feature flag:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Features</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Carbon</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Config</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">NewApi</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Run an always-in-memory check before the stored value is retrieved.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">before</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">):</span> <span class="kt">mixed</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nc">Config</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'features.new-api.disabled'</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isInternalTeamMember</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nc">Carbon</span><span class="o">::</span><span class="nf">parse</span><span class="p">(</span><span class="nc">Config</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'features.new-api.rollout-date'</span><span class="p">))</span><span class="o">-&gt;</span><span class="nf">isPast</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="in-memory-cache"></a></p>
+<h3 id="in-memory-cache">In-Memory Cache</h3>
+
+<p>When checking a feature, Pennant will create an in-memory cache of the result. If you are using the <code class="language-plaintext highlighter-rouge">database</code> driver, this means that re-checking the same feature flag within a single request will not trigger additional database queries. This also ensures that the feature has a consistent result for the duration of the request.</p>
+
+<p>If you need to manually flush the in-memory cache, you may use the <code class="language-plaintext highlighter-rouge">flushCache</code> method offered by the <code class="language-plaintext highlighter-rouge">Feature</code> facade:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">flushCache</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="scope"></a></p>
+<h2 id="scope">Scope</h2>
+
+<p><a name="specifying-the-scope"></a></p>
+<h3 id="specifying-the-scope">Specifying the Scope</h3>
+
+<p>As discussed, features are typically checked against the currently authenticated user. However, this may not always suit your needs. Therefore, it is possible to specify the scope you would like to check a given feature against via the <code class="language-plaintext highlighter-rouge">Feature</code> facade’s <code class="language-plaintext highlighter-rouge">for</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">)</span>
+    <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveNewApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span>
+    <span class="o">:</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">resolveLegacyApiResponse</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Of course, feature scopes are not limited to “users”. Imagine you have built a new billing experience that you are rolling out to entire teams rather than individual users. Perhaps you would like the oldest teams to have a slower rollout than the newer teams. Your feature resolution closure might look something like the following:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Team</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Carbon</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Lottery</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'billing-v2'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Team</span> <span class="nv">$team</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$team</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="o">-&gt;</span><span class="nf">isAfter</span><span class="p">(</span><span class="k">new</span> <span class="nc">Carbon</span><span class="p">(</span><span class="s1">'1st Jan, 2023'</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$team</span><span class="o">-&gt;</span><span class="n">created_at</span><span class="o">-&gt;</span><span class="nf">isAfter</span><span class="p">(</span><span class="k">new</span> <span class="nc">Carbon</span><span class="p">(</span><span class="s1">'1st Jan, 2019'</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Lottery</span><span class="o">::</span><span class="nf">odds</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nc">Lottery</span><span class="o">::</span><span class="nf">odds</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>You will notice that the closure we have defined is not expecting a <code class="language-plaintext highlighter-rouge">User</code>, but is instead expecting a <code class="language-plaintext highlighter-rouge">Team</code> model. To determine if this feature is active for a user’s team, you should pass the team to the <code class="language-plaintext highlighter-rouge">for</code> method offered by the <code class="language-plaintext highlighter-rouge">Feature</code> facade:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="n">team</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'billing-v2'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/billing/v2'</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+</code></pre></div></div>
+
+<p><a name="global-scope"></a></p>
+<h3 id="global-scope">Global Scope</h3>
+
+<p>To check or interact with a feature using a global scope, regardless of the configured default scope resolver, use the <code class="language-plaintext highlighter-rouge">globally</code> method. This is useful for application-wide feature flags, such as temporarily enabling maintenance behavior or rolling out a feature to every user:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">globally</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">globally</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">activate</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="default-scope"></a></p>
+<h3 id="default-scope">Default Scope</h3>
+
+<p>It is also possible to customize the default scope Pennant uses to check features. For example, maybe all of your features are checked against the currently authenticated user’s team instead of the user. Instead of having to call <code class="language-plaintext highlighter-rouge">Feature::for($user-&gt;team)</code> every time you check a feature, you may instead specify the team as the default scope. Typically, this should be done in one of your application’s service providers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Auth</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Feature</span><span class="o">::</span><span class="nf">resolveScopeUsing</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="nv">$driver</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nc">Auth</span><span class="o">::</span><span class="nf">user</span><span class="p">()</span><span class="o">?-&gt;</span><span class="n">team</span><span class="p">);</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If no scope is explicitly provided via the <code class="language-plaintext highlighter-rouge">for</code> method, the feature check will now use the currently authenticated user’s team as the default scope:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">active</span><span class="p">(</span><span class="s1">'billing-v2'</span><span class="p">);</span>
+
+<span class="c1">// Is now equivalent to...</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="n">team</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'billing-v2'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="nullable-scope"></a></p>
+<h3 id="nullable-scope">Nullable Scope</h3>
+
+<p>If the scope you provide when checking a feature is <code class="language-plaintext highlighter-rouge">null</code> and the feature’s definition does not support <code class="language-plaintext highlighter-rouge">null</code> via a nullable type or by including <code class="language-plaintext highlighter-rouge">null</code> in a union type, Pennant will automatically return <code class="language-plaintext highlighter-rouge">false</code> as the feature’s result value.</p>
+
+<p>So, if the scope you are passing to a feature is potentially <code class="language-plaintext highlighter-rouge">null</code> and you want the feature’s value resolver to be invoked, you should account for that in your feature’s definition. A <code class="language-plaintext highlighter-rouge">null</code> scope may occur if you check a feature within an Artisan command, queued job, or unauthenticated route. Since there is usually not an authenticated user in these contexts, the default scope will be <code class="language-plaintext highlighter-rouge">null</code>.</p>
+
+<p>If you do not always <a href="#specifying-the-scope">explicitly specify your feature scope</a> then you should ensure the scope’s type is “nullable” and handle the <code class="language-plaintext highlighter-rouge">null</code> scope value within your feature definition logic:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Lottery</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">match</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span><span class="c1">// [tl! remove]</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">User</span><span class="o">|</span><span class="kc">null</span> <span class="nv">$user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">match</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span><span class="c1">// [tl! add]</span>
+    <span class="nv">$user</span> <span class="o">===</span> <span class="kc">null</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span><span class="c1">// [tl! add]</span>
+    <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isInternalTeamMember</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isHighTrafficCustomer</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="k">default</span> <span class="o">=&gt;</span> <span class="nc">Lottery</span><span class="o">::</span><span class="nf">odds</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">100</span><span class="p">),</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="identifying-scope"></a></p>
+<h3 id="identifying-scope">Identifying Scope</h3>
+
+<p>Pennant’s built-in <code class="language-plaintext highlighter-rouge">array</code> and <code class="language-plaintext highlighter-rouge">database</code> storage drivers know how to properly store scope identifiers for all PHP data types as well as Eloquent models. However, if your application utilizes a third-party Pennant driver, that driver may not know how to properly store an identifier for an Eloquent model or other custom types in your application.</p>
+
+<p>In light of this, Pennant allows you to format scope values for storage by implementing the <code class="language-plaintext highlighter-rouge">FeatureScopeable</code> contract on the objects in your application that are used as Pennant scopes.</p>
+
+<p>For example, imagine you are using two different feature drivers in a single application: the built-in <code class="language-plaintext highlighter-rouge">database</code> driver and a third-party “Flag Rocket” driver. The “Flag Rocket” driver does not know how to properly store an Eloquent model. Instead, it requires a <code class="language-plaintext highlighter-rouge">FlagRocketUser</code> instance. By implementing the <code class="language-plaintext highlighter-rouge">toFeatureIdentifier</code> defined by the <code class="language-plaintext highlighter-rouge">FeatureScopeable</code> contract, we can customize the storable scope value provided to each driver used by our application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">FlagRocket\FlagRocketUser</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Contracts\FeatureScopeable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span> <span class="kd">implements</span> <span class="nc">FeatureScopeable</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Cast the object to a feature scope identifier for the given driver.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toFeatureIdentifier</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$driver</span><span class="p">):</span> <span class="kt">mixed</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">match</span><span class="p">(</span><span class="nv">$driver</span><span class="p">)</span> <span class="p">{</span>
+            <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="p">,</span>
+            <span class="s1">'flag-rocket'</span> <span class="o">=&gt;</span> <span class="nc">FlagRocketUser</span><span class="o">::</span><span class="nf">fromId</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">flag_rocket_id</span><span class="p">),</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="serializing-scope"></a></p>
+<h3 id="serializing-scope">Serializing Scope</h3>
+
+<p>By default, Pennant will use a fully qualified class name when storing a feature associated with an Eloquent model. If you are already using an <a href="/docs/{{version}}/eloquent-relationships#custom-polymorphic-types">Eloquent morph map</a>, you may choose to have Pennant also use the morph map to decouple the stored feature from your application structure.</p>
+
+<p>To achieve this, after defining your Eloquent morph map in a service provider, you may invoke the <code class="language-plaintext highlighter-rouge">Feature</code> facade’s <code class="language-plaintext highlighter-rouge">useMorphMap</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Relations\Relation</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="nc">Relation</span><span class="o">::</span><span class="nf">enforceMorphMap</span><span class="p">([</span>
+    <span class="s1">'post'</span> <span class="o">=&gt;</span> <span class="s1">'App\Models\Post'</span><span class="p">,</span>
+    <span class="s1">'video'</span> <span class="o">=&gt;</span> <span class="s1">'App\Models\Video'</span><span class="p">,</span>
+<span class="p">]);</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">useMorphMap</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="rich-feature-values"></a></p>
+<h2 id="rich-feature-values">Rich Feature Values</h2>
+
+<p>Until now, we have primarily shown features as being in a binary state, meaning they are either “active” or “inactive”, but Pennant also allows you to store rich values as well.</p>
+
+<p>For example, imagine you are testing three new colors for the “Buy now” button of your application. Instead of returning <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code> from the feature definition, you may instead return a string:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Arr</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nc">Arr</span><span class="o">::</span><span class="nf">random</span><span class="p">([</span>
+    <span class="s1">'blue-sapphire'</span><span class="p">,</span>
+    <span class="s1">'seafoam-green'</span><span class="p">,</span>
+    <span class="s1">'tart-orange'</span><span class="p">,</span>
+<span class="p">]));</span>
+</code></pre></div></div>
+
+<p>You may retrieve the value of the <code class="language-plaintext highlighter-rouge">purchase-button</code> feature using the <code class="language-plaintext highlighter-rouge">value</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$color</span> <span class="o">=</span> <span class="nc">Feature</span><span class="o">::</span><span class="nf">value</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Pennant’s included Blade directive also makes it easy to conditionally render content based on the current value of the feature:</p>
+
+<pre><code class="language-blade">@feature('purchase-button', 'blue-sapphire')
+    &lt;!-- 'blue-sapphire' is active --&gt;
+@elsefeature('purchase-button', 'seafoam-green')
+    &lt;!-- 'seafoam-green' is active --&gt;
+@elsefeature('purchase-button', 'tart-orange')
+    &lt;!-- 'tart-orange' is active --&gt;
+@endfeature
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]
+When using rich values, it is important to know that a feature is considered “active” when it has any value other than <code class="language-plaintext highlighter-rouge">false</code>.</p>
+</blockquote>
+
+<p>When calling the <a href="#conditional-execution">conditional <code class="language-plaintext highlighter-rouge">when</code></a> method, the feature’s rich value will be provided to the first closure:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">when</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">(</span><span class="nv">$color</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Likewise, when calling the conditional <code class="language-plaintext highlighter-rouge">unless</code> method, the feature’s rich value will be provided to the optional second closure:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">unless</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+    <span class="k">fn</span> <span class="p">(</span><span class="nv">$color</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="cm">/* ... */</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="retrieving-multiple-features"></a></p>
+<h2 id="retrieving-multiple-features">Retrieving Multiple Features</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">values</code> method allows the retrieval of multiple features for a given scope:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">values</span><span class="p">([</span><span class="s1">'billing-v2'</span><span class="p">,</span> <span class="s1">'purchase-button'</span><span class="p">]);</span>
+
+<span class="c1">// [</span>
+<span class="c1">//     'billing-v2' =&gt; false,</span>
+<span class="c1">//     'purchase-button' =&gt; 'blue-sapphire',</span>
+<span class="c1">// ]</span>
+</code></pre></div></div>
+
+<p>Or, you may use the <code class="language-plaintext highlighter-rouge">all</code> method to retrieve the values of all defined features for a given scope:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">all</span><span class="p">();</span>
+
+<span class="c1">// [</span>
+<span class="c1">//     'billing-v2' =&gt; false,</span>
+<span class="c1">//     'purchase-button' =&gt; 'blue-sapphire',</span>
+<span class="c1">//     'site-redesign' =&gt; true,</span>
+<span class="c1">// ]</span>
+</code></pre></div></div>
+
+<p>However, class-based features are dynamically registered and are not known by Pennant until they are explicitly checked. This means your application’s class-based features may not appear in the results returned by the <code class="language-plaintext highlighter-rouge">all</code> method if they have not already been checked during the current request.</p>
+
+<p>If you would like to ensure that feature classes are always included when using the <code class="language-plaintext highlighter-rouge">all</code> method, you may use Pennant’s feature discovery capabilities. To get started, invoke the <code class="language-plaintext highlighter-rouge">discover</code> method in one of your application’s service providers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Feature</span><span class="o">::</span><span class="nf">discover</span><span class="p">();</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">discover</code> method will register all of the feature classes in your application’s <code class="language-plaintext highlighter-rouge">app/Features</code> directory. The <code class="language-plaintext highlighter-rouge">all</code> method will now include these classes in its results, regardless of whether they have been checked during the current request:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">all</span><span class="p">();</span>
+
+<span class="c1">// [</span>
+<span class="c1">//     'App\Features\NewApi' =&gt; true,</span>
+<span class="c1">//     'billing-v2' =&gt; false,</span>
+<span class="c1">//     'purchase-button' =&gt; 'blue-sapphire',</span>
+<span class="c1">//     'site-redesign' =&gt; true,</span>
+<span class="c1">// ]</span>
+</code></pre></div></div>
+
+<p><a name="eager-loading"></a></p>
+<h2 id="eager-loading">Eager Loading</h2>
+
+<p>Although Pennant keeps an in-memory cache of all resolved features for a single request, it is still possible to encounter performance issues. To alleviate this, Pennant offers the ability to eager load feature values.</p>
+
+<p>To illustrate this, imagine that we are checking if a feature is active within a loop:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$users</span> <span class="k">as</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'notifications-beta'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">notify</span><span class="p">(</span><span class="k">new</span> <span class="nc">RegistrationSuccess</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Assuming we are using the database driver, this code will execute a database query for every user in the loop - executing potentially hundreds of queries. However, using Pennant’s <code class="language-plaintext highlighter-rouge">load</code> method, we can remove this potential performance bottleneck by eager loading the feature values for a collection of users or scopes:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$users</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">load</span><span class="p">([</span><span class="s1">'notifications-beta'</span><span class="p">]);</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$users</span> <span class="k">as</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">active</span><span class="p">(</span><span class="s1">'notifications-beta'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">notify</span><span class="p">(</span><span class="k">new</span> <span class="nc">RegistrationSuccess</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To load feature values only when they have not already been loaded, you may use the <code class="language-plaintext highlighter-rouge">loadMissing</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$users</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">loadMissing</span><span class="p">([</span>
+    <span class="s1">'new-api'</span><span class="p">,</span>
+    <span class="s1">'purchase-button'</span><span class="p">,</span>
+    <span class="s1">'notifications-beta'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>You may load all defined features using the <code class="language-plaintext highlighter-rouge">loadAll</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$users</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">loadAll</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="updating-values"></a></p>
+<h2 id="updating-values">Updating Values</h2>
+
+<p>When a feature’s value is resolved for the first time, the underlying driver will store the result in storage. This is often necessary to ensure a consistent experience for your users across requests. However, at times, you may want to manually update the feature’s stored value.</p>
+
+<p>To accomplish this, you may use the <code class="language-plaintext highlighter-rouge">activate</code> and <code class="language-plaintext highlighter-rouge">deactivate</code> methods to toggle a feature “on” or “off”:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="c1">// Activate the feature for the default scope...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">activate</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+
+<span class="c1">// Deactivate the feature for the given scope...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="n">team</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">deactivate</span><span class="p">(</span><span class="s1">'billing-v2'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>It is also possible to manually set a rich value for a feature by providing a second argument to the <code class="language-plaintext highlighter-rouge">activate</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">activate</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">,</span> <span class="s1">'seafoam-green'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>To instruct Pennant to forget the stored value for a feature, you may use the <code class="language-plaintext highlighter-rouge">forget</code> method. When the feature is checked again, Pennant will resolve the feature’s value from its feature definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">forget</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="bulk-updates"></a></p>
+<h3 id="bulk-updates">Bulk Updates</h3>
+
+<p>To update stored feature values in bulk, you may use the <code class="language-plaintext highlighter-rouge">activateForEveryone</code> and <code class="language-plaintext highlighter-rouge">deactivateForEveryone</code> methods.</p>
+
+<p>For example, imagine you are now confident in the <code class="language-plaintext highlighter-rouge">new-api</code> feature’s stability and have landed on the best <code class="language-plaintext highlighter-rouge">'purchase-button'</code> color for your checkout flow - you can update the stored value for all users accordingly:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">activateForEveryone</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">activateForEveryone</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">,</span> <span class="s1">'seafoam-green'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may deactivate the feature for all users:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">deactivateForEveryone</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+This will only update the resolved feature values that have been stored by Pennant’s storage driver. You will also need to update the feature definition in your application.</p>
+</blockquote>
+
+<p><a name="purging-features"></a></p>
+<h3 id="purging-features">Purging Features</h3>
+
+<p>Sometimes, it can be useful to purge an entire feature from storage. This is typically necessary if you have removed the feature from your application or you have made adjustments to the feature’s definition that you would like to rollout to all users.</p>
+
+<p>You may remove all stored values for a feature using the <code class="language-plaintext highlighter-rouge">purge</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Purging a single feature...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">purge</span><span class="p">(</span><span class="s1">'new-api'</span><span class="p">);</span>
+
+<span class="c1">// Purging multiple features...</span>
+<span class="nc">Feature</span><span class="o">::</span><span class="nf">purge</span><span class="p">([</span><span class="s1">'new-api'</span><span class="p">,</span> <span class="s1">'purchase-button'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>If you would like to purge <em>all</em> features from storage, you may invoke the <code class="language-plaintext highlighter-rouge">purge</code> method without any arguments:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Feature</span><span class="o">::</span><span class="nf">purge</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>As it can be useful to purge features as part of your application’s deployment pipeline, Pennant includes a <code class="language-plaintext highlighter-rouge">pennant:purge</code> Artisan command which will purge the provided features from storage:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pennant:purge new-api
+
+php artisan pennant:purge new-api purchase-button
+</code></pre></div></div>
+
+<p>It is also possible to purge all features <em>except</em> those in a given feature list. For example, imagine you wanted to purge all features but keep the values for the “new-api” and “purchase-button” features in storage. To accomplish this, you can pass those feature names to the <code class="language-plaintext highlighter-rouge">--except</code> option:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pennant:purge <span class="nt">--except</span><span class="o">=</span>new-api <span class="nt">--except</span><span class="o">=</span>purchase-button
+</code></pre></div></div>
+
+<p>For convenience, the <code class="language-plaintext highlighter-rouge">pennant:purge</code> command also supports an <code class="language-plaintext highlighter-rouge">--except-registered</code> flag. This flag indicates that all features except those explicitly registered in a service provider should be purged:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan pennant:purge <span class="nt">--except-registered</span>
+</code></pre></div></div>
+
+<p><a name="testing"></a></p>
+<h2 id="testing">Testing</h2>
+
+<p>When testing code that interacts with feature flags, the easiest way to control the feature flag’s returned value in your tests is to simply re-define the feature. For example, imagine you have the following feature defined in one of your application’s service provider:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Arr</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="nc">Feature</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'purchase-button'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nc">Arr</span><span class="o">::</span><span class="nf">random</span><span class="p">([</span>
+    <span class="s1">'blue-sapphire'</span><span class="p">,</span>
+    <span class="s1">'seafoam-green'</span><span class="p">,</span>
+    <span class="s1">'tart-orange'</span><span class="p">,</span>
+<span class="p">]));</span>
+</code></pre></div></div>
+
+<p>To modify the feature’s returned value in your tests, you may re-define the feature at the beginning of the test. The following test will always pass, even though the <code class="language-plaintext highlighter-rouge">Arr::random()</code> implementation is still present in the service provider:</p>
+
+<p>```php tab=Pest
+use Laravel\Pennant\Feature;</p>
+
+<p>test(‘it can control feature values’, function () {
+    Feature::define(‘purchase-button’, ‘seafoam-green’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>expect(Feature::value('purchase-button'))-&gt;toBe('seafoam-green'); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+use Laravel\Pennant\Feature;</p>
+
+<p>public function test_it_can_control_feature_values()
+{
+    Feature::define(‘purchase-button’, ‘seafoam-green’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$this-&gt;assertSame('seafoam-green', Feature::value('purchase-button')); } ```
+</code></pre></div></div>
+
+<p>The same approach may be used for class-based features:</p>
+
+<p>```php tab=Pest
+use Laravel\Pennant\Feature;</p>
+
+<p>test(‘it can control feature values’, function () {
+    Feature::define(NewApi::class, true);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>expect(Feature::value(NewApi::class))-&gt;toBeTrue(); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+use App\Features\NewApi;
+use Laravel\Pennant\Feature;</p>
+
+<p>public function test_it_can_control_feature_values()
+{
+    Feature::define(NewApi::class, true);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$this-&gt;assertTrue(Feature::value(NewApi::class)); } ```
+</code></pre></div></div>
+
+<p>If your feature is returning a <code class="language-plaintext highlighter-rouge">Lottery</code> instance, there are a handful of useful <a href="/docs/{{version}}/helpers#testing-lotteries">testing helpers available</a>.</p>
+
+<p><a name="store-configuration"></a></p>
+<h4 id="store-configuration">Store Configuration</h4>
+
+<p>You may configure the store that Pennant will use during testing by defining the <code class="language-plaintext highlighter-rouge">PENNANT_STORE</code> environment variable in your application’s <code class="language-plaintext highlighter-rouge">phpunit.xml</code> file:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;phpunit</span> <span class="na">colors=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- ... --&gt;</span>
+    <span class="nt">&lt;php&gt;</span>
+        <span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">"PENNANT_STORE"</span> <span class="na">value=</span><span class="s">"array"</span><span class="nt">/&gt;</span>
+        <span class="c">&lt;!-- ... --&gt;</span>
+    <span class="nt">&lt;/php&gt;</span>
+<span class="nt">&lt;/phpunit&gt;</span>
+</code></pre></div></div>
+
+<p><a name="adding-custom-pennant-drivers"></a></p>
+<h2 id="adding-custom-pennant-drivers">Adding Custom Pennant Drivers</h2>
+
+<p><a name="implementing-the-driver"></a></p>
+<h4 id="implementing-the-driver">Implementing the Driver</h4>
+
+<p>If none of Pennant’s existing storage drivers fit your application’s needs, you may write your own storage driver. Your custom driver should implement the <code class="language-plaintext highlighter-rouge">Laravel\Pennant\Contracts\Driver</code> interface:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Extensions</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Contracts\Driver</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">RedisFeatureDriver</span> <span class="kd">implements</span> <span class="nc">Driver</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">define</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$feature</span><span class="p">,</span> <span class="kt">callable</span> <span class="nv">$resolver</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">defined</span><span class="p">():</span> <span class="kt">array</span> <span class="p">{}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getAll</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$features</span><span class="p">):</span> <span class="kt">array</span> <span class="p">{}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">get</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$feature</span><span class="p">,</span> <span class="kt">mixed</span> <span class="nv">$scope</span><span class="p">):</span> <span class="kt">mixed</span> <span class="p">{}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">set</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$feature</span><span class="p">,</span> <span class="kt">mixed</span> <span class="nv">$scope</span><span class="p">,</span> <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">setForAllScopes</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$feature</span><span class="p">,</span> <span class="kt">mixed</span> <span class="nv">$value</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">delete</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$feature</span><span class="p">,</span> <span class="kt">mixed</span> <span class="nv">$scope</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">purge</span><span class="p">(</span><span class="kt">array</span><span class="o">|</span><span class="kc">null</span> <span class="nv">$features</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, we just need to implement each of these methods using a Redis connection. For an example of how to implement each of these methods, take a look at the <code class="language-plaintext highlighter-rouge">Laravel\Pennant\Drivers\DatabaseDriver</code> in the <a href="https://github.com/laravel/pennant/blob/1.x/src/Drivers/DatabaseDriver.php">Pennant source code</a></p>
+
+<blockquote>
+  <p>[!NOTE]
+Laravel does not ship with a directory to contain your extensions. You are free to place them anywhere you like. In this example, we have created an <code class="language-plaintext highlighter-rouge">Extensions</code> directory to house the <code class="language-plaintext highlighter-rouge">RedisFeatureDriver</code>.</p>
+</blockquote>
+
+<p><a name="registering-the-driver"></a></p>
+<h4 id="registering-the-driver">Registering the Driver</h4>
+
+<p>Once your driver has been implemented, you are ready to register it with Laravel. To add additional drivers to Pennant, you may use the <code class="language-plaintext highlighter-rouge">extend</code> method provided by the <code class="language-plaintext highlighter-rouge">Feature</code> facade. You should call the <code class="language-plaintext highlighter-rouge">extend</code> method from the <code class="language-plaintext highlighter-rouge">boot</code> method of one of your application’s <a href="/docs/{{version}}/providers">service provider</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Extensions\RedisFeatureDriver</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Foundation\Application</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Feature</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Register any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">register</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Feature</span><span class="o">::</span><span class="nf">extend</span><span class="p">(</span><span class="s1">'redis'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Application</span> <span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nc">RedisFeatureDriver</span><span class="p">(</span><span class="nv">$app</span><span class="o">-&gt;</span><span class="nf">make</span><span class="p">(</span><span class="s1">'redis'</span><span class="p">),</span> <span class="nv">$app</span><span class="o">-&gt;</span><span class="nf">make</span><span class="p">(</span><span class="s1">'events'</span><span class="p">),</span> <span class="p">[]);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once the driver has been registered, you may use the <code class="language-plaintext highlighter-rouge">redis</code> driver in your application’s <code class="language-plaintext highlighter-rouge">config/pennant.php</code> configuration file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'stores'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+
+    <span class="s1">'redis'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'redis'</span><span class="p">,</span>
+        <span class="s1">'connection'</span> <span class="o">=&gt;</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="p">],</span>
+
+    <span class="c1">// ...</span>
+
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="defining-features-externally"></a></p>
+<h3 id="defining-features-externally">Defining Features Externally</h3>
+
+<p>If your driver is a wrapper around a third-party feature flag platform, you will likely define features on the platform rather than using Pennant’s <code class="language-plaintext highlighter-rouge">Feature::define</code> method. If that is the case, your custom driver should also implement the <code class="language-plaintext highlighter-rouge">Laravel\Pennant\Contracts\DefinesFeaturesExternally</code> interface:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Extensions</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Contracts\Driver</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Contracts\DefinesFeaturesExternally</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">FeatureFlagServiceDriver</span> <span class="kd">implements</span> <span class="nc">Driver</span><span class="p">,</span> <span class="nc">DefinesFeaturesExternally</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the features defined for the given scope.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">definedFeaturesForScope</span><span class="p">(</span><span class="kt">mixed</span> <span class="nv">$scope</span><span class="p">):</span> <span class="kt">array</span> <span class="p">{}</span>
+
+    <span class="cm">/* ... */</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">definedFeaturesForScope</code> method should return a list of feature names defined for the provided scope.</p>
+
+<p><a name="events"></a></p>
+<h2 id="events">Events</h2>
+
+<p>Pennant dispatches a variety of events that can be useful when tracking feature flags throughout your application.</p>
+
+<h3 id="laravelpennanteventsfeatureretrieved"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\FeatureRetrieved</code></h3>
+
+<p>This event is dispatched whenever a <a href="#checking-features">feature is checked</a>. This event may be useful for creating and tracking metrics against a feature flag’s usage throughout your application.</p>
+
+<h3 id="laravelpennanteventsfeatureresolved"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\FeatureResolved</code></h3>
+
+<p>This event is dispatched the first time a feature’s value is resolved for a specific scope.</p>
+
+<h3 id="laravelpennanteventsunknownfeatureresolved"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\UnknownFeatureResolved</code></h3>
+
+<p>This event is dispatched the first time an unknown feature is resolved for a specific scope. Listening to this event may be useful if you have intended to remove a feature flag but have accidentally left stray references to it throughout your application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Providers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Support\ServiceProvider</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Event</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Log</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Events\UnknownFeatureResolved</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">AppServiceProvider</span> <span class="kd">extends</span> <span class="nc">ServiceProvider</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Bootstrap any application services.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">UnknownFeatureResolved</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nc">Log</span><span class="o">::</span><span class="nf">error</span><span class="p">(</span><span class="s2">"Resolving unknown feature [</span><span class="si">{</span><span class="nv">$event</span><span class="o">-&gt;</span><span class="n">feature</span><span class="si">}</span><span class="s2">]."</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="laravelpennanteventsdynamicallyregisteringfeatureclass"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\DynamicallyRegisteringFeatureClass</code></h3>
+
+<p>This event is dispatched when a <a href="#class-based-features">class-based feature</a> is dynamically checked for the first time during a request.</p>
+
+<h3 id="laravelpennanteventsunexpectednullscopeencountered"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\UnexpectedNullScopeEncountered</code></h3>
+
+<p>This event is dispatched when a <code class="language-plaintext highlighter-rouge">null</code> scope is passed to a feature definition that <a href="#nullable-scope">doesn’t support null</a>.</p>
+
+<p>This situation is handled gracefully and the feature will return <code class="language-plaintext highlighter-rouge">false</code>. However, if you would like to opt out of this feature’s default graceful behavior, you may register a listener for this event in the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Log</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Laravel\Pennant\Events\UnexpectedNullScopeEncountered</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Event</span><span class="o">::</span><span class="nf">listen</span><span class="p">(</span><span class="nc">UnexpectedNullScopeEncountered</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nf">abort</span><span class="p">(</span><span class="mi">500</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="laravelpennanteventsfeatureupdated"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\FeatureUpdated</code></h3>
+
+<p>This event is dispatched when updating a feature for a scope, usually by calling <code class="language-plaintext highlighter-rouge">activate</code> or <code class="language-plaintext highlighter-rouge">deactivate</code>.</p>
+
+<h3 id="laravelpennanteventsfeatureupdatedforallscopes"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\FeatureUpdatedForAllScopes</code></h3>
+
+<p>This event is dispatched when updating a feature for all scopes, usually by calling <code class="language-plaintext highlighter-rouge">activateForEveryone</code> or <code class="language-plaintext highlighter-rouge">deactivateForEveryone</code>.</p>
+
+<h3 id="laravelpennanteventsfeaturedeleted"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\FeatureDeleted</code></h3>
+
+<p>This event is dispatched when deleting a feature for a scope, usually by calling <code class="language-plaintext highlighter-rouge">forget</code>.</p>
+
+<h3 id="laravelpennanteventsfeaturespurged"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\FeaturesPurged</code></h3>
+
+<p>This event is dispatched when purging specific features.</p>
+
+<h3 id="laravelpennanteventsallfeaturespurged"><code class="language-plaintext highlighter-rouge">Laravel\Pennant\Events\AllFeaturesPurged</code></h3>
+
+<p>This event is dispatched when purging all features.</p>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

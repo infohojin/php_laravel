@@ -1,0 +1,2378 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Authorization | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Authorization" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/06_security/authorization_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/06_security/authorization_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Authorization" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Authorization","url":"http://localhost:4000/docs/06_security/authorization_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="true">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/06_security/">06 security</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Authorization</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="authorization">Authorization</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#gates">Gates</a>
+    <ul>
+      <li><a href="#writing-gates">Writing Gates</a></li>
+      <li><a href="#authorizing-actions-via-gates">Authorizing Actions</a></li>
+      <li><a href="#gate-responses">Gate Responses</a></li>
+      <li><a href="#intercepting-gate-checks">Intercepting Gate Checks</a></li>
+      <li><a href="#inline-authorization">Inline Authorization</a></li>
+    </ul>
+  </li>
+  <li><a href="#creating-policies">Creating Policies</a>
+    <ul>
+      <li><a href="#generating-policies">Generating Policies</a></li>
+      <li><a href="#registering-policies">Registering Policies</a></li>
+    </ul>
+  </li>
+  <li><a href="#writing-policies">Writing Policies</a>
+    <ul>
+      <li><a href="#policy-methods">Policy Methods</a></li>
+      <li><a href="#policy-responses">Policy Responses</a></li>
+      <li><a href="#methods-without-models">Methods Without Models</a></li>
+      <li><a href="#guest-users">Guest Users</a></li>
+      <li><a href="#policy-filters">Policy Filters</a></li>
+    </ul>
+  </li>
+  <li><a href="#authorizing-actions-using-policies">Authorizing Actions Using Policies</a>
+    <ul>
+      <li><a href="#via-the-user-model">Via the User Model</a></li>
+      <li><a href="#via-the-gate-facade">Via the Gate Facade</a></li>
+      <li><a href="#via-middleware">Via Middleware</a></li>
+      <li><a href="#via-blade-templates">Via Blade Templates</a></li>
+      <li><a href="#supplying-additional-context">Supplying Additional Context</a></li>
+    </ul>
+  </li>
+  <li><a href="#authorization-and-inertia">Authorization &amp; Inertia</a></li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>In addition to providing built-in <a href="/docs/{{version}}/authentication">authentication</a> services, Laravel also provides a simple way to authorize user actions against a given resource. For example, even though a user is authenticated, they may not be authorized to update or delete certain Eloquent models or database records managed by your application. Laravel’s authorization features provide an easy, organized way of managing these types of authorization checks.</p>
+
+<p>Laravel provides two primary ways of authorizing actions: <a href="#gates">gates</a> and <a href="#creating-policies">policies</a>. Think of gates and policies like routes and controllers. Gates provide a simple, closure-based approach to authorization while policies, like controllers, group logic around a particular model or resource. In this documentation, we’ll explore gates first and then examine policies.</p>
+
+<p>You do not need to choose between exclusively using gates or exclusively using policies when building an application. Most applications will most likely contain some mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions that are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.</p>
+
+<p><a name="gates"></a></p>
+<h2 id="gates">Gates</h2>
+
+<p><a name="writing-gates"></a></p>
+<h3 id="게이트-작성">게이트 작성</h3>
+
+<blockquote>
+  <p>[!WARNING]
+게이트는 Laravel의 권한 기능 기본을 배우는 훌륭한 방법입니다. 그러나 견고한 Laravel 애플리케이션을 구축할 때는 권한 규칙을 체계적으로 정리하기 위해 <a href="#creating-policies">정책</a>의 사용을 고려해야 합니다.</p>
+</blockquote>
+
+<p>게이트는 사용자가 주어진 작업을 수행할 수 있는지 결정하는 단순한 클로저입니다. 일반적으로 게이트는 <code class="language-plaintext highlighter-rouge">App\Providers\AppServiceProvider</code> 클래스의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드 내에서 <code class="language-plaintext highlighter-rouge">Gate</code> 파사드를 사용하여 정의됩니다. 게이트는 항상 첫 번째 인수로 사용자 인스턴스를 받고, 필요에 따라 관련 Eloquent 모델과 같은 추가 인수를 받을 수 있습니다.</p>
+
+<p>이 예제에서는 사용자가 주어진 <code class="language-plaintext highlighter-rouge">App\Models\Post</code> 모델을 업데이트할 수 있는지 확인하는 게이트를 정의할 것입니다. 게이트는 게시물을 작성한 사용자의 <code class="language-plaintext highlighter-rouge">user_id</code>와 사용자의 <code class="language-plaintext highlighter-rouge">id</code>를 비교하여 이를 수행합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Gate</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">user_id</span><span class="p">;</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>컨트롤러처럼, 게이트 또한 클래스 콜백 배열을 사용하여 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Policies\PostPolicy</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Gate</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="p">[</span><span class="nc">PostPolicy</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'update'</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="authorizing-actions-via-gates"></a></p>
+<h3 id="행동-승인하기">행동 승인하기</h3>
+
+<p>게이트를 사용하여 행동을 승인하려면 <code class="language-plaintext highlighter-rouge">Gate</code> 파사드에서 제공하는 <code class="language-plaintext highlighter-rouge">allows</code> 또는 <code class="language-plaintext highlighter-rouge">denies</code> 메서드를 사용해야 합니다. 현재 인증된 사용자를 이러한 메서드에 전달할 필요는 없다는 점에 유의하세요. Laravel은 사용자를 게이트 클로저에 자동으로 전달합니다. 일반적으로 권한이 필요한 행동을 수행하기 전에 애플리케이션 컨트롤러 내에서 게이트 승인 메서드를 호출하는 것이 일반적입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Update the given post.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nc">Gate</span><span class="o">::</span><span class="nf">allows</span><span class="p">(</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nf">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Update the post...</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/posts'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>현재 인증된 사용자 이외의 사용자가 특정 작업을 수행할 권한이 있는지 확인하려면, <code class="language-plaintext highlighter-rouge">Gate</code> 퍼사드에서 <code class="language-plaintext highlighter-rouge">forUser</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Gate</span><span class="o">::</span><span class="nf">forUser</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">allows</span><span class="p">(</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The user can update the post...</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Gate</span><span class="o">::</span><span class="nf">forUser</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">denies</span><span class="p">(</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The user can't update the post...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">any</code> 또는 <code class="language-plaintext highlighter-rouge">none</code> 메서드를 사용하여 한 번에 여러 작업을 승인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nc">Gate</span><span class="o">::</span><span class="nf">any</span><span class="p">([</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="s1">'delete-post'</span><span class="p">],</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The user can update or delete the post...</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Gate</span><span class="o">::</span><span class="nf">none</span><span class="p">([</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="s1">'delete-post'</span><span class="p">],</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// The user can't update or delete the post...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="authorizing-or-throwing-exceptions"></a></p>
+<h4 id="예외-승인-또는-발생">예외 승인 또는 발생</h4>
+
+<p>사용자가 주어진 행동을 수행할 수 없는 경우 자동으로 <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Access\AuthorizationException</code>를 발생시키면서 행동을 승인하려면, <code class="language-plaintext highlighter-rouge">Gate</code> 파사드의 <code class="language-plaintext highlighter-rouge">authorize</code> 메서드를 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">AuthorizationException</code>의 인스턴스는 라라벨에 의해 자동으로 403 HTTP 응답으로 변환됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Gate</span><span class="o">::</span><span class="nf">authorize</span><span class="p">(</span><span class="s1">'update-post'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+
+<span class="c1">// The action is authorized...</span>
+</code></pre></div></div>
+
+<p><a name="gates-supplying-additional-context"></a></p>
+<h4 id="추가-컨텍스트-제공">추가 컨텍스트 제공</h4>
+
+<p>능력 인증을 위한 게이트 메서드(<code class="language-plaintext highlighter-rouge">allows</code>, <code class="language-plaintext highlighter-rouge">denies</code>, <code class="language-plaintext highlighter-rouge">check</code>, <code class="language-plaintext highlighter-rouge">any</code>, <code class="language-plaintext highlighter-rouge">none</code>, <code class="language-plaintext highlighter-rouge">authorize</code>, <code class="language-plaintext highlighter-rouge">can</code>, <code class="language-plaintext highlighter-rouge">cannot</code>)와 인증 <a href="#via-blade-templates">Blade 지시어</a>(<code class="language-plaintext highlighter-rouge">@can</code>, <code class="language-plaintext highlighter-rouge">@cannot</code>, <code class="language-plaintext highlighter-rouge">@canany</code>)는 두 번째 인자로 배열을 받을 수 있습니다. 이 배열 요소들은 게이트 클로저에 매개변수로 전달되며, 인증 결정을 내릴 때 추가 컨텍스트로 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Category</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'create-post'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Category</span> <span class="nv">$category</span><span class="p">,</span> <span class="kt">bool</span> <span class="nv">$pinned</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">canPublishToGroup</span><span class="p">(</span><span class="nv">$category</span><span class="o">-&gt;</span><span class="n">group</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$pinned</span> <span class="o">&amp;&amp;</span> <span class="o">!</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">canPinPosts</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nc">Gate</span><span class="o">::</span><span class="nf">check</span><span class="p">(</span><span class="s1">'create-post'</span><span class="p">,</span> <span class="p">[</span><span class="nv">$category</span><span class="p">,</span> <span class="nv">$pinned</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="c1">// The user can create the post...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="gate-responses"></a></p>
+<h3 id="게이트-응답">게이트 응답</h3>
+
+<p>지금까지 우리는 단순 불리언 값을 반환하는 게이트만 살펴보았습니다. 그러나 때때로 오류 메시지를 포함한 더 자세한 응답을 반환하고 싶을 수 있습니다. 그렇게 하려면 게이트에서 <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Access\Response</code>를 반환할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Access\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'edit-settings'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">isAdmin</span>
+        <span class="o">?</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">allow</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">deny</span><span class="p">(</span><span class="s1">'You must be an administrator.'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>심지어 게이트에서 인증 응답을 반환할 때도, <code class="language-plaintext highlighter-rouge">Gate::allows</code> 메서드는 여전히 단순한 불리언 값을 반환합니다. 그러나 <code class="language-plaintext highlighter-rouge">Gate::inspect</code> 메서드를 사용하면 게이트가 반환한 전체 인증 응답을 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nc">Gate</span><span class="o">::</span><span class="nf">inspect</span><span class="p">(</span><span class="s1">'edit-settings'</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">allowed</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// The action is authorized...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">message</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Gate::authorize</code> 방법을 사용할 때, 액션이 허가되지 않은 경우 <code class="language-plaintext highlighter-rouge">AuthorizationException</code>를 발생시키면, 허가 응답에서 제공된 오류 메시지가 HTTP 응답으로 전달됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Gate</span><span class="o">::</span><span class="nf">authorize</span><span class="p">(</span><span class="s1">'edit-settings'</span><span class="p">);</span>
+
+<span class="c1">// The action is authorized...</span>
+</code></pre></div></div>
+
+<p><a name="customizing-gate-response-status"></a></p>
+<h4 id="http-응답-상태-사용자-정의">HTTP 응답 상태 사용자 정의</h4>
+
+<p>액션이 Gate를 통해 거부될 때 <code class="language-plaintext highlighter-rouge">403</code> HTTP 응답이 반환됩니다. 그러나 경우에 따라 대체 HTTP 상태 코드를 반환하는 것이 유용할 수 있습니다. <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Access\Response</code> 클래스의 <code class="language-plaintext highlighter-rouge">denyWithStatus</code> 정적 생성자를 사용하여 실패한 권한 확인에 대해 반환되는 HTTP 상태 코드를 사용자 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Access\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'edit-settings'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">isAdmin</span>
+        <span class="o">?</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">allow</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">denyWithStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>웹 애플리케이션에서 <code class="language-plaintext highlighter-rouge">404</code> 응답을 통해 자원을 숨기는 것이 매우 일반적인 패턴이기 때문에, 편의를 위해 <code class="language-plaintext highlighter-rouge">denyAsNotFound</code> 방법이 제공됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Access\Response</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nb">define</span><span class="p">(</span><span class="s1">'edit-settings'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">isAdmin</span>
+        <span class="o">?</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">allow</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">denyAsNotFound</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="intercepting-gate-checks"></a></p>
+<h3 id="게이트-검사-가로채기">게이트 검사 가로채기</h3>
+
+<p>때때로 특정 사용자에게 모든 권한을 부여하고 싶을 수 있습니다. 모든 다른 권한 검사가 수행되기 전에 실행되는 클로저를 정의하려면 <code class="language-plaintext highlighter-rouge">before</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nf">before</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$ability</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isAdministrator</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">before</code> 클로저가 널이 아닌 결과를 반환하면 그 결과가 권한 확인의 결과로 간주됩니다.</p>
+
+<p>다른 모든 권한 확인 후에 실행될 클로저를 정의하기 위해 <code class="language-plaintext highlighter-rouge">after</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nf">after</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$ability</span><span class="p">,</span> <span class="kt">bool</span><span class="o">|</span><span class="kc">null</span> <span class="nv">$result</span><span class="p">,</span> <span class="kt">mixed</span> <span class="nv">$arguments</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isAdministrator</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">after</code> 클로저에 의해 반환된 값은 게이트나 정책이 <code class="language-plaintext highlighter-rouge">null</code>를 반환하지 않는 한 권한 확인 결과를 덮어쓰지 않습니다.</p>
+
+<p><a name="inline-authorization"></a></p>
+<h3 id="인라인-권한-부여">인라인 권한 부여</h3>
+
+<p>때때로, 특정 액션에 대해 전용 게이트를 작성하지 않고 현재 인증된 사용자가 그 액션을 수행할 권한이 있는지 확인하고 싶을 수 있습니다. Laravel은 이러한 유형의 “인라인” 권한 부여 확인을 <code class="language-plaintext highlighter-rouge">Gate::allowIf</code> 및 <code class="language-plaintext highlighter-rouge">Gate::denyIf</code> 메서드를 통해 수행할 수 있도록 허용합니다. 인라인 권한 부여는 정의된 <a href="#intercepting-gate-checks">“사전” 또는 “사후” 권한 부여 후크</a>를 실행하지 않습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nf">allowIf</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isAdministrator</span><span class="p">());</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nf">denyIf</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">banned</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>행위가 허가되지 않았거나 현재 인증된 사용자가 없는 경우, Laravel은 자동으로 <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Access\AuthorizationException</code> 예외를 발생시킵니다. <code class="language-plaintext highlighter-rouge">AuthorizationException</code> 인스턴스는 Laravel의 예외 처리기에 의해 자동으로 403 HTTP 응답으로 변환됩니다.</p>
+
+<p><a name="creating-policies"></a></p>
+<h2 id="정책-생성">정책 생성</h2>
+
+<p><a name="generating-policies"></a></p>
+<h3 id="정책-생성하기">정책 생성하기</h3>
+
+<p>정책은 특정 모델이나 리소스를 중심으로 권한 부여 로직을 구성하는 클래스입니다. 예를 들어, 애플리케이션이 블로그라면 <code class="language-plaintext highlighter-rouge">App\Models\Post</code> 모델과 포스트를 생성하거나 업데이트하는 사용자 행동을 권한 부여하기 위한 대응하는 <code class="language-plaintext highlighter-rouge">App\Policies\PostPolicy</code>가 있을 수 있습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">make:policy</code> Artisan 명령을 사용하여 정책을 생성할 수 있습니다. 생성된 정책은 <code class="language-plaintext highlighter-rouge">app/Policies</code> 디렉터리에 배치됩니다. 애플리케이션에 이 디렉터리가 없으면 Laravel이 자동으로 생성합니다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:policy PostPolicy
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">make:policy</code> 명령은 빈 정책 클래스를 생성합니다. 리소스를 보기, 생성, 업데이트 및 삭제와 관련된 예제 정책 메서드가 포함된 클래스를 생성하려면 명령을 실행할 때 <code class="language-plaintext highlighter-rouge">--model</code> 옵션을 제공할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:policy PostPolicy <span class="nt">--model</span><span class="o">=</span>Post
+</code></pre></div></div>
+
+<p><a name="registering-policies"></a></p>
+<h3 id="정책-등록">정책 등록</h3>
+
+<p><a name="policy-discovery"></a></p>
+<h4 id="정책-발견">정책 발견</h4>
+
+<p>기본적으로, Laravel은 모델과 정책이 표준 Laravel 명명 규칙을 따른다면 자동으로 정책을 발견합니다. 구체적으로, 정책은 모델이 포함된 디렉터리 위 또는 그 위치에 있는 <code class="language-plaintext highlighter-rouge">Policies</code> 디렉터리에 있어야 합니다. 예를 들어, 모델은 <code class="language-plaintext highlighter-rouge">app/Models</code> 디렉터리에 위치하고, 정책은 <code class="language-plaintext highlighter-rouge">app/Policies</code> 디렉터리에 위치할 수 있습니다. 이 경우, Laravel은 <code class="language-plaintext highlighter-rouge">app/Models/Policies</code> 그리고 <code class="language-plaintext highlighter-rouge">app/Policies</code>에서 정책을 확인합니다. 또한, 정책 이름은 모델 이름과 일치해야 하며 <code class="language-plaintext highlighter-rouge">Policy</code> 접미사를 가져야 합니다. 따라서, <code class="language-plaintext highlighter-rouge">User</code> 모델은 <code class="language-plaintext highlighter-rouge">UserPolicy</code> 정책 클래스에 해당합니다.</p>
+
+<p>자신만의 정책 발견 논리를 정의하고 싶다면, <code class="language-plaintext highlighter-rouge">Gate::guessPolicyNamesUsing</code> 메서드를 사용하여 맞춤 정책 발견 콜백을 등록할 수 있습니다. 일반적으로 이 메서드는 애플리케이션의 <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 호출되어야 합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nc">Gate</span><span class="o">::</span><span class="nf">guessPolicyNamesUsing</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$modelClass</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Return the name of the policy class for the given model...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="manually-registering-policies"></a></p>
+<h4 id="정책-수동-등록">정책 수동 등록</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Gate</code> 퍼사드를 사용하여 응용 프로그램의 <code class="language-plaintext highlighter-rouge">AppServiceProvider</code> 내 <code class="language-plaintext highlighter-rouge">boot</code> 메서드에서 정책과 해당 모델을 수동으로 등록할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Policies\OrderPolicy</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Gate</span><span class="o">::</span><span class="nf">policy</span><span class="p">(</span><span class="nc">Order</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="nc">OrderPolicy</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>또는 모델 클래스에 <code class="language-plaintext highlighter-rouge">UsePolicy</code> 속성을 배치하여 Laravel에 해당 모델의 정책을 알릴 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Policies\OrderPolicy</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Attributes\UsePolicy</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="na">#[UsePolicy(OrderPolicy::class)]</span>
+<span class="kd">class</span> <span class="nc">Order</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="c1">//</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="writing-policies"></a></p>
+<h2 id="정책-작성">정책 작성</h2>
+
+<p><a name="policy-methods"></a></p>
+<h3 id="정책-메서드">정책 메서드</h3>
+
+<p>정책 클래스가 등록되면, 해당 클래스가 허용하는 각 액션에 대해 메서드를 추가할 수 있습니다. 예를 들어, 특정 <code class="language-plaintext highlighter-rouge">PostPolicy</code>에서 주어진 <code class="language-plaintext highlighter-rouge">App\Models\User</code>가 주어진 <code class="language-plaintext highlighter-rouge">App\Models\Post</code> 인스턴스를 업데이트할 수 있는지 결정하는 <code class="language-plaintext highlighter-rouge">update</code> 메서드를 정의해 보겠습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">update</code> 메서드는 <code class="language-plaintext highlighter-rouge">User</code>와 <code class="language-plaintext highlighter-rouge">Post</code> 인스턴스를 인자로 받으며, 사용자가 주어진 <code class="language-plaintext highlighter-rouge">Post</code>를 업데이트할 권한이 있는지를 나타내는 <code class="language-plaintext highlighter-rouge">true</code> 또는 <code class="language-plaintext highlighter-rouge">false</code>를 반환해야 합니다. 따라서 이 예에서는 사용자의 <code class="language-plaintext highlighter-rouge">id</code>가 게시물의 <code class="language-plaintext highlighter-rouge">user_id</code>와 일치하는지 확인할 것입니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Policies</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostPolicy</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Determine if the given post can be updated by the user.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">bool</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">user_id</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may continue to define additional methods on the policy as needed for the various actions it authorizes. For example, you might define <code class="language-plaintext highlighter-rouge">view</code> or <code class="language-plaintext highlighter-rouge">delete</code> methods to authorize various <code class="language-plaintext highlighter-rouge">Post</code> related actions, but remember you are free to give your policy methods any name you like.</p>
+
+<p>If you used the <code class="language-plaintext highlighter-rouge">--model</code> option when generating your policy via the Artisan console, it will already contain methods for the <code class="language-plaintext highlighter-rouge">viewAny</code>, <code class="language-plaintext highlighter-rouge">view</code>, <code class="language-plaintext highlighter-rouge">create</code>, <code class="language-plaintext highlighter-rouge">update</code>, <code class="language-plaintext highlighter-rouge">delete</code>, <code class="language-plaintext highlighter-rouge">restore</code>, and <code class="language-plaintext highlighter-rouge">forceDelete</code> actions.</p>
+
+<blockquote>
+  <p>[!NOTE]
+All policies are resolved via the Laravel <a href="/docs/{{version}}/container">service container</a>, allowing you to type-hint any needed dependencies in the policy’s constructor to have them automatically injected.</p>
+</blockquote>
+
+<p><a name="policy-responses"></a></p>
+<h3 id="policy-responses">Policy Responses</h3>
+
+<p>So far, we have only examined policy methods that return simple boolean values. However, sometimes you may wish to return a more detailed response, including an error message. To do so, you may return an <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Access\Response</code> instance from your policy method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Access\Response</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Determine if the given post can be updated by the user.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">Response</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">user_id</span>
+        <span class="o">?</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">allow</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">deny</span><span class="p">(</span><span class="s1">'You do not own this post.'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>정책에서 권한 부여 응답을 반환할 때, <code class="language-plaintext highlighter-rouge">Gate::allows</code> 메소드는 여전히 단순한 불리언 값을 반환합니다. 그러나 <code class="language-plaintext highlighter-rouge">Gate::inspect</code> 메소드를 사용하여 게이트에서 반환된 전체 권한 부여 응답을 가져올 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nc">Gate</span><span class="o">::</span><span class="nf">inspect</span><span class="p">(</span><span class="s1">'update'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">allowed</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// The action is authorized...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">message</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Gate::authorize</code> 방법을 사용할 때, 액션이 허가되지 않은 경우 <code class="language-plaintext highlighter-rouge">AuthorizationException</code>를 발생시키며, 허가 응답에서 제공된 오류 메시지는 HTTP 응답으로 전달됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Gate</span><span class="o">::</span><span class="nf">authorize</span><span class="p">(</span><span class="s1">'update'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+
+<span class="c1">// The action is authorized...</span>
+</code></pre></div></div>
+
+<p><a name="customizing-policy-response-status"></a></p>
+<h4 id="http-응답-상태-사용자-지정">HTTP 응답 상태 사용자 지정</h4>
+
+<p>정책 메서드를 통해 동작이 거부되면 <code class="language-plaintext highlighter-rouge">403</code> HTTP 응답이 반환됩니다. 그러나 경우에 따라 대체 HTTP 상태 코드를 반환하는 것이 유용할 수 있습니다. <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Access\Response</code> 클래스의 <code class="language-plaintext highlighter-rouge">denyWithStatus</code> 정적 생성자를 사용하여 권한 검사 실패 시 반환되는 HTTP 상태 코드를 사용자 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Access\Response</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Determine if the given post can be updated by the user.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">Response</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">user_id</span>
+        <span class="o">?</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">allow</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">denyWithStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>웹 애플리케이션에서 <code class="language-plaintext highlighter-rouge">404</code> 응답을 통해 자원을 숨기는 것이 매우 일반적인 패턴이기 때문에, 편의를 위해 <code class="language-plaintext highlighter-rouge">denyAsNotFound</code> 방법이 제공됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Auth\Access\Response</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Determine if the given post can be updated by the user.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">Response</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">user_id</span>
+        <span class="o">?</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">allow</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Response</span><span class="o">::</span><span class="nf">denyAsNotFound</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="methods-without-models"></a></p>
+<h3 id="모델-없는-메서드">모델 없는 메서드</h3>
+
+<p>일부 정책 메서드는 현재 인증된 사용자 인스턴스만 받습니다. 이러한 상황은 <code class="language-plaintext highlighter-rouge">create</code> 작업을 승인할 때 가장 흔합니다. 예를 들어 블로그를 만들 때 사용자가 게시물을 전혀 만들 수 있는 권한이 있는지 여부를 결정하고 싶을 수 있습니다. 이러한 상황에서는 정책 메서드가 사용자 인스턴스만 받도록 예상해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Determine if the given user can create posts.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">create</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">):</span> <span class="kt">bool</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">role</span> <span class="o">==</span> <span class="s1">'writer'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="guest-users"></a></p>
+<h3 id="게스트-사용자">게스트 사용자</h3>
+
+<p>기본적으로, 모든 게이트와 정책은 들어오는 HTTP 요청이 인증된 사용자에 의해 시작되지 않은 경우 자동으로 <code class="language-plaintext highlighter-rouge">false</code>를 반환합니다. 그러나 사용자 인수 정의에 대해 “optional” 형식 힌트를 선언하거나 <code class="language-plaintext highlighter-rouge">null</code> 기본값을 제공함으로써 이러한 인가 검사가 게이트와 정책을 통과하도록 허용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Policies</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostPolicy</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Determine if the given post can be updated by the user.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">?User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">bool</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$user</span><span class="o">?-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">user_id</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="policy-filters"></a></p>
+<h3 id="정책-필터">정책 필터</h3>
+
+<p>특정 사용자에 대해, 주어진 정책 내의 모든 작업을 승인하도록 허용하고자 할 수 있습니다. 이를 수행하기 위해, 정책에 <code class="language-plaintext highlighter-rouge">before</code> 메서드를 정의하십시오. <code class="language-plaintext highlighter-rouge">before</code> 메서드는 정책의 다른 어떤 메서드보다 먼저 실행되어, 실제로 의도된 정책 메서드가 호출되기 전에 작업을 승인할 기회를 제공합니다. 이 기능은 애플리케이션 관리자가 모든 작업을 수행하도록 승인하는 데 가장 일반적으로 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Perform pre-authorization checks.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">before</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$ability</span><span class="p">):</span> <span class="kt">bool</span><span class="o">|</span><span class="kc">null</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">isAdministrator</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>특정 유형의 사용자에 대해 모든 승인 검사를 거부하고자 하는 경우, <code class="language-plaintext highlighter-rouge">before</code> 메서드에서 <code class="language-plaintext highlighter-rouge">false</code>를 반환할 수 있습니다. <code class="language-plaintext highlighter-rouge">null</code>가 반환되면, 승인 검사는 정책 메서드로 넘어갑니다.</p>
+
+<blockquote>
+  <p>[!WARNING]
+정책 클래스에 확인하려는 권한 이름과 일치하는 이름의 메서드가 포함되어 있지 않으면, 정책 클래스의 <code class="language-plaintext highlighter-rouge">before</code> 메서드는 호출되지 않습니다.</p>
+</blockquote>
+
+<p><a name="authorizing-actions-using-policies"></a></p>
+<h2 id="정책을-사용하여-작업-승인">정책을 사용하여 작업 승인</h2>
+
+<p><a name="via-the-user-model"></a></p>
+<h3 id="사용자-모델을-통해서">사용자 모델을 통해서</h3>
+
+<p>Laravel 애플리케이션에 포함된 <code class="language-plaintext highlighter-rouge">App\Models\User</code> 모델에는 액션을 승인하는 데 도움이 되는 두 가지 메서드, <code class="language-plaintext highlighter-rouge">can</code>와 <code class="language-plaintext highlighter-rouge">cannot</code>가 포함되어 있습니다. <code class="language-plaintext highlighter-rouge">can</code>와 <code class="language-plaintext highlighter-rouge">cannot</code> 메서드는 승인하고자 하는 액션의 이름과 관련 모델을 받습니다. 예를 들어, 사용자가 특정 <code class="language-plaintext highlighter-rouge">App\Models\Post</code> 모델을 업데이트할 수 있는 권한이 있는지 확인해 보겠습니다. 일반적으로 이는 컨트롤러 메서드 내에서 수행됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Update the given post.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">cannot</span><span class="p">(</span><span class="s1">'update'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nf">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Update the post...</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/posts'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>주어진 모델에 대해 <a href="#registering-policies">정책이 등록</a>되어 있는 경우, <code class="language-plaintext highlighter-rouge">can</code> 메서드는 자동으로 적절한 정책을 호출하고 불리언 결과를 반환합니다. 모델에 대한 정책이 등록되지 않은 경우, <code class="language-plaintext highlighter-rouge">can</code> 메서드는 주어진 액션 이름과 일치하는 클로저 기반 Gate를 호출하려 시도합니다.</p>
+
+<p><a name="user-model-actions-that-dont-require-models"></a></p>
+<h4 id="모델이-필요-없는-액션">모델이 필요 없는 액션</h4>
+
+<p>일부 액션은 모델 인스턴스가 필요 없는 <code class="language-plaintext highlighter-rouge">create</code>와 같은 정책 메서드에 해당될 수 있음을 기억하세요. 이러한 상황에서는 <code class="language-plaintext highlighter-rouge">can</code> 메서드에 클래스 이름을 전달할 수 있습니다. 클래스 이름은 액션을 인가할 때 사용할 정책을 결정하는 데 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Create a post.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">store</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">cannot</span><span class="p">(</span><span class="s1">'create'</span><span class="p">,</span> <span class="nc">Post</span><span class="o">::</span><span class="n">class</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nf">abort</span><span class="p">(</span><span class="mi">403</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Create the post...</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/posts'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="via-the-gate-facade"></a></p>
+<h3 id="gate-퍼사드를-통한-방법"><code class="language-plaintext highlighter-rouge">Gate</code> 퍼사드를 통한 방법</h3>
+
+<p><code class="language-plaintext highlighter-rouge">App\Models\User</code> 모델에 제공되는 유용한 메서드 외에도, 항상 <code class="language-plaintext highlighter-rouge">Gate</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">authorize</code> 메서드를 통해 작업을 승인할 수 있습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">can</code> 메서드와 마찬가지로, 이 메서드는 승인하려는 작업의 이름과 관련 모델을 받습니다. 만약 작업이 승인되지 않은 경우, <code class="language-plaintext highlighter-rouge">authorize</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Access\AuthorizationException</code> 예외를 발생시키며, 라라벨 예외 처리기는 이를 자동으로 403 상태 코드가 포함된 HTTP 응답으로 변환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PostController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Update the given blog post.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="nc">Gate</span><span class="o">::</span><span class="nf">authorize</span><span class="p">(</span><span class="s1">'update'</span><span class="p">,</span> <span class="nv">$post</span><span class="p">);</span>
+
+        <span class="c1">// The current user can update the blog post...</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/posts'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="controller-actions-that-dont-require-models"></a></p>
+<h4 id="모델이-필요-없는-작업">모델이 필요 없는 작업</h4>
+
+<p>앞서 논의한 바와 같이, <code class="language-plaintext highlighter-rouge">create</code>와 같은 일부 정책 메서드는 모델 인스턴스를 필요로 하지 않습니다. 이러한 상황에서는 <code class="language-plaintext highlighter-rouge">authorize</code> 메서드에 클래스 이름을 전달해야 합니다. 클래스 이름은 작업을 승인할 때 사용할 정책을 결정하는 데 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Gate</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Create a new blog post.
+ *
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">create</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+<span class="p">{</span>
+    <span class="nc">Gate</span><span class="o">::</span><span class="nf">authorize</span><span class="p">(</span><span class="s1">'create'</span><span class="p">,</span> <span class="nc">Post</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+
+    <span class="c1">// The current user can create blog posts...</span>
+
+    <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/posts'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="via-middleware"></a></p>
+<h3 id="미들웨어를-통해">미들웨어를 통해</h3>
+
+<p>Laravel에는 들어오는 요청이 라우트나 컨트롤러에 도달하기 전에 작업을 승인할 수 있는 미들웨어가 포함되어 있습니다. 기본적으로, <code class="language-plaintext highlighter-rouge">Illuminate\Auth\Middleware\Authorize</code> 미들웨어는 Laravel에 의해 자동으로 등록된 <code class="language-plaintext highlighter-rouge">can</code> <a href="/docs/{{version}}/middleware#middleware-aliases">미들웨어 별칭</a>을 사용하여 라우트에 연결될 수 있습니다. 사용자가 게시물을 업데이트할 수 있는 권한을 부여하기 위해 <code class="language-plaintext highlighter-rouge">can</code> 미들웨어를 사용하는 예제를 살펴봅시다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">put</span><span class="p">(</span><span class="s1">'/post/{post}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The current user may update the post...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'can:update,post'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이 예제에서 우리는 <code class="language-plaintext highlighter-rouge">can</code> 미들웨어에 두 개의 인수를 전달하고 있습니다. 첫 번째는 권한을 부여하려는 액션의 이름이고, 두 번째는 정책 메서드에 전달하려는 라우트 매개변수입니다. 이 경우 <a href="/docs/{{version}}/routing#implicit-binding">암묵적 모델 바인딩</a>을 사용하고 있으므로, <code class="language-plaintext highlighter-rouge">App\Models\Post</code> 모델이 정책 메서드에 전달됩니다. 사용자가 주어진 액션을 수행할 권한이 없으면, 미들웨어가 403 상태 코드의 HTTP 응답을 반환합니다.</p>
+
+<p>편의를 위해, <code class="language-plaintext highlighter-rouge">can</code> 메서드를 사용하여 <code class="language-plaintext highlighter-rouge">can</code> 미들웨어를 라우트에 첨부할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">put</span><span class="p">(</span><span class="s1">'/post/{post}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The current user may update the post...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">can</span><span class="p">(</span><span class="s1">'update'</span><span class="p">,</span> <span class="s1">'post'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a href="/docs/{{version}}/controllers#middleware-attributes">컨트롤러 미들웨어 속성</a>을 사용 중인 경우, <code class="language-plaintext highlighter-rouge">Authorize</code> 속성을 통해 <code class="language-plaintext highlighter-rouge">can</code> 미들웨어를 적용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Routing\Attributes\Controllers\Authorize</span><span class="p">;</span>
+
+<span class="na">#[Authorize('update', 'post')]</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// The current user may update the post...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="middleware-actions-that-dont-require-models"></a></p>
+<h4 id="모델이-필요하지-않은-액션">모델이 필요하지 않은 액션</h4>
+
+<p>다시 말해, <code class="language-plaintext highlighter-rouge">create</code>와 같은 일부 정책 메서드는 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우 미들웨어에 클래스 이름을 전달할 수 있습니다. 클래스 이름은 액션을 승인할 때 사용할 정책을 결정하는 데 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/post'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The current user may create posts...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'can:create,App\Models\Post'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>문자열 미들웨어 정의 안에 전체 클래스 이름을 지정하는 것은 번거로울 수 있습니다. 이러한 이유로, <code class="language-plaintext highlighter-rouge">can</code> 방법을 사용하여 <code class="language-plaintext highlighter-rouge">can</code> 미들웨어를 라우트에 연결할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/post'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The current user may create posts...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">can</span><span class="p">(</span><span class="s1">'create'</span><span class="p">,</span> <span class="nc">Post</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="via-blade-templates"></a></p>
+<h3 id="블레이드-템플릿을-통해">블레이드 템플릿을 통해</h3>
+
+<p>블레이드 템플릿을 작성할 때, 사용자가 특정 작업을 수행할 권한이 있는 경우에만 페이지의 일부를 표시하고 싶을 수 있습니다. 예를 들어, 사용자가 실제로 게시물을 업데이트할 수 있는 경우에만 블로그 게시물 업데이트 폼을 보여주고 싶을 수 있습니다. 이러한 상황에서는 <code class="language-plaintext highlighter-rouge">@can</code>와 <code class="language-plaintext highlighter-rouge">@cannot</code> 지시문을 사용할 수 있습니다:</p>
+
+<pre><code class="language-blade">@can('update', $post)
+    &lt;!-- The current user can update the post... --&gt;
+@elsecan('create', App\Models\Post::class)
+    &lt;!-- The current user can create new posts... --&gt;
+@else
+    &lt;!-- ... --&gt;
+@endcan
+
+@cannot('update', $post)
+    &lt;!-- The current user cannot update the post... --&gt;
+@elsecannot('create', App\Models\Post::class)
+    &lt;!-- The current user cannot create new posts... --&gt;
+@endcannot
+</code></pre>
+
+<p>이 지시문들은 <code class="language-plaintext highlighter-rouge">@if</code> 및 <code class="language-plaintext highlighter-rouge">@unless</code> 문을 작성하기 위한 편리한 단축키입니다. 위의 <code class="language-plaintext highlighter-rouge">@can</code> 및 <code class="language-plaintext highlighter-rouge">@cannot</code> 문은 다음 문과 동일합니다:</p>
+
+<pre><code class="language-blade">@if (Auth::user()-&gt;can('update', $post))
+    &lt;!-- The current user can update the post... --&gt;
+@endif
+
+@unless (Auth::user()-&gt;can('update', $post))
+    &lt;!-- The current user cannot update the post... --&gt;
+@endunless
+</code></pre>
+
+<p>사용자가 주어진 작업 배열에서 어떤 작업을 수행할 권한이 있는지도 결정할 수 있습니다. 이를 수행하려면 <code class="language-plaintext highlighter-rouge">@canany</code> 지시문을 사용하세요:</p>
+
+<pre><code class="language-blade">@canany(['update', 'view', 'delete'], $post)
+    &lt;!-- The current user can update, view, or delete the post... --&gt;
+@elsecanany(['create'], \App\Models\Post::class)
+    &lt;!-- The current user can create a post... --&gt;
+@endcanany
+</code></pre>
+
+<p><a name="blade-actions-that-dont-require-models"></a></p>
+<h4 id="모델이-필요-없는-작업-1">모델이 필요 없는 작업</h4>
+
+<p>다른 대부분의 인증 방법과 마찬가지로, 작업에 모델 인스턴스가 필요하지 않은 경우 <code class="language-plaintext highlighter-rouge">@can</code> 및 <code class="language-plaintext highlighter-rouge">@cannot</code> 지시문에 클래스 이름을 전달할 수 있습니다:</p>
+
+<pre><code class="language-blade">@can('create', App\Models\Post::class)
+    &lt;!-- The current user can create posts... --&gt;
+@endcan
+
+@cannot('create', App\Models\Post::class)
+    &lt;!-- The current user can't create posts... --&gt;
+@endcannot
+</code></pre>
+
+<p><a name="supplying-additional-context"></a></p>
+<h3 id="추가-컨텍스트-제공-1">추가 컨텍스트 제공</h3>
+
+<p>정책을 사용하여 작업을 승인할 때, 다양한 승인 함수와 헬퍼의 두 번째 인수로 배열을 전달할 수 있습니다. 배열의 첫 번째 요소는 어떤 정책을 호출할지 결정하는 데 사용되며, 나머지 배열 요소들은 정책 메서드에 매개변수로 전달되어 승인 결정을 내릴 때 추가적인 컨텍스트로 사용할 수 있습니다. 예를 들어, 다음의 <code class="language-plaintext highlighter-rouge">PostPolicy</code> 메서드 정의를 고려해보세요. 여기에는 추가 <code class="language-plaintext highlighter-rouge">$category</code> 매개변수가 포함되어 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Determine if the given post can be updated by the user.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">,</span> <span class="kt">int</span> <span class="nv">$category</span><span class="p">):</span> <span class="kt">bool</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="n">user_id</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$user</span><span class="o">-&gt;</span><span class="nf">canUpdateCategory</span><span class="p">(</span><span class="nv">$category</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>인증된 사용자가 특정 게시물을 업데이트할 수 있는지 확인하려고 할 때, 우리는 다음과 같이 이 정책 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Update the given blog post.
+ *
+ * @throws \Illuminate\Auth\Access\AuthorizationException
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+<span class="p">{</span>
+    <span class="nc">Gate</span><span class="o">::</span><span class="nf">authorize</span><span class="p">(</span><span class="s1">'update'</span><span class="p">,</span> <span class="p">[</span><span class="nv">$post</span><span class="p">,</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="n">category</span><span class="p">]);</span>
+
+    <span class="c1">// The current user can update the blog post...</span>
+
+    <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/posts'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="authorization-and-inertia"></a></p>
+<h2 id="인증-및-inertia">인증 및 Inertia</h2>
+
+<p>인증은 항상 서버에서 처리되어야 하지만, 애플리케이션 UI를 적절히 렌더링하기 위해 프론트엔드 애플리케이션에 인증 데이터를 제공하는 것이 종종 편리할 수 있습니다. Laravel은 Inertia 기반 프론트엔드에 인증 정보를 노출하기 위한 필수 규칙을 정의하지 않습니다.</p>
+
+<p>그러나 Laravel의 Inertia 기반 <a href="/docs/{{version}}/starter-kits">스타터 키트</a> 중 하나를 사용하고 있다면, 애플리케이션에는 이미 <code class="language-plaintext highlighter-rouge">HandleInertiaRequests</code> 미들웨어가 포함되어 있습니다. 이 미들웨어의 <code class="language-plaintext highlighter-rouge">share</code> 메서드 내에서 애플리케이션의 모든 Inertia 페이지에 제공될 공유 데이터를 반환할 수 있습니다. 이 공유 데이터는 사용자에 대한 인증 정보를 정의하기 위한 편리한 위치로 활용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Middleware</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Inertia\Middleware</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">HandleInertiaRequests</span> <span class="kd">extends</span> <span class="nc">Middleware</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="cd">/**
+     * Define the props that are shared by default.
+     *
+     * @return array&lt;string, mixed&gt;
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">share</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="mf">...</span><span class="k">parent</span><span class="o">::</span><span class="nf">share</span><span class="p">(</span><span class="nv">$request</span><span class="p">),</span>
+            <span class="s1">'auth'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">(),</span>
+                <span class="s1">'permissions'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                    <span class="s1">'post'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                        <span class="s1">'create'</span> <span class="o">=&gt;</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">can</span><span class="p">(</span><span class="s1">'create'</span><span class="p">,</span> <span class="nc">Post</span><span class="o">::</span><span class="n">class</span><span class="p">),</span>
+                    <span class="p">],</span>
+                <span class="p">],</span>
+            <span class="p">],</span>
+        <span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

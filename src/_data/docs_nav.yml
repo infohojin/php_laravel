@@ -1,0 +1,242 @@
+main:
+  - title: "📖 라라벨 공식 문서 홈"
+    url: /docs/
+  - title: "01. 프롤로그 (Prologue)"
+    url: /docs/01_prologue/
+    subitems:
+      - title: "기여 안내"
+        url: /docs/01_prologue/contributions_ko/
+      - title: "릴리스 노트"
+        url: /docs/01_prologue/releases_ko/
+      - title: "업그레이드 안내"
+        url: /docs/01_prologue/upgrade_ko/
+  - title: "02. 시작하기 (Getting Started)"
+    url: /docs/02_getting_started/
+    subitems:
+      - title: "AI 지원 개발"
+        url: /docs/02_getting_started/ai_ko/
+      - title: "구성"
+        url: /docs/02_getting_started/configuration_ko/
+      - title: "배포"
+        url: /docs/02_getting_started/deployment_ko/
+      - title: "프론트엔드"
+        url: /docs/02_getting_started/frontend_ko/
+      - title: "설치"
+        url: /docs/02_getting_started/installation_ko/
+      - title: "스타터 키트"
+        url: /docs/02_getting_started/starter-kits_ko/
+      - title: "디렉토리 구조"
+        url: /docs/02_getting_started/structure_ko/
+  - title: "03. 아키텍처 개념 (Architecture)"
+    url: /docs/03_architecture_concepts/
+    subitems:
+      - title: "Service Container"
+        url: /docs/03_architecture_concepts/container_ko/
+      - title: "표면"
+        url: /docs/03_architecture_concepts/facades_ko/
+      - title: "요청 수명 주기"
+        url: /docs/03_architecture_concepts/lifecycle_ko/
+      - title: "서비스 제공업체"
+        url: /docs/03_architecture_concepts/providers_ko/
+  - title: "04. 기본기 (The Basics)"
+    url: /docs/04_the_basics/
+    subitems:
+      - title: "Blade Templates"
+        url: /docs/04_the_basics/blade_ko/
+      - title: "Controllers"
+        url: /docs/04_the_basics/controllers_ko/
+      - title: "CSRF 보호"
+        url: /docs/04_the_basics/csrf_ko/
+      - title: "오류 처리"
+        url: /docs/04_the_basics/errors_ko/
+      - title: "로깅"
+        url: /docs/04_the_basics/logging_ko/
+      - title: "미들웨어"
+        url: /docs/04_the_basics/middleware_ko/
+      - title: "HTTP Requests"
+        url: /docs/04_the_basics/requests_ko/
+      - title: "HTTP Responses"
+        url: /docs/04_the_basics/responses_ko/
+      - title: "Routing"
+        url: /docs/04_the_basics/routing_ko/
+      - title: "HTTP 세션"
+        url: /docs/04_the_basics/session_ko/
+      - title: "URL 생성"
+        url: /docs/04_the_basics/urls_ko/
+      - title: "Validation"
+        url: /docs/04_the_basics/validation_ko/
+      - title: "뷰"
+        url: /docs/04_the_basics/views_ko/
+      - title: "Asset Bundling (Vite)"
+        url: /docs/04_the_basics/vite_ko/
+  - title: "05. 심화 기능 (Digging Deeper)"
+    url: /docs/05_digging_deeper/
+    subitems:
+      - title: "Artisan Console"
+        url: /docs/05_digging_deeper/artisan_ko/
+      - title: "Broadcasting"
+        url: /docs/05_digging_deeper/broadcasting_ko/
+      - title: "Cache"
+        url: /docs/05_digging_deeper/cache_ko/
+      - title: "컬렉션"
+        url: /docs/05_digging_deeper/collections_ko/
+      - title: "동시성"
+        url: /docs/05_digging_deeper/concurrency_ko/
+      - title: "컨텍스트"
+        url: /docs/05_digging_deeper/context_ko/
+      - title: "계약"
+        url: /docs/05_digging_deeper/contracts_ko/
+      - title: "Events"
+        url: /docs/05_digging_deeper/events_ko/
+      - title: "File Storage"
+        url: /docs/05_digging_deeper/filesystem_ko/
+      - title: "Helpers"
+        url: /docs/05_digging_deeper/helpers_ko/
+      - title: "HTTP Client"
+        url: /docs/05_digging_deeper/http-client_ko/
+      - title: "이미지 조작"
+        url: /docs/05_digging_deeper/images_ko/
+      - title: "현지화"
+        url: /docs/05_digging_deeper/localization_ko/
+      - title: "Mail"
+        url: /docs/05_digging_deeper/mail_ko/
+      - title: "알림"
+        url: /docs/05_digging_deeper/notifications_ko/
+      - title: "패키지 개발"
+        url: /docs/05_digging_deeper/packages_ko/
+      - title: "과정"
+        url: /docs/05_digging_deeper/processes_ko/
+      - title: "큐"
+        url: /docs/05_digging_deeper/queues_ko/
+      - title: "속도 제한"
+        url: /docs/05_digging_deeper/rate-limiting_ko/
+      - title: "Task Scheduling"
+        url: /docs/05_digging_deeper/scheduling_ko/
+      - title: "검색"
+        url: /docs/05_digging_deeper/search_ko/
+      - title: "문자열"
+        url: /docs/05_digging_deeper/strings_ko/
+  - title: "06. 보안 (Security)"
+    url: /docs/06_security/
+    subitems:
+      - title: "Authentication"
+        url: /docs/06_security/authentication_ko/
+      - title: "Authorization"
+        url: /docs/06_security/authorization_ko/
+      - title: "암호화"
+        url: /docs/06_security/encryption_ko/
+      - title: "해싱"
+        url: /docs/06_security/hashing_ko/
+      - title: "비밀번호 재설정"
+        url: /docs/06_security/passwords_ko/
+      - title: "이메일 확인"
+        url: /docs/06_security/verification_ko/
+  - title: "07. 데이터베이스 (Database)"
+    url: /docs/07_database/
+    subitems:
+      - title: "데이터베이스: 시작하기"
+        url: /docs/07_database/database_ko/
+      - title: "Database: Migrations"
+        url: /docs/07_database/migrations_ko/
+      - title: "MongoDB"
+        url: /docs/07_database/mongodb_ko/
+      - title: "데이터베이스: 페이지 구성"
+        url: /docs/07_database/pagination_ko/
+      - title: "Database: Query Builder"
+        url: /docs/07_database/queries_ko/
+      - title: "Redis"
+        url: /docs/07_database/redis_ko/
+      - title: "데이터베이스: 시딩"
+        url: /docs/07_database/seeding_ko/
+  - title: "08. Eloquent ORM"
+    url: /docs/08_eloquent_orm/
+    subitems:
+      - title: "Eloquent: 컬렉션"
+        url: /docs/08_eloquent_orm/eloquent-collections_ko/
+      - title: "웅변: 공장"
+        url: /docs/08_eloquent_orm/eloquent-factories_ko/
+      - title: "Eloquent: Mutators & Casting"
+        url: /docs/08_eloquent_orm/eloquent-mutators_ko/
+      - title: "Eloquent: 관계"
+        url: /docs/08_eloquent_orm/eloquent-relationships_ko/
+      - title: "Eloquent: API Resources"
+        url: /docs/08_eloquent_orm/eloquent-resources_ko/
+      - title: "웅변적: 직렬화"
+        url: /docs/08_eloquent_orm/eloquent-serialization_ko/
+      - title: "Eloquent: Getting Started"
+        url: /docs/08_eloquent_orm/eloquent_ko/
+  - title: "09. 인공지능 (AI)"
+    url: /docs/09_ai/
+    subitems:
+      - title: "Laravel AI SDK"
+        url: /docs/09_ai/ai-sdk_ko/
+      - title: "라라벨 부스트"
+        url: /docs/09_ai/boost_ko/
+      - title: "라라벨 MCP"
+        url: /docs/09_ai/mcp_ko/
+  - title: "10. 테스트 (Testing)"
+    url: /docs/10_testing/
+    subitems:
+      - title: "콘솔 테스트"
+        url: /docs/10_testing/console-tests_ko/
+      - title: "데이터베이스 테스트"
+        url: /docs/10_testing/database-testing_ko/
+      - title: "Laravel Dusk"
+        url: /docs/10_testing/dusk_ko/
+      - title: "HTTP 테스트"
+        url: /docs/10_testing/http-tests_ko/
+      - title: "조롱"
+        url: /docs/10_testing/mocking_ko/
+      - title: "테스트: 시작하기"
+        url: /docs/10_testing/testing_ko/
+  - title: "11. 공식 패키지 (Packages)"
+    url: /docs/11_packages/
+    subitems:
+      - title: "라라벨 캐셔 (Stripe)"
+        url: /docs/11_packages/billing_ko/
+      - title: "라라벨 캐셔 (패들)"
+        url: /docs/11_packages/cashier-paddle_ko/
+      - title: "Laravel Dusk"
+        url: /docs/11_packages/dusk_ko/
+      - title: "Laravel Envoy"
+        url: /docs/11_packages/envoy_ko/
+      - title: "Laravel Folio"
+        url: /docs/11_packages/folio_ko/
+      - title: "Laravel Fortify"
+        url: /docs/11_packages/fortify_ko/
+      - title: "라라벨 헤드"
+        url: /docs/11_packages/head_ko/
+      - title: "Laravel Homestead"
+        url: /docs/11_packages/homestead_ko/
+      - title: "Laravel Horizon"
+        url: /docs/11_packages/horizon_ko/
+      - title: "라라벨 믹스"
+        url: /docs/11_packages/mix_ko/
+      - title: "Laravel Octane"
+        url: /docs/11_packages/octane_ko/
+      - title: "라라벨 패스포트"
+        url: /docs/11_packages/passport_ko/
+      - title: "Laravel Pennant"
+        url: /docs/11_packages/pennant_ko/
+      - title: "라라벨 핀트"
+        url: /docs/11_packages/pint_ko/
+      - title: "예지"
+        url: /docs/11_packages/precognition_ko/
+      - title: "Prompts"
+        url: /docs/11_packages/prompts_ko/
+      - title: "Laravel Pulse"
+        url: /docs/11_packages/pulse_ko/
+      - title: "라라벨 리버브"
+        url: /docs/11_packages/reverb_ko/
+      - title: "라라벨 세일"
+        url: /docs/11_packages/sail_ko/
+      - title: "라라벨 성역"
+        url: /docs/11_packages/sanctum_ko/
+      - title: "Laravel Scout"
+        url: /docs/11_packages/scout_ko/
+      - title: "socialite_ko.md"
+        url: /docs/11_packages/socialite_ko/
+      - title: "라라벨 망원경"
+        url: /docs/11_packages/telescope_ko/
+      - title: "라라벨 발렛"
+        url: /docs/11_packages/valet_ko/

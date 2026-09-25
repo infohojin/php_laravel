@@ -1,0 +1,3538 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>HTTP 테스트 | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="HTTP 테스트" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/10_testing/http-tests_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/10_testing/http-tests_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="HTTP 테스트" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"HTTP 테스트","url":"http://localhost:4000/docs/10_testing/http-tests_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="true">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/10_testing/">10 testing</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">HTTP 테스트</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<hr />
+<p>layout: docs
+title: “HTTP 테스트”
+—</p>
+
+<h1 id="http-테스트">HTTP 테스트</h1>
+
+<ul>
+  <li><a href="#introduction">소개</a></li>
+  <li><a href="#making-requests">요청 만들기</a>
+    <ul>
+      <li><a href="#customizing-request-headers">요청 헤더 사용자 정의</a></li>
+      <li><a href="#cookies">쿠키</a></li>
+      <li><a href="#session-and-authentication">세션 / 인증</a></li>
+      <li><a href="#debugging-responses">응답 디버깅</a></li>
+      <li><a href="#exception-handling">예외 처리</a></li>
+    </ul>
+  </li>
+  <li><a href="#testing-json-apis">JSON API 테스트</a>
+    <ul>
+      <li><a href="#fluent-json-testing">유창한 JSON 테스트</a></li>
+    </ul>
+  </li>
+  <li><a href="#testing-file-uploads">파일 업로드 테스트</a></li>
+  <li><a href="#testing-views">뷰 테스트</a>
+    <ul>
+      <li><a href="#rendering-blade-and-components">블레이드 및 컴포넌트 렌더링</a></li>
+    </ul>
+  </li>
+  <li><a href="#caching-routes">라우트 캐싱</a></li>
+  <li><a href="#available-assertions">사용 가능한 단언</a>
+    <ul>
+      <li><a href="#response-assertions">응답 단언</a></li>
+      <li><a href="#authentication-assertions">인증 단언</a></li>
+      <li><a href="#validation-assertions">검증 단언</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="소개">소개</h2>
+
+<p>Laravel은 애플리케이션에 HTTP 요청을 보내고 응답을 검토할 수 있는 매우 유창한 API를 제공합니다. 예를 들어, 아래 정의된 기능 테스트를 살펴보세요:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘the application returns a successful response’, function () {
+    $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response-&gt;assertStatus(200); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     */
+    public function test_the_application_returns_a_successful_response(): void
+    {
+        $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response-&gt;assertStatus(200);
+} } ```
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">get</code> 메서드는 애플리케이션에 <code class="language-plaintext highlighter-rouge">GET</code> 요청을 보내고, <code class="language-plaintext highlighter-rouge">assertStatus</code> 메서드는 반환된 응답이 주어진 HTTP 상태 코드를 가져야 한다고 단언합니다. 이 단순한 단언 외에도, Laravel은 응답 헤더, 내용, JSON 구조 등을 검사하기 위한 다양한 단언을 포함하고 있습니다.</p>
+
+<p><a name="making-requests"></a></p>
+<h2 id="요청-만들기">요청 만들기</h2>
+
+<p>애플리케이션에 요청을 만들기 위해 테스트 내에서 <code class="language-plaintext highlighter-rouge">get</code>, <code class="language-plaintext highlighter-rouge">post</code>, <code class="language-plaintext highlighter-rouge">put</code>, <code class="language-plaintext highlighter-rouge">patch</code> 또는 <code class="language-plaintext highlighter-rouge">delete</code> 메서드를 호출할 수 있습니다. 이 메서드들은 실제로 애플리케이션에 “실제” HTTP 요청을 보내지 않습니다. 대신 전체 네트워크 요청이 내부적으로 시뮬레이션됩니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\Response</code> 인스턴스를 반환하는 대신, 테스트 요청 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Testing\TestResponse</code> 인스턴스를 반환하며, 이는 애플리케이션의 응답을 검사할 수 있는 <a href="#available-assertions">다양한 유용한 단언</a>을 제공합니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘basic request’, function () {
+    $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response-&gt;assertStatus(200); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     */
+    public function test_a_basic_request(): void
+    {
+        $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response-&gt;assertStatus(200);
+} } ```
+</code></pre></div></div>
+
+<p>일반적으로 각 테스트는 애플리케이션에 단일 요청만 해야 합니다. 단일 테스트 메서드 내에서 여러 요청이 실행되면 예상치 못한 동작이 발생할 수 있습니다.</p>
+
+<blockquote>
+  <p>[!NOTE]
+편의를 위해 테스트를 실행할 때 CSRF 미들웨어는 자동으로 비활성화됩니다.</p>
+</blockquote>
+
+<p><a name="customizing-request-headers"></a></p>
+<h3 id="요청-헤더-사용자-정의">요청 헤더 사용자 정의</h3>
+
+<p>애플리케이션에 요청을 보내기 전에 요청의 헤더를 사용자 정의하려면 <code class="language-plaintext highlighter-rouge">withHeaders</code> 메서드를 사용할 수 있습니다. 이 메서드를 사용하면 요청에 원하는 모든 사용자 정의 헤더를 추가할 수 있습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘interacting with headers’, function () {
+    $response = $this-&gt;withHeaders([
+        ‘X-Header’ =&gt; ‘Value’,
+    ])-&gt;post(‘/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response-&gt;assertStatus(201); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     */
+    public function test_interacting_with_headers(): void
+    {
+        $response = $this-&gt;withHeaders([
+            ‘X-Header’ =&gt; ‘Value’,
+        ])-&gt;post(‘/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response-&gt;assertStatus(201);
+} } ```
+</code></pre></div></div>
+
+<p><a name="cookies"></a></p>
+<h3 id="쿠키">쿠키</h3>
+
+<p>요청을 하기 전에 <code class="language-plaintext highlighter-rouge">withCookie</code> 또는 <code class="language-plaintext highlighter-rouge">withCookies</code> 메서드를 사용하여 쿠키 값을 설정할 수 있습니다. <code class="language-plaintext highlighter-rouge">withCookie</code> 메서드는 쿠키 이름과 값을 두 개의 인수로 받아들이며, <code class="language-plaintext highlighter-rouge">withCookies</code> 메서드는 이름/값 쌍의 배열을 받아들입니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘interacting with cookies’, function () {
+    $response = $this-&gt;withCookie(‘color’, ‘blue’)-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response = $this-&gt;withCookies([
+    'color' =&gt; 'blue',
+    'name' =&gt; 'Taylor',
+])-&gt;get('/');
+
+// }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    public function test_interacting_with_cookies(): void
+    {
+        $response = $this-&gt;withCookie(‘color’, ‘blue’)-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response = $this-&gt;withCookies([
+        'color' =&gt; 'blue',
+        'name' =&gt; 'Taylor',
+    ])-&gt;get('/');
+
+    //
+} } ```
+</code></pre></div></div>
+
+<p><a name="session-and-authentication"></a></p>
+<h3 id="세션--인증">세션 / 인증</h3>
+
+<p>Laravel은 HTTP 테스트 중에 세션과 상호작용할 수 있는 여러 헬퍼를 제공합니다. 먼저, <code class="language-plaintext highlighter-rouge">withSession</code> 메서드를 사용하여 세션 데이터를 주어진 배열로 설정할 수 있습니다. 이는 애플리케이션에 요청을 보내기 전에 세션에 데이터를 로드하는 데 유용합니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘interacting with the session’, function () {
+    $response = $this-&gt;withSession([‘banned’ =&gt; false])-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    public function test_interacting_with_the_session(): void
+    {
+        $response = $this-&gt;withSession([‘banned’ =&gt; false])-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //
+} } ```
+</code></pre></div></div>
+
+<p>라라벨의 세션은 일반적으로 현재 인증된 사용자의 상태를 유지하는 데 사용됩니다. 따라서 <code class="language-plaintext highlighter-rouge">actingAs</code> 헬퍼 메서드는 특정 사용자를 현재 사용자로 인증하는 간단한 방법을 제공합니다. 예를 들어, 우리는 <a href="/docs/{{version}}/eloquent-factories">모델 팩토리</a>를 사용하여 사용자를 생성하고 인증할 수 있습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>use App\Models\User;</p>
+
+<p>test(‘an action that requires authentication’, function () {
+    $user = User::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response = $this-&gt;actingAs($user)
+    -&gt;withSession(['banned' =&gt; false])
+    -&gt;get('/');
+
+// }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use App\Models\User;
+use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    public function test_an_action_that_requires_authentication(): void
+    {
+        $user = User::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response = $this-&gt;actingAs($user)
+        -&gt;withSession(['banned' =&gt; false])
+        -&gt;get('/');
+
+    //
+} } ```
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">actingAs</code> 메서드에 두 번째 인수로 가드 이름을 전달하면 주어진 사용자를 인증하는 데 사용할 가드를 지정할 수도 있습니다. <code class="language-plaintext highlighter-rouge">actingAs</code> 메서드에 제공된 가드는 테스트 기간 동안 기본 가드가 되기도 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">actingAs</span><span class="p">(</span><span class="nv">$user</span><span class="p">,</span> <span class="s1">'web'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>요청이 인증되지 않았는지 확인하고 싶다면, <code class="language-plaintext highlighter-rouge">actingAsGuest</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">actingAsGuest</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="debugging-responses"></a></p>
+<h3 id="응답-디버깅">응답 디버깅</h3>
+
+<p>애플리케이션에 테스트 요청을 한 후, <code class="language-plaintext highlighter-rouge">dump</code>, <code class="language-plaintext highlighter-rouge">dumpHeaders</code>, 및 <code class="language-plaintext highlighter-rouge">dumpSession</code> 메서드를 사용하여 응답 내용을 검사하고 디버깅할 수 있습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘basic test’, function () {
+    $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response-&gt;dump();
+$response-&gt;dumpHeaders();
+$response-&gt;dumpSession(); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     */
+    public function test_basic_test(): void
+    {
+        $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response-&gt;dump();
+    $response-&gt;dumpHeaders();
+    $response-&gt;dumpSession();
+} } ```
+</code></pre></div></div>
+
+<p>또는 <code class="language-plaintext highlighter-rouge">dd</code>, <code class="language-plaintext highlighter-rouge">ddHeaders</code>, <code class="language-plaintext highlighter-rouge">ddBody</code>, <code class="language-plaintext highlighter-rouge">ddJson</code>, <code class="language-plaintext highlighter-rouge">ddSession</code> 메서드를 사용하여 응답에 대한 정보를 추출한 후 실행을 중지할 수 있습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘basic test’, function () {
+    $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response-&gt;dd();
+$response-&gt;ddHeaders();
+$response-&gt;ddBody();
+$response-&gt;ddJson();
+$response-&gt;ddSession(); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     */
+    public function test_basic_test(): void
+    {
+        $response = $this-&gt;get(‘/’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response-&gt;dd();
+    $response-&gt;ddHeaders();
+    $response-&gt;ddBody();
+    $response-&gt;ddJson();
+    $response-&gt;ddSession();
+} } ```
+</code></pre></div></div>
+
+<p><a name="exception-handling"></a></p>
+<h3 id="예외-처리">예외 처리</h3>
+
+<p>때때로 애플리케이션이 특정 예외를 발생시키는지 테스트해야 할 수 있습니다. 이를 달성하기 위해, <code class="language-plaintext highlighter-rouge">Exceptions</code> 퍼사드를 통해 예외 처리기를 ‘가짜’로 만들 수 있습니다. 예외 처리기가 가짜로 설정되면, <code class="language-plaintext highlighter-rouge">assertReported</code> 및 <code class="language-plaintext highlighter-rouge">assertNotReported</code> 메서드를 사용하여 요청 중에 발생한 예외에 대해 단언(assertion)을 수행할 수 있습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>use App\Exceptions\InvalidOrderException;
+use Illuminate\Support\Facades\Exceptions;</p>
+
+<p>test(‘exception is thrown’, function () {
+    Exceptions::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response = $this-&gt;get('/order/1');
+
+// Assert an exception was thrown...
+Exceptions::assertReported(InvalidOrderException::class);
+
+// Assert against the exception...
+Exceptions::assertReported(function (InvalidOrderException $e) {
+    return $e-&gt;getMessage() === 'The order was invalid.';
+}); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use App\Exceptions\InvalidOrderException;
+use Illuminate\Support\Facades\Exceptions;
+use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     */
+    public function test_exception_is_thrown(): void
+    {
+        Exceptions::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response = $this-&gt;get('/');
+
+    // Assert an exception was thrown...
+    Exceptions::assertReported(InvalidOrderException::class);
+
+    // Assert against the exception...
+    Exceptions::assertReported(function (InvalidOrderException $e) {
+        return $e-&gt;getMessage() === 'The order was invalid.';
+    });
+} } ```
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertNotReported</code> 및 <code class="language-plaintext highlighter-rouge">assertNothingReported</code> 메서드는 요청 중에 특정 예외가 발생하지 않았음을 확인하거나 예외가 전혀 발생하지 않았음을 확인하는 데 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Exceptions</span><span class="o">::</span><span class="nf">assertNotReported</span><span class="p">(</span><span class="nc">InvalidOrderException</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+
+<span class="nc">Exceptions</span><span class="o">::</span><span class="nf">assertNothingReported</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>요청을 하기 전에 <code class="language-plaintext highlighter-rouge">withoutExceptionHandling</code> 메서드를 호출하여 특정 요청에 대한 예외 처리를 완전히 비활성화할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">withoutExceptionHandling</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>또한, 애플리케이션이 PHP 언어나 사용하는 라이브러리에서 폐기된 기능을 사용하지 않는지 확인하고 싶다면, 요청을 하기 전에 <code class="language-plaintext highlighter-rouge">withoutDeprecationHandling</code> 메서드를 호출할 수 있습니다. 폐기성 처리가 비활성화되면 폐기성 경고가 예외로 전환되어 테스트가 실패하게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">withoutDeprecationHandling</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertThrows</code> 방법은 주어진 클로저 내의 코드가 지정된 유형의 예외를 발생시키는지 확인하는 데 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertThrows</span><span class="p">(</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="k">new</span> <span class="nc">ProcessOrder</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">(),</span>
+    <span class="nc">OrderInvalid</span><span class="o">::</span><span class="n">class</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>만약 발생한 예외를 검사하고 주장(assertions)을 하고 싶다면, <code class="language-plaintext highlighter-rouge">assertThrows</code> 메서드의 두 번째 인자로 클로저를 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertThrows</span><span class="p">(</span>
+    <span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="k">new</span> <span class="nc">ProcessOrder</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">(),</span>
+    <span class="k">fn</span> <span class="p">(</span><span class="kt">OrderInvalid</span> <span class="nv">$e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">orderId</span><span class="p">()</span> <span class="o">===</span> <span class="mi">123</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertDoesntThrow</code> 방법은 주어진 클로저 안의 코드가 어떠한 예외도 발생시키지 않는다고 주장하는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertDoesntThrow</span><span class="p">(</span><span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="k">new</span> <span class="nc">ProcessOrder</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p><a name="testing-json-apis"></a></p>
+<h2 id="json-api-테스트">JSON API 테스트</h2>
+
+<p>Laravel은 JSON API와 그 응답을 테스트하기 위한 여러 헬퍼도 제공합니다. 예를 들어, <code class="language-plaintext highlighter-rouge">json</code>, <code class="language-plaintext highlighter-rouge">getJson</code>, <code class="language-plaintext highlighter-rouge">postJson</code>, <code class="language-plaintext highlighter-rouge">putJson</code>, <code class="language-plaintext highlighter-rouge">patchJson</code>, <code class="language-plaintext highlighter-rouge">deleteJson</code>, <code class="language-plaintext highlighter-rouge">optionsJson</code> 메소드를 사용하여 다양한 HTTP 동사로 JSON 요청을 보낼 수 있습니다. 또한 이러한 메소드에 데이터와 헤더를 쉽게 전달할 수 있습니다. 시작하려면 <code class="language-plaintext highlighter-rouge">/api/user</code>에 <code class="language-plaintext highlighter-rouge">POST</code> 요청을 보내고 예상된 JSON 데이터가 반환되었는지 확인하는 테스트를 작성해 보겠습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘making an api request’, function () {
+    $response = $this-&gt;postJson(‘/api/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response
+    -&gt;assertStatus(201)
+    -&gt;assertJson([
+        'created' =&gt; true,
+    ]); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     */
+    public function test_making_an_api_request(): void
+    {
+        $response = $this-&gt;postJson(‘/api/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response
+        -&gt;assertStatus(201)
+        -&gt;assertJson([
+            'created' =&gt; true,
+        ]);
+} } ```
+</code></pre></div></div>
+
+<p>또한, JSON 응답 데이터는 응답에서 배열 변수로 접근할 수 있어 JSON 응답 내에서 반환된 개별 값을 확인하는 데 편리합니다:```php tab=Pest
+expect($response[‘created’])-&gt;toBeTrue();</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```php tab=PHPUnit
+$this-&gt;assertTrue($response['created']);
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+<code class="language-plaintext highlighter-rouge">assertJson</code> 메서드는 응답을 배열로 변환하여 주어진 배열이 애플리케이션이 반환한 JSON 응답 내에 존재하는지 확인합니다. 따라서 JSON 응답에 다른 속성이 있더라도, 주어진 조각이 존재한다면 이 테스트는 여전히 통과합니다.</p>
+</blockquote>
+
+<p><a name="verifying-exact-match"></a></p>
+<h4 id="정확한-json-일치-여부-검증">정확한 JSON 일치 여부 검증</h4>
+
+<p>앞서 언급한 바와 같이, <code class="language-plaintext highlighter-rouge">assertJson</code> 메서드는 JSON 응답 내에 JSON 조각이 존재하는지 검증하는 데 사용될 수 있습니다. 만약 주어진 배열이 애플리케이션이 반환한 JSON과 <strong>정확히 일치하는지</strong> 확인하고 싶다면, <code class="language-plaintext highlighter-rouge">assertExactJson</code> 메서드를 사용해야 합니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘asserting an exact json match’, function () {
+    $response = $this-&gt;postJson(‘/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response
+    -&gt;assertStatus(201)
+    -&gt;assertExactJson([
+        'created' =&gt; true,
+    ]); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     */
+    public function test_asserting_an_exact_json_match(): void
+    {
+        $response = $this-&gt;postJson(‘/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response
+        -&gt;assertStatus(201)
+        -&gt;assertExactJson([
+            'created' =&gt; true,
+        ]);
+} } ```
+</code></pre></div></div>
+
+<p><a name="verifying-json-paths"></a></p>
+<h4 id="json-경로에서-어설션하기">JSON 경로에서 어설션하기</h4>
+
+<p>JSON 응답에 지정된 경로에 주어진 데이터가 포함되어 있는지 확인하고 싶다면, <code class="language-plaintext highlighter-rouge">assertJsonPath</code> 방법을 사용해야 합니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘asserting a json path value’, function () {
+    $response = $this-&gt;postJson(‘/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response
+    -&gt;assertStatus(201)
+    -&gt;assertJsonPath('team.owner.name', 'Darian'); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     */
+    public function test_asserting_a_json_paths_value(): void
+    {
+        $response = $this-&gt;postJson(‘/user’, [‘name’ =&gt; ‘Sally’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $response
+        -&gt;assertStatus(201)
+        -&gt;assertJsonPath('team.owner.name', 'Darian');
+} } ```
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertJsonPath</code> 방법은 또한 클로저를 허용하며, 이를 사용하여 단언이 통과해야 하는지를 동적으로 결정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonPath</span><span class="p">(</span><span class="s1">'team.owner.name'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$name</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>여러 JSON 경로를 한 번에 검증해야 하는 경우, <code class="language-plaintext highlighter-rouge">assertJsonPaths</code> 방법을 사용할 수 있습니다. 각 경로에 대한 예상 값은 클로저일 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonPaths</span><span class="p">([</span>
+    <span class="s1">'team.owner.name'</span> <span class="o">=&gt;</span> <span class="s1">'Darian'</span><span class="p">,</span>
+    <span class="s1">'team.owner.email'</span> <span class="o">=&gt;</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$email</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">str</span><span class="p">(</span><span class="nv">$email</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="s1">'*@laravel.com'</span><span class="p">),</span>
+    <span class="s1">'team.members.0.name'</span> <span class="o">=&gt;</span> <span class="s1">'Sally'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>응답에서 여러 JSON 경로가 누락되었음을 주장하기 위해 <code class="language-plaintext highlighter-rouge">assertJsonMissingPaths</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissingPaths</span><span class="p">([</span>
+    <span class="s1">'team.owner.password'</span><span class="p">,</span>
+    <span class="s1">'team.members.0.api_token'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="fluent-json-testing"></a></p>
+<h3 id="유창한-json-테스트">유창한 JSON 테스트</h3>
+
+<p>Laravel은 또한 애플리케이션의 JSON 응답을 유창하게 테스트할 수 있는 아름다운 방법을 제공합니다. 시작하려면 <code class="language-plaintext highlighter-rouge">assertJson</code> 메서드에 클로저를 전달하면 됩니다. 이 클로저는 애플리케이션에서 반환된 JSON에 대해 검증을 수행할 수 있는 <code class="language-plaintext highlighter-rouge">Illuminate\Testing\Fluent\AssertableJson</code> 인스턴스와 함께 호출됩니다. <code class="language-plaintext highlighter-rouge">where</code> 메서드는 JSON의 특정 속성에 대해 검증을 수행하는 데 사용할 수 있으며, <code class="language-plaintext highlighter-rouge">missing</code> 메서드는 JSON에서 특정 속성이 누락되었는지 검증하는 데 사용할 수 있습니다:```php tab=Pest
+use Illuminate\Testing\Fluent\AssertableJson;</p>
+
+<p>test(‘fluent json’, function () {
+    $response = $this-&gt;getJson(‘/users/1’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$response
+    -&gt;assertJson(fn (AssertableJson $json) =&gt;
+        $json-&gt;where('id', 1)
+            -&gt;where('name', 'Victoria Faith')
+            -&gt;where('email', fn (string $email) =&gt; str($email)-&gt;is('victoria@gmail.com'))
+            -&gt;whereNot('status', 'pending')
+            -&gt;missing('password')
+            -&gt;etc()
+    ); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+use Illuminate\Testing\Fluent\AssertableJson;</p>
+
+<p>/**</p>
+<ul>
+  <li>
+    <p>A basic functional test example.
+ */
+public function test_fluent_json(): void
+{
+ $response = $this-&gt;getJson(‘/users/1’);</p>
+
+    <p>$response
+     -&gt;assertJson(fn (AssertableJson $json) =&gt;
+         $json-&gt;where(‘id’, 1)
+             -&gt;where(‘name’, ‘Victoria Faith’)
+             -&gt;where(‘email’, fn (string $email) =&gt; str($email)-&gt;is(‘victoria@gmail.com’))
+             -&gt;whereNot(‘status’, ‘pending’)
+             -&gt;missing(‘password’)
+             -&gt;etc()
+     );
+}
+```</p>
+  </li>
+</ul>
+
+<h4 id="understanding-the-etc-method">Understanding the <code class="language-plaintext highlighter-rouge">etc</code> Method</h4>
+
+<p>In the example above, you may have noticed we invoked the <code class="language-plaintext highlighter-rouge">etc</code> method at the end of our assertion chain. This method informs Laravel that there may be other attributes present on the JSON object. If the <code class="language-plaintext highlighter-rouge">etc</code> method is not used, the test will fail if other attributes that you did not make assertions against exist on the JSON object.</p>
+
+<p>The intention behind this behavior is to protect you from unintentionally exposing sensitive information in your JSON responses by forcing you to either explicitly make an assertion against the attribute or explicitly allow additional attributes via the <code class="language-plaintext highlighter-rouge">etc</code> method.</p>
+
+<p>However, you should be aware that not including the <code class="language-plaintext highlighter-rouge">etc</code> method in your assertion chain does not ensure that additional attributes are not being added to arrays that are nested within your JSON object. The <code class="language-plaintext highlighter-rouge">etc</code> method only ensures that no additional attributes exist at the nesting level in which the <code class="language-plaintext highlighter-rouge">etc</code> method is invoked.</p>
+
+<p><a name="asserting-json-attribute-presence-and-absence"></a></p>
+<h4 id="asserting-attribute-presence--absence">Asserting Attribute Presence / Absence</h4>
+
+<p>To assert that an attribute is present or absent, you may use the <code class="language-plaintext highlighter-rouge">has</code> and <code class="language-plaintext highlighter-rouge">missing</code> methods:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'data'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">missing</span><span class="p">(</span><span class="s1">'message'</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>또한, <code class="language-plaintext highlighter-rouge">hasAll</code> 및 <code class="language-plaintext highlighter-rouge">missingAll</code> 메서드는 여러 속성의 존재 여부를 동시에 확인할 수 있게 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">hasAll</span><span class="p">([</span><span class="s1">'status'</span><span class="p">,</span> <span class="s1">'data'</span><span class="p">])</span>
+        <span class="o">-&gt;</span><span class="nf">missingAll</span><span class="p">([</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'code'</span><span class="p">])</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>다음과 같이 <code class="language-plaintext highlighter-rouge">hasAny</code> 방법을 사용하여 주어진 속성 목록 중 적어도 하나가 존재하는지 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'status'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">hasAny</span><span class="p">(</span><span class="s1">'data'</span><span class="p">,</span> <span class="s1">'message'</span><span class="p">,</span> <span class="s1">'code'</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="asserting-against-json-collections"></a></p>
+<h4 id="json-컬렉션에-대한-검증">JSON 컬렉션에 대한 검증</h4>
+
+<p>종종, 당신의 경로는 여러 개의 항목을 포함하는 JSON 응답을 반환할 것입니다, 예를 들어 여러 사용자를:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>이러한 상황에서, 우리는 응답에 포함된 사용자에 대해 단언을 하기 위해 fluent JSON 객체의 <code class="language-plaintext highlighter-rouge">has</code> 메서드를 사용할 수 있습니다. 예를 들어, JSON 응답에 세 명의 사용자가 포함되어 있는지 단언해 봅시다. 다음으로, <code class="language-plaintext highlighter-rouge">first</code> 메서드를 사용하여 컬렉션의 첫 번째 사용자에 대한 몇 가지 단언을 하겠습니다. <code class="language-plaintext highlighter-rouge">first</code> 메서드는 클로저를 받아들이며, 이 클로저는 우리가 JSON 컬렉션의 첫 번째 객체에 대해 단언을 할 수 있는 또 다른 단언 가능한 JSON 문자열을 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span>
+    <span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">first</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+                <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'Victoria Faith'</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$email</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">str</span><span class="p">(</span><span class="nv">$email</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="s1">'victoria@gmail.com'</span><span class="p">))</span>
+                    <span class="o">-&gt;</span><span class="nf">missing</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">etc</span><span class="p">()</span>
+            <span class="p">)</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+
+<p>JSON 컬렉션의 모든 항목에 대해 동일한 주장을 하고 싶다면, <code class="language-plaintext highlighter-rouge">each</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span>
+  <span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+          <span class="o">-&gt;</span><span class="nb">each</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+              <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">whereType</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'integer'</span><span class="p">)</span>
+                  <span class="o">-&gt;</span><span class="nf">whereType</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'string'</span><span class="p">)</span>
+                  <span class="o">-&gt;</span><span class="nf">whereType</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="s1">'string'</span><span class="p">)</span>
+                  <span class="o">-&gt;</span><span class="nf">missing</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+                  <span class="o">-&gt;</span><span class="nf">etc</span><span class="p">()</span>
+          <span class="p">)</span>
+  <span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="scoping-json-collection-assertions"></a></p>
+<h4 id="json-컬렉션-어설션-범위-지정">JSON 컬렉션 어설션 범위 지정</h4>
+
+<p>때때로, 애플리케이션의 라우트가 이름이 지정된 키에 할당된 JSON 컬렉션을 반환하기도 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'meta'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="mf">...</span><span class="p">],</span>
+        <span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="nc">User</span><span class="o">::</span><span class="nf">all</span><span class="p">(),</span>
+    <span class="p">];</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>이 경로를 테스트할 때 <code class="language-plaintext highlighter-rouge">has</code> 메서드를 사용하여 컬렉션의 항목 수를 확인할 수 있습니다. 또한 <code class="language-plaintext highlighter-rouge">has</code> 메서드를 사용하여 일련의 검증 범위를 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span>
+    <span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'meta'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'users.0'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+                <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'Victoria Faith'</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$email</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">str</span><span class="p">(</span><span class="nv">$email</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="s1">'victoria@gmail.com'</span><span class="p">))</span>
+                    <span class="o">-&gt;</span><span class="nf">missing</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">etc</span><span class="p">()</span>
+            <span class="p">)</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+
+<p>그러나 <code class="language-plaintext highlighter-rouge">users</code> 컬렉션에 대해 <code class="language-plaintext highlighter-rouge">has</code> 메서드를 두 번 호출하는 대신, 세 번째 매개변수로 클로저를 제공하는 단일 호출을 할 수 있습니다. 이렇게 하면 클로저가 자동으로 호출되며 컬렉션의 첫 번째 항목에 범위가 지정됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span>
+    <span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'meta'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">has</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+                <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'Victoria Faith'</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'email'</span><span class="p">,</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$email</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">str</span><span class="p">(</span><span class="nv">$email</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">is</span><span class="p">(</span><span class="s1">'victoria@gmail.com'</span><span class="p">))</span>
+                    <span class="o">-&gt;</span><span class="nf">missing</span><span class="p">(</span><span class="s1">'password'</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="nf">etc</span><span class="p">()</span>
+            <span class="p">)</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="asserting-json-types"></a></p>
+<h4 id="json-유형-확인">JSON 유형 확인</h4>
+
+<p>JSON 응답의 속성이 특정 유형인지 확인하고 싶을 수 있습니다. <code class="language-plaintext highlighter-rouge">Illuminate\Testing\Fluent\AssertableJson</code> 클래스는 바로 이를 위해 <code class="language-plaintext highlighter-rouge">whereType</code> 및 <code class="language-plaintext highlighter-rouge">whereAllType</code> 메서드를 제공합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">whereType</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'integer'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">whereAllType</span><span class="p">([</span>
+            <span class="s1">'users.0.name'</span> <span class="o">=&gt;</span> <span class="s1">'string'</span><span class="p">,</span>
+            <span class="s1">'meta'</span> <span class="o">=&gt;</span> <span class="s1">'array'</span>
+        <span class="p">])</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">|</code> 문자를 사용하여 여러 유형을 지정하거나, <code class="language-plaintext highlighter-rouge">whereType</code> 메서드의 두 번째 매개변수로 유형 배열을 전달할 수 있습니다. 응답 값이 나열된 유형 중 어느 것이든 일치하면 단언이 성공합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">fn</span> <span class="p">(</span><span class="kt">AssertableJson</span> <span class="nv">$json</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">$json</span><span class="o">-&gt;</span><span class="nf">whereType</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'string|null'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">whereType</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'string'</span><span class="p">,</span> <span class="s1">'integer'</span><span class="p">])</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">whereType</code> 및 <code class="language-plaintext highlighter-rouge">whereAllType</code> 메서드는 다음 유형을 인식합니다: <code class="language-plaintext highlighter-rouge">string</code>, <code class="language-plaintext highlighter-rouge">integer</code>, <code class="language-plaintext highlighter-rouge">double</code>, <code class="language-plaintext highlighter-rouge">boolean</code>, <code class="language-plaintext highlighter-rouge">array</code>, 및 <code class="language-plaintext highlighter-rouge">null</code>.</p>
+
+<p><a name="testing-file-uploads"></a></p>
+<h2 id="파일-업로드-테스트">파일 업로드 테스트</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Illuminate\Http\UploadedFile</code> 클래스는 테스트용 더미 파일 또는 이미지를 생성하는 데 사용할 수 있는 <code class="language-plaintext highlighter-rouge">fake</code> 메서드를 제공합니다. 이는 <code class="language-plaintext highlighter-rouge">Storage</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">fake</code> 메서드와 결합될 때 파일 업로드 테스트를 크게 단순화합니다. 예를 들어, 이 두 기능을 결합하여 아바타 업로드 폼을 쉽게 테스트할 수 있습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;</p>
+
+<p>test(‘avatars can be uploaded’, function () {
+    Storage::fake(‘avatars’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$file = UploadedFile::fake()-&gt;image('avatar.jpg');
+
+$response = $this-&gt;post('/avatar', [
+    'avatar' =&gt; $file,
+]);
+
+Storage::disk('avatars')-&gt;assertExists($file-&gt;hashName()); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    public function test_avatars_can_be_uploaded(): void
+    {
+        Storage::fake(‘avatars’);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $file = UploadedFile::fake()-&gt;image('avatar.jpg');
+
+    $response = $this-&gt;post('/avatar', [
+        'avatar' =&gt; $file,
+    ]);
+
+    Storage::disk('avatars')-&gt;assertExists($file-&gt;hashName());
+} } ```
+</code></pre></div></div>
+
+<p>주어진 파일이 존재하지 않음을 주장하고 싶다면, <code class="language-plaintext highlighter-rouge">Storage</code> 퍼사드에서 제공하는 <code class="language-plaintext highlighter-rouge">assertMissing</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Storage</span><span class="o">::</span><span class="nf">fake</span><span class="p">(</span><span class="s1">'avatars'</span><span class="p">);</span>
+
+<span class="c1">// ...</span>
+
+<span class="nc">Storage</span><span class="o">::</span><span class="nf">disk</span><span class="p">(</span><span class="s1">'avatars'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">assertMissing</span><span class="p">(</span><span class="s1">'missing.jpg'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="fake-file-customization"></a></p>
+<h4 id="가짜-파일-커스터마이징">가짜 파일 커스터마이징</h4>
+
+<p><code class="language-plaintext highlighter-rouge">UploadedFile</code> 클래스에서 제공하는 <code class="language-plaintext highlighter-rouge">fake</code> 방법을 사용하여 파일을 생성할 때, 애플리케이션의 검증 규칙을 더 잘 테스트하기 위해 이미지의 너비, 높이 및 크기(킬로바이트 단위)를 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">UploadedFile</span><span class="o">::</span><span class="nf">fake</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">image</span><span class="p">(</span><span class="s1">'avatar.jpg'</span><span class="p">,</span> <span class="nv">$width</span><span class="p">,</span> <span class="nv">$height</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">size</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이미지를 생성하는 것 외에도, <code class="language-plaintext highlighter-rouge">create</code> 방법을 사용하여 다른 유형의 파일을 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">UploadedFile</span><span class="o">::</span><span class="nf">fake</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">(</span><span class="s1">'document.pdf'</span><span class="p">,</span> <span class="nv">$sizeInKilobytes</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>필요한 경우, 메서드에 <code class="language-plaintext highlighter-rouge">$mimeType</code> 인수를 전달하여 파일이 반환해야 하는 MIME 유형을 명시적으로 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">UploadedFile</span><span class="o">::</span><span class="nf">fake</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">(</span>
+    <span class="s1">'document.pdf'</span><span class="p">,</span> <span class="nv">$sizeInKilobytes</span><span class="p">,</span> <span class="s1">'application/pdf'</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="testing-views"></a></p>
+<h2 id="뷰-테스트하기">뷰 테스트하기</h2>
+
+<p>Laravel은 또한 애플리케이션에 대한 모의 HTTP 요청을 생성하지 않고도 뷰를 렌더링 할 수 있게 해줍니다. 이를 수행하려면 테스트 내에서 <code class="language-plaintext highlighter-rouge">view</code> 메서드를 호출할 수 있습니다. <code class="language-plaintext highlighter-rouge">view</code> 메서드는 뷰 이름과 선택적인 데이터 배열을 받습니다. 이 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Testing\TestView</code> 인스턴스를 반환하며, 이 인스턴스를 통해 뷰의 내용을 편리하게 검증할 수 있는 여러 메서드를 제공합니다:```php tab=Pest
+&lt;?php</p>
+
+<p>test(‘a welcome view can be rendered’, function () {
+    $view = $this-&gt;view(‘welcome’, [‘name’ =&gt; ‘Taylor’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$view-&gt;assertSee('Taylor'); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    public function test_a_welcome_view_can_be_rendered(): void
+    {
+        $view = $this-&gt;view(‘welcome’, [‘name’ =&gt; ‘Taylor’]);</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $view-&gt;assertSee('Taylor');
+} } ```
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">TestView</code> 클래스는 다음과 같은 검증(assertion) 메서드를 제공합니다: <code class="language-plaintext highlighter-rouge">assertSee</code>, <code class="language-plaintext highlighter-rouge">assertSeeInOrder</code>, <code class="language-plaintext highlighter-rouge">assertSeeText</code>, <code class="language-plaintext highlighter-rouge">assertSeeTextInOrder</code>, <code class="language-plaintext highlighter-rouge">assertDontSee</code>, 그리고 <code class="language-plaintext highlighter-rouge">assertDontSeeText</code>.</p>
+
+<p>필요하다면, <code class="language-plaintext highlighter-rouge">TestView</code> 인스턴스를 문자열로 캐스팅하여 원시(raw) 렌더링된 뷰 컨텐츠를 얻을 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">view</span><span class="p">(</span><span class="s1">'welcome'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="sharing-errors"></a></p>
+<h4 id="오류-공유">오류 공유</h4>
+
+<p>일부 뷰는 <a href="/docs/{{version}}/validation#quick-displaying-the-validation-errors">Laravel에서 제공하는 글로벌 오류 백</a>에 공유된 오류에 따라 달라질 수 있습니다. 오류 메시지로 오류 백을 채우려면, <code class="language-plaintext highlighter-rouge">withViewErrors</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$view</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">withViewErrors</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'Please provide a valid name.'</span><span class="p">]</span>
+<span class="p">])</span><span class="o">-&gt;</span><span class="nf">view</span><span class="p">(</span><span class="s1">'form'</span><span class="p">);</span>
+
+<span class="nv">$view</span><span class="o">-&gt;</span><span class="nf">assertSee</span><span class="p">(</span><span class="s1">'Please provide a valid name.'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="rendering-blade-and-components"></a></p>
+<h3 id="블레이드와-컴포넌트-렌더링">블레이드와 컴포넌트 렌더링</h3>
+
+<p>필요한 경우, <code class="language-plaintext highlighter-rouge">blade</code> 메서드를 사용하여 원시 <a href="/docs/{{version}}/blade">Blade</a> 문자열을 평가하고 렌더링할 수 있습니다. <code class="language-plaintext highlighter-rouge">view</code> 메서드와 마찬가지로, <code class="language-plaintext highlighter-rouge">blade</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Testing\TestView</code>의 인스턴스를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$view</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">blade</span><span class="p">(</span>
+    <span class="s1">'&lt;x-component :name="$name" /&gt;'</span><span class="p">,</span>
+    <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">]</span>
+<span class="p">);</span>
+
+<span class="nv">$view</span><span class="o">-&gt;</span><span class="nf">assertSee</span><span class="p">(</span><span class="s1">'Taylor'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">component</code> 메서드를 사용하여 <a href="/docs/{{version}}/blade#components">Blade 컴포넌트</a>를 평가하고 렌더링할 수 있습니다. <code class="language-plaintext highlighter-rouge">component</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Testing\TestComponent</code> 인스턴스를 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$view</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">component</span><span class="p">(</span><span class="nc">Profile</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">]);</span>
+
+<span class="nv">$view</span><span class="o">-&gt;</span><span class="nf">assertSee</span><span class="p">(</span><span class="s1">'Taylor'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="caching-routes"></a></p>
+<h2 id="라우트-캐싱">라우트 캐싱</h2>
+
+<p>테스트가 실행되기 전에 Laravel은 애플리케이션의 새로운 인스턴스를 부트하며, 여기에는 정의된 모든 라우트 수집이 포함됩니다. 애플리케이션에 많은 라우트 파일이 있는 경우, 테스트 케이스에 <code class="language-plaintext highlighter-rouge">Illuminate\Foundation\Testing\WithCachedRoutes</code> 트레이트를 추가하는 것이 좋습니다. 이 트레이트를 사용하는 테스트에서는 라우트가 한 번만 빌드되어 메모리에 저장되므로, 라우트 수집 과정이 테스트 스위트 전체에 대해 한 번만 실행됩니다:```php tab=Pest
+&lt;?php</p>
+
+<p>use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Testing\WithCachedRoutes;</p>
+
+<p>pest()-&gt;use(WithCachedRoutes::class);</p>
+
+<p>test(‘basic example’, function () {
+    $this-&gt;get(action([UserController::class, ‘index’]));</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// ... }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Testing\WithCachedRoutes;
+use Tests\TestCase;</p>
+
+<p>class BasicTest extends TestCase
+{
+    use WithCachedRoutes;</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * A basic functional test example.
+ */
+public function test_basic_example(): void
+{
+    $response = $this-&gt;get(action([UserController::class, 'index']));
+
+    // ...
+} } ```
+</code></pre></div></div>
+
+<p><a name="available-assertions"></a></p>
+<h2 id="사용-가능한-어서션">사용 가능한 어서션</h2>
+
+<p><a name="response-assertions"></a></p>
+<h3 id="응답-어서션">응답 어서션</h3>
+
+<p>Laravel의 <code class="language-plaintext highlighter-rouge">Illuminate\Testing\TestResponse</code> 클래스는 애플리케이션을 테스트할 때 사용할 수 있는 다양한 커스텀 어서션 메서드를 제공합니다. 이러한 어서션은 <code class="language-plaintext highlighter-rouge">json</code>, <code class="language-plaintext highlighter-rouge">get</code>, <code class="language-plaintext highlighter-rouge">post</code>, <code class="language-plaintext highlighter-rouge">put</code>, <code class="language-plaintext highlighter-rouge">delete</code> 테스트 메서드가 반환하는 응답에서 접근할 수 있습니다.</p>
+
+<style>
+    .collection-method-list > p {
+        columns: 14.4em 2; -moz-columns: 14.4em 2; -webkit-columns: 14.4em 2;
+    }
+
+.collection-method-list a {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="collection-method-list">
+
+  <p><a href="#assert-accepted">assertAccepted</a>
+<a href="#assert-bad-request">assertBadRequest</a>
+<a href="#assert-client-error">assertClientError</a>
+<a href="#assert-conflict">assertConflict</a>
+<a href="#assert-cookie">assertCookie</a>
+<a href="#assert-cookie-expired">assertCookieExpired</a>
+<a href="#assert-cookie-not-expired">assertCookieNotExpired</a>
+<a href="#assert-cookie-missing">assertCookieMissing</a>
+<a href="#assert-created">assertCreated</a>
+<a href="#assert-dont-see">assertDontSee</a>
+<a href="#assert-dont-see-text">assertDontSeeText</a>
+<a href="#assert-download">assertDownload</a>
+<a href="#assert-exact-json">assertExactJson</a>
+<a href="#assert-exact-json-structure">assertExactJsonStructure</a>
+<a href="#assert-failed-dependency">assertFailedDependency</a>
+<a href="#assert-forbidden">assertForbidden</a>
+<a href="#assert-found">assertFound</a>
+<a href="#assert-gone">assertGone</a>
+<a href="#assert-header">assertHeader</a>
+<a href="#assert-header-contains">assertHeaderContains</a>
+<a href="#assert-header-missing">assertHeaderMissing</a>
+<a href="#assert-internal-server-error">assertInternalServerError</a>
+<a href="#assert-json">assertJson</a>
+<a href="#assert-json-count">assertJsonCount</a>
+<a href="#assert-json-fragment">assertJsonFragment</a>
+<a href="#assert-json-is-array">assertJsonIsArray</a>
+<a href="#assert-json-is-object">assertJsonIsObject</a>
+<a href="#assert-json-missing">assertJsonMissing</a>
+<a href="#assert-json-missing-exact">assertJsonMissingExact</a>
+<a href="#assert-json-missing-validation-errors">assertJsonMissingValidationErrors</a>
+<a href="#assert-json-path">assertJsonPath</a>
+<a href="#assert-json-paths">assertJsonPaths</a>
+<a href="#assert-json-missing-path">assertJsonMissingPath</a>
+<a href="#assert-json-missing-paths">assertJsonMissingPaths</a>
+<a href="#assert-json-structure">assertJsonStructure</a>
+<a href="#assert-json-validation-errors">assertJsonValidationErrors</a>
+<a href="#assert-json-validation-error-for">assertJsonValidationErrorFor</a>
+<a href="#assert-location">assertLocation</a>
+<a href="#assert-method-not-allowed">assertMethodNotAllowed</a>
+<a href="#assert-moved-permanently">assertMovedPermanently</a>
+<a href="#assert-content">assertContent</a>
+<a href="#assert-no-content">assertNoContent</a>
+<a href="#assert-streamed">assertStreamed</a>
+<a href="#assert-streamed-content">assertStreamedContent</a>
+<a href="#assert-not-found">assertNotFound</a>
+<a href="#assert-ok">assertOk</a>
+<a href="#assert-payment-required">assertPaymentRequired</a>
+<a href="#assert-plain-cookie">assertPlainCookie</a>
+<a href="#assert-redirect">assertRedirect</a>
+<a href="#assert-redirect-back">assertRedirectBack</a>
+<a href="#assert-redirect-back-with-errors">assertRedirectBackWithErrors</a>
+<a href="#assert-redirect-back-without-errors">assertRedirectBackWithoutErrors</a>
+<a href="#assert-redirect-contains">assertRedirectContains</a>
+<a href="#assert-redirect-to-route">assertRedirectToRoute</a>
+<a href="#assert-redirect-to-signed-route">assertRedirectToSignedRoute</a>
+<a href="#assert-request-timeout">assertRequestTimeout</a>
+<a href="#assert-see">assertSee</a>
+<a href="#assert-see-in-order">assertSeeInOrder</a>
+<a href="#assert-see-text">assertSeeText</a>
+<a href="#assert-see-text-in-order">assertSeeTextInOrder</a>
+<a href="#assert-server-error">assertServerError</a>
+<a href="#assert-service-unavailable">assertServiceUnavailable</a>
+<a href="#assert-session-has">assertSessionHas</a>
+<a href="#assert-session-has-input">assertSessionHasInput</a>
+<a href="#assert-session-has-all">assertSessionHasAll</a>
+<a href="#assert-session-has-errors">assertSessionHasErrors</a>
+<a href="#assert-session-has-errors-in">assertSessionHasErrorsIn</a>
+<a href="#assert-session-has-no-errors">assertSessionHasNoErrors</a>
+<a href="#assert-session-doesnt-have-errors">assertSessionDoesntHaveErrors</a>
+<a href="#assert-session-missing">assertSessionMissing</a>
+<a href="#assert-session-missing-input">assertSessionMissingInput</a>
+<a href="#assert-status">assertStatus</a>
+<a href="#assert-successful">assertSuccessful</a>
+<a href="#assert-too-many-requests">assertTooManyRequests</a>
+<a href="#assert-unauthorized">assertUnauthorized</a>
+<a href="#assert-unprocessable">assertUnprocessable</a>
+<a href="#assert-unsupported-media-type">assertUnsupportedMediaType</a>
+<a href="#assert-valid">assertValid</a>
+<a href="#assert-invalid">assertInvalid</a>
+<a href="#assert-view-has">assertViewHas</a>
+<a href="#assert-view-has-all">assertViewHasAll</a>
+<a href="#assert-view-is">assertViewIs</a>
+<a href="#assert-view-missing">assertViewMissing</a></p>
+
+</div>
+
+<p><a name="assert-accepted"></a></p>
+<h4 id="assertaccepted">assertAccepted</h4>
+
+<p>응답이 허용된(202) HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertAccepted</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-bad-request"></a></p>
+<h4 id="잘못된-요청assertbadrequest-확인">잘못된 요청(assertBadRequest) 확인</h4>
+
+<p>응답이 잘못된 요청(400) HTTP 상태 코드를 가지는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertBadRequest</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-client-error"></a></p>
+<h4 id="assertclienterror">assertClientError</h4>
+
+<p>응답이 클라이언트 오류(HTTP 상태 코드 &gt;= 400, &lt; 500)를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertClientError</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-conflict"></a></p>
+<h4 id="assertconflict">assertConflict</h4>
+
+<p>응답이 충돌(409) HTTP 상태 코드를 가지고 있는지 확인하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertConflict</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-cookie"></a></p>
+<h4 id="assertcookie">assertCookie</h4>
+
+<p>응답에 주어진 쿠키가 포함되어 있는지 확인하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertCookie</span><span class="p">(</span><span class="nv">$cookieName</span><span class="p">,</span> <span class="nv">$value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-cookie-expired"></a></p>
+<h4 id="assertcookieexpired">assertCookieExpired</h4>
+
+<p>응답에 지정된 쿠키가 포함되어 있으며 해당 쿠키가 만료되었는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertCookieExpired</span><span class="p">(</span><span class="nv">$cookieName</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-cookie-not-expired"></a></p>
+<h4 id="assertcookienotexpired">assertCookieNotExpired</h4>
+
+<p>응답에 지정된 쿠키가 포함되어 있고 만료되지 않았는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertCookieNotExpired</span><span class="p">(</span><span class="nv">$cookieName</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-cookie-missing"></a></p>
+<h4 id="assertcookiemissing">assertCookieMissing</h4>
+
+<p>응답에 지정된 쿠키가 포함되어 있지 않음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertCookieMissing</span><span class="p">(</span><span class="nv">$cookieName</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-created"></a></p>
+<h4 id="assertcreated">assertCreated</h4>
+
+<p>응답이 201 HTTP 상태 코드를 가지고 있는지 확인하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertCreated</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-dont-see"></a></p>
+<h4 id="assertdontsee">assertDontSee</h4>
+
+<p>주어진 문자열이 애플리케이션에서 반환된 응답에 포함되어 있지 않음을 확인합니다. 이 검증은 두 번째 인수로 <code class="language-plaintext highlighter-rouge">false</code>를 전달하지 않는 한 주어진 문자열을 자동으로 이스케이프합니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertDontSee</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nv">$escape</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-dont-see-text"></a></p>
+<h4 id="assertdontseetext">assertDontSeeText</h4>
+
+<p>주어진 문자열이 응답 텍스트에 포함되어 있지 않음을 확인합니다. 이 검증은 두 번째 인자로 <code class="language-plaintext highlighter-rouge">false</code>를 전달하지 않는 한 주어진 문자열을 자동으로 이스케이프 합니다. 이 메서드는 검증을 수행하기 전에 응답 내용을 <code class="language-plaintext highlighter-rouge">strip_tags</code> PHP 함수에 전달합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertDontSeeText</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nv">$escape</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-download"></a></p>
+<h4 id="assertdownload">assertDownload</h4>
+
+<p>응답이 “다운로드”인지 확인합니다. 일반적으로 이는 호출된 경로가 반환한 응답이 <code class="language-plaintext highlighter-rouge">Response::download</code> 응답, <code class="language-plaintext highlighter-rouge">BinaryFileResponse</code>, 또는 <code class="language-plaintext highlighter-rouge">Storage::download</code> 응답을 반환했음을 의미합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertDownload</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>원하신다면, 다운로드 가능한 파일에 지정된 파일 이름이 할당되었다고 주장할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertDownload</span><span class="p">(</span><span class="s1">'image.jpg'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-exact-json"></a></p>
+<h4 id="assertexactjson">assertExactJson</h4>
+
+<p>응답이 주어진 JSON 데이터와 정확히 일치하는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertExactJson</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-exact-json-structure"></a></p>
+<h4 id="assertexactjsonstructure">assertExactJsonStructure</h4>
+
+<p>응답이 주어진 JSON 구조와 정확히 일치하는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertExactJsonStructure</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이 방법은 <a href="#assert-json-structure">assertJsonStructure</a>의 보다 엄격한 변형입니다. <code class="language-plaintext highlighter-rouge">assertJsonStructure</code>와 달리, 이 방법은 응답에 예상 JSON 구조에 명시적으로 포함되지 않은 키가 포함되어 있으면 실패합니다.</p>
+
+<p><a name="assert-failed-dependency"></a></p>
+<h4 id="assertfaileddependency">assertFailedDependency</h4>
+
+<p>응답이 실패한 종속성(424) HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertFailedDependency</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-forbidden"></a></p>
+<h4 id="assertforbidden">assertForbidden</h4>
+
+<p>응답이 금지된(403) HTTP 상태 코드를 가지고 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertForbidden</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-found"></a></p>
+<h4 id="assertfound">assertFound</h4>
+
+<p>응답이 발견됨(302) HTTP 상태 코드를 가지고 있는지 확인:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertFound</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-gone"></a></p>
+<h4 id="assertgone">assertGone</h4>
+
+<p>응답이 gone(410) HTTP 상태 코드를 가지고 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertGone</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-header"></a></p>
+<h4 id="assertheader">assertHeader</h4>
+
+<p>주어진 헤더와 값이 응답에 존재하는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertHeader</span><span class="p">(</span><span class="nv">$headerName</span><span class="p">,</span> <span class="nv">$value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-header-contains"></a></p>
+<h4 id="assertheadercontains">assertHeaderContains</h4>
+
+<p>주어진 헤더가 특정 하위 문자열 값을 포함하는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertHeaderContains</span><span class="p">(</span><span class="nv">$headerName</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-header-missing"></a></p>
+<h4 id="assertheadermissing">assertHeaderMissing</h4>
+
+<p>주어진 헤더가 응답에 존재하지 않음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertHeaderMissing</span><span class="p">(</span><span class="nv">$headerName</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-internal-server-error"></a></p>
+<h4 id="내부-서버-오류assertinternalservererror">내부 서버 오류(assertInternalServerError)</h4>
+
+<p>응답에 “내부 서버 오류”(500) HTTP 상태 코드가 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertInternalServerError</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-json"></a></p>
+<h4 id="assertjson">assertJson</h4>
+
+<p>응답에 주어진 JSON 데이터가 포함되어 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJson</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$strict</span> <span class="o">=</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertJson</code> 방법은 응답을 배열로 변환하여 주어진 배열이 애플리케이션에서 반환된 JSON 응답 내에 존재하는지 확인합니다. 따라서 JSON 응답에 다른 속성이 있어도 주어진 조각이 존재하는 한 이 테스트는 여전히 통과합니다.</p>
+
+<p><a name="assert-json-count"></a></p>
+<h4 id="assertjsoncount">assertJsonCount</h4>
+
+<p>응답 JSON이 지정된 키에 예상 항목 수를 가진 배열을 포함하고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonCount</span><span class="p">(</span><span class="nv">$count</span><span class="p">,</span> <span class="nv">$key</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-fragment"></a></p>
+<h4 id="assertjsonfragment">assertJsonFragment</h4>
+
+<p>응답에 주어진 JSON 데이터가 어디에든 포함되어 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">'users'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="p">[</span>
+                <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor Otwell'</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">];</span>
+<span class="p">});</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonFragment</span><span class="p">([</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor Otwell'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-is-array"></a></p>
+<h4 id="assertjsonisarray">assertJsonIsArray</h4>
+
+<p>응답 JSON이 배열인지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonIsArray</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-is-object"></a></p>
+<h4 id="assertjsonisobject">assertJsonIsObject</h4>
+
+<p>응답 JSON이 객체인지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonIsObject</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-missing"></a></p>
+<h4 id="assertjsonmissing">assertJsonMissing</h4>
+
+<p>응답에 주어진 JSON 데이터가 포함되어 있지 않음을 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissing</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-missing-exact"></a></p>
+<h4 id="assertjsonmissingexact">assertJsonMissingExact</h4>
+
+<p>응답에 정확한 JSON 데이터가 포함되어 있지 않은지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissingExact</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-missing-validation-errors"></a></p>
+<h4 id="assertjsonmissingvalidationerrors">assertJsonMissingValidationErrors</h4>
+
+<p>응답에 지정된 키에 대한 JSON 검증 오류가 없음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissingValidationErrors</span><span class="p">(</span><span class="nv">$keys</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+보다 일반적인 <a href="#assert-valid">assertValid</a> 메서드는 응답이 JSON으로 반환된 유효성 검사 오류가 없음을 <strong>그리고</strong> 세션 저장소에 오류가 기록되지 않았음을 확인하는 데 사용할 수 있습니다.</p>
+</blockquote>
+
+<p><a name="assert-json-path"></a></p>
+<h4 id="assertjsonpath">assertJsonPath</h4>
+
+<p>응답이 지정된 경로에 주어진 데이터를 포함하고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonPath</span><span class="p">(</span><span class="nv">$path</span><span class="p">,</span> <span class="nv">$expectedValue</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>예를 들어, 다음 JSON 응답이 귀하의 애플리케이션에서 반환되는 경우:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Steve Schoger"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>다음과 같이 <code class="language-plaintext highlighter-rouge">user</code> 객체의 <code class="language-plaintext highlighter-rouge">name</code> 속성이 주어진 값과 일치하는지 주장할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonPath</span><span class="p">(</span><span class="s1">'user.name'</span><span class="p">,</span> <span class="s1">'Steve Schoger'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-paths"></a></p>
+<h4 id="assertjsonpaths">assertJsonPaths</h4>
+
+<p>응답에 지정된 경로에 주어진 데이터가 포함되어 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonPaths</span><span class="p">(</span><span class="k">array</span> <span class="nv">$paths</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>예를 들어, 응답 내에서 여러 값을 한 번에 주장할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonPaths</span><span class="p">([</span>
+    <span class="s1">'user.name'</span> <span class="o">=&gt;</span> <span class="s1">'Steve Schoger'</span><span class="p">,</span>
+    <span class="s1">'user.email'</span> <span class="o">=&gt;</span> <span class="k">fn</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$email</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">str</span><span class="p">(</span><span class="nv">$email</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">endsWith</span><span class="p">(</span><span class="s1">'@laravel.com'</span><span class="p">),</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-missing-path"></a></p>
+<h4 id="assertjsonmissingpath">assertJsonMissingPath</h4>
+
+<p>응답에 지정된 경로가 포함되지 않았음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissingPath</span><span class="p">(</span><span class="nv">$path</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>예를 들어, 다음 JSON 응답이 귀하의 애플리케이션에서 반환되는 경우:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Steve Schoger"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">user</code> 객체의 <code class="language-plaintext highlighter-rouge">email</code> 속성이 포함되어 있지 않다고 단언할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissingPath</span><span class="p">(</span><span class="s1">'user.email'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-missing-paths"></a></p>
+<h4 id="assertjsonmissingpaths">assertJsonMissingPaths</h4>
+
+<p>응답에 지정된 경로가 포함되지 않았음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissingPaths</span><span class="p">(</span><span class="nv">$paths</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>예를 들어, 응답에서 여러 경로가 누락되었다고 주장할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonMissingPaths</span><span class="p">([</span>
+    <span class="s1">'user.email'</span><span class="p">,</span>
+    <span class="s1">'user.password'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-structure"></a></p>
+<h4 id="assertjsonstructure">assertJsonStructure</h4>
+
+<p>응답이 주어진 JSON 구조를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonStructure</span><span class="p">(</span><span class="k">array</span> <span class="nv">$structure</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>예를 들어, 애플리케이션에서 반환된 JSON 응답에 다음과 같은 데이터가 포함되어 있는 경우:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Steve Schoger"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>다음과 같이 JSON 구조가 예상과 일치한다고 주장할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonStructure</span><span class="p">([</span>
+    <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'name'</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>때때로, 애플리케이션에서 반환되는 JSON 응답에는 객체 배열이 포함될 수 있습니다:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Steve Schoger"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Earth"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mary Schoger"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Earth"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>이 상황에서, 배열에 있는 모든 객체의 구조에 대해 주장하기 위해 <code class="language-plaintext highlighter-rouge">*</code> 문자를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonStructure</span><span class="p">([</span>
+    <span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'*'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+             <span class="s1">'name'</span><span class="p">,</span>
+             <span class="s1">'age'</span><span class="p">,</span>
+             <span class="s1">'location'</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-json-validation-errors"></a></p>
+<h4 id="assertjsonvalidationerrors">assertJsonValidationErrors</h4>
+
+<p>주어진 키에 대해 응답에 특정 JSON 검증 오류가 있는지 확인합니다. 이 메서드는 검증 오류가 세션에 플래시되는 대신 JSON 구조로 반환되는 응답을 대상으로 검증할 때 사용해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonValidationErrors</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$responseKey</span> <span class="o">=</span> <span class="s1">'errors'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+더 일반적인 <a href="#assert-invalid">assertInvalid</a> 메서드는 응답이 JSON으로 반환된 검증 오류가 있는지 <strong>또는</strong> 오류가 세션 스토리지에 플래시되었는지를 검증하는 데 사용할 수 있습니다.</p>
+</blockquote>
+
+<p><a name="assert-json-validation-error-for"></a></p>
+<h4 id="assertjsonvalidationerrorfor">assertJsonValidationErrorFor</h4>
+
+<p>응답이 주어진 키에 대해 JSON 검증 오류가 있는지 검증합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertJsonValidationErrorFor</span><span class="p">(</span><span class="n">string</span> <span class="nv">$key</span><span class="p">,</span> <span class="nv">$responseKey</span> <span class="o">=</span> <span class="s1">'errors'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-method-not-allowed"></a></p>
+<h4 id="메서드허용안됨검증">메서드허용안됨검증</h4>
+
+<p>응답이 메서드 허용 안 됨(405) HTTP 상태 코드를 가지고 있는지 검증합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertMethodNotAllowed</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-moved-permanently"></a></p>
+<h4 id="assertmovedpermanently">assertMovedPermanently</h4>
+
+<p>응답이 영구 이동(301) HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertMovedPermanently</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-location"></a></p>
+<h4 id="assertlocation">assertLocation</h4>
+
+<p>응답이 <code class="language-plaintext highlighter-rouge">Location</code> 헤더에 주어진 URI 값을 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertLocation</span><span class="p">(</span><span class="nv">$uri</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-content"></a></p>
+<h4 id="assertcontent">assertContent</h4>
+
+<p>주어진 문자열이 응답 내용과 일치하는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertContent</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-no-content"></a></p>
+<h4 id="assertnocontent">assertNoContent</h4>
+
+<p>응답이 지정된 HTTP 상태 코드를 가지고 있고 내용이 없음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertNoContent</span><span class="p">(</span><span class="nv">$status</span> <span class="o">=</span> <span class="mi">204</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-streamed"></a></p>
+<h4 id="assertstreamed">assertStreamed</h4>
+
+<p>응답이 스트리밍된 응답인지 확인합니다:</p>
+
+<p>$response-&gt;assertStreamed();</p>
+
+<p><a name="assert-streamed-content"></a></p>
+<h4 id="assertstreamedcontent">assertStreamedContent</h4>
+
+<p>주어진 문자열이 스트리밍된 응답 내용과 일치하는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertStreamedContent</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-not-found"></a></p>
+<h4 id="assertnotfound">assertNotFound</h4>
+
+<p>응답이 찾을 수 없음(404) HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertNotFound</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-ok"></a></p>
+<h4 id="assertok">assertOk</h4>
+
+<p>응답이 200 HTTP 상태 코드를 가지고 있는지 확인하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertOk</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-payment-required"></a></p>
+<h4 id="assertpaymentrequired">assertPaymentRequired</h4>
+
+<p>응답이 결제가 필요함(402) HTTP 상태 코드를 포함하는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertPaymentRequired</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-plain-cookie"></a></p>
+<h4 id="assertplaincookie">assertPlainCookie</h4>
+
+<p>응답에 지정된 암호화되지 않은 쿠키가 포함되어 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertPlainCookie</span><span class="p">(</span><span class="nv">$cookieName</span><span class="p">,</span> <span class="nv">$value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-redirect"></a></p>
+<h4 id="assertredirect">assertRedirect</h4>
+
+<p>응답이 주어진 URI로 리디렉션되는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRedirect</span><span class="p">(</span><span class="nv">$uri</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-redirect-back"></a></p>
+<h4 id="assertredirectback">assertRedirectBack</h4>
+
+<p>응답이 이전 페이지로 리디렉션되는지 확인:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRedirectBack</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-redirect-back-with-errors"></a></p>
+<h4 id="assertredirectbackwitherrors">assertRedirectBackWithErrors</h4>
+
+<p>응답이 이전 페이지로 리디렉션되고 <a href="#assert-session-has-errors">세션에 지정된 오류들이 있는지</a> 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRedirectBackWithErrors</span><span class="p">(</span>
+    <span class="k">array</span> <span class="nv">$keys</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">$format</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$errorBag</span> <span class="o">=</span> <span class="s1">'default'</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-redirect-back-without-errors"></a></p>
+<h4 id="assertredirectbackwithouterrors">assertRedirectBackWithoutErrors</h4>
+
+<p>응답이 이전 페이지로 리디렉션되고 세션에 오류 메시지가 없는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRedirectBackWithoutErrors</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-redirect-contains"></a></p>
+<h4 id="assertredirectcontains">assertRedirectContains</h4>
+
+<p>응답이 주어진 문자열을 포함하는 URI로 리디렉션되는지 여부를 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRedirectContains</span><span class="p">(</span><span class="nv">$string</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-redirect-to-route"></a></p>
+<h4 id="assertredirecttoroute">assertRedirectToRoute</h4>
+
+<p>응답이 주어진 <a href="/docs/{{version}}/routing#named-routes">이름 있는 경로</a>로 리디렉션되는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRedirectToRoute</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$parameters</span> <span class="o">=</span> <span class="p">[]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-redirect-to-signed-route"></a></p>
+<h4 id="assertredirecttosignedroute">assertRedirectToSignedRoute</h4>
+
+<p>응답이 주어진 <a href="/docs/{{version}}/urls#signed-urls">서명된 라우트</a>로 리디렉션되는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRedirectToSignedRoute</span><span class="p">(</span><span class="nv">$name</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$parameters</span> <span class="o">=</span> <span class="p">[]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-request-timeout"></a></p>
+<h4 id="assertrequesttimeout">assertRequestTimeout</h4>
+
+<p>응답이 요청 시간 초과(408) HTTP 상태 코드를 갖는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertRequestTimeout</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-see"></a></p>
+<h4 id="assertsee">assertSee</h4>
+
+<p>주어진 문자열이 응답 안에 포함되어 있는지 확인합니다. 이 검증은 두 번째 인수로 <code class="language-plaintext highlighter-rouge">false</code>를 전달하지 않는 한 주어진 문자열을 자동으로 이스케이프합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSee</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nv">$escape</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-see-in-order"></a></p>
+<h4 id="assertseeinorder">assertSeeInOrder</h4>
+
+<p>주어진 문자열들이 응답 내에서 순서대로 포함되어 있는지 확인합니다. 이 검증은 두 번째 인수로 <code class="language-plaintext highlighter-rouge">false</code>를 전달하지 않는 한 주어진 문자열을 자동으로 이스케이프합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSeeInOrder</span><span class="p">(</span><span class="k">array</span> <span class="nv">$values</span><span class="p">,</span> <span class="nv">$escape</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-see-text"></a></p>
+<h4 id="assertseetext">assertSeeText</h4>
+
+<p>주어진 문자열이 응답 텍스트에 포함되어 있는지 확인합니다. 이 검증은 두 번째 인수로 <code class="language-plaintext highlighter-rouge">false</code>를 전달하지 않는 한 주어진 문자열을 자동으로 이스케이프합니다. 검증이 수행되기 전에 응답 내용은 <code class="language-plaintext highlighter-rouge">strip_tags</code> PHP 함수에 전달됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSeeText</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nv">$escape</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-see-text-in-order"></a></p>
+<h4 id="assertseetextinorder">assertSeeTextInOrder</h4>
+
+<p>주어진 문자열들이 응답 텍스트 안에서 순서대로 포함되어 있는지 확인합니다. 이 검증은 두 번째 인수로 <code class="language-plaintext highlighter-rouge">false</code>를 전달하지 않는 한 주어진 문자열들을 자동으로 이스케이프합니다. 검증이 수행되기 전에 응답 내용은 <code class="language-plaintext highlighter-rouge">strip_tags</code> PHP 함수로 전달됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSeeTextInOrder</span><span class="p">(</span><span class="k">array</span> <span class="nv">$values</span><span class="p">,</span> <span class="nv">$escape</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-server-error"></a></p>
+<h4 id="assertservererror">assertServerError</h4>
+
+<p>응답이 서버 오류(HTTP 상태 코드 500 이상, 600 미만)를 가지는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertServerError</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-service-unavailable"></a></p>
+<h4 id="assertserviceunavailable">assertServiceUnavailable</h4>
+
+<p>응답이 “서비스를 사용할 수 없음”(503) HTTP 상태 코드를 가지는지 확인:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertServiceUnavailable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-session-has"></a></p>
+<h4 id="assertsessionhas">assertSessionHas</h4>
+
+<p>세션에 주어진 데이터가 포함되어 있는지 확인하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHas</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>필요한 경우, 클로저를 <code class="language-plaintext highlighter-rouge">assertSessionHas</code> 메서드의 두 번째 인수로 제공할 수 있습니다. 클로저가 <code class="language-plaintext highlighter-rouge">true</code>를 반환하면 어설션이 통과됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHas</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$value</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">===</span> <span class="s1">'Taylor Otwell'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="assert-session-has-input"></a></p>
+<h4 id="assertsessionhasinput">assertSessionHasInput</h4>
+
+<p>세션에 <a href="/docs/{{version}}/responses#redirecting-with-flashed-session-data">플래시된 입력 배열</a>에 주어진 값이 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasInput</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>필요한 경우, 클로저를 <code class="language-plaintext highlighter-rouge">assertSessionHasInput</code> 메서드의 두 번째 인수로 제공할 수 있습니다. 클로저가 <code class="language-plaintext highlighter-rouge">true</code>를 반환하면 어설션이 통과됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Crypt</span><span class="p">;</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasInput</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Crypt</span><span class="o">::</span><span class="nf">decryptString</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">===</span> <span class="s1">'secret'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="assert-session-has-all"></a></p>
+<h4 id="assertsessionhasall">assertSessionHasAll</h4>
+
+<p>세션이 주어진 키/값 쌍 배열을 포함하고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasAll</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>예를 들어, 애플리케이션의 세션에 <code class="language-plaintext highlighter-rouge">name</code> 및 <code class="language-plaintext highlighter-rouge">status</code> 키가 포함되어 있는 경우, 다음과 같이 두 키가 존재하고 지정된 값을 가지고 있는지 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasAll</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor Otwell'</span><span class="p">,</span>
+    <span class="s1">'status'</span> <span class="o">=&gt;</span> <span class="s1">'active'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-session-has-errors"></a></p>
+<h4 id="assertsessionhaserrors">assertSessionHasErrors</h4>
+
+<p>세션에 주어진 <code class="language-plaintext highlighter-rouge">$keys</code>에 대한 오류가 포함되어 있는지 확인합니다. 만약 <code class="language-plaintext highlighter-rouge">$keys</code>가 연관 배열이라면, 세션이 각 필드(key)에 대해 특정 오류 메시지(value)를 포함하고 있는지 확인합니다. 이 메서드는 JSON 구조로 반환하는 대신 세션에 검증 오류를 플래시하는 라우트를 테스트할 때 사용되어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasErrors</span><span class="p">(</span>
+    <span class="k">array</span> <span class="nv">$keys</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">$format</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$errorBag</span> <span class="o">=</span> <span class="s1">'default'</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>예를 들어, <code class="language-plaintext highlighter-rouge">name</code> 및 <code class="language-plaintext highlighter-rouge">email</code> 필드에 세션에 표시된 유효성 검사 오류 메시지가 있다고 주장하려면, 다음과 같이 <code class="language-plaintext highlighter-rouge">assertSessionHasErrors</code> 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasErrors</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>또는, 특정 필드가 특정 검증 오류 메시지를 가지고 있다고 주장할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasErrors</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'The given name was invalid.'</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+보다 일반적인 <a href="#assert-invalid">assertInvalid</a> 메서드는 응답에 JSON으로 반환된 유효성 검사 오류가 있는지 또는 오류가 세션 저장소에 플래시되었는지 확인하는 데 사용할 수 있습니다.</p>
+</blockquote>
+
+<p><a name="assert-session-has-errors-in"></a></p>
+<h4 id="assertsessionhaserrorsin">assertSessionHasErrorsIn</h4>
+
+<p>세션에 특정 <a href="/docs/{{version}}/validation#named-error-bags">error bag</a> 내에서 주어진 <code class="language-plaintext highlighter-rouge">$keys</code>에 대한 오류가 포함되어 있는지 확인합니다. <code class="language-plaintext highlighter-rouge">$keys</code>가 연관 배열(associative array)인 경우, 오류 배그 내에서 각 필드(key)에 대해 특정 오류 메시지(value)가 세션에 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasErrorsIn</span><span class="p">(</span><span class="nv">$errorBag</span><span class="p">,</span> <span class="nv">$keys</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">$format</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-session-has-no-errors"></a></p>
+<h4 id="세션에-오류가-없는지-확인">세션에 오류가 없는지 확인</h4>
+
+<p>세션에 검증 오류가 없는지 확인:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionHasNoErrors</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-session-doesnt-have-errors"></a></p>
+<h4 id="assertsessiondoesnthaveerrors">assertSessionDoesntHaveErrors</h4>
+
+<p>주어진 키에 대해 세션에 검증 오류가 없음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionDoesntHaveErrors</span><span class="p">(</span><span class="nv">$keys</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">$format</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nv">$errorBag</span> <span class="o">=</span> <span class="s1">'default'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+보다 일반적인 <a href="#assert-valid">assertValid</a> 메서드는 응답이 JSON으로 반환된 검증 오류가 없음을 <strong>그리고</strong> 세션 저장소에 플래시된 오류가 없음을 확인하는 데 사용할 수 있습니다.</p>
+</blockquote>
+
+<p><a name="assert-session-missing"></a></p>
+<h4 id="assertsessionmissing">assertSessionMissing</h4>
+
+<p>세션에 주어진 키가 포함되어 있지 않음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionMissing</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-session-missing-input"></a></p>
+<h4 id="assertsessionmissinginput">assertSessionMissingInput</h4>
+
+<p>세션에 플래시된 입력 배열에서 주어진 입력 키가 없는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSessionMissingInput</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-status"></a></p>
+<h4 id="assertstatus">assertStatus</h4>
+
+<p>응답이 특정 HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertStatus</span><span class="p">(</span><span class="nv">$code</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-successful"></a></p>
+<h4 id="성공-확인">성공 확인</h4>
+
+<p>응답이 성공적인(&gt;= 200 및 &lt; 300) HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertSuccessful</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-too-many-requests"></a></p>
+<h4 id="asserttoomanyrequests">assertTooManyRequests</h4>
+
+<p>응답이 너무 많은 요청(429) HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertTooManyRequests</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-unauthorized"></a></p>
+<h4 id="assertunauthorized">assertUnauthorized</h4>
+
+<p>응답이 허가되지 않음(401) HTTP 상태 코드를 갖는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertUnauthorized</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-unprocessable"></a></p>
+<h4 id="assertunprocessable">assertUnprocessable</h4>
+
+<p>응답이 처리할 수 없는 엔터티(422) HTTP 상태 코드를 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertUnprocessable</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-unsupported-media-type"></a></p>
+<h4 id="지원되지-않는-미디어-타입assertunsupportedmediatype-확인">지원되지 않는 미디어 타입(assertUnsupportedMediaType) 확인</h4>
+
+<p>응답이 지원되지 않는 미디어 타입(HTTP 상태 코드 415)을 가지고 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertUnsupportedMediaType</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="assert-valid"></a></p>
+<h4 id="assertvalid">assertValid</h4>
+
+<p>주어진 키에 대한 응답에 유효성 검사 오류가 없음을 확인합니다. 이 메서드는 유효성 검사 오류가 JSON 구조로 반환되거나 세션에 플래시된 응답에 대해 확인할 때 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Assert that no validation errors are present...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertValid</span><span class="p">();</span>
+
+<span class="c1">// Assert that the given keys do not have validation errors...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertValid</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-invalid"></a></p>
+<h4 id="assertinvalid">assertInvalid</h4>
+
+<p>주어진 키에 대한 응답에 검증 오류가 있는지 확인합니다. 이 메서드는 검증 오류가 JSON 구조로 반환되거나 검증 오류가 세션에 플래시된 응답에 대해 확인하는 데 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertInvalid</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>또한 특정 키가 특정 유효성 검사 오류 메시지를 가지고 있다고 주장할 수 있습니다. 이렇게 할 때 전체 메시지를 제공하거나 메시지의 일부분만 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertInvalid</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'The name field is required.'</span><span class="p">,</span>
+    <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'valid email address'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>주어진 필드가 유효성 검사 오류가 있는 유일한 필드라고 주장하고 싶다면, <code class="language-plaintext highlighter-rouge">assertOnlyInvalid</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertOnlyInvalid</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-view-has"></a></p>
+<h4 id="assertviewhas">assertViewHas</h4>
+
+<p>응답 뷰에 특정 데이터가 포함되어 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertViewHas</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertViewHas</code> 메서드의 두 번째 인수로 클로저를 전달하면 특정 뷰 데이터에 대해 검사하고 주장할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertViewHas</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">===</span> <span class="s1">'Taylor'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>또한 응답에서 배열 변수로 뷰 데이터를 접근할 수 있어 편리하게 확인할 수 있습니다:```php tab=Pest
+expect($response[‘name’])-&gt;toBe(‘Taylor’);</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```php tab=PHPUnit
+$this-&gt;assertEquals('Taylor', $response['name']);
+</code></pre></div></div>
+
+<p><a name="assert-view-has-all"></a></p>
+<h4 id="assertviewhasall">assertViewHasAll</h4>
+
+<p>응답 뷰에 주어진 데이터 목록이 있는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertViewHasAll</span><span class="p">(</span><span class="k">array</span> <span class="nv">$data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>이 방법은 뷰가 단순히 주어진 키와 일치하는 데이터를 포함하고 있음을 확인하는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertViewHasAll</span><span class="p">([</span>
+    <span class="s1">'name'</span><span class="p">,</span>
+    <span class="s1">'email'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p>또는, 뷰 데이터가 존재하며 특정 값을 가지고 있다고 주장할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertViewHasAll</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor Otwell'</span><span class="p">,</span>
+    <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'taylor@example.com,'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="assert-view-is"></a></p>
+<h4 id="assertviewis">assertViewIs</h4>
+
+<p>지정된 뷰가 라우트에 의해 반환되었는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertViewIs</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-view-missing"></a></p>
+<h4 id="assertviewmissing">assertViewMissing</h4>
+
+<p>주어진 데이터 키가 애플리케이션 응답에서 반환된 뷰에 제공되지 않았음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertViewMissing</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="authentication-assertions"></a></p>
+<h3 id="인증-주장">인증 주장</h3>
+
+<p>Laravel은 애플리케이션의 기능 테스트 내에서 사용할 수 있는 다양한 인증 관련 주장을 제공합니다. 이러한 메서드는 <code class="language-plaintext highlighter-rouge">get</code> 및 <code class="language-plaintext highlighter-rouge">post</code>와 같은 메서드가 반환하는 <code class="language-plaintext highlighter-rouge">Illuminate\Testing\TestResponse</code> 인스턴스가 아니라, 테스트 클래스 자체에서 호출된다는 점에 유의하세요.</p>
+
+<p><a name="assert-authenticated"></a></p>
+<h4 id="assertauthenticated">assertAuthenticated</h4>
+
+<p>사용자가 인증되었는지 주장합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertAuthenticated</span><span class="p">(</span><span class="nv">$guard</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-guest"></a></p>
+<h4 id="assertguest">assertGuest</h4>
+
+<p>사용자가 인증되지 않았음을 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertGuest</span><span class="p">(</span><span class="nv">$guard</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="assert-authenticated-as"></a></p>
+<h4 id="assertauthenticatedas">assertAuthenticatedAs</h4>
+
+<p>특정 사용자가 인증되었는지 확인합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertAuthenticatedAs</span><span class="p">(</span><span class="nv">$user</span><span class="p">,</span> <span class="nv">$guard</span> <span class="o">=</span> <span class="kc">null</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="validation-assertions"></a></p>
+<h2 id="검증-주장">검증 주장</h2>
+
+<p>라라벨은 요청에서 제공된 데이터가 유효했는지 또는 무효했는지를 확인하는 데 사용할 수 있는 두 가지 주요 검증 관련 주장을 제공합니다.</p>
+
+<p><a name="validation-assert-valid"></a></p>
+<h4 id="assertvalid-1">assertValid</h4>
+
+<p>주어진 키에 대해 응답에 검증 오류가 없음을 주장합니다. 이 메서드는 검증 오류가 JSON 구조로 반환되거나 검증 오류가 세션에 플래시된 응답에 대해 주장하는 데 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Assert that no validation errors are present...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertValid</span><span class="p">();</span>
+
+<span class="c1">// Assert that the given keys do not have validation errors...</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertValid</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="validation-assert-invalid"></a></p>
+<h4 id="assertinvalid-1">assertInvalid</h4>
+
+<p>주어진 키에 대한 응답에 검증 오류가 있는지 확인합니다. 이 메서드는 검증 오류가 JSON 구조로 반환되거나 검증 오류가 세션에 플래시된 응답에 대해 확인하는 데 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertInvalid</span><span class="p">([</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'email'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>또한 특정 키가 특정 유효성 검사 오류 메시지를 가지고 있다고 주장할 수 있습니다. 이렇게 할 때 전체 메시지를 제공하거나 메시지의 일부분만 제공할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">assertInvalid</span><span class="p">([</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'The name field is required.'</span><span class="p">,</span>
+    <span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="s1">'valid email address'</span><span class="p">,</span>
+<span class="p">]);</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

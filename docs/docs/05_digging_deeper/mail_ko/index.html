@@ -1,0 +1,3116 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Mail | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Mail" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/05_digging_deeper/mail_ko/" />
+<meta property="og:url" content="http://localhost:4000/docs/05_digging_deeper/mail_ko/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Mail" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Mail","url":"http://localhost:4000/docs/05_digging_deeper/mail_ko/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="true">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse show" id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded active">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/05_digging_deeper/">05 digging deeper</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Mail</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="mail">Mail</h1>
+
+<ul>
+  <li><a href="#introduction">Introduction</a>
+    <ul>
+      <li><a href="#configuration">Configuration</a></li>
+      <li><a href="#driver-prerequisites">Driver Prerequisites</a></li>
+      <li><a href="#failover-configuration">Failover Configuration</a></li>
+      <li><a href="#round-robin-configuration">Round Robin Configuration</a></li>
+    </ul>
+  </li>
+  <li><a href="#generating-mailables">Generating Mailables</a></li>
+  <li><a href="#writing-mailables">Writing Mailables</a>
+    <ul>
+      <li><a href="#configuring-the-sender">Configuring the Sender</a></li>
+      <li><a href="#configuring-the-view">Configuring the View</a></li>
+      <li><a href="#view-data">View Data</a></li>
+      <li><a href="#attachments">Attachments</a></li>
+      <li><a href="#inline-attachments">Inline Attachments</a></li>
+      <li><a href="#attachable-objects">Attachable Objects</a></li>
+      <li><a href="#headers">Headers</a></li>
+      <li><a href="#tags-and-metadata">Tags and Metadata</a></li>
+      <li><a href="#customizing-the-symfony-message">Customizing the Symfony Message</a></li>
+    </ul>
+  </li>
+  <li><a href="#markdown-mailables">Markdown Mailables</a>
+    <ul>
+      <li><a href="#generating-markdown-mailables">Generating Markdown Mailables</a></li>
+      <li><a href="#writing-markdown-messages">Writing Markdown Messages</a></li>
+      <li><a href="#customizing-the-components">Customizing the Components</a></li>
+    </ul>
+  </li>
+  <li><a href="#sending-mail">Sending Mail</a>
+    <ul>
+      <li><a href="#queueing-mail">Queueing Mail</a></li>
+    </ul>
+  </li>
+  <li><a href="#rendering-mailables">Rendering Mailables</a>
+    <ul>
+      <li><a href="#previewing-mailables-in-the-browser">Previewing Mailables in the Browser</a></li>
+    </ul>
+  </li>
+  <li><a href="#localizing-mailables">Localizing Mailables</a></li>
+  <li><a href="#testing-mailables">Testing</a>
+    <ul>
+      <li><a href="#testing-mailable-content">Testing Mailable Content</a></li>
+      <li><a href="#testing-mailable-sending">Testing Mailable Sending</a></li>
+    </ul>
+  </li>
+  <li><a href="#mail-and-local-development">Mail and Local Development</a></li>
+  <li><a href="#events">Events</a></li>
+  <li><a href="#custom-transports">Custom Transports</a>
+    <ul>
+      <li><a href="#additional-symfony-transports">Additional Symfony Transports</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><a name="introduction"></a></p>
+<h2 id="introduction">Introduction</h2>
+
+<p>Sending email doesn’t have to be complicated. Laravel provides a clean, simple email API powered by the popular <a href="https://symfony.com/doc/current/mailer.html">Symfony Mailer</a> component. Laravel and Symfony Mailer provide drivers for sending email via SMTP, Cloudflare, Mailgun, Postmark, Resend, Amazon SES, and <code class="language-plaintext highlighter-rouge">sendmail</code>, allowing you to quickly get started sending mail through a local or cloud-based service of your choice.</p>
+
+<p><a name="configuration"></a></p>
+<h3 id="configuration">Configuration</h3>
+
+<p>Laravel’s email services may be configured via your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file. Each mailer configured within this file may have its own unique configuration and even its own unique “transport”, allowing your application to use different email services to send certain email messages. For example, your application might use Postmark to send transactional emails while using Amazon SES to send bulk emails.</p>
+
+<p>Within your <code class="language-plaintext highlighter-rouge">mail</code> configuration file, you will find a <code class="language-plaintext highlighter-rouge">mailers</code> configuration array. This array contains a sample configuration entry for each of the major mail drivers / transports supported by Laravel, while the <code class="language-plaintext highlighter-rouge">default</code> configuration value determines which mailer will be used by default when your application needs to send an email message.</p>
+
+<p><a name="driver-prerequisites"></a></p>
+<h3 id="driver--transport-prerequisites">Driver / Transport Prerequisites</h3>
+
+<p>The API based drivers such as Mailgun, Postmark, and Resend are often simpler and faster than sending mail via SMTP servers. Whenever possible, we recommend that you use one of these drivers.</p>
+
+<p><a name="cloudflare-driver"></a></p>
+<h4 id="cloudflare-driver">Cloudflare Driver</h4>
+
+<p>To use the Cloudflare driver, install Symfony’s HTTP Client via Composer:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/http-client
+</code></pre></div></div>
+
+<p>다음으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일에서 두 가지를 변경해야 합니다. 먼저, 기본 메일러를 <code class="language-plaintext highlighter-rouge">cloudflare</code>로 설정하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_MAILER'</span><span class="p">,</span> <span class="s1">'cloudflare'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p>둘째, 다음 구성 배열을 <code class="language-plaintext highlighter-rouge">mailers</code> 배열에 추가하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'cloudflare'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'cloudflare'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>애플리케이션의 기본 메일러를 구성한 후, 다음 옵션을 <code class="language-plaintext highlighter-rouge">config/services.php</code> 구성 파일에 추가하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'cloudflare'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'account_id'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'CLOUDFLARE_ACCOUNT_ID'</span><span class="p">),</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'CLOUDFLARE_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="mailgun-driver"></a></p>
+<h4 id="mailgun-드라이버">Mailgun 드라이버</h4>
+
+<p>Mailgun 드라이버를 사용하려면 Composer를 통해 Symfony의 Mailgun Mailer 전송을 설치하세요:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/mailgun-mailer symfony/http-client
+</code></pre></div></div>
+
+<p>다음으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일에서 두 가지 변경을 해야 합니다. 먼저, 기본 메일러를 <code class="language-plaintext highlighter-rouge">mailgun</code>로 설정하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_MAILER'</span><span class="p">,</span> <span class="s1">'mailgun'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p>둘째, 다음 구성 배열을 <code class="language-plaintext highlighter-rouge">mailers</code> 배열에 추가하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailgun'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'mailgun'</span><span class="p">,</span>
+    <span class="c1">// 'client' =&gt; [</span>
+    <span class="c1">//     'timeout' =&gt; 5,</span>
+    <span class="c1">// ],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>애플리케이션의 기본 메일러를 구성한 후, 다음 옵션을 <code class="language-plaintext highlighter-rouge">config/services.php</code> 구성 파일에 추가하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailgun'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'domain'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_DOMAIN'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_SECRET'</span><span class="p">),</span>
+    <span class="s1">'endpoint'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_ENDPOINT'</span><span class="p">,</span> <span class="s1">'api.mailgun.net'</span><span class="p">),</span>
+    <span class="s1">'scheme'</span> <span class="o">=&gt;</span> <span class="s1">'https'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>미국 <a href="https://documentation.mailgun.com/docs/mailgun/api-reference/api-overview#mailgun-regions">Mailgun 지역</a>을 사용하고 있지 않은 경우, <code class="language-plaintext highlighter-rouge">services</code> 구성 파일에서 지역의 엔드포인트를 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailgun'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'domain'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_DOMAIN'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_SECRET'</span><span class="p">),</span>
+    <span class="s1">'endpoint'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILGUN_ENDPOINT'</span><span class="p">,</span> <span class="s1">'api.eu.mailgun.net'</span><span class="p">),</span>
+    <span class="s1">'scheme'</span> <span class="o">=&gt;</span> <span class="s1">'https'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="postmark-driver"></a></p>
+<h4 id="포스트마크-드라이버">포스트마크 드라이버</h4>
+
+<p><a href="https://postmarkapp.com/">Postmark</a> 드라이버를 사용하려면 Composer를 통해 Symfony의 Postmark 메일러 트랜스포트를 설치하세요:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/postmark-mailer symfony/http-client
+</code></pre></div></div>
+
+<p>다음으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 설정 파일에서 <code class="language-plaintext highlighter-rouge">default</code> 옵션을 <code class="language-plaintext highlighter-rouge">postmark</code>로 설정합니다. 애플리케이션의 기본 메일러를 설정한 후, <code class="language-plaintext highlighter-rouge">config/services.php</code> 설정 파일에 다음 옵션이 포함되어 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'postmark'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'POSTMARK_API_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>특정 메일러가 사용할 Postmark 메시지 스트림을 지정하고 싶다면, 해당 메일러의 구성 배열에 <code class="language-plaintext highlighter-rouge">message_stream_id</code> 구성 옵션을 추가할 수 있습니다. 이 구성 배열은 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일에서 확인할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'postmark'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'postmark'</span><span class="p">,</span>
+    <span class="s1">'message_stream_id'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'POSTMARK_MESSAGE_STREAM_ID'</span><span class="p">),</span>
+    <span class="c1">// 'client' =&gt; [</span>
+    <span class="c1">//     'timeout' =&gt; 5,</span>
+    <span class="c1">// ],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>이렇게 하면 서로 다른 메시지 스트림으로 여러 개의 Postmark 메일러를 설정할 수도 있습니다.</p>
+
+<p><a name="resend-driver"></a></p>
+<h4 id="resend-드라이버">Resend 드라이버</h4>
+
+<p><a href="https://resend.com/">Resend</a> 드라이버를 사용하려면, Composer를 통해 Resend의 PHP SDK를 설치하세요:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require resend/resend-php
+</code></pre></div></div>
+
+<p>다음으로, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 설정 파일에서 <code class="language-plaintext highlighter-rouge">default</code> 옵션을 <code class="language-plaintext highlighter-rouge">resend</code>로 설정합니다. 애플리케이션의 기본 메일러를 설정한 후, <code class="language-plaintext highlighter-rouge">config/services.php</code> 설정 파일에 다음 옵션이 포함되어 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'resend'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'RESEND_API_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="ses-driver"></a></p>
+<h4 id="ses-드라이버">SES 드라이버</h4>
+
+<p>Amazon SES 드라이버를 사용하려면 먼저 PHP용 Amazon AWS SDK를 설치해야 합니다. 이 라이브러리는 Composer 패키지 관리자를 통해 설치할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require aws/aws-sdk-php
+</code></pre></div></div>
+
+<p>다음으로, <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일에서 <code class="language-plaintext highlighter-rouge">default</code> 옵션을 <code class="language-plaintext highlighter-rouge">ses</code>로 설정하고, <code class="language-plaintext highlighter-rouge">config/services.php</code> 구성 파일에 다음 옵션들이 포함되어 있는지 확인하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'ses'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_ACCESS_KEY_ID'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SECRET_ACCESS_KEY'</span><span class="p">),</span>
+    <span class="s1">'region'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_DEFAULT_REGION'</span><span class="p">,</span> <span class="s1">'us-east-1'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>세션 토큰을 통해 AWS <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html">임시 자격 증명</a>을 사용하려면, 애플리케이션의 SES 구성에 <code class="language-plaintext highlighter-rouge">token</code> 키를 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'ses'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_ACCESS_KEY_ID'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SECRET_ACCESS_KEY'</span><span class="p">),</span>
+    <span class="s1">'region'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_DEFAULT_REGION'</span><span class="p">,</span> <span class="s1">'us-east-1'</span><span class="p">),</span>
+    <span class="s1">'token'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SESSION_TOKEN'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>SES의 <a href="https://docs.aws.amazon.com/ses/latest/dg/sending-email-subscription-management.html">구독 관리 기능</a>과 상호작용하려면, 메일 메시지의 <a href="#headers">headers</a> 메소드가 반환하는 배열에 <code class="language-plaintext highlighter-rouge">X-Ses-List-Management-Options</code> 헤더를 포함시킬 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the message headers.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">headers</span><span class="p">():</span> <span class="kt">Headers</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'X-Ses-List-Management-Options'</span> <span class="o">=&gt;</span> <span class="s1">'contactListName=MyContactList;topicName=MyTopic'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>SES <a href="https://docs.aws.amazon.com/ses/latest/dg/tenants.html">테넌트</a>를 통해 이메일을 보내려면 <code class="language-plaintext highlighter-rouge">headers</code> 메서드에서 <code class="language-plaintext highlighter-rouge">X-Ses-Tenant-Name</code> 헤더를 반환할 수 있습니다. Laravel은 메시지를 보낼 때 SES에 헤더 값을 <code class="language-plaintext highlighter-rouge">TenantName</code> 옵션으로 전달합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">function</span> <span class="n">headers</span><span class="p">():</span> <span class="kt">Headers</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'X-Ses-Tenant-Name'</span> <span class="o">=&gt;</span> <span class="s1">'tenant-id'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Laravel이 이메일을 보낼 때 AWS SDK의 <code class="language-plaintext highlighter-rouge">SendEmail</code> 메서드에 전달해야 하는 <a href="https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sesv2-2019-09-27.html#sendemail">추가 옵션</a>을 정의하고 싶다면, <code class="language-plaintext highlighter-rouge">ses</code> 설정 내에 <code class="language-plaintext highlighter-rouge">options</code> 배열을 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'ses'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_ACCESS_KEY_ID'</span><span class="p">),</span>
+    <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_SECRET_ACCESS_KEY'</span><span class="p">),</span>
+    <span class="s1">'region'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'AWS_DEFAULT_REGION'</span><span class="p">,</span> <span class="s1">'us-east-1'</span><span class="p">),</span>
+    <span class="s1">'options'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'ConfigurationSetName'</span> <span class="o">=&gt;</span> <span class="s1">'MyConfigurationSet'</span><span class="p">,</span>
+        <span class="s1">'EmailTags'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s1">'Name'</span> <span class="o">=&gt;</span> <span class="s1">'foo'</span><span class="p">,</span> <span class="s1">'Value'</span> <span class="o">=&gt;</span> <span class="s1">'bar'</span><span class="p">],</span>
+        <span class="p">],</span>
+    <span class="p">],</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="failover-configuration"></a></p>
+<h3 id="장애-조치-구성">장애 조치 구성</h3>
+
+<p>때때로, 애플리케이션의 메일을 전송하도록 구성한 외부 서비스가 다운될 수 있습니다. 이러한 경우, 기본 전송 드라이버가 다운될 경우 사용될 하나 이상의 백업 메일 전송 구성을 정의하는 것이 유용할 수 있습니다.</p>
+
+<p>이를 달성하려면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">mail</code> 구성 파일 내에서 <code class="language-plaintext highlighter-rouge">failover</code> 전송을 사용하는 메일러를 정의해야 합니다. 애플리케이션 <code class="language-plaintext highlighter-rouge">failover</code> 메일러의 구성 배열에는, 구성된 메일러가 전송을 위해 선택될 순서를 참조하는 <code class="language-plaintext highlighter-rouge">mailers</code> 배열이 포함되어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'failover'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'failover'</span><span class="p">,</span>
+        <span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'postmark'</span><span class="p">,</span>
+            <span class="s1">'mailgun'</span><span class="p">,</span>
+            <span class="s1">'sendmail'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s1">'retry_after'</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="p">],</span>
+
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">failover</code> 전송을 사용하는 메일러를 구성한 후에는, 대체 기능을 사용하기 위해 실패 시 전환(failover) 메일러를 애플리케이션의 <code class="language-plaintext highlighter-rouge">.env</code> 파일에서 기본 메일러로 설정해야 합니다.</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">MAIL_MAILER</span><span class="p">=</span><span class="s">failover</span>
+</code></pre></div></div>
+
+<p><a name="round-robin-configuration"></a></p>
+<h3 id="라운드-로빈-구성">라운드 로빈 구성</h3>
+
+<p><code class="language-plaintext highlighter-rouge">roundrobin</code> 전송을 사용하면 여러 메일러에 걸쳐 메일 발송 작업을 분산시킬 수 있습니다. 시작하려면, <code class="language-plaintext highlighter-rouge">roundrobin</code> 전송을 사용하는 메일러를 애플리케이션의 <code class="language-plaintext highlighter-rouge">mail</code> 구성 파일 내에 정의하세요. 애플리케이션의 <code class="language-plaintext highlighter-rouge">roundrobin</code> 메일러에 대한 구성 배열은 어떤 구성된 메일러를 전송에 사용할지 참조하는 <code class="language-plaintext highlighter-rouge">mailers</code> 배열을 포함해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'roundrobin'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'roundrobin'</span><span class="p">,</span>
+        <span class="s1">'mailers'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'ses'</span><span class="p">,</span>
+            <span class="s1">'postmark'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s1">'retry_after'</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="p">],</span>
+
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>라운드 로빈 메일러가 정의되면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">mail</code> 구성 파일 내에서 <code class="language-plaintext highlighter-rouge">default</code> 구성 키의 값으로 해당 메일러의 이름을 지정하여 이 메일러를 애플리케이션에서 사용하는 기본 메일러로 설정해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'default'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_MAILER'</span><span class="p">,</span> <span class="s1">'roundrobin'</span><span class="p">),</span>
+</code></pre></div></div>
+
+<p>라운드 로빈 전송은 구성된 메일러 목록에서 무작위로 메일러를 선택한 다음, 이후 이메일마다 다음 사용 가능한 메일러로 전환합니다. <em><a href="https://en.wikipedia.org/wiki/High_availability">고가용성</a></em>을 달성하는 데 도움이 되는 <code class="language-plaintext highlighter-rouge">failover</code> 전송과 달리, <code class="language-plaintext highlighter-rouge">roundrobin</code> 전송은 <em>[로드 밸런싱](https://en.wikipedia.org/wiki/Load_balancing_(computing)</em>을 제공합니다.</p>
+
+<p><a name="generating-mailables"></a></p>
+<h2 id="메일러-생성">메일러 생성</h2>
+
+<p>Laravel 애플리케이션을 구축할 때, 애플리케이션에서 보내는 각 이메일 유형은 “메일러(mailable)” 클래스에 의해 표현됩니다. 이러한 클래스는 <code class="language-plaintext highlighter-rouge">app/Mail</code> 디렉토리에 저장됩니다. 애플리케이션에서 이 디렉토리가 보이지 않더라도 걱정하지 마세요. 첫 번째 메일러 클래스를 <code class="language-plaintext highlighter-rouge">make:mail</code> Artisan 명령을 사용하여 생성할 때 자동으로 생성됩니다.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:mail OrderShipped
+</code></pre></div></div>
+
+<p><a name="writing-mailables"></a></p>
+<h2 id="메일-작성하기">메일 작성하기</h2>
+
+<p>메일 클래스를 생성한 후에는 그 내용을 살펴보기 위해 열어봅시다. 메일 클래스 구성은 여러 메서드에서 이루어지며, <code class="language-plaintext highlighter-rouge">envelope</code>, <code class="language-plaintext highlighter-rouge">content</code>, <code class="language-plaintext highlighter-rouge">attachments</code> 메서드를 포함합니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">envelope</code> 메서드는 메시지의 주제와 경우에 따라 수신자를 정의하는 <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Mailables\Envelope</code> 객체를 반환합니다. <code class="language-plaintext highlighter-rouge">content</code> 메서드는 메시지 내용을 생성하는 데 사용할 <a href="/docs/{{version}}/blade">Blade 템플릿</a>을 정의하는 <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Mailables\Content</code> 객체를 반환합니다.</p>
+
+<p><a name="configuring-the-sender"></a></p>
+<h3 id="발신자-구성">발신자 구성</h3>
+
+<p><a name="using-the-envelope"></a></p>
+<h4 id="envelope-사용">Envelope 사용</h4>
+
+<p>먼저, 이메일의 발신자를 구성하는 방법을 살펴봅시다. 즉, 이메일이 누구로부터 발송되는지를 설정하는 것입니다. 발신자를 구성하는 두 가지 방법이 있습니다. 먼저, 메시지의 envelope에서 “from” 주소를 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Address</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Envelope</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message envelope.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">envelope</span><span class="p">():</span> <span class="kt">Envelope</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+        <span class="n">from</span><span class="o">:</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span><span class="s1">'jeffrey@example.com'</span><span class="p">,</span> <span class="s1">'Jeffrey Way'</span><span class="p">),</span>
+        <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>원하신다면 <code class="language-plaintext highlighter-rouge">replyTo</code> 주소를 지정할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+    <span class="n">from</span><span class="o">:</span> <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span><span class="s1">'jeffrey@example.com'</span><span class="p">,</span> <span class="s1">'Jeffrey Way'</span><span class="p">),</span>
+    <span class="n">replyTo</span><span class="o">:</span> <span class="p">[</span>
+        <span class="k">new</span> <span class="nc">Address</span><span class="p">(</span><span class="s1">'taylor@example.com'</span><span class="p">,</span> <span class="s1">'Taylor Otwell'</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="using-a-global-from-address"></a></p>
+<h4 id="전역-from-주소-사용">전역 <code class="language-plaintext highlighter-rouge">from</code> 주소 사용</h4>
+
+<p>그러나 애플리케이션이 모든 이메일에 대해 동일한 “발신자(from)” 주소를 사용하는 경우, 생성하는 각 메일러 클래스에 이를 추가하는 것이 번거로울 수 있습니다. 대신, <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일에서 전역 “발신자(from)” 주소를 지정할 수 있습니다. 이 주소는 메일러 클래스 내에서 다른 “발신자(from)” 주소가 지정되지 않은 경우 사용됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'from'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_FROM_ADDRESS'</span><span class="p">,</span> <span class="s1">'hello@example.com'</span><span class="p">),</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAIL_FROM_NAME'</span><span class="p">,</span> <span class="s1">'Example'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>또한, <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일 내에서 전역 “reply_to” 주소를 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'reply_to'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'address'</span> <span class="o">=&gt;</span> <span class="s1">'example@example.com'</span><span class="p">,</span>
+    <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'App Name'</span><span class="p">,</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="configuring-the-view"></a></p>
+<h3 id="뷰-구성하기">뷰 구성하기</h3>
+
+<p>메일 발송 클래스의 <code class="language-plaintext highlighter-rouge">content</code> 메서드 내에서 <code class="language-plaintext highlighter-rouge">view</code>, 즉 이메일 내용을 렌더링할 때 사용할 템플릿을 정의할 수 있습니다. 각 이메일은 일반적으로 <a href="/docs/{{version}}/blade">Blade 템플릿</a>을 사용하여 내용을 렌더링하므로, 이메일의 HTML을 작성할 때 Blade 템플릿 엔진의 모든 기능과 편리함을 활용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the message content definition.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+        <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+모든 이메일 템플릿을 보관할 <code class="language-plaintext highlighter-rouge">resources/views/mail</code> 디렉토리를 만들고 싶을 수도 있지만, <code class="language-plaintext highlighter-rouge">resources/views</code> 디렉토리 내 어디에든 원하는 위치에 자유롭게 배치할 수 있습니다.</p>
+</blockquote>
+
+<p><a name="plain-text-emails"></a></p>
+<h4 id="일반-텍스트-이메일">일반 텍스트 이메일</h4>
+
+<p>이메일의 일반 텍스트 버전을 정의하고 싶다면, 메시지의 <code class="language-plaintext highlighter-rouge">Content</code> 정의를 생성할 때 일반 텍스트 템플릿을 지정할 수 있습니다. <code class="language-plaintext highlighter-rouge">view</code> 매개변수와 마찬가지로, <code class="language-plaintext highlighter-rouge">text</code> 매개변수는 이메일 콘텐츠를 렌더링하는 데 사용될 템플릿 이름이어야 합니다. 메시지에 대해 HTML 버전과 일반 텍스트 버전 모두를 자유롭게 정의할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the message content definition.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+        <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+        <span class="n">text</span><span class="o">:</span> <span class="s1">'mail.orders.shipped-text'</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>명확성을 위해, <code class="language-plaintext highlighter-rouge">html</code> 매개변수는 <code class="language-plaintext highlighter-rouge">view</code> 매개변수의 별칭으로 사용될 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+    <span class="n">html</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">:</span> <span class="s1">'mail.orders.shipped-text'</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="view-data"></a></p>
+<h3 id="데이터-보기">데이터 보기</h3>
+
+<p><a name="via-public-properties"></a></p>
+<h4 id="공용-속성을-통해">공용 속성을 통해</h4>
+
+<p>일반적으로 이메일의 HTML을 렌더링할 때 사용할 수 있는 데이터를 뷰에 전달하고 싶을 것입니다. 데이터를 뷰에서 사용할 수 있도록 만드는 방법에는 두 가지가 있습니다. 먼저, 메일러 클래스에 정의된 모든 공용 속성은 자동으로 뷰에서 사용 가능하게 됩니다. 예를 들어, 메일러 클래스의 생성자에 데이터를 전달하고 해당 데이터를 클래스에 정의된 공용 속성에 설정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Bus\Queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Content</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Queueable</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new message instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">public</span> <span class="kt">Order</span> <span class="nv">$order</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Get the message content definition.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+            <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>데이터가 공개 속성(public property)으로 설정되면 자동으로 뷰에서 사용할 수 있으므로, Blade 템플릿에서 다른 데이터를 접근하듯이 이 데이터를 접근할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;div&gt;
+    Price: {{ $order-&gt;price }}
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="via-the-with-parameter"></a></p>
+<h4 id="with-매개변수를-통해"><code class="language-plaintext highlighter-rouge">with</code> 매개변수를 통해:</h4>
+
+<p>이메일의 데이터를 템플릿으로 보내기 전에 형식을 맞춤 설정하고 싶다면, <code class="language-plaintext highlighter-rouge">Content</code> 정의의 <code class="language-plaintext highlighter-rouge">with</code> 매개변수를 통해 데이터를 수동으로 뷰에 전달할 수 있습니다. 일반적으로 데이터는 여전히 메일러 클래스의 생성자를 통해 전달하지만, 이 데이터를 <code class="language-plaintext highlighter-rouge">protected</code> 또는 <code class="language-plaintext highlighter-rouge">private</code> 속성에 설정해야 하며, 그래야 데이터가 자동으로 템플릿에 제공되지 않습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Bus\Queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Content</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Queueable</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new message instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">protected</span> <span class="kt">Order</span> <span class="nv">$order</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{}</span>
+
+    <span class="cd">/**
+     * Get the message content definition.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+            <span class="n">view</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+            <span class="n">with</span><span class="o">:</span> <span class="p">[</span>
+                <span class="s1">'orderName'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span>
+                <span class="s1">'orderPrice'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">price</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>데이터가 <code class="language-plaintext highlighter-rouge">with</code> 매개변수를 통해 전달되면, 해당 데이터는 자동으로 뷰에서 사용 가능하게 되므로, Blade 템플릿에서 다른 데이터를 접근하듯이 접근할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;div&gt;
+    Price: {{ $orderPrice }}
+&lt;/div&gt;
+</code></pre>
+
+<p><a name="attachments"></a></p>
+<h3 id="첨부파일">첨부파일</h3>
+
+<p>이메일에 첨부파일을 추가하려면 메시지의 <code class="language-plaintext highlighter-rouge">attachments</code> 메서드가 반환하는 배열에 첨부파일을 추가하면 됩니다. 먼저, <code class="language-plaintext highlighter-rouge">Attachment</code> 클래스에서 제공하는 <code class="language-plaintext highlighter-rouge">fromPath</code> 메서드에 파일 경로를 제공하여 첨부파일을 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Attachment</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>메시지에 파일을 첨부할 때, <code class="language-plaintext highlighter-rouge">as</code> 및 <code class="language-plaintext highlighter-rouge">withMime</code> 메서드를 사용하여 첨부 파일의 표시 이름 및/또는 MIME 유형을 지정할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="attaching-files-from-disk"></a></p>
+<h4 id="디스크에서-파일-첨부하기">디스크에서 파일 첨부하기</h4>
+
+<p>파일을 <a href="/docs/{{version}}/filesystem">파일 시스템 디스크</a> 중 하나에 저장한 경우, <code class="language-plaintext highlighter-rouge">fromStorage</code> 첨부 방법을 사용하여 이메일에 첨부할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorage</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>물론, 첨부 파일의 이름과 MIME 유형을 지정할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorage</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>기본 디스크 외에 다른 저장 디스크를 지정해야 하는 경우 <code class="language-plaintext highlighter-rouge">fromStorageDisk</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorageDisk</span><span class="p">(</span><span class="s1">'s3'</span><span class="p">,</span> <span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="raw-data-attachments"></a></p>
+<h4 id="원시-데이터-첨부">원시 데이터 첨부</h4>
+
+<p><code class="language-plaintext highlighter-rouge">fromData</code> 첨부 방법은 바이트의 원시 문자열을 첨부 파일로 첨부하는 데 사용될 수 있습니다. 예를 들어, 메모리에서 PDF를 생성했는데 이를 디스크에 저장하지 않고 이메일에 첨부하고 싶을 때 이 방법을 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">fromData</code> 방법은 첨부 파일에 할당될 이름과 함께 원시 데이터 바이트를 해결하는 클로저를 허용합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromData</span><span class="p">(</span><span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">pdf</span><span class="p">,</span> <span class="s1">'Report.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="inline-attachments"></a></p>
+<h3 id="인라인-첨부-파일">인라인 첨부 파일</h3>
+
+<p>이메일에 인라인 이미지를 삽입하는 것은 일반적으로 번거롭지만, Laravel은 이메일에 이미지를 첨부하는 편리한 방법을 제공합니다. 인라인 이미지를 삽입하려면 이메일 템플릿 내의 <code class="language-plaintext highlighter-rouge">$message</code> 변수에서 <code class="language-plaintext highlighter-rouge">embed</code> 메서드를 사용하세요. Laravel은 <code class="language-plaintext highlighter-rouge">$message</code> 변수를 모든 이메일 템플릿에서 자동으로 사용할 수 있도록 제공하므로 수동으로 전달하는 것에 대해 걱정할 필요가 없습니다:</p>
+
+<pre><code class="language-blade">&lt;body&gt;
+    Here is an image:
+
+    &lt;img src="{{ $message-&gt;embed($pathToImage) }}"&gt;
+&lt;/body&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!WARNING]
+<code class="language-plaintext highlighter-rouge">$message</code> 변수는 일반 텍스트 메시지 템플릿에서는 사용할 수 없습니다. 일반 텍스트 메시지는 인라인 첨부 파일을 사용하지 않기 때문입니다.</p>
+</blockquote>
+
+<p><a name="embedding-raw-data-attachments"></a></p>
+<h4 id="원시-데이터-첨부-파일-삽입">원시 데이터 첨부 파일 삽입</h4>
+
+<p>이미 이메일 템플릿에 삽입하려는 원시 이미지 데이터 문자열이 있는 경우, <code class="language-plaintext highlighter-rouge">$message</code> 변수에서 <code class="language-plaintext highlighter-rouge">embedData</code> 메서드를 호출할 수 있습니다. <code class="language-plaintext highlighter-rouge">embedData</code> 메서드를 호출할 때는 삽입할 이미지에 할당할 파일 이름을 제공해야 합니다:</p>
+
+<pre><code class="language-blade">&lt;body&gt;
+    Here is an image from raw data:
+
+    &lt;img src="{{ $message-&gt;embedData($data, 'example-image.jpg') }}"&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p><a name="attachable-objects"></a></p>
+<h3 id="첨부-가능한-객체">첨부 가능한 객체</h3>
+
+<p>단순 문자열 경로를 통해 파일을 메시지에 첨부하는 것으로 충분한 경우가 많지만, 많은 경우 애플리케이션 내에서 첨부 가능한 엔티티는 클래스에 의해 표현됩니다. 예를 들어, 애플리케이션이 메시지에 사진을 첨부하는 경우, 애플리케이션에는 해당 사진을 나타내는 <code class="language-plaintext highlighter-rouge">Photo</code> 모델이 있을 수 있습니다. 그런 경우, <code class="language-plaintext highlighter-rouge">Photo</code> 모델을 <code class="language-plaintext highlighter-rouge">attach</code> 메서드에 전달하는 것이 편리하지 않을까요? 첨부 가능한 객체는 바로 그렇게 할 수 있게 해줍니다.</p>
+
+<p>시작하려면, 메시지에 첨부될 객체에 <code class="language-plaintext highlighter-rouge">Illuminate\Contracts\Mail\Attachable</code> 인터페이스를 구현하세요. 이 인터페이스는 클래스가 <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Attachment</code> 인스턴스를 반환하는 <code class="language-plaintext highlighter-rouge">toMailAttachment</code> 메서드를 정의하도록 요구합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Mail\Attachable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Attachment</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Photo</span> <span class="kd">extends</span> <span class="nc">Model</span> <span class="kd">implements</span> <span class="nc">Attachable</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the attachable representation of the model.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">toMailAttachment</span><span class="p">():</span> <span class="kt">Attachment</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>첨부 가능한 객체를 정의한 후, 이메일 메시지를 작성할 때 <code class="language-plaintext highlighter-rouge">attachments</code> 메서드에서 해당 객체의 인스턴스를 반환할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Get the attachments for the message.
+ *
+ * @return array&lt;int, \Illuminate\Mail\Mailables\Attachment&gt;
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">attachments</span><span class="p">():</span> <span class="kt">array</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">photo</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>물론 첨부 파일 데이터는 Amazon S3와 같은 원격 파일 저장 서비스에 저장될 수 있습니다. 따라서 Laravel은 애플리케이션의 <a href="/docs/{{version}}/filesystem">파일시스템 디스크</a>에 저장된 데이터에서 첨부 파일 인스턴스를 생성할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create an attachment from a file on your default disk...</span>
+<span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorage</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">path</span><span class="p">);</span>
+
+<span class="c1">// Create an attachment from a file on a specific disk...</span>
+<span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorageDisk</span><span class="p">(</span><span class="s1">'backblaze'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">path</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>또한, 메모리에 있는 데이터를 통해 첨부 파일 인스턴스를 생성할 수 있습니다. 이를 수행하려면 <code class="language-plaintext highlighter-rouge">fromData</code> 메서드에 클로저를 제공하십시오. 클로저는 첨부 파일을 나타내는 원시 데이터를 반환해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromData</span><span class="p">(</span><span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">content</span><span class="p">,</span> <span class="s1">'Photo Name'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>라라벨은 또한 첨부 파일을 사용자 정의하는 데 사용할 수 있는 추가 메서드를 제공합니다. 예를 들어, 파일의 이름과 MIME 유형을 사용자 정의하기 위해 <code class="language-plaintext highlighter-rouge">as</code> 및 <code class="language-plaintext highlighter-rouge">withMime</code> 메서드를 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'Photo Name'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'image/jpeg'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="headers"></a></p>
+<h3 id="헤더">헤더</h3>
+
+<p>때때로 발신 메시지에 추가 헤더를 첨부해야 할 때가 있습니다. 예를 들어, 사용자 정의 <code class="language-plaintext highlighter-rouge">Message-Id</code> 또는 기타 임의의 텍스트 헤더를 설정해야 할 수도 있습니다.</p>
+
+<p>이를 수행하려면, 메일러블에 <code class="language-plaintext highlighter-rouge">headers</code> 메서드를 정의하십시오. <code class="language-plaintext highlighter-rouge">headers</code> 메서드는 <code class="language-plaintext highlighter-rouge">Illuminate\Mail\Mailables\Headers</code> 인스턴스를 반환해야 합니다. 이 클래스는 <code class="language-plaintext highlighter-rouge">messageId</code>, <code class="language-plaintext highlighter-rouge">references</code>, 그리고 <code class="language-plaintext highlighter-rouge">text</code> 매개변수를 받습니다. 물론 특정 메시지에 필요한 매개변수만 제공할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Headers</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message headers.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">headers</span><span class="p">():</span> <span class="kt">Headers</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span>
+        <span class="n">messageId</span><span class="o">:</span> <span class="s1">'custom-message-id@example.com'</span><span class="p">,</span>
+        <span class="n">references</span><span class="o">:</span> <span class="p">[</span><span class="s1">'previous-message@example.com'</span><span class="p">],</span>
+        <span class="n">text</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'X-Custom-Header'</span> <span class="o">=&gt;</span> <span class="s1">'Custom Value'</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="tags-and-metadata"></a></p>
+<h3 id="태그와-메타데이터">태그와 메타데이터</h3>
+
+<p>Mailgun 및 Postmark와 같은 일부 타사 이메일 제공자는 메시지 “태그”와 “메타데이터”를 지원하며, 이를 통해 애플리케이션에서 보낸 이메일을 그룹화하고 추적할 수 있습니다. <code class="language-plaintext highlighter-rouge">Envelope</code> 정의를 통해 이메일 메시지에 태그와 메타데이터를 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Envelope</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message envelope.
+ *
+ * @return \Illuminate\Mail\Mailables\Envelope
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">envelope</span><span class="p">():</span> <span class="kt">Envelope</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+        <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">'shipment'</span><span class="p">],</span>
+        <span class="n">metadata</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'order_id'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>애플리케이션이 Mailgun 드라이버를 사용하는 경우, <a href="https://documentation.mailgun.com/docs/mailgun/user-manual/tracking-messages/#tags">태그</a> 및 <a href="https://documentation.mailgun.com/docs/mailgun/user-manual/sending-messages/#attaching-metadata-to-messages">메타데이터</a>에 대한 자세한 정보는 Mailgun 문서를 참조할 수 있습니다. 마찬가지로, <a href="https://postmarkapp.com/blog/tags-support-for-smtp">태그</a> 및 <a href="https://postmarkapp.com/support/article/1125-custom-metadata-faq">메타데이터</a>에 대한 지원 정보는 Postmark 문서에서도 확인할 수 있습니다.</p>
+
+<p>애플리케이션이 Amazon SES를 사용하여 이메일을 보내는 경우, 메시지에 <a href="https://docs.aws.amazon.com/ses/latest/APIReference/API_MessageTag.html">SES “태그”</a>를 첨부하려면 <code class="language-plaintext highlighter-rouge">metadata</code> 방법을 사용해야 합니다.</p>
+
+<p><a name="customizing-the-symfony-message"></a></p>
+<h3 id="symfony-메시지-맞춤화">Symfony 메시지 맞춤화</h3>
+
+<p>Laravel의 메일 기능은 Symfony Mailer를 기반으로 합니다. Laravel은 메시지를 보내기 전에 Symfony Message 인스턴스와 함께 호출될 사용자 정의 콜백을 등록할 수 있도록 허용합니다. 이를 통해 메시지가 전송되기 전에 메시지를 깊이 있게 맞춤화할 수 있습니다. 이를 수행하려면 <code class="language-plaintext highlighter-rouge">Envelope</code> 정의에서 <code class="language-plaintext highlighter-rouge">using</code> 매개변수를 정의하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Envelope</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mime\Email</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message envelope.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">envelope</span><span class="p">():</span> <span class="kt">Envelope</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Envelope</span><span class="p">(</span>
+        <span class="n">subject</span><span class="o">:</span> <span class="s1">'Order Shipped'</span><span class="p">,</span>
+        <span class="n">using</span><span class="o">:</span> <span class="p">[</span>
+            <span class="k">function</span> <span class="p">(</span><span class="kt">Email</span> <span class="nv">$message</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// ...</span>
+            <span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="markdown-mailables"></a></p>
+<h2 id="마크다운-메일">마크다운 메일</h2>
+
+<p>마크다운 메일 메시지를 사용하면 메일러블에서 <a href="/docs/{{version}}/notifications#mail-notifications">메일 알림</a>의 미리 만들어진 템플릿과 구성 요소를 활용할 수 있습니다. 메시지가 마크다운으로 작성되었기 때문에, Laravel은 메시지에 대해 아름답고 반응형 HTML 템플릿을 렌더링할 수 있으며, 동일한 메시지의 일반 텍스트 버전도 자동으로 생성합니다.</p>
+
+<p><a name="generating-markdown-mailables"></a></p>
+<h3 id="마크다운-메일-생성">마크다운 메일 생성</h3>
+
+<p>해당 마크다운 템플릿과 함께 메일러블을 생성하려면, <code class="language-plaintext highlighter-rouge">make:mail</code> Artisan 명령의 <code class="language-plaintext highlighter-rouge">--markdown</code> 옵션을 사용할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan make:mail OrderShipped <span class="nt">--markdown</span><span class="o">=</span>mail.orders.shipped
+</code></pre></div></div>
+
+<p>그런 다음, <code class="language-plaintext highlighter-rouge">content</code> 메서드 내에서 전송 가능한 <code class="language-plaintext highlighter-rouge">Content</code> 정의를 구성할 때 <code class="language-plaintext highlighter-rouge">view</code> 매개변수 대신 <code class="language-plaintext highlighter-rouge">markdown</code> 매개변수를 사용하십시오:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Content</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Get the message content definition.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">content</span><span class="p">():</span> <span class="kt">Content</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Content</span><span class="p">(</span>
+        <span class="n">markdown</span><span class="o">:</span> <span class="s1">'mail.orders.shipped'</span><span class="p">,</span>
+        <span class="n">with</span><span class="o">:</span> <span class="p">[</span>
+            <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">orderUrl</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="writing-markdown-messages"></a></p>
+<h3 id="마크다운-메시지-작성">마크다운 메시지 작성</h3>
+
+<p>마크다운 메일러블은 블레이드 컴포넌트와 마크다운 구문을 결합하여 사용하며, 이를 통해 라라벨의 사전 제작된 이메일 UI 컴포넌트를 활용하면서 손쉽게 메일 메시지를 구성할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-mail::message&gt;
+# Order Shipped
+
+Your order has been shipped!
+
+&lt;x-mail::button :url="$url"&gt;
+View Order
+&lt;/x-mail::button&gt;
+
+Thanks,&lt;br&gt;
+{{ config('app.name') }}
+&lt;/x-mail::message&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!NOTE]
+Markdown 이메일을 작성할 때 과도한 들여쓰기를 사용하지 마세요. Markdown 표준에 따르면, Markdown 파서가 들여쓰기가 된 내용을 코드 블록으로 렌더링합니다.</p>
+</blockquote>
+
+<p><a name="button-component"></a></p>
+<h4 id="버튼-컴포넌트">버튼 컴포넌트</h4>
+
+<p>버튼 컴포넌트는 가운데 정렬된 버튼 링크를 렌더링합니다. 이 컴포넌트는 두 가지 인수를 받으며, 하나는 <code class="language-plaintext highlighter-rouge">url</code>이고 선택 사항인 하나는 <code class="language-plaintext highlighter-rouge">color</code>입니다. 지원되는 색상은 <code class="language-plaintext highlighter-rouge">primary</code>, <code class="language-plaintext highlighter-rouge">success</code>, <code class="language-plaintext highlighter-rouge">error</code>입니다. 메시지에 원하는 만큼 버튼 컴포넌트를 추가할 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-mail::button :url="$url" color="success"&gt;
+View Order
+&lt;/x-mail::button&gt;
+</code></pre>
+
+<p><a name="panel-component"></a></p>
+<h4 id="패널-컴포넌트">패널 컴포넌트</h4>
+
+<p>패널 컴포넌트는 주어진 텍스트 블록을 메시지의 나머지 부분과 약간 다른 배경색을 가진 패널에 렌더링합니다. 이를 통해 특정 텍스트 블록에 주목을 끌 수 있습니다:</p>
+
+<pre><code class="language-blade">&lt;x-mail::panel&gt;
+This is the panel content.
+&lt;/x-mail::panel&gt;
+</code></pre>
+
+<p><a name="table-component"></a></p>
+<h4 id="테이블-컴포넌트">테이블 컴포넌트</h4>
+
+<p>테이블 컴포넌트를 사용하면 Markdown 테이블을 HTML 테이블로 변환할 수 있습니다. 이 컴포넌트는 Markdown 테이블을 내용으로 받아들입니다. 테이블 열 정렬은 기본 Markdown 테이블 정렬 구문을 사용하여 지원됩니다:</p>
+
+<pre><code class="language-blade">&lt;x-mail::table&gt;
+| Laravel       | Table         | Example       |
+| ------------- | :-----------: | ------------: |
+| Col 2 is      | Centered      | $10           |
+| Col 3 is      | Right-Aligned | $20           |
+&lt;/x-mail::table&gt;
+</code></pre>
+
+<p><a name="customizing-the-components"></a></p>
+<h3 id="구성-요소-사용자-정의">구성 요소 사용자 정의</h3>
+
+<p>마크다운 메일 구성 요소를 모두 내 애플리케이션으로 내보내어 사용자 정의할 수 있습니다. 구성 요소를 내보내려면 <code class="language-plaintext highlighter-rouge">vendor:publish</code> Artisan 명령어를 사용하여 <code class="language-plaintext highlighter-rouge">laravel-mail</code> 자산 태그를 게시하세요:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan vendor:publish <span class="nt">--tag</span><span class="o">=</span>laravel-mail
+</code></pre></div></div>
+
+<p>This command will publish the Markdown mail components to the <code class="language-plaintext highlighter-rouge">resources/views/vendor/mail</code> directory. The <code class="language-plaintext highlighter-rouge">mail</code> directory will contain an <code class="language-plaintext highlighter-rouge">html</code> and a <code class="language-plaintext highlighter-rouge">text</code> directory, each containing their respective representations of every available component. You are free to customize these components however you like.</p>
+
+<p><a name="customizing-the-css"></a></p>
+<h4 id="customizing-the-css">Customizing the CSS</h4>
+
+<p>After exporting the components, the <code class="language-plaintext highlighter-rouge">resources/views/vendor/mail/html/themes</code> directory will contain a <code class="language-plaintext highlighter-rouge">default.css</code> file. You may customize the CSS in this file and your styles will automatically be converted to inline CSS styles within the HTML representations of your Markdown mail messages.</p>
+
+<p>If you would like to build an entirely new theme for Laravel’s Markdown components, you may place a CSS file within the <code class="language-plaintext highlighter-rouge">html/themes</code> directory. After naming and saving your CSS file, update the <code class="language-plaintext highlighter-rouge">theme</code> option of your application’s <code class="language-plaintext highlighter-rouge">config/mail.php</code> configuration file to match the name of your new theme.</p>
+
+<p>To customize the theme for an individual mailable, you may set the <code class="language-plaintext highlighter-rouge">$theme</code> property of the mailable class to the name of the theme that should be used when sending that mailable.</p>
+
+<p><a name="sending-mail"></a></p>
+<h2 id="sending-mail">Sending Mail</h2>
+
+<p>To send a message, use the <code class="language-plaintext highlighter-rouge">to</code> method on the <code class="language-plaintext highlighter-rouge">Mail</code> <a href="/docs/{{version}}/facades">facade</a>. The <code class="language-plaintext highlighter-rouge">to</code> method accepts an email address, a user instance, or a collection of users. If you pass an object or collection of objects, the mailer will automatically use their <code class="language-plaintext highlighter-rouge">email</code> and <code class="language-plaintext highlighter-rouge">name</code> properties when determining the email’s recipients, so make sure these attributes are available on your objects. Once you have specified your recipients, you may pass an instance of your mailable class to the <code class="language-plaintext highlighter-rouge">send</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Http\Controllers</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Mail\OrderShipped</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Order</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipmentController</span> <span class="kd">extends</span> <span class="nc">Controller</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Ship the given order.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">store</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">):</span> <span class="kt">RedirectResponse</span>
+    <span class="p">{</span>
+        <span class="nv">$order</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">::</span><span class="nf">findOrFail</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="n">order_id</span><span class="p">);</span>
+
+        <span class="c1">// Ship the order...</span>
+
+        <span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+
+        <span class="k">return</span> <span class="nf">redirect</span><span class="p">(</span><span class="s1">'/orders'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>메시지를 보낼 때 단지 ‘받는 사람’만 지정하는 것으로 제한되지 않습니다. 각자의 메서드를 연결하여 ‘받는 사람’, ‘참조’, ‘숨은 참조’ 수신자를 자유롭게 설정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="looping-over-recipients"></a></p>
+<h4 id="수신자-반복-처리">수신자 반복 처리</h4>
+
+<p>때때로, 수신자 배열/이메일 주소 배열을 반복하여 메일 가능한 객체를 여러 수신자에게 보내야 할 때가 있습니다. 그러나 <code class="language-plaintext highlighter-rouge">to</code> 메서드는 이메일 주소를 메일 가능한 객체의 수신자 목록에 추가하기 때문에, 루프를 반복할 때마다 이전의 모든 수신자에게 또 다른 이메일이 전송됩니다. 그러므로 각 수신자마다 항상 메일 가능한 객체 인스턴스를 새로 생성해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">foreach</span> <span class="p">([</span><span class="s1">'taylor@example.com'</span><span class="p">,</span> <span class="s1">'dries@example.com'</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$recipient</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$recipient</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="sending-mail-via-a-specific-mailer"></a></p>
+<h4 id="특정-메일러를-사용하여-메일-보내기">특정 메일러를 사용하여 메일 보내기</h4>
+
+<p>기본적으로 Laravel은 애플리케이션의 <code class="language-plaintext highlighter-rouge">mail</code> 설정 파일에서 <code class="language-plaintext highlighter-rouge">default</code> 메일러로 구성된 메일러를 사용하여 이메일을 보냅니다. 그러나 <code class="language-plaintext highlighter-rouge">mailer</code> 메서드를 사용하여 특정 메일러 구성을 사용하여 메시지를 보낼 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">mailer</span><span class="p">(</span><span class="s1">'postmark'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="queueing-mail"></a></p>
+<h3 id="메일-큐잉">메일 큐잉</h3>
+
+<p><a name="queueing-a-mail-message"></a></p>
+<h4 id="메일-메시지-큐잉">메일 메시지 큐잉</h4>
+
+<p>이메일 메시지를 보내는 것은 애플리케이션의 응답 시간에 부정적인 영향을 줄 수 있으므로, 많은 개발자가 이메일 메시지를 백그라운드 전송을 위해 큐에 넣는 것을 선택합니다. Laravel은 내장된 <a href="/docs/{{version}}/queues">통합 큐 API</a>를 사용하여 이를 쉽게 수행할 수 있습니다. 메일 메시지를 큐에 넣으려면, 메시지 수신자를 지정한 후 <code class="language-plaintext highlighter-rouge">Mail</code> 퍼사드에서 <code class="language-plaintext highlighter-rouge">queue</code> 메서드를 사용하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">queue</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>이 방법은 작업을 큐에 자동으로 넣어 메시지가 백그라운드에서 전송되도록 처리합니다. 이 기능을 사용하기 전에 <a href="/docs/{{version}}/queues">큐를 구성</a>해야 합니다.</p>
+
+<p><a name="delayed-message-queueing"></a></p>
+<h4 id="지연-메시지-큐잉">지연 메시지 큐잉</h4>
+
+<p>큐에 있는 이메일 메시지의 전송을 지연하고자 할 경우, <code class="language-plaintext highlighter-rouge">later</code> 메서드를 사용할 수 있습니다. 이 메서드는 첫 번째 인자로 메시지를 언제 전송할지를 나타내는 <code class="language-plaintext highlighter-rouge">DateTime</code> 인스턴스를 받습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">later</span><span class="p">(</span><span class="nf">now</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">plus</span><span class="p">(</span><span class="n">minutes</span><span class="o">:</span> <span class="mi">10</span><span class="p">),</span> <span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="pushing-to-specific-queues"></a></p>
+<h4 id="특정-큐로-푸시하기">특정 큐로 푸시하기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">make:mail</code> 명령을 사용하여 생성된 모든 메일 클래스는 <code class="language-plaintext highlighter-rouge">Illuminate\Bus\Queueable</code> 트레이트를 사용하므로, 모든 메일 클래스 인스턴스에서 <code class="language-plaintext highlighter-rouge">onQueue</code> 및 <code class="language-plaintext highlighter-rouge">onConnection</code> 메서드를 호출할 수 있으며, 이를 통해 메시지의 연결 및 큐 이름을 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$message</span> <span class="o">=</span> <span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="nf">onConnection</span><span class="p">(</span><span class="s1">'sqs'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">onQueue</span><span class="p">(</span><span class="s1">'emails'</span><span class="p">);</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span>
+    <span class="o">-&gt;</span><span class="nf">cc</span><span class="p">(</span><span class="nv">$moreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">bcc</span><span class="p">(</span><span class="nv">$evenMoreUsers</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">queue</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>또는, mailable 클래스에서 <code class="language-plaintext highlighter-rouge">Connection</code> 및 <code class="language-plaintext highlighter-rouge">Queue</code> 속성을 사용하여 연결과 큐를 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Connection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\Attributes\Queue</span><span class="p">;</span>
+
+<span class="na">#[Connection('sqs')]</span>
+<span class="na">#[Queue('emails')]</span>
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="queueing-by-default"></a></p>
+<h4 id="기본적으로-큐잉하기">기본적으로 큐잉하기</h4>
+
+<p>항상 큐에 넣고 싶은 발송 가능한 클래스가 있는 경우, 클래스에서 <code class="language-plaintext highlighter-rouge">ShouldQueue</code> 계약을 구현할 수 있습니다. 이제, 발송 시 <code class="language-plaintext highlighter-rouge">send</code> 메서드를 호출하더라도, 해당 계약을 구현했기 때문에 발송 가능한 항목은 여전히 큐에 들어가게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="queued-mailables-and-database-transactions"></a></p>
+<h4 id="대기-중인-메일과-데이터베이스-트랜잭션">대기 중인 메일과 데이터베이스 트랜잭션</h4>
+
+<p>대기 중인 메일이 데이터베이스 트랜잭션 내에서 발송될 때, 데이터베이스 트랜잭션이 커밋되기 전에 큐에서 처리될 수 있습니다. 이런 경우, 트랜잭션 동안 모델이나 데이터베이스 레코드에 수행한 업데이트가 데이터베이스에 반영되지 않을 수 있습니다. 또한, 트랜잭션 내에서 생성된 모델이나 데이터베이스 레코드는 데이터베이스에 존재하지 않을 수 있습니다. 만약 메일이 이러한 모델에 의존한다면, 대기 중인 메일을 발송하는 작업이 처리될 때 예상치 못한 오류가 발생할 수 있습니다.</p>
+
+<p>큐 연결의 <code class="language-plaintext highlighter-rouge">after_commit</code> 설정 옵션이 <code class="language-plaintext highlighter-rouge">false</code>로 설정된 경우에도, 메일 메시지를 보낼 때 <code class="language-plaintext highlighter-rouge">afterCommit</code> 메서드를 호출하여 특정 대기 중인 메일이 모든 열린 데이터베이스 트랜잭션이 커밋된 후에 발송되도록 지정할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span>
+    <span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">))</span><span class="o">-&gt;</span><span class="nf">afterCommit</span><span class="p">()</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>또는, 메일 가능 객체의 생성자에서 <code class="language-plaintext highlighter-rouge">afterCommit</code> 메서드를 호출할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Bus\Queueable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderShipped</span> <span class="kd">extends</span> <span class="nc">Mailable</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">Queueable</span><span class="p">,</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Create a new message instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">afterCommit</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 <a href="/docs/{{version}}/queues#jobs-and-database-transactions">대기 중인 작업과 데이터베이스 트랜잭션</a>에 관한 문서를 참조하세요.</p>
+</blockquote>
+
+<p><a name="queued-email-failures"></a></p>
+<h4 id="대기-중인-이메일-실패">대기 중인 이메일 실패</h4>
+
+<p>대기 중인 이메일이 실패하면, 정의되어 있는 경우 해당 대기 중인 마일러블 클래스에서 <code class="language-plaintext highlighter-rouge">failed</code> 메서드가 호출됩니다. 대기 중인 이메일 실패를 일으킨 <code class="language-plaintext highlighter-rouge">Throwable</code> 인스턴스가 <code class="language-plaintext highlighter-rouge">failed</code> 메서드에 전달됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Contracts\Queue\ShouldQueue</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailable</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Queue\SerializesModels</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Throwable</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">OrderDelayed</span> <span class="kd">extends</span> <span class="nc">Mailable</span> <span class="kd">implements</span> <span class="nc">ShouldQueue</span>
+<span class="p">{</span>
+    <span class="kn">use</span> <span class="nc">SerializesModels</span><span class="p">;</span>
+
+    <span class="cd">/**
+     * Handle a queued email's failure.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">failed</span><span class="p">(</span><span class="kt">Throwable</span> <span class="nv">$exception</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="rendering-mailables"></a></p>
+<h2 id="메일-가능-객체-렌더링">메일 가능 객체 렌더링</h2>
+
+<p>때때로 메일을 보내지 않고 메일 가능 객체의 HTML 내용을 캡처하고 싶을 수 있습니다. 이를 수행하려면 메일 가능 객체의 <code class="language-plaintext highlighter-rouge">render</code> 메서드를 호출할 수 있습니다. 이 메서드는 메일 가능 객체의 평가된 HTML 내용을 문자열로 반환합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Mail\InvoicePaid</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\Invoice</span><span class="p">;</span>
+
+<span class="nv">$invoice</span> <span class="o">=</span> <span class="nc">Invoice</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="p">(</span><span class="k">new</span> <span class="nc">InvoicePaid</span><span class="p">(</span><span class="nv">$invoice</span><span class="p">))</span><span class="o">-&gt;</span><span class="nf">render</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="previewing-mailables-in-the-browser"></a></p>
+<h3 id="브라우저에서-메일-가능-항목-미리보기">브라우저에서 메일 가능 항목 미리보기</h3>
+
+<p>메일 가능 항목의 템플릿을 디자인할 때, 일반적인 Blade 템플릿처럼 브라우저에서 렌더링된 메일 가능 항목을 빠르게 미리보는 것이 편리합니다. 이러한 이유로, Laravel에서는 라우트 클로저나 컨트롤러에서 메일 가능 항목을 직접 반환할 수 있습니다. 메일 가능 항목이 반환되면, 브라우저에 렌더링되어 표시되므로 실제 이메일 주소로 보내지 않고도 디자인을 빠르게 미리볼 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/mailable'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$invoice</span> <span class="o">=</span> <span class="nc">App\Models\Invoice</span><span class="o">::</span><span class="nf">find</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">App\Mail\InvoicePaid</span><span class="p">(</span><span class="nv">$invoice</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="localizing-mailables"></a></p>
+<h2 id="메일러블-로컬라이즈하기">메일러블 로컬라이즈하기</h2>
+
+<p>Laravel은 요청의 현재 로케일이 아닌 다른 로케일에서 메일러블을 보낼 수 있으며, 메일이 큐에 들어가더라도 이 로케일을 기억합니다.</p>
+
+<p>이를 달성하기 위해, <code class="language-plaintext highlighter-rouge">Mail</code> 파사드는 원하는 언어를 설정하는 <code class="language-plaintext highlighter-rouge">locale</code> 메서드를 제공합니다. 메일러블의 템플릿이 평가될 때 애플리케이션은 이 로케일로 변경되며, 평가가 완료되면 이전 로케일로 다시 돌아갑니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">locale</span><span class="p">(</span><span class="s1">'es'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><a name="user-preferred-locales"></a></p>
+<h4 id="사용자-선호-지역-설정">사용자 선호 지역 설정</h4>
+
+<p>때때로, 애플리케이션은 각 사용자의 선호 지역(locale)을 저장합니다. 하나 이상의 모델에서 <code class="language-plaintext highlighter-rouge">HasLocalePreference</code> 계약을 구현함으로써, Laravel에게 메일을 보낼 때 이 저장된 지역을 사용하도록 지시할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Contracts\Translation\HasLocalePreference</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span> <span class="kd">implements</span> <span class="nc">HasLocalePreference</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Get the user's preferred locale.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">preferredLocale</span><span class="p">():</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">locale</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>인터페이스를 구현하면, Laravel은 모델에 메일과 알림을 보낼 때 자동으로 선호하는 로케일을 사용합니다. 따라서 이 인터페이스를 사용할 때는 <code class="language-plaintext highlighter-rouge">locale</code> 메서드를 호출할 필요가 없습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">to</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">(</span><span class="k">new</span> <span class="nc">OrderShipped</span><span class="p">(</span><span class="nv">$order</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p><a name="testing-mailables"></a></p>
+<h2 id="테스트">테스트</h2>
+
+<p><a name="testing-mailable-content"></a></p>
+<h3 id="전송-가능한-콘텐츠-테스트">전송 가능한 콘텐츠 테스트</h3>
+
+<p>Laravel은 메일러블(mailable)의 구조를 검사하기 위한 다양한 방법을 제공합니다. 또한, Laravel은 메일러블에 예상한 내용이 포함되어 있는지 테스트하기 위한 몇 가지 편리한 방법을 제공합니다:```php tab=Pest
+use App\Mail\InvoicePaid;
+use App\Models\User;</p>
+
+<p>test(‘mailable content’, function () {
+    $user = User::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$mailable = new InvoicePaid($user);
+
+$mailable-&gt;assertFrom('jeffrey@example.com');
+$mailable-&gt;assertTo('taylor@example.com');
+$mailable-&gt;assertHasCc('abigail@example.com');
+$mailable-&gt;assertHasBcc('victoria@example.com');
+$mailable-&gt;assertHasReplyTo('tyler@example.com');
+$mailable-&gt;assertHasSubject('Invoice Paid');
+$mailable-&gt;assertHasTag('example-tag');
+$mailable-&gt;assertHasMetadata('key', 'value');
+
+$mailable-&gt;assertSeeInHtml($user-&gt;email);
+$mailable-&gt;assertDontSeeInHtml('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertSeeInText($user-&gt;email);
+$mailable-&gt;assertDontSeeInText('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertHasAttachment('/path/to/file');
+$mailable-&gt;assertHasAttachment(Attachment::fromPath('/path/to/file'));
+$mailable-&gt;assertHasAttachedData($pdfData, 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+use App\Mail\InvoicePaid;
+use App\Models\User;</p>
+
+<p>public function test_mailable_content(): void
+{
+    $user = User::factory()-&gt;create();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$mailable = new InvoicePaid($user);
+
+$mailable-&gt;assertFrom('jeffrey@example.com');
+$mailable-&gt;assertTo('taylor@example.com');
+$mailable-&gt;assertHasCc('abigail@example.com');
+$mailable-&gt;assertHasBcc('victoria@example.com');
+$mailable-&gt;assertHasReplyTo('tyler@example.com');
+$mailable-&gt;assertHasSubject('Invoice Paid');
+$mailable-&gt;assertHasTag('example-tag');
+$mailable-&gt;assertHasMetadata('key', 'value');
+
+$mailable-&gt;assertSeeInHtml($user-&gt;email);
+$mailable-&gt;assertDontSeeInHtml('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertSeeInText($user-&gt;email);
+$mailable-&gt;assertDontSeeInText('Invoice Not Paid');
+$mailable-&gt;assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+
+$mailable-&gt;assertHasAttachment('/path/to/file');
+$mailable-&gt;assertHasAttachment(Attachment::fromPath('/path/to/file'));
+$mailable-&gt;assertHasAttachedData($pdfData, 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']);
+$mailable-&gt;assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' =&gt; 'application/pdf']); } ```
+</code></pre></div></div>
+
+<p>예상할 수 있듯이, “HTML” 어설션은 전송 가능한 메일의 HTML 버전에 특정 문자열이 포함되어 있는지 확인하고, “text” 어설션은 전송 가능한 메일의 일반 텍스트 버전에 특정 문자열이 포함되어 있는지 확인합니다.</p>
+
+<p><a name="testing-mailable-sending"></a></p>
+<h3 id="전송-가능한-메일-테스트">전송 가능한 메일 테스트</h3>
+
+<p>특정 사용자에게 특정 전송 가능한 메일이 “전송되었다”고 확인하는 테스트와는 별개로, 전송 가능한 메일의 내용을 별도로 테스트할 것을 권장합니다. 일반적으로, 전송 가능한 메일의 내용은 테스트 중인 코드와 관련이 없으며, Laravel이 특정 전송 가능한 메일을 전송하도록 지시했는지만 어설션하는 것으로 충분합니다.</p>
+
+<p>메일이 전송되는 것을 방지하기 위해 <code class="language-plaintext highlighter-rouge">Mail</code> 페사드의 <code class="language-plaintext highlighter-rouge">fake</code> 메서드를 사용할 수 있습니다. <code class="language-plaintext highlighter-rouge">Mail</code> 페사드의 <code class="language-plaintext highlighter-rouge">fake</code> 메서드를 호출한 후에는, 전송 가능한 메일이 사용자에게 전송되도록 지시되었는지 어설션하고, 메일이 받은 데이터를 검사할 수도 있습니다:```php tab=Pest
+&lt;?php</p>
+
+<p>use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;</p>
+
+<p>test(‘orders can be shipped’, function () {
+    Mail::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Perform order shipping...
+
+// Assert that no mailables were sent...
+Mail::assertNothingSent();
+
+// Assert that a mailable was sent...
+Mail::assertSent(OrderShipped::class);
+
+// Assert a mailable was sent twice...
+Mail::assertSent(OrderShipped::class, 2);
+
+// Assert a mailable was sent to an email address...
+Mail::assertSent(OrderShipped::class, 'example@laravel.com');
+
+// Assert a mailable was sent to multiple email addresses...
+Mail::assertSent(OrderShipped::class, ['example@laravel.com', '...']);
+
+// Assert a mailable was not sent...
+Mail::assertNotSent(AnotherMailable::class);
+
+// Assert a mailable was sent twice...
+Mail::assertSentTimes(OrderShipped::class, 2);
+
+// Assert that a mailable was sent exactly once...
+Mail::assertSentOnce(OrderShipped::class);
+
+// Assert 3 total mailables were sent...
+Mail::assertSentCount(3); }); ```
+</code></pre></div></div>
+
+<p>```php tab=PHPUnit
+&lt;?php</p>
+
+<p>namespace Tests\Feature;</p>
+
+<p>use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;</p>
+
+<p>class ExampleTest extends TestCase
+{
+    public function test_orders_can_be_shipped(): void
+    {
+        Mail::fake();</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    // Perform order shipping...
+
+    // Assert that no mailables were sent...
+    Mail::assertNothingSent();
+
+    // Assert that a mailable was sent...
+    Mail::assertSent(OrderShipped::class);
+
+    // Assert a mailable was sent twice...
+    Mail::assertSent(OrderShipped::class, 2);
+
+    // Assert a mailable was sent to an email address...
+    Mail::assertSent(OrderShipped::class, 'example@laravel.com');
+
+    // Assert a mailable was sent to multiple email addresses...
+    Mail::assertSent(OrderShipped::class, ['example@laravel.com', '...']);
+
+    // Assert a mailable was not sent...
+    Mail::assertNotSent(AnotherMailable::class);
+
+    // Assert a mailable was sent twice...
+    Mail::assertSentTimes(OrderShipped::class, 2);
+
+    // Assert that a mailable was sent exactly once...
+    Mail::assertSentOnce(OrderShipped::class);
+
+    // Assert 3 total mailables were sent...
+    Mail::assertSentCount(3);
+} } ```
+</code></pre></div></div>
+
+<p>메일 발송을 백그라운드에서 대기열에 넣고 있다면, <code class="language-plaintext highlighter-rouge">assertSent</code> 대신 <code class="language-plaintext highlighter-rouge">assertQueued</code> 메서드를 사용해야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertQueued</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertQueuedOnce</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNotQueued</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNothingQueued</span><span class="p">();</span>
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertQueuedCount</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertOutgoingCount</code> 메서드를 사용하여 전송되었거나 대기 중인 메일 수를 확인할 수도 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertOutgoingCount</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">assertSent</code>, <code class="language-plaintext highlighter-rouge">assertNotSent</code>, <code class="language-plaintext highlighter-rouge">assertQueued</code> 또는 <code class="language-plaintext highlighter-rouge">assertNotQueued</code> 메서드에 클로저를 전달하여 주어진 “진리 테스트”를 통과하는 메일이 전송되었음을 확인할 수 있습니다. 주어진 진리 테스트를 통과하는 메일이 최소한 하나 이상 전송되었다면, 이 검증은 성공하게 됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$order</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Mail</code> 퍼사드의 assertion 메서드를 호출할 때, 제공된 클로저에서 받아들이는 mailable 인스턴스는 mailable을 검사할 수 있는 유용한 메서드를 제공합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasTo</span><span class="p">(</span><span class="nv">$user</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasCc</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasBcc</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasReplyTo</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasFrom</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasSubject</span><span class="p">(</span><span class="s1">'...'</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasMetadata</span><span class="p">(</span><span class="s1">'order_id'</span><span class="p">,</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">);</span>
+           <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">usesMailer</span><span class="p">(</span><span class="s1">'ses'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>메일 가능한 인스턴스에는 메일 가능 항목의 첨부 파일을 확인하는 데 유용한 몇 가지 메서드도 포함되어 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Mailables\Attachment</span><span class="p">;</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasAttachment</span><span class="p">(</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromPath</span><span class="p">(</span><span class="s1">'/path/to/file'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="k">as</span><span class="p">(</span><span class="s1">'name.pdf'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">withMime</span><span class="p">(</span><span class="s1">'application/pdf'</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasAttachment</span><span class="p">(</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromStorageDisk</span><span class="p">(</span><span class="s1">'s3'</span><span class="p">,</span> <span class="s1">'/path/to/file'</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertSent</span><span class="p">(</span><span class="nc">OrderShipped</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$pdfData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="nf">hasAttachment</span><span class="p">(</span>
+        <span class="nc">Attachment</span><span class="o">::</span><span class="nf">fromData</span><span class="p">(</span><span class="k">fn</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nv">$pdfData</span><span class="p">,</span> <span class="s1">'name.pdf'</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>메일이 전송되지 않았음을 확인하는 방법에는 <code class="language-plaintext highlighter-rouge">assertNotSent</code>와 <code class="language-plaintext highlighter-rouge">assertNotQueued</code>의 두 가지 방법이 있다는 것을 눈치채셨을 수 있습니다. 때때로 전송되지 않았거나 큐에 쌓이지 않았음을 확인하고 싶을 수 있습니다. 이를 수행하기 위해 <code class="language-plaintext highlighter-rouge">assertNothingOutgoing</code>와 <code class="language-plaintext highlighter-rouge">assertNotOutgoing</code> 방법을 사용할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNothingOutgoing</span><span class="p">();</span>
+
+<span class="nc">Mail</span><span class="o">::</span><span class="nf">assertNotOutgoing</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">OrderShipped</span> <span class="nv">$mail</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$order</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$mail</span><span class="o">-&gt;</span><span class="n">order</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">===</span> <span class="nv">$order</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="mail-and-local-development"></a></p>
+<h2 id="mail-and-local-development">Mail and Local Development</h2>
+
+<p>When developing an application that sends email, you probably don’t want to actually send emails to live email addresses. Laravel provides several ways to “disable” the actual sending of emails during local development.</p>
+
+<p><a name="log-driver"></a></p>
+<h4 id="log-driver">Log Driver</h4>
+
+<p>Instead of sending your emails, the <code class="language-plaintext highlighter-rouge">log</code> mail driver will write all email messages to your log files for inspection. Typically, this driver would only be used during local development. For more information on configuring your application per environment, check out the <a href="/docs/{{version}}/configuration#environment-configuration">configuration documentation</a>.</p>
+
+<p><a name="mailtrap"></a></p>
+<h4 id="helo--mailtrap--mailpit">HELO / Mailtrap / Mailpit</h4>
+
+<p>Alternatively, you may use a service like <a href="https://usehelo.com">HELO</a> or <a href="https://mailtrap.io">Mailtrap</a> and the <code class="language-plaintext highlighter-rouge">smtp</code> driver to send your email messages to a “dummy” mailbox where you may view them in a true email client. This approach has the benefit of allowing you to actually inspect the final emails in Mailtrap’s message viewer.</p>
+
+<p>If you are using <a href="/docs/{{version}}/sail">Laravel Sail</a>, you may preview your messages using <a href="https://github.com/axllent/mailpit">Mailpit</a>. When Sail is running, you may access the Mailpit interface at: <code class="language-plaintext highlighter-rouge">http://localhost:8025</code>.</p>
+
+<p><a name="using-a-global-to-address"></a></p>
+<h4 id="using-a-global-to-address">Using a Global <code class="language-plaintext highlighter-rouge">to</code> Address</h4>
+
+<p>Finally, you may specify a global “to” address by invoking the <code class="language-plaintext highlighter-rouge">alwaysTo</code> method offered by the <code class="language-plaintext highlighter-rouge">Mail</code> facade. Typically, this method should be called from the <code class="language-plaintext highlighter-rouge">boot</code> method of one of your application’s service providers:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">app</span><span class="o">-&gt;</span><span class="nf">environment</span><span class="p">(</span><span class="s1">'local'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nc">Mail</span><span class="o">::</span><span class="nf">alwaysTo</span><span class="p">(</span><span class="s1">'taylor@example.com'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">alwaysTo</code> 방법을 사용할 때, 메일 메시지의 추가적인 “cc” 또는 “bcc” 주소는 삭제됩니다.</p>
+
+<p><a name="events"></a></p>
+<h2 id="이벤트">이벤트</h2>
+
+<p>Laravel은 메일 메시지를 보내는 동안 두 개의 이벤트를 발생시킵니다. <code class="language-plaintext highlighter-rouge">MessageSending</code> 이벤트는 메시지가 전송되기 전에 발생하며, <code class="language-plaintext highlighter-rouge">MessageSent</code> 이벤트는 메시지가 전송된 후에 발생합니다. 이러한 이벤트는 메일이 대기열에 저장될 때가 아닌, <em>전송될 때</em> 발생한다는 것을 기억하세요. 애플리케이션 내에서 이러한 이벤트에 대한 <a href="/docs/{{version}}/events">이벤트 리스너</a>를 생성할 수 있습니다.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Mail\Events\MessageSending</span><span class="p">;</span>
+<span class="c1">// use Illuminate\Mail\Events\MessageSent;</span>
+
+<span class="kd">class</span> <span class="nc">LogMessage</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Handle the event.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">MessageSending</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="custom-transports"></a></p>
+<h2 id="맞춤-전송">맞춤 전송</h2>
+
+<p>Laravel에는 다양한 메일 전송 방법이 포함되어 있지만, Laravel이 기본적으로 지원하지 않는 다른 서비스를 통해 이메일을 전송하기 위해 직접 전송 방법을 작성하고 싶을 수 있습니다. 시작하려면 <code class="language-plaintext highlighter-rouge">Symfony\Component\Mailer\Transport\AbstractTransport</code> 클래스를 확장하는 클래스를 정의하세요. 그런 다음, 전송 방법에서 <code class="language-plaintext highlighter-rouge">doSend</code> 및 <code class="language-plaintext highlighter-rouge">__toString</code> 메서드를 구현하세요:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Mail</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">MailchimpTransactional\ApiClient</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\SentMessage</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\Transport\AbstractTransport</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mime\Address</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mime\MessageConverter</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">MailchimpTransport</span> <span class="kd">extends</span> <span class="nc">AbstractTransport</span>
+<span class="p">{</span>
+    <span class="cd">/**
+     * Create a new Mailchimp transport instance.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span>
+        <span class="k">protected</span> <span class="kt">ApiClient</span> <span class="nv">$client</span><span class="p">,</span>
+    <span class="p">)</span> <span class="p">{</span>
+        <span class="k">parent</span><span class="o">::</span><span class="nf">__construct</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * {@inheritDoc}
+     */</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="n">doSend</span><span class="p">(</span><span class="kt">SentMessage</span> <span class="nv">$message</span><span class="p">):</span> <span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$email</span> <span class="o">=</span> <span class="nc">MessageConverter</span><span class="o">::</span><span class="nf">toEmail</span><span class="p">(</span><span class="nv">$message</span><span class="o">-&gt;</span><span class="nf">getOriginalMessage</span><span class="p">());</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">client</span><span class="o">-&gt;</span><span class="n">messages</span><span class="o">-&gt;</span><span class="nf">send</span><span class="p">([</span><span class="s1">'message'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">'from_email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getFrom</span><span class="p">(),</span>
+            <span class="s1">'to'</span> <span class="o">=&gt;</span> <span class="nf">collect</span><span class="p">(</span><span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getTo</span><span class="p">())</span><span class="o">-&gt;</span><span class="nf">map</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Address</span> <span class="nv">$email</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="p">[</span><span class="s1">'email'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getAddress</span><span class="p">(),</span> <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="s1">'to'</span><span class="p">];</span>
+            <span class="p">})</span><span class="o">-&gt;</span><span class="nf">all</span><span class="p">(),</span>
+            <span class="s1">'subject'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getSubject</span><span class="p">(),</span>
+            <span class="s1">'text'</span> <span class="o">=&gt;</span> <span class="nv">$email</span><span class="o">-&gt;</span><span class="nf">getTextBody</span><span class="p">(),</span>
+        <span class="p">]]);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/**
+     * Get the string representation of the transport.
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__toString</span><span class="p">():</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">'mailchimp'</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>사용자 정의 전송 방식을 정의한 후에는 <code class="language-plaintext highlighter-rouge">Mail</code> 퍼사드에서 제공하는 <code class="language-plaintext highlighter-rouge">extend</code> 메서드를 통해 이를 등록할 수 있습니다. 일반적으로 이는 애플리케이션의 <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드 내에서 수행해야 합니다. <code class="language-plaintext highlighter-rouge">extend</code> 메서드에 제공된 클로저에는 <code class="language-plaintext highlighter-rouge">$config</code> 인수가 전달됩니다. 이 인수에는 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일에 정의된 메일러 구성 배열이 포함됩니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Mail\MailchimpTransport</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">MailchimpTransactional\ApiClient</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Mail</span><span class="o">::</span><span class="nf">extend</span><span class="p">(</span><span class="s1">'mailchimp'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">array</span> <span class="nv">$config</span> <span class="o">=</span> <span class="p">[])</span> <span class="p">{</span>
+        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ApiClient</span><span class="p">;</span>
+
+        <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">setApiKey</span><span class="p">(</span><span class="nv">$config</span><span class="p">[</span><span class="s1">'key'</span><span class="p">]);</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">MailchimpTransport</span><span class="p">(</span><span class="nv">$client</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>맞춤 전송 수단이 정의되고 등록되면, 응용 프로그램의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일 내에서 새 전송 수단을 사용하는 메일러 정의를 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'mailchimp'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'mailchimp'</span><span class="p">,</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'MAILCHIMP_API_KEY'</span><span class="p">),</span>
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p><a name="additional-symfony-transports"></a></p>
+<h3 id="추가-symfony-전송">추가 Symfony 전송</h3>
+
+<p>Laravel은 Mailgun 및 Postmark와 같은 기존 Symfony에서 유지 관리하는 일부 메일 전송에 대한 지원을 포함합니다. 그러나 추가 Symfony에서 유지 관리하는 전송에 대한 지원으로 Laravel을 확장하고 싶을 수 있습니다. 필요한 Symfony 메일러를 Composer를 통해 설치하고 Laravel에 전송을 등록하여 그렇게 할 수 있습니다. 예를 들어, “Brevo”(이전 “Sendinblue”) Symfony 메일러를 설치하고 등록할 수 있습니다:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require symfony/brevo-mailer symfony/http-client
+</code></pre></div></div>
+
+<p>Brevo 메일러 패키지가 설치되면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">services</code> 구성 파일에 Brevo API 자격 증명 항목을 추가할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'brevo'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'key'</span> <span class="o">=&gt;</span> <span class="nf">env</span><span class="p">(</span><span class="s1">'BREVO_API_KEY'</span><span class="p">),</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+<p>다음으로, <code class="language-plaintext highlighter-rouge">Mail</code> 퍼사드의 <code class="language-plaintext highlighter-rouge">extend</code> 메서드를 사용하여 라라벨에 트랜스포트를 등록할 수 있습니다. 일반적으로 이는 서비스 프로바이더의 <code class="language-plaintext highlighter-rouge">boot</code> 메서드 내에서 수행되어야 합니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Mail</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Mailer\Transport\Dsn</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Mail</span><span class="o">::</span><span class="nf">extend</span><span class="p">(</span><span class="s1">'brevo'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">new</span> <span class="nc">BrevoTransportFactory</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">(</span>
+            <span class="k">new</span> <span class="nc">Dsn</span><span class="p">(</span>
+                <span class="s1">'brevo+api'</span><span class="p">,</span>
+                <span class="s1">'default'</span><span class="p">,</span>
+                <span class="nf">config</span><span class="p">(</span><span class="s1">'services.brevo.key'</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>운송 수단이 등록되면, 애플리케이션의 <code class="language-plaintext highlighter-rouge">config/mail.php</code> 구성 파일 내에서 새 운송 수단을 활용하는 메일러 정의를 생성할 수 있습니다:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'brevo'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+    <span class="s1">'transport'</span> <span class="o">=&gt;</span> <span class="s1">'brevo'</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">],</span>
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

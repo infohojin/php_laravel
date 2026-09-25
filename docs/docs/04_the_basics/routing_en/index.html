@@ -1,0 +1,2556 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>Routing | 지니와 도로시의 라라벨 14주 핸드온 마스터 클래스</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Routing" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<meta name="twitter:description" property="og:description" content="온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트" />
+<link rel="canonical" href="http://localhost:4000/docs/04_the_basics/routing_en/" />
+<meta property="og:url" content="http://localhost:4000/docs/04_the_basics/routing_en/" />
+<meta property="og:site_name" content="지니와 도로시의 라라벨 14주 핸드온 마스터 클래스" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Routing" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"온라인 서점 지니샵(JinyShop) 스토어프론트와 관리자 백오피스를 직접 구현하며 라라벨 13.x 공식 문서 전 기능을 마스터하는 실전 강의 노트","headline":"Routing","url":"http://localhost:4000/docs/04_the_basics/routing_en/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/handson/">핸드온실습</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 active"
+                href="/docs/">docs</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/rl_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        
+        
+        
+          라라벨 공식 문서 (docs)
+        
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+
+
+        
+        
+        
+
+        
+        <li>
+          
+          <a href="/docs/"
+            class="bd-links-link d-inline-block rounded ">
+            📖 라라벨 공식 문서 홈
+          </a>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-2"
+            aria-expanded="false">
+            01. 프롤로그 (Prologue)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-2">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/01_prologue/contributions_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  기여 안내
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/releases_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  릴리스 노트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/01_prologue/upgrade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  업그레이드 안내
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-3"
+            aria-expanded="false">
+            02. 시작하기 (Getting Started)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-3">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/02_getting_started/ai_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  AI 지원 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/configuration_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/deployment_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  배포
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/frontend_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  프론트엔드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/installation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  설치
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/starter-kits_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  스타터 키트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/02_getting_started/structure_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  디렉토리 구조
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-4"
+            aria-expanded="false">
+            03. 아키텍처 개념 (Architecture)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-4">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/container_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Service Container
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/facades_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  표면
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/lifecycle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  요청 수명 주기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/03_architecture_concepts/providers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  서비스 제공업체
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-5"
+            aria-expanded="false">
+            04. 기본기 (The Basics)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-5">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/04_the_basics/blade_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Blade Templates
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/controllers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Controllers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/csrf_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  CSRF 보호
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/errors_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  오류 처리
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/logging_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  로깅
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/middleware_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  미들웨어
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/requests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Requests
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/responses_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Responses
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/routing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Routing
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/session_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 세션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/urls_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  URL 생성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/validation_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Validation
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/views_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  뷰
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/04_the_basics/vite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Asset Bundling (Vite)
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-6"
+            aria-expanded="false">
+            05. 심화 기능 (Digging Deeper)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-6">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/05_digging_deeper/artisan_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Artisan Console
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/broadcasting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Broadcasting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/cache_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Cache
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/concurrency_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  동시성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/context_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  컨텍스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/contracts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  계약
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/events_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Events
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/filesystem_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  File Storage
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/helpers_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Helpers
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/http-client_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP Client
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/images_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이미지 조작
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/localization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  현지화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/mail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Mail
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/notifications_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  알림
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/packages_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  패키지 개발
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/processes_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  과정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/queues_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  큐
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/rate-limiting_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  속도 제한
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/scheduling_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Task Scheduling
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/search_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  검색
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/05_digging_deeper/strings_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  문자열
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-7"
+            aria-expanded="false">
+            06. 보안 (Security)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-7">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/06_security/authentication_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authentication
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/authorization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Authorization
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/encryption_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  암호화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/hashing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  해싱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/passwords_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  비밀번호 재설정
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/06_security/verification_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  이메일 확인
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-8"
+            aria-expanded="false">
+            07. 데이터베이스 (Database)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-8">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/07_database/database_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시작하기
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/migrations_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Migrations
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/mongodb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  MongoDB
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/pagination_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 페이지 구성
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/queries_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Database: Query Builder
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/redis_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Redis
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/07_database/seeding_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스: 시딩
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-9"
+            aria-expanded="false">
+            08. Eloquent ORM
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-9">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-collections_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 컬렉션
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-factories_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변: 공장
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-mutators_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Mutators & Casting
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-relationships_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: 관계
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-resources_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: API Resources
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent-serialization_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  웅변적: 직렬화
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/08_eloquent_orm/eloquent_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Eloquent: Getting Started
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-10"
+            aria-expanded="false">
+            09. 인공지능 (AI)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-10">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/09_ai/ai-sdk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel AI SDK
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/boost_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 부스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/09_ai/mcp_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 MCP
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-11"
+            aria-expanded="false">
+            10. 테스트 (Testing)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-11">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/10_testing/console-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  콘솔 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/database-testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  데이터베이스 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/http-tests_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  HTTP 테스트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/mocking_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  조롱
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/10_testing/testing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  테스트: 시작하기
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+        
+        
+
+        
+        <li>
+          
+          
+          
+          <button
+            class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+            data-bs-toggle="collapse" data-bs-target="#collapse-12"
+            aria-expanded="false">
+            11. 공식 패키지 (Packages)
+            <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <div class="collapse " id="collapse-12">
+            <ul class="list-unstyled fw-normal pb-1 small ms-3">
+              
+              <li>
+                <a href="/docs/11_packages/billing_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (Stripe)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/cashier-paddle_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 캐셔 (패들)
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/dusk_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Dusk
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/envoy_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Envoy
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/folio_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Folio
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/fortify_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Fortify
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/head_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 헤드
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/homestead_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Homestead
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/horizon_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Horizon
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/mix_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 믹스
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/octane_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Octane
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/passport_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 패스포트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pennant_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pennant
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pint_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 핀트
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/precognition_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  예지
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/prompts_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Prompts
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/pulse_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Pulse
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/reverb_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 리버브
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sail_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 세일
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/sanctum_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 성역
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/scout_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  Laravel Scout
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/socialite_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  socialite_ko.md
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/telescope_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 망원경
+                </a>
+              </li>
+              
+              <li>
+                <a href="/docs/11_packages/valet_ko/"
+                  class="bd-links-link d-inline-block rounded ">
+                  라라벨 발렛
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+          
+        </li>
+        
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/">Docs</a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item"><a href="/docs/04_the_basics/">04 the basics</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">Routing</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            
+<h1 id="routing">Routing</h1>
+
+<ul>
+  <li><a href="#basic-routing">Basic Routing</a>
+    <ul>
+      <li><a href="#the-default-route-files">The Default Route Files</a></li>
+      <li><a href="#redirect-routes">Redirect Routes</a></li>
+      <li><a href="#view-routes">View Routes</a></li>
+      <li><a href="#listing-your-routes">Listing Your Routes</a></li>
+      <li><a href="#routing-customization">Routing Customization</a></li>
+    </ul>
+  </li>
+  <li><a href="#route-parameters">Route Parameters</a>
+    <ul>
+      <li><a href="#required-parameters">Required Parameters</a></li>
+      <li><a href="#parameters-optional-parameters">Optional Parameters</a></li>
+      <li><a href="#parameters-regular-expression-constraints">Regular Expression Constraints</a></li>
+    </ul>
+  </li>
+  <li><a href="#named-routes">Named Routes</a></li>
+  <li><a href="#route-groups">Route Groups</a>
+    <ul>
+      <li><a href="#route-group-middleware">Middleware</a></li>
+      <li><a href="#route-group-controllers">Controllers</a></li>
+      <li><a href="#route-group-subdomain-routing">Subdomain Routing</a></li>
+      <li><a href="#route-group-prefixes">Route Prefixes</a></li>
+      <li><a href="#route-group-name-prefixes">Route Name Prefixes</a></li>
+    </ul>
+  </li>
+  <li><a href="#route-model-binding">Route Model Binding</a>
+    <ul>
+      <li><a href="#implicit-binding">Implicit Binding</a></li>
+      <li><a href="#implicit-enum-binding">Implicit Enum Binding</a></li>
+      <li><a href="#explicit-binding">Explicit Binding</a></li>
+    </ul>
+  </li>
+  <li><a href="#fallback-routes">Fallback Routes</a></li>
+  <li><a href="#rate-limiting">Rate Limiting</a>
+    <ul>
+      <li><a href="#defining-rate-limiters">Defining Rate Limiters</a></li>
+      <li><a href="#attaching-rate-limiters-to-routes">Attaching Rate Limiters to Routes</a></li>
+    </ul>
+  </li>
+  <li><a href="#form-method-spoofing">Form Method Spoofing</a></li>
+  <li><a href="#accessing-the-current-route">Accessing the Current Route</a></li>
+  <li><a href="#cors">Cross-Origin Resource Sharing (CORS)</a></li>
+  <li><a href="#route-caching">Route Caching</a></li>
+</ul>
+
+<p><a name="basic-routing"></a></p>
+<h2 id="basic-routing">Basic Routing</h2>
+
+<p>The most basic Laravel routes accept a URI and a closure, providing a very simple and expressive method of defining routes and behavior without complicated routing configuration files:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/greeting'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'Hello World'</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="the-default-route-files"></a></p>
+<h3 id="the-default-route-files">The Default Route Files</h3>
+
+<p>All Laravel routes are defined in your route files, which are located in the <code class="language-plaintext highlighter-rouge">routes</code> directory. These files are automatically loaded by Laravel using the configuration specified in your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file. The <code class="language-plaintext highlighter-rouge">routes/web.php</code> file defines routes that are for your web interface. These routes are assigned the <code class="language-plaintext highlighter-rouge">web</code> <a href="/docs/{{version}}/middleware#laravels-default-middleware-groups">middleware group</a>, which provides features like session state and CSRF protection.</p>
+
+<p>For most applications, you will begin by defining routes in your <code class="language-plaintext highlighter-rouge">routes/web.php</code> file. The routes defined in <code class="language-plaintext highlighter-rouge">routes/web.php</code> may be accessed by entering the defined route’s URL in your browser. For example, you may access the following route by navigating to <code class="language-plaintext highlighter-rouge">http://example.com/user</code> in your browser:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Controllers\UserController</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user'</span><span class="p">,</span> <span class="p">[</span><span class="nc">UserController</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'index'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p><a name="api-routes"></a></p>
+<h4 id="api-routes">API Routes</h4>
+
+<p>If your application will also offer a stateless API, you may enable API routing using the <code class="language-plaintext highlighter-rouge">install:api</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan <span class="nb">install</span>:api
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">install:api</code> command installs <a href="/docs/{{version}}/sanctum">Laravel Sanctum</a>, which provides a robust, yet simple API token authentication guard which can be used to authenticate third-party API consumers, SPAs, or mobile applications. In addition, the <code class="language-plaintext highlighter-rouge">install:api</code> command creates the <code class="language-plaintext highlighter-rouge">routes/api.php</code> file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">();</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'auth:sanctum'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Of course, you are free to omit the <code class="language-plaintext highlighter-rouge">auth:sanctum</code> middleware on routes that should be publicly accessible.</p>
+
+<p>The routes in <code class="language-plaintext highlighter-rouge">routes/api.php</code> are stateless and are assigned to the <code class="language-plaintext highlighter-rouge">api</code> <a href="/docs/{{version}}/middleware#laravels-default-middleware-groups">middleware group</a>. Additionally, the <code class="language-plaintext highlighter-rouge">/api</code> URI prefix is automatically applied to these routes, so you do not need to manually apply it to every route in the file. You may change the prefix by modifying your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withRouting</span><span class="p">(</span>
+    <span class="n">api</span><span class="o">:</span> <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../routes/api.php'</span><span class="p">,</span>
+    <span class="n">apiPrefix</span><span class="o">:</span> <span class="s1">'api/admin'</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><a name="available-router-methods"></a></p>
+<h4 id="available-router-methods">Available Router Methods</h4>
+
+<p>The router allows you to register routes that respond to any HTTP verb:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">);</span>
+<span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">);</span>
+<span class="nc">Route</span><span class="o">::</span><span class="nf">put</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">);</span>
+<span class="nc">Route</span><span class="o">::</span><span class="nf">patch</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">);</span>
+<span class="nc">Route</span><span class="o">::</span><span class="nb">delete</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">);</span>
+<span class="nc">Route</span><span class="o">::</span><span class="nf">options</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$callback</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Sometimes you may need to register a route that responds to multiple HTTP verbs. You may do so using the <code class="language-plaintext highlighter-rouge">match</code> method. Or, you may even register a route that responds to all HTTP verbs using the <code class="language-plaintext highlighter-rouge">any</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="k">match</span><span class="p">([</span><span class="s1">'get'</span><span class="p">,</span> <span class="s1">'post'</span><span class="p">],</span> <span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">any</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+When defining multiple routes that share the same URI, routes using the <code class="language-plaintext highlighter-rouge">get</code>, <code class="language-plaintext highlighter-rouge">post</code>, <code class="language-plaintext highlighter-rouge">put</code>, <code class="language-plaintext highlighter-rouge">patch</code>, <code class="language-plaintext highlighter-rouge">delete</code>, and <code class="language-plaintext highlighter-rouge">options</code> methods should be defined before routes using the <code class="language-plaintext highlighter-rouge">any</code>, <code class="language-plaintext highlighter-rouge">match</code>, and <code class="language-plaintext highlighter-rouge">redirect</code> methods. This ensures the incoming request is matched with the correct route.</p>
+</blockquote>
+
+<p><a name="dependency-injection"></a></p>
+<h4 id="dependency-injection">Dependency Injection</h4>
+
+<p>You may type-hint any dependencies required by your route in your route’s callback signature. The declared dependencies will automatically be resolved and injected into the callback by the Laravel <a href="/docs/{{version}}/container">service container</a>. For example, you may type-hint the <code class="language-plaintext highlighter-rouge">Illuminate\Http\Request</code> class to have the current HTTP request automatically injected into your route callback:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="csrf-protection"></a></p>
+<h4 id="csrf-protection">CSRF Protection</h4>
+
+<p>Remember, any HTML forms pointing to <code class="language-plaintext highlighter-rouge">POST</code>, <code class="language-plaintext highlighter-rouge">PUT</code>, <code class="language-plaintext highlighter-rouge">PATCH</code>, or <code class="language-plaintext highlighter-rouge">DELETE</code> routes that are defined in the <code class="language-plaintext highlighter-rouge">web</code> routes file should include a CSRF token field. Otherwise, the request will be rejected. You can read more about CSRF protection in the <a href="/docs/{{version}}/csrf">CSRF documentation</a>:</p>
+
+<pre><code class="language-blade">&lt;form method="POST" action="/profile"&gt;
+    @csrf
+    ...
+&lt;/form&gt;
+</code></pre>
+
+<p><a name="redirect-routes"></a></p>
+<h3 id="redirect-routes">Redirect Routes</h3>
+
+<p>If you are defining a route that redirects to another URI, you may use the <code class="language-plaintext highlighter-rouge">Route::redirect</code> method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">redirect</span><span class="p">(</span><span class="s1">'/here'</span><span class="p">,</span> <span class="s1">'/there'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>By default, <code class="language-plaintext highlighter-rouge">Route::redirect</code> returns a <code class="language-plaintext highlighter-rouge">302</code> status code. You may customize the status code using the optional third parameter:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">redirect</span><span class="p">(</span><span class="s1">'/here'</span><span class="p">,</span> <span class="s1">'/there'</span><span class="p">,</span> <span class="mi">301</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Or, you may use the <code class="language-plaintext highlighter-rouge">Route::permanentRedirect</code> method to return a <code class="language-plaintext highlighter-rouge">301</code> status code:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">permanentRedirect</span><span class="p">(</span><span class="s1">'/here'</span><span class="p">,</span> <span class="s1">'/there'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+When using route parameters in redirect routes, the following parameters are reserved by Laravel and cannot be used: <code class="language-plaintext highlighter-rouge">destination</code> and <code class="language-plaintext highlighter-rouge">status</code>.</p>
+</blockquote>
+
+<p><a name="view-routes"></a></p>
+<h3 id="view-routes">View Routes</h3>
+
+<p>If your route only needs to return a <a href="/docs/{{version}}/views">view</a>, you may use the <code class="language-plaintext highlighter-rouge">Route::view</code> method. Like the <code class="language-plaintext highlighter-rouge">redirect</code> method, this method provides a simple shortcut so that you do not have to define a full route or controller. The <code class="language-plaintext highlighter-rouge">view</code> method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">view</span><span class="p">(</span><span class="s1">'/welcome'</span><span class="p">,</span> <span class="s1">'welcome'</span><span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">view</span><span class="p">(</span><span class="s1">'/welcome'</span><span class="p">,</span> <span class="s1">'welcome'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Taylor'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+When using route parameters in view routes, the following parameters are reserved by Laravel and cannot be used: <code class="language-plaintext highlighter-rouge">view</code>, <code class="language-plaintext highlighter-rouge">data</code>, <code class="language-plaintext highlighter-rouge">status</code>, and <code class="language-plaintext highlighter-rouge">headers</code>.</p>
+</blockquote>
+
+<p><a name="listing-your-routes"></a></p>
+<h3 id="listing-your-routes">Listing Your Routes</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">route:list</code> Artisan command can easily provide an overview of all of the routes that are defined by your application:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan route:list
+</code></pre></div></div>
+
+<p>By default, the route middleware that are assigned to each route will not be displayed in the <code class="language-plaintext highlighter-rouge">route:list</code> output; however, you can instruct Laravel to display the route middleware and middleware group names by adding the <code class="language-plaintext highlighter-rouge">-v</code> option to the command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan route:list <span class="nt">-v</span>
+
+<span class="c"># Expand middleware groups...</span>
+php artisan route:list <span class="nt">-vv</span>
+</code></pre></div></div>
+
+<p>You may also instruct Laravel to only show routes that begin with a given URI:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan route:list <span class="nt">--path</span><span class="o">=</span>api
+</code></pre></div></div>
+
+<p>In addition, you may instruct Laravel to hide any routes that are defined by third-party packages by providing the <code class="language-plaintext highlighter-rouge">--except-vendor</code> option when executing the <code class="language-plaintext highlighter-rouge">route:list</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan route:list <span class="nt">--except-vendor</span>
+</code></pre></div></div>
+
+<p>Likewise, you may also instruct Laravel to only show routes that are defined by third-party packages by providing the <code class="language-plaintext highlighter-rouge">--only-vendor</code> option when executing the <code class="language-plaintext highlighter-rouge">route:list</code> command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan route:list <span class="nt">--only-vendor</span>
+</code></pre></div></div>
+
+<p><a name="routing-customization"></a></p>
+<h3 id="routing-customization">Routing Customization</h3>
+
+<p>By default, your application’s routes are configured and loaded by the <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">use</span> <span class="nc">Illuminate\Foundation\Application</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="nc">Application</span><span class="o">::</span><span class="nf">configure</span><span class="p">(</span><span class="n">basePath</span><span class="o">:</span> <span class="nb">dirname</span><span class="p">(</span><span class="k">__DIR__</span><span class="p">))</span>
+    <span class="o">-&gt;</span><span class="nf">withRouting</span><span class="p">(</span>
+        <span class="n">web</span><span class="o">:</span> <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../routes/web.php'</span><span class="p">,</span>
+        <span class="n">commands</span><span class="o">:</span> <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../routes/console.php'</span><span class="p">,</span>
+        <span class="n">health</span><span class="o">:</span> <span class="s1">'/up'</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">-&gt;</span><span class="nf">create</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>However, sometimes you may want to define an entirely new file to contain a subset of your application’s routes. To accomplish this, you may provide a <code class="language-plaintext highlighter-rouge">then</code> closure to the <code class="language-plaintext highlighter-rouge">withRouting</code> method. Within this closure, you may register any additional routes that are necessary for your application:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="o">-&gt;</span><span class="nf">withRouting</span><span class="p">(</span>
+    <span class="n">web</span><span class="o">:</span> <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../routes/web.php'</span><span class="p">,</span>
+    <span class="n">commands</span><span class="o">:</span> <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../routes/console.php'</span><span class="p">,</span>
+    <span class="n">health</span><span class="o">:</span> <span class="s1">'/up'</span><span class="p">,</span>
+    <span class="n">then</span><span class="o">:</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'api'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">prefix</span><span class="p">(</span><span class="s1">'webhooks'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'webhooks.'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="nf">base_path</span><span class="p">(</span><span class="s1">'routes/webhooks.php'</span><span class="p">));</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Or, you may even take complete control over route registration by providing a <code class="language-plaintext highlighter-rouge">using</code> closure to the <code class="language-plaintext highlighter-rouge">withRouting</code> method. When this argument is passed, no HTTP routes will be registered by the framework and you are responsible for manually registering all routes:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="o">-&gt;</span><span class="nf">withRouting</span><span class="p">(</span>
+    <span class="n">commands</span><span class="o">:</span> <span class="k">__DIR__</span><span class="mf">.</span><span class="s1">'/../routes/console.php'</span><span class="p">,</span>
+    <span class="n">using</span><span class="o">:</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'api'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">prefix</span><span class="p">(</span><span class="s1">'api'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="nf">base_path</span><span class="p">(</span><span class="s1">'routes/api.php'</span><span class="p">));</span>
+
+        <span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">(</span><span class="s1">'web'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="nf">base_path</span><span class="p">(</span><span class="s1">'routes/web.php'</span><span class="p">));</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><a name="route-parameters"></a></p>
+<h2 id="route-parameters">Route Parameters</h2>
+
+<p><a name="required-parameters"></a></p>
+<h3 id="required-parameters">Required Parameters</h3>
+
+<p>Sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user’s ID from the URL. You may do so by defining route parameters:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'User '</span><span class="mf">.</span><span class="nv">$id</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>You may define as many route parameters as required by your route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/posts/{post}/comments/{comment}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$postId</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$commentId</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Route parameters are always encased within <code class="language-plaintext highlighter-rouge">{}</code> braces and should consist of alphabetic characters. Underscores (<code class="language-plaintext highlighter-rouge">_</code>) are also acceptable within route parameter names. Route parameters are injected into route callbacks / controllers based on their order - the names of the route callback / controller arguments do not matter.</p>
+
+<p><a name="parameters-and-dependency-injection"></a></p>
+<h4 id="parameters-and-dependency-injection">Parameters and Dependency Injection</h4>
+
+<p>If your route has dependencies that you would like the Laravel service container to automatically inject into your route’s callback, you should list your route parameters after your dependencies:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">'User '</span><span class="mf">.</span><span class="nv">$id</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="parameters-optional-parameters"></a></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
+
+<p>Occasionally you may need to specify a route parameter that may not always be present in the URI. You may do so by placing a <code class="language-plaintext highlighter-rouge">?</code> mark after the parameter name. Make sure to give the route’s corresponding variable a default value:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{name?}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">?string</span> <span class="nv">$name</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{name?}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">?string</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'John'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="parameters-regular-expression-constraints"></a></p>
+<h3 id="regular-expression-constraints">Regular Expression Constraints</h3>
+
+<p>You may constrain the format of your route parameters using the <code class="language-plaintext highlighter-rouge">where</code> method on a route instance. The <code class="language-plaintext highlighter-rouge">where</code> method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{name}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'[A-Za-z]+'</span><span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'[0-9]+'</span><span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}/{name}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">([</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="s1">'[0-9]+'</span><span class="p">,</span> <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'[a-z]+'</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>For convenience, some commonly used regular expression patterns have helper methods that allow you to quickly add pattern constraints to your routes:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}/{name}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">whereNumber</span><span class="p">(</span><span class="s1">'id'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">whereAlpha</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{name}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">whereAlphaNumeric</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">whereUuid</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">whereUlid</span><span class="p">(</span><span class="s1">'id'</span><span class="p">);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/category/{category}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$category</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">whereIn</span><span class="p">(</span><span class="s1">'category'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'movie'</span><span class="p">,</span> <span class="s1">'song'</span><span class="p">,</span> <span class="s1">'painting'</span><span class="p">]);</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/category/{category}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$category</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">whereIn</span><span class="p">(</span><span class="s1">'category'</span><span class="p">,</span> <span class="nc">CategoryEnum</span><span class="o">::</span><span class="nf">cases</span><span class="p">());</span>
+</code></pre></div></div>
+
+<p>If the incoming request does not match the route pattern constraints, a 404 HTTP response will be returned.</p>
+
+<p><a name="parameters-global-constraints"></a></p>
+<h4 id="global-constraints">Global Constraints</h4>
+
+<p>If you would like a route parameter to always be constrained by a given regular expression, you may use the <code class="language-plaintext highlighter-rouge">pattern</code> method. You should define these patterns in the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">App\Providers\AppServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">pattern</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'[0-9]+'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once the pattern has been defined, it is automatically applied to all routes using that parameter name:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Only executed if {id} is numeric...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="parameters-encoded-forward-slashes"></a></p>
+<h4 id="encoded-forward-slashes">Encoded Forward Slashes</h4>
+
+<p>The Laravel routing component allows all characters except <code class="language-plaintext highlighter-rouge">/</code> to be present within route parameter values. You must explicitly allow <code class="language-plaintext highlighter-rouge">/</code> to be part of your placeholder using a <code class="language-plaintext highlighter-rouge">where</code> condition regular expression:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/search/{search}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$search</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$search</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'search'</span><span class="p">,</span> <span class="s1">'.*'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+Encoded forward slashes are only supported within the last route segment.</p>
+</blockquote>
+
+<p><a name="named-routes"></a></p>
+<h2 id="named-routes">Named Routes</h2>
+
+<p>Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route by chaining the <code class="language-plaintext highlighter-rouge">name</code> method onto the route definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/profile'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You may also specify route names for controller actions:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span>
+    <span class="s1">'/user/profile'</span><span class="p">,</span>
+    <span class="p">[</span><span class="nc">UserProfileController</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'show'</span><span class="p">]</span>
+<span class="p">)</span><span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!WARNING]
+Route names should always be unique.</p>
+</blockquote>
+
+<p><a name="generating-urls-to-named-routes"></a></p>
+<h4 id="generating-urls-to-named-routes">Generating URLs to Named Routes</h4>
+
+<p>Once you have assigned a name to a given route, you may use the route’s name when generating URLs or redirects via Laravel’s <code class="language-plaintext highlighter-rouge">route</code> and <code class="language-plaintext highlighter-rouge">redirect</code> helper functions:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Generating URLs...</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">);</span>
+
+<span class="c1">// Generating Redirects...</span>
+<span class="k">return</span> <span class="nf">redirect</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">route</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nf">to_route</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>If the named route defines parameters, you may pass the parameters as the second argument to the <code class="language-plaintext highlighter-rouge">route</code> function. The given parameters will automatically be inserted into the generated URL in their correct positions:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}/profile'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">);</span>
+
+<span class="nv">$url</span> <span class="o">=</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>If you pass additional parameters in the array, those key / value pairs will automatically be added to the generated URL’s query string:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}/profile'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">);</span>
+
+<span class="nv">$url</span> <span class="o">=</span> <span class="nf">route</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'photos'</span> <span class="o">=&gt;</span> <span class="s1">'yes'</span><span class="p">]);</span>
+
+<span class="c1">// http://example.com/user/1/profile?photos=yes</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>[!NOTE]
+Sometimes, you may wish to specify request-wide default values for URL parameters, such as the current locale. To accomplish this, you may use the <a href="/docs/{{version}}/urls#default-values">URL::defaults method</a>.</p>
+</blockquote>
+
+<p><a name="inspecting-the-current-route"></a></p>
+<h4 id="inspecting-the-current-route">Inspecting the Current Route</h4>
+
+<p>If you would like to determine if the current request was routed to a given named route, you may use the <code class="language-plaintext highlighter-rouge">named</code> method on a Route instance. For example, you may check the current route name from a route middleware:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Closure</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Handle an incoming request.
+ *
+ * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">handle</span><span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">Closure</span> <span class="nv">$next</span><span class="p">):</span> <span class="kt">Response</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">route</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">named</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$next</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="route-groups"></a></p>
+<h2 id="route-groups">Route Groups</h2>
+
+<p>Route groups allow you to share route attributes, such as middleware, across a large number of routes without needing to define those attributes on each individual route.</p>
+
+<p>Nested groups attempt to intelligently “merge” attributes with their parent group. Middleware and <code class="language-plaintext highlighter-rouge">where</code> conditions are merged while names and prefixes are appended. Namespace delimiters and slashes in URI prefixes are automatically added where appropriate.</p>
+
+<p><a name="route-group-middleware"></a></p>
+<h3 id="middleware">Middleware</h3>
+
+<p>To assign <a href="/docs/{{version}}/middleware">middleware</a> to all routes within a group, you may use the <code class="language-plaintext highlighter-rouge">middleware</code> method before defining the group. Middleware are executed in the order they are listed in the array:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">([</span><span class="s1">'first'</span><span class="p">,</span> <span class="s1">'second'</span><span class="p">])</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Uses first &amp; second middleware...</span>
+    <span class="p">});</span>
+
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/profile'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Uses first &amp; second middleware...</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="route-group-controllers"></a></p>
+<h3 id="controllers">Controllers</h3>
+
+<p>If a group of routes all utilize the same <a href="/docs/{{version}}/controllers">controller</a>, you may use the <code class="language-plaintext highlighter-rouge">controller</code> method to define the common controller for all of the routes within the group. Then, when defining the routes, you only need to provide the controller method that they invoke:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Controllers\OrderController</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">controller</span><span class="p">(</span><span class="nc">OrderController</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/orders/{id}'</span><span class="p">,</span> <span class="s1">'show'</span><span class="p">);</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/orders'</span><span class="p">,</span> <span class="s1">'store'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="route-group-subdomain-routing"></a></p>
+<h3 id="subdomain-routing">Subdomain Routing</h3>
+
+<p>Route groups may also be used to handle subdomain routing. Subdomains may be assigned route parameters just like route URIs, allowing you to capture a portion of the subdomain for usage in your route or controller. The subdomain may be specified by calling the <code class="language-plaintext highlighter-rouge">domain</code> method before defining the group:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">domain</span><span class="p">(</span><span class="s1">'{account}.example.com'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/user/{id}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$account</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="route-group-prefixes"></a></p>
+<h3 id="route-prefixes">Route Prefixes</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">prefix</code> method may be used to prefix each route in the group with a given URI. For example, you may want to prefix all route URIs within the group with <code class="language-plaintext highlighter-rouge">admin</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">prefix</span><span class="p">(</span><span class="s1">'admin'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Matches The "/admin/users" URL</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="route-group-name-prefixes"></a></p>
+<h3 id="route-name-prefixes">Route Name Prefixes</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">name</code> method may be used to prefix each route name in the group with a given string. For example, you may want to prefix the names of all of the routes in the group with <code class="language-plaintext highlighter-rouge">admin</code>. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing <code class="language-plaintext highlighter-rouge">.</code> character in the prefix:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">name</span><span class="p">(</span><span class="s1">'admin.'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Route assigned name "admin.users"...</span>
+    <span class="p">})</span><span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'users'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="route-model-binding"></a></p>
+<h2 id="route-model-binding">Route Model Binding</h2>
+
+<p>When injecting a model ID to a route or controller action, you will often query the database to retrieve the model that corresponds to that ID. Laravel route model binding provides a convenient way to automatically inject the model instances directly into your routes. For example, instead of injecting a user’s ID, you can inject the entire <code class="language-plaintext highlighter-rouge">User</code> model instance that matches the given ID.</p>
+
+<p><a name="implicit-binding"></a></p>
+<h3 id="implicit-binding">Implicit Binding</h3>
+
+<p>Laravel automatically resolves Eloquent models defined in routes or controller actions whose type-hinted variable names match a route segment name. For example:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Since the <code class="language-plaintext highlighter-rouge">$user</code> variable is type-hinted as the <code class="language-plaintext highlighter-rouge">App\Models\User</code> Eloquent model and the variable name matches the <code class="language-plaintext highlighter-rouge">{user}</code> URI segment, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI. If a matching model instance is not found in the database, a 404 HTTP response will automatically be generated.</p>
+
+<p>Of course, implicit binding is also possible when using controller methods. Again, note the <code class="language-plaintext highlighter-rouge">{user}</code> URI segment matches the <code class="language-plaintext highlighter-rouge">$user</code> variable in the controller which contains an <code class="language-plaintext highlighter-rouge">App\Models\User</code> type-hint:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Controllers\UserController</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="c1">// Route definition...</span>
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}'</span><span class="p">,</span> <span class="p">[</span><span class="nc">UserController</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'show'</span><span class="p">]);</span>
+
+<span class="c1">// Controller method definition...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">show</span><span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nf">view</span><span class="p">(</span><span class="s1">'user.profile'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'user'</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="implicit-soft-deleted-models"></a></p>
+<h4 id="soft-deleted-models">Soft Deleted Models</h4>
+
+<p>Typically, implicit model binding will not retrieve models that have been <a href="/docs/{{version}}/eloquent#soft-deleting">soft deleted</a>. However, you may instruct the implicit binding to retrieve these models by chaining the <code class="language-plaintext highlighter-rouge">withTrashed</code> method onto your route’s definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$user</span><span class="o">-&gt;</span><span class="n">email</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">withTrashed</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="customizing-the-default-key-name"></a></p>
+<h4 id="customizing-the-key">Customizing the Key</h4>
+
+<p>Sometimes you may wish to resolve Eloquent models using a column other than <code class="language-plaintext highlighter-rouge">id</code>. To do so, you may specify the column in the route parameter definition:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/posts/{post:slug}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$post</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>If you would like model binding to always use a database column other than <code class="language-plaintext highlighter-rouge">id</code> when retrieving a given model class, you may apply the <code class="language-plaintext highlighter-rouge">RouteKey</code> attribute to the Eloquent model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Attributes\RouteKey</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Database\Eloquent\Model</span><span class="p">;</span>
+
+<span class="na">#[RouteKey('slug')]</span>
+<span class="kd">class</span> <span class="nc">Post</span> <span class="kd">extends</span> <span class="nc">Model</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="implicit-model-binding-scoping"></a></p>
+<h4 id="custom-keys-and-scoping">Custom Keys and Scoping</h4>
+
+<p>When implicitly binding multiple Eloquent models in a single route definition, you may wish to scope the second Eloquent model such that it must be a child of the previous Eloquent model. For example, consider this route definition that retrieves a blog post by slug for a specific user:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}/posts/{post:slug}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$post</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>When using a custom keyed implicit binding as a nested route parameter, Laravel will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. In this case, it will be assumed that the <code class="language-plaintext highlighter-rouge">User</code> model has a relationship named <code class="language-plaintext highlighter-rouge">posts</code> (the plural form of the route parameter name) which can be used to retrieve the <code class="language-plaintext highlighter-rouge">Post</code> model.</p>
+
+<p>If you wish, you may instruct Laravel to scope “child” bindings even when a custom key is not provided. To do so, you may invoke the <code class="language-plaintext highlighter-rouge">scopeBindings</code> method when defining your route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\Post</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}/posts/{post}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$post</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">scopeBindings</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Or, you may instruct an entire group of route definitions to use scoped bindings:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">scopeBindings</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}/posts/{post}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$post</span><span class="p">;</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Similarly, you may explicitly instruct Laravel to not scope bindings by invoking the <code class="language-plaintext highlighter-rouge">withoutScopedBindings</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}/posts/{post:slug}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="kt">Post</span> <span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$post</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="nf">withoutScopedBindings</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p><a name="customizing-missing-model-behavior"></a></p>
+<h4 id="customizing-missing-model-behavior">Customizing Missing Model Behavior</h4>
+
+<p>Typically, a 404 HTTP response will be generated if an implicitly bound model is not found. However, you may customize this behavior by calling the <code class="language-plaintext highlighter-rouge">missing</code> method when defining your route. The <code class="language-plaintext highlighter-rouge">missing</code> method accepts a closure that will be invoked if an implicitly bound model cannot be found:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Http\Controllers\LocationsController</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Redirect</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/locations/{location:slug}'</span><span class="p">,</span> <span class="p">[</span><span class="nc">LocationsController</span><span class="o">::</span><span class="n">class</span><span class="p">,</span> <span class="s1">'show'</span><span class="p">])</span>
+    <span class="o">-&gt;</span><span class="nf">name</span><span class="p">(</span><span class="s1">'locations.view'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="nf">missing</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Redirect</span><span class="o">::</span><span class="nf">route</span><span class="p">(</span><span class="s1">'locations.index'</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="implicit-enum-binding"></a></p>
+<h3 id="implicit-enum-binding">Implicit Enum Binding</h3>
+
+<p>PHP 8.1 introduced support for <a href="https://www.php.net/manual/en/language.enumerations.backed.php">Enums</a>. To complement this feature, Laravel allows you to type-hint a <a href="https://www.php.net/manual/en/language.enumerations.backed.php">string-backed Enum</a> on your route definition and Laravel will only invoke the route if that route segment corresponds to a valid Enum value. Otherwise, a 404 HTTP response will be returned automatically. For example, given the following Enum:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">App\Enums</span><span class="p">;</span>
+
+<span class="kd">enum</span> <span class="nc">Category</span><span class="p">:</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">case</span> <span class="no">Fruits</span> <span class="o">=</span> <span class="s1">'fruits'</span><span class="p">;</span>
+    <span class="k">case</span> <span class="no">People</span> <span class="o">=</span> <span class="s1">'people'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may define a route that will only be invoked if the <code class="language-plaintext highlighter-rouge">{category}</code> route segment is <code class="language-plaintext highlighter-rouge">fruits</code> or <code class="language-plaintext highlighter-rouge">people</code>. Otherwise, Laravel will return a 404 HTTP response:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Enums\Category</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/categories/{category}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Category</span> <span class="nv">$category</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$category</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="explicit-binding"></a></p>
+<h3 id="explicit-binding">Explicit Binding</h3>
+
+<p>You are not required to use Laravel’s implicit, convention based model resolution in order to use model binding. You can also explicitly define how route parameters correspond to models. To register an explicit binding, use the router’s <code class="language-plaintext highlighter-rouge">model</code> method to specify the class for a given parameter. You should define your explicit model bindings at the beginning of the <code class="language-plaintext highlighter-rouge">boot</code> method of your <code class="language-plaintext highlighter-rouge">AppServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">model</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="nc">User</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Next, define a route that contains a <code class="language-plaintext highlighter-rouge">{user}</code> parameter:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+
+<span class="nc">Route</span><span class="o">::</span><span class="nf">get</span><span class="p">(</span><span class="s1">'/users/{user}'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">User</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Since we have bound all <code class="language-plaintext highlighter-rouge">{user}</code> parameters to the <code class="language-plaintext highlighter-rouge">App\Models\User</code> model, an instance of that class will be injected into the route. So, for example, a request to <code class="language-plaintext highlighter-rouge">users/1</code> will inject the <code class="language-plaintext highlighter-rouge">User</code> instance from the database which has an ID of <code class="language-plaintext highlighter-rouge">1</code>.</p>
+
+<p>If a matching model instance is not found in the database, a 404 HTTP response will be automatically generated.</p>
+
+<p><a name="customizing-the-resolution-logic"></a></p>
+<h4 id="customizing-the-resolution-logic">Customizing the Resolution Logic</h4>
+
+<p>If you wish to define your own model binding resolution logic, you may use the <code class="language-plaintext highlighter-rouge">Route::bind</code> method. The closure you pass to the <code class="language-plaintext highlighter-rouge">bind</code> method will receive the value of the URI segment and should return the instance of the class that should be injected into the route. Again, this customization should take place in the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">AppServiceProvider</code>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">App\Models\User</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">bind</span><span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">User</span><span class="o">::</span><span class="nf">where</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">firstOrFail</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Alternatively, you may override the <code class="language-plaintext highlighter-rouge">resolveRouteBinding</code> method on your Eloquent model. This method will receive the value of the URI segment and should return the instance of the class that should be injected into the route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Retrieve the model for a bound value.
+ *
+ * @param  mixed  $value
+ * @param  string|null  $field
+ * @return \Illuminate\Database\Eloquent\Model|null
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">resolveRouteBinding</span><span class="p">(</span><span class="nv">$value</span><span class="p">,</span> <span class="nv">$field</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">where</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">firstOrFail</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If a route is utilizing <a href="#implicit-model-binding-scoping">implicit binding scoping</a>, the <code class="language-plaintext highlighter-rouge">resolveChildRouteBinding</code> method will be used to resolve the child binding of the parent model:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Retrieve the child model for a bound value.
+ *
+ * @param  string  $childType
+ * @param  mixed  $value
+ * @param  string|null  $field
+ * @return \Illuminate\Database\Eloquent\Model|null
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">resolveChildRouteBinding</span><span class="p">(</span><span class="nv">$childType</span><span class="p">,</span> <span class="nv">$value</span><span class="p">,</span> <span class="nv">$field</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">parent</span><span class="o">::</span><span class="nf">resolveChildRouteBinding</span><span class="p">(</span><span class="nv">$childType</span><span class="p">,</span> <span class="nv">$value</span><span class="p">,</span> <span class="nv">$field</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><a name="fallback-routes"></a></p>
+<h2 id="fallback-routes">Fallback Routes</h2>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">Route::fallback</code> method, you may define a route that will be executed when no other route matches the incoming request. Typically, unhandled requests will automatically render a “404” page via your application’s exception handler. However, since you would typically define the <code class="language-plaintext highlighter-rouge">fallback</code> route within your <code class="language-plaintext highlighter-rouge">routes/web.php</code> file, all middleware in the <code class="language-plaintext highlighter-rouge">web</code> middleware group will apply to the route. You are free to add additional middleware to this route as needed:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">fallback</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="rate-limiting"></a></p>
+<h2 id="rate-limiting">Rate Limiting</h2>
+
+<p><a name="defining-rate-limiters"></a></p>
+<h3 id="defining-rate-limiters">Defining Rate Limiters</h3>
+
+<p>Laravel includes powerful and customizable rate limiting services that you may utilize to restrict the amount of traffic for a given route or group of routes. To get started, you should define rate limiter configurations that meet your application’s needs.</p>
+
+<p>Rate limiters may be defined within the <code class="language-plaintext highlighter-rouge">boot</code> method of your application’s <code class="language-plaintext highlighter-rouge">App\Providers\AppServiceProvider</code> class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Cache\RateLimiting\Limit</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\RateLimiter</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'api'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">?-&gt;</span><span class="n">id</span> <span class="o">?:</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">ip</span><span class="p">());</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Rate limiters are defined using the <code class="language-plaintext highlighter-rouge">RateLimiter</code> facade’s <code class="language-plaintext highlighter-rouge">for</code> method. The <code class="language-plaintext highlighter-rouge">for</code> method accepts a rate limiter name and a closure that returns the limit configuration that should apply to routes that are assigned to the rate limiter. Limit configuration are instances of the <code class="language-plaintext highlighter-rouge">Illuminate\Cache\RateLimiting\Limit</code> class. This class contains helpful “builder” methods so that you can quickly define your limit. The rate limiter name may be any string you wish:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Cache\RateLimiting\Limit</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\RateLimiter</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Bootstrap any application services.
+ */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">boot</span><span class="p">():</span> <span class="kt">void</span>
+<span class="p">{</span>
+    <span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'global'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If the incoming request exceeds the specified rate limit, a response with a 429 HTTP status code will automatically be returned by Laravel. If you would like to define your own response that should be returned by a rate limit, you may use the <code class="language-plaintext highlighter-rouge">response</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'global'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">response</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="kt">array</span> <span class="nv">$headers</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">response</span><span class="p">(</span><span class="s1">'Custom response...'</span><span class="p">,</span> <span class="mi">429</span><span class="p">,</span> <span class="nv">$headers</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Since rate limiter callbacks receive the incoming HTTP request instance, you may build the appropriate rate limit dynamically based on the incoming request or authenticated user:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'uploads'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">?-&gt;</span><span class="nf">vipCustomer</span><span class="p">()</span>
+        <span class="o">?</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">none</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perHour</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="segmenting-rate-limits"></a></p>
+<h4 id="segmenting-rate-limits">Segmenting Rate Limits</h4>
+
+<p>Sometimes you may wish to segment rate limits by some arbitrary value. For example, you may wish to allow users to access a given route 100 times per minute per IP address. To accomplish this, you may use the <code class="language-plaintext highlighter-rouge">by</code> method when building your rate limit:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'uploads'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">vipCustomer</span><span class="p">()</span>
+        <span class="o">?</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">none</span><span class="p">()</span>
+        <span class="o">:</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">ip</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>To illustrate this feature using another example, we can limit access to the route to 100 times per minute per authenticated user ID or 10 times per minute per IP address for guests:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'uploads'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span>
+        <span class="o">?</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">)</span>
+        <span class="o">:</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">ip</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="multiple-rate-limits"></a></p>
+<h4 id="multiple-rate-limits">Multiple Rate Limits</h4>
+
+<p>If needed, you may return an array of rate limits for a given rate limiter configuration. Each rate limit will be evaluated for the route based on the order they are placed within the array:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'login'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span>
+        <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">input</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)),</span>
+    <span class="p">];</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>If you’re assigning multiple rate limits segmented by identical <code class="language-plaintext highlighter-rouge">by</code> values, you should ensure that each <code class="language-plaintext highlighter-rouge">by</code> value is unique. The easiest way to achieve this is to prefix the values given to the <code class="language-plaintext highlighter-rouge">by</code> method:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'uploads'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="s1">'minute:'</span><span class="mf">.</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">),</span>
+        <span class="nc">Limit</span><span class="o">::</span><span class="nf">perDay</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="s1">'day:'</span><span class="mf">.</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">),</span>
+    <span class="p">];</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="response-base-rate-limiting"></a></p>
+<h4 id="response-based-rate-limiting">Response-Based Rate Limiting</h4>
+
+<p>In addition to rate limiting incoming requests, Laravel allows you to rate limit based on the response using the <code class="language-plaintext highlighter-rouge">after</code> method. This is useful when you only want to count certain responses toward the rate limit, such as validation errors, 404 responses, or other specific HTTP status codes.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">after</code> method accepts a closure that receives the response and should return <code class="language-plaintext highlighter-rouge">true</code> if the response should be counted toward the rate limit, or <code class="language-plaintext highlighter-rouge">false</code> if it should be ignored. This is particularly useful for preventing enumeration attacks by limiting consecutive 404 responses, or allowing users to retry requests that fail validation without exhausting their rate limit on an endpoint that should only throttle successful operations:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Cache\RateLimiting\Limit</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Http\Request</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\RateLimiter</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nc">RateLimiter</span><span class="o">::</span><span class="k">for</span><span class="p">(</span><span class="s1">'resource-not-found'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="kt">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nc">Limit</span><span class="o">::</span><span class="nf">perMinute</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="nf">by</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">user</span><span class="p">()</span><span class="o">?-&gt;</span><span class="n">id</span> <span class="o">?:</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="nf">ip</span><span class="p">())</span>
+        <span class="o">-&gt;</span><span class="nf">after</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Response</span> <span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Only count 404 responses toward the rate limit to prevent enumeration...</span>
+            <span class="k">return</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="nf">status</span><span class="p">()</span> <span class="o">===</span> <span class="mi">404</span><span class="p">;</span>
+        <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="attaching-rate-limiters-to-routes"></a></p>
+<h3 id="attaching-rate-limiters-to-routes">Attaching Rate Limiters to Routes</h3>
+
+<p>Rate limiters may be attached to routes or route groups using the <code class="language-plaintext highlighter-rouge">throttle</code> <a href="/docs/{{version}}/middleware">middleware</a>. The throttle middleware accepts the name of the rate limiter you wish to assign to the route:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Route</span><span class="o">::</span><span class="nf">middleware</span><span class="p">([</span><span class="s1">'throttle:uploads'</span><span class="p">])</span><span class="o">-&gt;</span><span class="nf">group</span><span class="p">(</span><span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/audio'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+
+    <span class="nc">Route</span><span class="o">::</span><span class="nf">post</span><span class="p">(</span><span class="s1">'/video'</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><a name="throttling-with-redis"></a></p>
+<h4 id="throttling-with-redis">Throttling With Redis</h4>
+
+<p>By default, the <code class="language-plaintext highlighter-rouge">throttle</code> middleware is mapped to the <code class="language-plaintext highlighter-rouge">Illuminate\Routing\Middleware\ThrottleRequests</code> class. However, if you are using Redis as your application’s cache driver, you may wish to instruct Laravel to use Redis to manage rate limiting. To do so, you should use the <code class="language-plaintext highlighter-rouge">throttleWithRedis</code> method in your application’s <code class="language-plaintext highlighter-rouge">bootstrap/app.php</code> file. This method maps the <code class="language-plaintext highlighter-rouge">throttle</code> middleware to the <code class="language-plaintext highlighter-rouge">Illuminate\Routing\Middleware\ThrottleRequestsWithRedis</code> middleware class:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span><span class="nf">withMiddleware</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="kt">Middleware</span> <span class="nv">$middleware</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$middleware</span><span class="o">-&gt;</span><span class="nf">throttleWithRedis</span><span class="p">();</span>
+    <span class="c1">// ...</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p><a name="form-method-spoofing"></a></p>
+<h2 id="form-method-spoofing">Form Method Spoofing</h2>
+
+<p>HTML forms do not support <code class="language-plaintext highlighter-rouge">PUT</code>, <code class="language-plaintext highlighter-rouge">PATCH</code>, or <code class="language-plaintext highlighter-rouge">DELETE</code> actions. So, when defining <code class="language-plaintext highlighter-rouge">PUT</code>, <code class="language-plaintext highlighter-rouge">PATCH</code>, or <code class="language-plaintext highlighter-rouge">DELETE</code> routes that are called from an HTML form, you will need to add a hidden <code class="language-plaintext highlighter-rouge">_method</code> field to the form. The value sent with the <code class="language-plaintext highlighter-rouge">_method</code> field will be used as the HTTP request method:</p>
+
+<pre><code class="language-blade">&lt;form action="/example" method="POST"&gt;
+    &lt;input type="hidden" name="_method" value="PUT"&gt;
+    &lt;input type="hidden" name="_token" value="{{ csrf_token() }}"&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>For convenience, you may use the <code class="language-plaintext highlighter-rouge">@method</code> <a href="/docs/{{version}}/blade">Blade directive</a> to generate the <code class="language-plaintext highlighter-rouge">_method</code> input field:</p>
+
+<pre><code class="language-blade">&lt;form action="/example" method="POST"&gt;
+    @method('PUT')
+    @csrf
+&lt;/form&gt;
+</code></pre>
+
+<p><a name="accessing-the-current-route"></a></p>
+<h2 id="accessing-the-current-route">Accessing the Current Route</h2>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">current</code>, <code class="language-plaintext highlighter-rouge">currentRouteName</code>, and <code class="language-plaintext highlighter-rouge">currentRouteAction</code> methods on the <code class="language-plaintext highlighter-rouge">Route</code> facade to access information about the route handling the incoming request:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Illuminate\Support\Facades\Route</span><span class="p">;</span>
+
+<span class="nv">$route</span> <span class="o">=</span> <span class="nc">Route</span><span class="o">::</span><span class="nb">current</span><span class="p">();</span> <span class="c1">// Illuminate\Routing\Route</span>
+<span class="nv">$name</span> <span class="o">=</span> <span class="nc">Route</span><span class="o">::</span><span class="nf">currentRouteName</span><span class="p">();</span> <span class="c1">// string</span>
+<span class="nv">$action</span> <span class="o">=</span> <span class="nc">Route</span><span class="o">::</span><span class="nf">currentRouteAction</span><span class="p">();</span> <span class="c1">// string</span>
+</code></pre></div></div>
+
+<p>You may refer to the API documentation for both the <a href="https://api.laravel.com/docs/{{version}}/Illuminate/Routing/Router.html">underlying class of the Route facade</a> and <a href="https://api.laravel.com/docs/{{version}}/Illuminate/Routing/Route.html">Route instance</a> to review all of the methods that are available on the router and route classes.</p>
+
+<p><a name="cors"></a></p>
+<h2 id="cross-origin-resource-sharing-cors">Cross-Origin Resource Sharing (CORS)</h2>
+
+<p>Laravel can automatically respond to CORS <code class="language-plaintext highlighter-rouge">OPTIONS</code> HTTP requests with values that you configure. The <code class="language-plaintext highlighter-rouge">OPTIONS</code> requests will automatically be handled by the <code class="language-plaintext highlighter-rouge">HandleCors</code> <a href="/docs/{{version}}/middleware">middleware</a> that is automatically included in your application’s global middleware stack.</p>
+
+<p>Sometimes, you may need to customize the CORS configuration values for your application. You may do so by publishing the <code class="language-plaintext highlighter-rouge">cors</code> configuration file using the <code class="language-plaintext highlighter-rouge">config:publish</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan config:publish cors
+</code></pre></div></div>
+
+<p>This command will place a <code class="language-plaintext highlighter-rouge">cors.php</code> configuration file within your application’s <code class="language-plaintext highlighter-rouge">config</code> directory.</p>
+
+<blockquote>
+  <p>[!NOTE]
+For more information on CORS and CORS headers, please consult the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers">MDN web documentation on CORS</a>.</p>
+</blockquote>
+
+<p><a name="route-caching"></a></p>
+<h2 id="route-caching">Route Caching</h2>
+
+<p>When deploying your application to production, you should take advantage of Laravel’s route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application’s routes. To generate a route cache, execute the <code class="language-plaintext highlighter-rouge">route:cache</code> Artisan command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan route:cache
+</code></pre></div></div>
+
+<p>After running this command, your cached routes file will be loaded on every request. Remember, if you add any new routes you will need to generate a fresh route cache. Because of this, you should only run the <code class="language-plaintext highlighter-rouge">route:cache</code> command during your project’s deployment.</p>
+
+<p>You may use the <code class="language-plaintext highlighter-rouge">route:clear</code> command to clear the route cache:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>php artisan route:clear
+</code></pre></div></div>
+
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="container">
+  <hr class="mt-5 mb-3">
+  <div class="row align-items-center pb-3">
+    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+      <p class="mb-0 text-secondary">Copyright 2017~2026 JinyDev. All Rights Reserved.</p>
+    </div>
+    <div class="col-md-6 text-center text-md-end">
+      <a href="/character/" class="text-decoration-none text-secondary me-3">캐릭터 소개</a>
+      <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>
